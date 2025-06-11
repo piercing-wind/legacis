@@ -8,6 +8,7 @@ declare module "next-auth" {
       role: string;
       email: string;
       phone: string | null;
+      pan: string | null;
       username: string | null;
       phoneVerified: Date | null;
       emailVerified: Date | null;
@@ -22,6 +23,7 @@ declare module "next-auth" {
          role: string;
          email: string;
          phone: string | null;
+         pan: string | null;
          username: string | null;
          phoneVerified: Date | null;
          emailVerified: Date | null;
@@ -38,6 +40,7 @@ declare module "next-auth/jwt" {
       role: string;
       email: string;
       phone: string | null;
+      pan: string | null;
       username: string | null;
       phoneVerified: Date | null;
       emailVerified: Date | null;
@@ -75,4 +78,21 @@ export type PANVerificationResult = {
     pincode: number;
     country: string;
   };
+};
+
+
+
+export type ServiceAgreement = {
+   clientName: string;
+   clientpanNumber : string;
+   clientPhoneNumber : string;
+   serviceName : string;
+   subscriptionStartDate: string;
+   subscriptionFrequency: string;
+   subscriptionPrice: string;
+}
+
+export type SerializableAgreement = Omit<Agreement, 'createdAt' | 'updatedAt'> & {
+  createdAt: string;
+  updatedAt: string;
 };

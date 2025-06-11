@@ -45,8 +45,7 @@ h6 {
 .quill-agreement-content h4 { font-size: 0.9rem !important; margin: 1em 0 0.5em 0 !important; }
 .quill-agreement-content h5 { font-size: 0.8rem !important; margin: 1em 0 0.5em 0 !important; }
 .quill-agreement-content h6 { font-size: 0.8rem !important; margin: 1em 0 0.5em 0 !important; }
-.quill-agreement-content p  { font-size: 0.8rem !important; margin: 0.5em 0 !important; }
-.quill-agreement-content li  { font-size: 0.8rem; margin: 0.5em 0 }
+.quill-agreement-content p  { font-size: 0.75rem !important; margin: 0.5em 0 !important; }
 
 p {
    color: var(--text-color);

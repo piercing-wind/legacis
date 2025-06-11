@@ -54,6 +54,7 @@ enum VerificationType {
   PHONE_VERIFY
   RESET_PASS_VERIFY
   CONSENT
+  AGREEMENT_ACCEPTANCE
 }
 
 enum TransactionStatus {
@@ -149,6 +150,7 @@ model UserPurchasedServices {
   planDays            Int
   planDiscount        Float
   agreementAcceptedAt DateTime?
+  agreementData       Json?
 
   user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
@@ -161,7 +163,7 @@ model Coupon {
   percentOff  Float
   isActive    Boolean  @default(true)
   expiryDate  DateTime
-  minAmount   Float?
+  minAmount   Float    @default(0)
   maxAmount   Float?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -202,28 +204,46 @@ model UserDocuments {
 }
 
 model Agreement {
-  id        String   @id @default(uuid())
-  name      String
-  content   Json
-  updatedAt DateTime @updatedAt
-  createdAt DateTime @default(now())
+  id              String   @id @default(uuid())
+  name            String
+  content         Json
+  signatoryPerson String?
+  companyName     String?
+  updatedAt       DateTime @updatedAt
+  createdAt       DateTime @default(now())
 
-  services  Service[]
-  ComboPlan ComboPlan[]
+  serviceAgreements   ServiceAgreement[]
+  comboPlanAgreements ComboPlanAgreement[]
+}
+
+model ServiceAgreement {
+  id          String @id @default(uuid())
+  serviceId   String
+  agreementId String
+
+  service   Service   @relation(fields: [serviceId], references: [id])
+  agreement Agreement @relation(fields: [agreementId], references: [id])
+}
+
+model ComboPlanAgreement {
+  id          String @id @default(uuid())
+  comboPlanId String
+  agreementId String
+
+  comboPlan ComboPlan @relation(fields: [comboPlanId], references: [id])
+  agreement Agreement @relation(fields: [agreementId], references: [id])
 }
 
 model ComboPlan {
-  id              String             @id @default(uuid())
+  id              String               @id @default(uuid())
   name            String
   description     String?
   price           Float
-  agreementId     String?
+  agreement       ComboPlanAgreement[]
   services        ComboPlanService[]
   tenureDiscounts Json
-  createdAt       DateTime           @default(now())
-  updatedAt       DateTime           @updatedAt
-
-  agreement Agreement? @relation(fields: [agreementId], references: [id])
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
 
   Transaction Transaction[]
 }
@@ -256,7 +276,7 @@ model Service {
   type              ServiceType
   createdAt         DateTime                @default(now())
   updatedAt         DateTime                @updatedAt
-  agreementId       String?
+  agreements        ServiceAgreement[]
   serviceTrading    ServiceTrading?
   //serviceResearchAdvisory                ServiceResearchAdvisory?       
   //serviceResearchAdvisoryModelPortfolio  ServiceResearchAdvisoryModelPortfolio? 
@@ -267,7 +287,6 @@ model Service {
   //complimentaryServices                  ComplimentaryService[]    
   //ServiceResearchAdvisoryMutualFunds     ServiceResearchAdvisoryMutualFunds[]
   Transaction       Transaction[]
-  agreement         Agreement?              @relation(fields: [agreementId], references: [id])
   ComboPlanService  ComboPlanService[]
 }
 

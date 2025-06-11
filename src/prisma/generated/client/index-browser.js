@@ -190,7 +190,8 @@ exports.Prisma.UserPurchasedServicesScalarFieldEnum = {
   expiryDate: 'expiryDate',
   planDays: 'planDays',
   planDiscount: 'planDiscount',
-  agreementAcceptedAt: 'agreementAcceptedAt'
+  agreementAcceptedAt: 'agreementAcceptedAt',
+  agreementData: 'agreementData'
 };
 
 exports.Prisma.CouponScalarFieldEnum = {
@@ -237,8 +238,22 @@ exports.Prisma.AgreementScalarFieldEnum = {
   id: 'id',
   name: 'name',
   content: 'content',
+  signatoryPerson: 'signatoryPerson',
+  companyName: 'companyName',
   updatedAt: 'updatedAt',
   createdAt: 'createdAt'
+};
+
+exports.Prisma.ServiceAgreementScalarFieldEnum = {
+  id: 'id',
+  serviceId: 'serviceId',
+  agreementId: 'agreementId'
+};
+
+exports.Prisma.ComboPlanAgreementScalarFieldEnum = {
+  id: 'id',
+  comboPlanId: 'comboPlanId',
+  agreementId: 'agreementId'
 };
 
 exports.Prisma.ComboPlanScalarFieldEnum = {
@@ -246,7 +261,6 @@ exports.Prisma.ComboPlanScalarFieldEnum = {
   name: 'name',
   description: 'description',
   price: 'price',
-  agreementId: 'agreementId',
   tenureDiscounts: 'tenureDiscounts',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -277,8 +291,7 @@ exports.Prisma.ServiceScalarFieldEnum = {
   active: 'active',
   type: 'type',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  agreementId: 'agreementId'
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.ServiceTradingScalarFieldEnum = {
@@ -334,7 +347,8 @@ exports.VerificationType = exports.$Enums.VerificationType = {
   EMAIL_VERIFY: 'EMAIL_VERIFY',
   PHONE_VERIFY: 'PHONE_VERIFY',
   RESET_PASS_VERIFY: 'RESET_PASS_VERIFY',
-  CONSENT: 'CONSENT'
+  CONSENT: 'CONSENT',
+  AGREEMENT_ACCEPTANCE: 'AGREEMENT_ACCEPTANCE'
 };
 
 exports.TransactionStatus = exports.$Enums.TransactionStatus = {
@@ -371,6 +385,8 @@ exports.Prisma.ModelName = {
   Transaction: 'Transaction',
   UserDocuments: 'UserDocuments',
   Agreement: 'Agreement',
+  ServiceAgreement: 'ServiceAgreement',
+  ComboPlanAgreement: 'ComboPlanAgreement',
   ComboPlan: 'ComboPlan',
   ComboPlanService: 'ComboPlanService',
   Service: 'Service',

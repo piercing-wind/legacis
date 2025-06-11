@@ -1,9 +1,9 @@
 import { db } from "../db";
 
-export const findAgreementById = async (id: string) => {
-  return await db.agreement.findUnique({
-    where: {
-      id: id,
-    },
+export const findAgreementsByServiceId = async (serviceId: string) => {
+  const joinRows = await db.serviceAgreement.findMany({
+    where: { serviceId },
+    include: { agreement: true },
   });
-}
+  return joinRows.map(row => row.agreement);
+};

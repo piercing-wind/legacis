@@ -1,0 +1,2 @@
+-- AlterEnum
+ALTER TYPE "VerificationType" ADD VALUE 'AGREEMENT_ACCEPTANCE';

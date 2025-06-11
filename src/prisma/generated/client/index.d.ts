@@ -59,6 +59,16 @@ export type UserDocuments = $Result.DefaultSelection<Prisma.$UserDocumentsPayloa
  */
 export type Agreement = $Result.DefaultSelection<Prisma.$AgreementPayload>
 /**
+ * Model ServiceAgreement
+ * 
+ */
+export type ServiceAgreement = $Result.DefaultSelection<Prisma.$ServiceAgreementPayload>
+/**
+ * Model ComboPlanAgreement
+ * 
+ */
+export type ComboPlanAgreement = $Result.DefaultSelection<Prisma.$ComboPlanAgreementPayload>
+/**
  * Model ComboPlan
  * 
  */
@@ -137,7 +147,8 @@ export const VerificationType: {
   EMAIL_VERIFY: 'EMAIL_VERIFY',
   PHONE_VERIFY: 'PHONE_VERIFY',
   RESET_PASS_VERIFY: 'RESET_PASS_VERIFY',
-  CONSENT: 'CONSENT'
+  CONSENT: 'CONSENT',
+  AGREEMENT_ACCEPTANCE: 'AGREEMENT_ACCEPTANCE'
 };
 
 export type VerificationType = (typeof VerificationType)[keyof typeof VerificationType]
@@ -395,6 +406,26 @@ export class PrismaClient<
     * ```
     */
   get agreement(): Prisma.AgreementDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.serviceAgreement`: Exposes CRUD operations for the **ServiceAgreement** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ServiceAgreements
+    * const serviceAgreements = await prisma.serviceAgreement.findMany()
+    * ```
+    */
+  get serviceAgreement(): Prisma.ServiceAgreementDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.comboPlanAgreement`: Exposes CRUD operations for the **ComboPlanAgreement** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ComboPlanAgreements
+    * const comboPlanAgreements = await prisma.comboPlanAgreement.findMany()
+    * ```
+    */
+  get comboPlanAgreement(): Prisma.ComboPlanAgreementDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.comboPlan`: Exposes CRUD operations for the **ComboPlan** model.
@@ -884,6 +915,8 @@ export namespace Prisma {
     Transaction: 'Transaction',
     UserDocuments: 'UserDocuments',
     Agreement: 'Agreement',
+    ServiceAgreement: 'ServiceAgreement',
+    ComboPlanAgreement: 'ComboPlanAgreement',
     ComboPlan: 'ComboPlan',
     ComboPlanService: 'ComboPlanService',
     Service: 'Service',
@@ -906,7 +939,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "otp" | "panVerificationData" | "userPurchasedServices" | "coupon" | "transaction" | "userDocuments" | "agreement" | "comboPlan" | "comboPlanService" | "service" | "serviceTrading"
+      modelProps: "user" | "account" | "otp" | "panVerificationData" | "userPurchasedServices" | "coupon" | "transaction" | "userDocuments" | "agreement" | "serviceAgreement" | "comboPlanAgreement" | "comboPlan" | "comboPlanService" | "service" | "serviceTrading"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1576,6 +1609,154 @@ export namespace Prisma {
           }
         }
       }
+      ServiceAgreement: {
+        payload: Prisma.$ServiceAgreementPayload<ExtArgs>
+        fields: Prisma.ServiceAgreementFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ServiceAgreementFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceAgreementPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ServiceAgreementFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceAgreementPayload>
+          }
+          findFirst: {
+            args: Prisma.ServiceAgreementFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceAgreementPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ServiceAgreementFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceAgreementPayload>
+          }
+          findMany: {
+            args: Prisma.ServiceAgreementFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceAgreementPayload>[]
+          }
+          create: {
+            args: Prisma.ServiceAgreementCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceAgreementPayload>
+          }
+          createMany: {
+            args: Prisma.ServiceAgreementCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ServiceAgreementCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceAgreementPayload>[]
+          }
+          delete: {
+            args: Prisma.ServiceAgreementDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceAgreementPayload>
+          }
+          update: {
+            args: Prisma.ServiceAgreementUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceAgreementPayload>
+          }
+          deleteMany: {
+            args: Prisma.ServiceAgreementDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ServiceAgreementUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ServiceAgreementUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceAgreementPayload>[]
+          }
+          upsert: {
+            args: Prisma.ServiceAgreementUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceAgreementPayload>
+          }
+          aggregate: {
+            args: Prisma.ServiceAgreementAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateServiceAgreement>
+          }
+          groupBy: {
+            args: Prisma.ServiceAgreementGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ServiceAgreementGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ServiceAgreementCountArgs<ExtArgs>
+            result: $Utils.Optional<ServiceAgreementCountAggregateOutputType> | number
+          }
+        }
+      }
+      ComboPlanAgreement: {
+        payload: Prisma.$ComboPlanAgreementPayload<ExtArgs>
+        fields: Prisma.ComboPlanAgreementFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ComboPlanAgreementFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ComboPlanAgreementPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ComboPlanAgreementFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ComboPlanAgreementPayload>
+          }
+          findFirst: {
+            args: Prisma.ComboPlanAgreementFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ComboPlanAgreementPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ComboPlanAgreementFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ComboPlanAgreementPayload>
+          }
+          findMany: {
+            args: Prisma.ComboPlanAgreementFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ComboPlanAgreementPayload>[]
+          }
+          create: {
+            args: Prisma.ComboPlanAgreementCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ComboPlanAgreementPayload>
+          }
+          createMany: {
+            args: Prisma.ComboPlanAgreementCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ComboPlanAgreementCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ComboPlanAgreementPayload>[]
+          }
+          delete: {
+            args: Prisma.ComboPlanAgreementDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ComboPlanAgreementPayload>
+          }
+          update: {
+            args: Prisma.ComboPlanAgreementUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ComboPlanAgreementPayload>
+          }
+          deleteMany: {
+            args: Prisma.ComboPlanAgreementDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ComboPlanAgreementUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ComboPlanAgreementUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ComboPlanAgreementPayload>[]
+          }
+          upsert: {
+            args: Prisma.ComboPlanAgreementUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ComboPlanAgreementPayload>
+          }
+          aggregate: {
+            args: Prisma.ComboPlanAgreementAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateComboPlanAgreement>
+          }
+          groupBy: {
+            args: Prisma.ComboPlanAgreementGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ComboPlanAgreementGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ComboPlanAgreementCountArgs<ExtArgs>
+            result: $Utils.Optional<ComboPlanAgreementCountAggregateOutputType> | number
+          }
+        }
+      }
       ComboPlan: {
         payload: Prisma.$ComboPlanPayload<ExtArgs>
         fields: Prisma.ComboPlanFieldRefs
@@ -1965,6 +2146,8 @@ export namespace Prisma {
     transaction?: TransactionOmit
     userDocuments?: UserDocumentsOmit
     agreement?: AgreementOmit
+    serviceAgreement?: ServiceAgreementOmit
+    comboPlanAgreement?: ComboPlanAgreementOmit
     comboPlan?: ComboPlanOmit
     comboPlanService?: ComboPlanServiceOmit
     service?: ServiceOmit
@@ -2130,13 +2313,13 @@ export namespace Prisma {
    */
 
   export type AgreementCountOutputType = {
-    services: number
-    ComboPlan: number
+    serviceAgreements: number
+    comboPlanAgreements: number
   }
 
   export type AgreementCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    services?: boolean | AgreementCountOutputTypeCountServicesArgs
-    ComboPlan?: boolean | AgreementCountOutputTypeCountComboPlanArgs
+    serviceAgreements?: boolean | AgreementCountOutputTypeCountServiceAgreementsArgs
+    comboPlanAgreements?: boolean | AgreementCountOutputTypeCountComboPlanAgreementsArgs
   }
 
   // Custom InputTypes
@@ -2153,15 +2336,15 @@ export namespace Prisma {
   /**
    * AgreementCountOutputType without action
    */
-  export type AgreementCountOutputTypeCountServicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ServiceWhereInput
+  export type AgreementCountOutputTypeCountServiceAgreementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServiceAgreementWhereInput
   }
 
   /**
    * AgreementCountOutputType without action
    */
-  export type AgreementCountOutputTypeCountComboPlanArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ComboPlanWhereInput
+  export type AgreementCountOutputTypeCountComboPlanAgreementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ComboPlanAgreementWhereInput
   }
 
 
@@ -2170,11 +2353,13 @@ export namespace Prisma {
    */
 
   export type ComboPlanCountOutputType = {
+    agreement: number
     services: number
     Transaction: number
   }
 
   export type ComboPlanCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    agreement?: boolean | ComboPlanCountOutputTypeCountAgreementArgs
     services?: boolean | ComboPlanCountOutputTypeCountServicesArgs
     Transaction?: boolean | ComboPlanCountOutputTypeCountTransactionArgs
   }
@@ -2188,6 +2373,13 @@ export namespace Prisma {
      * Select specific fields to fetch from the ComboPlanCountOutputType
      */
     select?: ComboPlanCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ComboPlanCountOutputType without action
+   */
+  export type ComboPlanCountOutputTypeCountAgreementArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ComboPlanAgreementWhereInput
   }
 
   /**
@@ -2210,6 +2402,7 @@ export namespace Prisma {
    */
 
   export type ServiceCountOutputType = {
+    agreements: number
     purchasedServices: number
     userDocuments: number
     Transaction: number
@@ -2217,6 +2410,7 @@ export namespace Prisma {
   }
 
   export type ServiceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    agreements?: boolean | ServiceCountOutputTypeCountAgreementsArgs
     purchasedServices?: boolean | ServiceCountOutputTypeCountPurchasedServicesArgs
     userDocuments?: boolean | ServiceCountOutputTypeCountUserDocumentsArgs
     Transaction?: boolean | ServiceCountOutputTypeCountTransactionArgs
@@ -2232,6 +2426,13 @@ export namespace Prisma {
      * Select specific fields to fetch from the ServiceCountOutputType
      */
     select?: ServiceCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ServiceCountOutputType without action
+   */
+  export type ServiceCountOutputTypeCountAgreementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServiceAgreementWhereInput
   }
 
   /**
@@ -7033,6 +7234,7 @@ export namespace Prisma {
     planDays: number
     planDiscount: number
     agreementAcceptedAt: number
+    agreementData: number
     _all: number
   }
 
@@ -7078,6 +7280,7 @@ export namespace Prisma {
     planDays?: true
     planDiscount?: true
     agreementAcceptedAt?: true
+    agreementData?: true
     _all?: true
   }
 
@@ -7176,6 +7379,7 @@ export namespace Prisma {
     planDays: number
     planDiscount: number
     agreementAcceptedAt: Date | null
+    agreementData: JsonValue | null
     _count: UserPurchasedServicesCountAggregateOutputType | null
     _avg: UserPurchasedServicesAvgAggregateOutputType | null
     _sum: UserPurchasedServicesSumAggregateOutputType | null
@@ -7206,6 +7410,7 @@ export namespace Prisma {
     planDays?: boolean
     planDiscount?: boolean
     agreementAcceptedAt?: boolean
+    agreementData?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["userPurchasedServices"]>
@@ -7219,6 +7424,7 @@ export namespace Prisma {
     planDays?: boolean
     planDiscount?: boolean
     agreementAcceptedAt?: boolean
+    agreementData?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["userPurchasedServices"]>
@@ -7232,6 +7438,7 @@ export namespace Prisma {
     planDays?: boolean
     planDiscount?: boolean
     agreementAcceptedAt?: boolean
+    agreementData?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["userPurchasedServices"]>
@@ -7245,9 +7452,10 @@ export namespace Prisma {
     planDays?: boolean
     planDiscount?: boolean
     agreementAcceptedAt?: boolean
+    agreementData?: boolean
   }
 
-  export type UserPurchasedServicesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "serviceId" | "purchaseDate" | "expiryDate" | "planDays" | "planDiscount" | "agreementAcceptedAt", ExtArgs["result"]["userPurchasedServices"]>
+  export type UserPurchasedServicesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "serviceId" | "purchaseDate" | "expiryDate" | "planDays" | "planDiscount" | "agreementAcceptedAt" | "agreementData", ExtArgs["result"]["userPurchasedServices"]>
   export type UserPurchasedServicesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
@@ -7276,6 +7484,7 @@ export namespace Prisma {
       planDays: number
       planDiscount: number
       agreementAcceptedAt: Date | null
+      agreementData: Prisma.JsonValue | null
     }, ExtArgs["result"]["userPurchasedServices"]>
     composites: {}
   }
@@ -7709,6 +7918,7 @@ export namespace Prisma {
     readonly planDays: FieldRef<"UserPurchasedServices", 'Int'>
     readonly planDiscount: FieldRef<"UserPurchasedServices", 'Float'>
     readonly agreementAcceptedAt: FieldRef<"UserPurchasedServices", 'DateTime'>
+    readonly agreementData: FieldRef<"UserPurchasedServices", 'Json'>
   }
     
 
@@ -8333,7 +8543,7 @@ export namespace Prisma {
     percentOff: number
     isActive: boolean
     expiryDate: Date
-    minAmount: number | null
+    minAmount: number
     maxAmount: number | null
     createdAt: Date
     updatedAt: Date
@@ -8422,7 +8632,7 @@ export namespace Prisma {
       percentOff: number
       isActive: boolean
       expiryDate: Date
-      minAmount: number | null
+      minAmount: number
       maxAmount: number | null
       createdAt: Date
       updatedAt: Date
@@ -11612,6 +11822,8 @@ export namespace Prisma {
   export type AgreementMinAggregateOutputType = {
     id: string | null
     name: string | null
+    signatoryPerson: string | null
+    companyName: string | null
     updatedAt: Date | null
     createdAt: Date | null
   }
@@ -11619,6 +11831,8 @@ export namespace Prisma {
   export type AgreementMaxAggregateOutputType = {
     id: string | null
     name: string | null
+    signatoryPerson: string | null
+    companyName: string | null
     updatedAt: Date | null
     createdAt: Date | null
   }
@@ -11627,6 +11841,8 @@ export namespace Prisma {
     id: number
     name: number
     content: number
+    signatoryPerson: number
+    companyName: number
     updatedAt: number
     createdAt: number
     _all: number
@@ -11636,6 +11852,8 @@ export namespace Prisma {
   export type AgreementMinAggregateInputType = {
     id?: true
     name?: true
+    signatoryPerson?: true
+    companyName?: true
     updatedAt?: true
     createdAt?: true
   }
@@ -11643,6 +11861,8 @@ export namespace Prisma {
   export type AgreementMaxAggregateInputType = {
     id?: true
     name?: true
+    signatoryPerson?: true
+    companyName?: true
     updatedAt?: true
     createdAt?: true
   }
@@ -11651,6 +11871,8 @@ export namespace Prisma {
     id?: true
     name?: true
     content?: true
+    signatoryPerson?: true
+    companyName?: true
     updatedAt?: true
     createdAt?: true
     _all?: true
@@ -11732,6 +11954,8 @@ export namespace Prisma {
     id: string
     name: string
     content: JsonValue
+    signatoryPerson: string | null
+    companyName: string | null
     updatedAt: Date
     createdAt: Date
     _count: AgreementCountAggregateOutputType | null
@@ -11757,10 +11981,12 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     content?: boolean
+    signatoryPerson?: boolean
+    companyName?: boolean
     updatedAt?: boolean
     createdAt?: boolean
-    services?: boolean | Agreement$servicesArgs<ExtArgs>
-    ComboPlan?: boolean | Agreement$ComboPlanArgs<ExtArgs>
+    serviceAgreements?: boolean | Agreement$serviceAgreementsArgs<ExtArgs>
+    comboPlanAgreements?: boolean | Agreement$comboPlanAgreementsArgs<ExtArgs>
     _count?: boolean | AgreementCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["agreement"]>
 
@@ -11768,6 +11994,8 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     content?: boolean
+    signatoryPerson?: boolean
+    companyName?: boolean
     updatedAt?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["agreement"]>
@@ -11776,6 +12004,8 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     content?: boolean
+    signatoryPerson?: boolean
+    companyName?: boolean
     updatedAt?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["agreement"]>
@@ -11784,14 +12014,16 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     content?: boolean
+    signatoryPerson?: boolean
+    companyName?: boolean
     updatedAt?: boolean
     createdAt?: boolean
   }
 
-  export type AgreementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "content" | "updatedAt" | "createdAt", ExtArgs["result"]["agreement"]>
+  export type AgreementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "content" | "signatoryPerson" | "companyName" | "updatedAt" | "createdAt", ExtArgs["result"]["agreement"]>
   export type AgreementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    services?: boolean | Agreement$servicesArgs<ExtArgs>
-    ComboPlan?: boolean | Agreement$ComboPlanArgs<ExtArgs>
+    serviceAgreements?: boolean | Agreement$serviceAgreementsArgs<ExtArgs>
+    comboPlanAgreements?: boolean | Agreement$comboPlanAgreementsArgs<ExtArgs>
     _count?: boolean | AgreementCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type AgreementIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -11800,13 +12032,15 @@ export namespace Prisma {
   export type $AgreementPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Agreement"
     objects: {
-      services: Prisma.$ServicePayload<ExtArgs>[]
-      ComboPlan: Prisma.$ComboPlanPayload<ExtArgs>[]
+      serviceAgreements: Prisma.$ServiceAgreementPayload<ExtArgs>[]
+      comboPlanAgreements: Prisma.$ComboPlanAgreementPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
       content: Prisma.JsonValue
+      signatoryPerson: string | null
+      companyName: string | null
       updatedAt: Date
       createdAt: Date
     }, ExtArgs["result"]["agreement"]>
@@ -12203,8 +12437,8 @@ export namespace Prisma {
    */
   export interface Prisma__AgreementClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    services<T extends Agreement$servicesArgs<ExtArgs> = {}>(args?: Subset<T, Agreement$servicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    ComboPlan<T extends Agreement$ComboPlanArgs<ExtArgs> = {}>(args?: Subset<T, Agreement$ComboPlanArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ComboPlanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    serviceAgreements<T extends Agreement$serviceAgreementsArgs<ExtArgs> = {}>(args?: Subset<T, Agreement$serviceAgreementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    comboPlanAgreements<T extends Agreement$comboPlanAgreementsArgs<ExtArgs> = {}>(args?: Subset<T, Agreement$comboPlanAgreementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ComboPlanAgreementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -12237,6 +12471,8 @@ export namespace Prisma {
     readonly id: FieldRef<"Agreement", 'String'>
     readonly name: FieldRef<"Agreement", 'String'>
     readonly content: FieldRef<"Agreement", 'Json'>
+    readonly signatoryPerson: FieldRef<"Agreement", 'String'>
+    readonly companyName: FieldRef<"Agreement", 'String'>
     readonly updatedAt: FieldRef<"Agreement", 'DateTime'>
     readonly createdAt: FieldRef<"Agreement", 'DateTime'>
   }
@@ -12627,51 +12863,51 @@ export namespace Prisma {
   }
 
   /**
-   * Agreement.services
+   * Agreement.serviceAgreements
    */
-  export type Agreement$servicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Agreement$serviceAgreementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Service
+     * Select specific fields to fetch from the ServiceAgreement
      */
-    select?: ServiceSelect<ExtArgs> | null
+    select?: ServiceAgreementSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Service
+     * Omit specific fields from the ServiceAgreement
      */
-    omit?: ServiceOmit<ExtArgs> | null
+    omit?: ServiceAgreementOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ServiceInclude<ExtArgs> | null
-    where?: ServiceWhereInput
-    orderBy?: ServiceOrderByWithRelationInput | ServiceOrderByWithRelationInput[]
-    cursor?: ServiceWhereUniqueInput
+    include?: ServiceAgreementInclude<ExtArgs> | null
+    where?: ServiceAgreementWhereInput
+    orderBy?: ServiceAgreementOrderByWithRelationInput | ServiceAgreementOrderByWithRelationInput[]
+    cursor?: ServiceAgreementWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: ServiceScalarFieldEnum | ServiceScalarFieldEnum[]
+    distinct?: ServiceAgreementScalarFieldEnum | ServiceAgreementScalarFieldEnum[]
   }
 
   /**
-   * Agreement.ComboPlan
+   * Agreement.comboPlanAgreements
    */
-  export type Agreement$ComboPlanArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Agreement$comboPlanAgreementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ComboPlan
+     * Select specific fields to fetch from the ComboPlanAgreement
      */
-    select?: ComboPlanSelect<ExtArgs> | null
+    select?: ComboPlanAgreementSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ComboPlan
+     * Omit specific fields from the ComboPlanAgreement
      */
-    omit?: ComboPlanOmit<ExtArgs> | null
+    omit?: ComboPlanAgreementOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ComboPlanInclude<ExtArgs> | null
-    where?: ComboPlanWhereInput
-    orderBy?: ComboPlanOrderByWithRelationInput | ComboPlanOrderByWithRelationInput[]
-    cursor?: ComboPlanWhereUniqueInput
+    include?: ComboPlanAgreementInclude<ExtArgs> | null
+    where?: ComboPlanAgreementWhereInput
+    orderBy?: ComboPlanAgreementOrderByWithRelationInput | ComboPlanAgreementOrderByWithRelationInput[]
+    cursor?: ComboPlanAgreementWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: ComboPlanScalarFieldEnum | ComboPlanScalarFieldEnum[]
+    distinct?: ComboPlanAgreementScalarFieldEnum | ComboPlanAgreementScalarFieldEnum[]
   }
 
   /**
@@ -12690,6 +12926,2086 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: AgreementInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ServiceAgreement
+   */
+
+  export type AggregateServiceAgreement = {
+    _count: ServiceAgreementCountAggregateOutputType | null
+    _min: ServiceAgreementMinAggregateOutputType | null
+    _max: ServiceAgreementMaxAggregateOutputType | null
+  }
+
+  export type ServiceAgreementMinAggregateOutputType = {
+    id: string | null
+    serviceId: string | null
+    agreementId: string | null
+  }
+
+  export type ServiceAgreementMaxAggregateOutputType = {
+    id: string | null
+    serviceId: string | null
+    agreementId: string | null
+  }
+
+  export type ServiceAgreementCountAggregateOutputType = {
+    id: number
+    serviceId: number
+    agreementId: number
+    _all: number
+  }
+
+
+  export type ServiceAgreementMinAggregateInputType = {
+    id?: true
+    serviceId?: true
+    agreementId?: true
+  }
+
+  export type ServiceAgreementMaxAggregateInputType = {
+    id?: true
+    serviceId?: true
+    agreementId?: true
+  }
+
+  export type ServiceAgreementCountAggregateInputType = {
+    id?: true
+    serviceId?: true
+    agreementId?: true
+    _all?: true
+  }
+
+  export type ServiceAgreementAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ServiceAgreement to aggregate.
+     */
+    where?: ServiceAgreementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceAgreements to fetch.
+     */
+    orderBy?: ServiceAgreementOrderByWithRelationInput | ServiceAgreementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ServiceAgreementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceAgreements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceAgreements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ServiceAgreements
+    **/
+    _count?: true | ServiceAgreementCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ServiceAgreementMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ServiceAgreementMaxAggregateInputType
+  }
+
+  export type GetServiceAgreementAggregateType<T extends ServiceAgreementAggregateArgs> = {
+        [P in keyof T & keyof AggregateServiceAgreement]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateServiceAgreement[P]>
+      : GetScalarType<T[P], AggregateServiceAgreement[P]>
+  }
+
+
+
+
+  export type ServiceAgreementGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServiceAgreementWhereInput
+    orderBy?: ServiceAgreementOrderByWithAggregationInput | ServiceAgreementOrderByWithAggregationInput[]
+    by: ServiceAgreementScalarFieldEnum[] | ServiceAgreementScalarFieldEnum
+    having?: ServiceAgreementScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ServiceAgreementCountAggregateInputType | true
+    _min?: ServiceAgreementMinAggregateInputType
+    _max?: ServiceAgreementMaxAggregateInputType
+  }
+
+  export type ServiceAgreementGroupByOutputType = {
+    id: string
+    serviceId: string
+    agreementId: string
+    _count: ServiceAgreementCountAggregateOutputType | null
+    _min: ServiceAgreementMinAggregateOutputType | null
+    _max: ServiceAgreementMaxAggregateOutputType | null
+  }
+
+  type GetServiceAgreementGroupByPayload<T extends ServiceAgreementGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ServiceAgreementGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ServiceAgreementGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ServiceAgreementGroupByOutputType[P]>
+            : GetScalarType<T[P], ServiceAgreementGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ServiceAgreementSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    serviceId?: boolean
+    agreementId?: boolean
+    service?: boolean | ServiceDefaultArgs<ExtArgs>
+    agreement?: boolean | AgreementDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serviceAgreement"]>
+
+  export type ServiceAgreementSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    serviceId?: boolean
+    agreementId?: boolean
+    service?: boolean | ServiceDefaultArgs<ExtArgs>
+    agreement?: boolean | AgreementDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serviceAgreement"]>
+
+  export type ServiceAgreementSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    serviceId?: boolean
+    agreementId?: boolean
+    service?: boolean | ServiceDefaultArgs<ExtArgs>
+    agreement?: boolean | AgreementDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serviceAgreement"]>
+
+  export type ServiceAgreementSelectScalar = {
+    id?: boolean
+    serviceId?: boolean
+    agreementId?: boolean
+  }
+
+  export type ServiceAgreementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "serviceId" | "agreementId", ExtArgs["result"]["serviceAgreement"]>
+  export type ServiceAgreementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    service?: boolean | ServiceDefaultArgs<ExtArgs>
+    agreement?: boolean | AgreementDefaultArgs<ExtArgs>
+  }
+  export type ServiceAgreementIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    service?: boolean | ServiceDefaultArgs<ExtArgs>
+    agreement?: boolean | AgreementDefaultArgs<ExtArgs>
+  }
+  export type ServiceAgreementIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    service?: boolean | ServiceDefaultArgs<ExtArgs>
+    agreement?: boolean | AgreementDefaultArgs<ExtArgs>
+  }
+
+  export type $ServiceAgreementPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ServiceAgreement"
+    objects: {
+      service: Prisma.$ServicePayload<ExtArgs>
+      agreement: Prisma.$AgreementPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      serviceId: string
+      agreementId: string
+    }, ExtArgs["result"]["serviceAgreement"]>
+    composites: {}
+  }
+
+  type ServiceAgreementGetPayload<S extends boolean | null | undefined | ServiceAgreementDefaultArgs> = $Result.GetResult<Prisma.$ServiceAgreementPayload, S>
+
+  type ServiceAgreementCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ServiceAgreementFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ServiceAgreementCountAggregateInputType | true
+    }
+
+  export interface ServiceAgreementDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ServiceAgreement'], meta: { name: 'ServiceAgreement' } }
+    /**
+     * Find zero or one ServiceAgreement that matches the filter.
+     * @param {ServiceAgreementFindUniqueArgs} args - Arguments to find a ServiceAgreement
+     * @example
+     * // Get one ServiceAgreement
+     * const serviceAgreement = await prisma.serviceAgreement.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ServiceAgreementFindUniqueArgs>(args: SelectSubset<T, ServiceAgreementFindUniqueArgs<ExtArgs>>): Prisma__ServiceAgreementClient<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ServiceAgreement that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ServiceAgreementFindUniqueOrThrowArgs} args - Arguments to find a ServiceAgreement
+     * @example
+     * // Get one ServiceAgreement
+     * const serviceAgreement = await prisma.serviceAgreement.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ServiceAgreementFindUniqueOrThrowArgs>(args: SelectSubset<T, ServiceAgreementFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ServiceAgreementClient<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ServiceAgreement that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceAgreementFindFirstArgs} args - Arguments to find a ServiceAgreement
+     * @example
+     * // Get one ServiceAgreement
+     * const serviceAgreement = await prisma.serviceAgreement.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ServiceAgreementFindFirstArgs>(args?: SelectSubset<T, ServiceAgreementFindFirstArgs<ExtArgs>>): Prisma__ServiceAgreementClient<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ServiceAgreement that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceAgreementFindFirstOrThrowArgs} args - Arguments to find a ServiceAgreement
+     * @example
+     * // Get one ServiceAgreement
+     * const serviceAgreement = await prisma.serviceAgreement.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ServiceAgreementFindFirstOrThrowArgs>(args?: SelectSubset<T, ServiceAgreementFindFirstOrThrowArgs<ExtArgs>>): Prisma__ServiceAgreementClient<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ServiceAgreements that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceAgreementFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ServiceAgreements
+     * const serviceAgreements = await prisma.serviceAgreement.findMany()
+     * 
+     * // Get first 10 ServiceAgreements
+     * const serviceAgreements = await prisma.serviceAgreement.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const serviceAgreementWithIdOnly = await prisma.serviceAgreement.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ServiceAgreementFindManyArgs>(args?: SelectSubset<T, ServiceAgreementFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ServiceAgreement.
+     * @param {ServiceAgreementCreateArgs} args - Arguments to create a ServiceAgreement.
+     * @example
+     * // Create one ServiceAgreement
+     * const ServiceAgreement = await prisma.serviceAgreement.create({
+     *   data: {
+     *     // ... data to create a ServiceAgreement
+     *   }
+     * })
+     * 
+     */
+    create<T extends ServiceAgreementCreateArgs>(args: SelectSubset<T, ServiceAgreementCreateArgs<ExtArgs>>): Prisma__ServiceAgreementClient<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ServiceAgreements.
+     * @param {ServiceAgreementCreateManyArgs} args - Arguments to create many ServiceAgreements.
+     * @example
+     * // Create many ServiceAgreements
+     * const serviceAgreement = await prisma.serviceAgreement.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ServiceAgreementCreateManyArgs>(args?: SelectSubset<T, ServiceAgreementCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ServiceAgreements and returns the data saved in the database.
+     * @param {ServiceAgreementCreateManyAndReturnArgs} args - Arguments to create many ServiceAgreements.
+     * @example
+     * // Create many ServiceAgreements
+     * const serviceAgreement = await prisma.serviceAgreement.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ServiceAgreements and only return the `id`
+     * const serviceAgreementWithIdOnly = await prisma.serviceAgreement.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ServiceAgreementCreateManyAndReturnArgs>(args?: SelectSubset<T, ServiceAgreementCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ServiceAgreement.
+     * @param {ServiceAgreementDeleteArgs} args - Arguments to delete one ServiceAgreement.
+     * @example
+     * // Delete one ServiceAgreement
+     * const ServiceAgreement = await prisma.serviceAgreement.delete({
+     *   where: {
+     *     // ... filter to delete one ServiceAgreement
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ServiceAgreementDeleteArgs>(args: SelectSubset<T, ServiceAgreementDeleteArgs<ExtArgs>>): Prisma__ServiceAgreementClient<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ServiceAgreement.
+     * @param {ServiceAgreementUpdateArgs} args - Arguments to update one ServiceAgreement.
+     * @example
+     * // Update one ServiceAgreement
+     * const serviceAgreement = await prisma.serviceAgreement.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ServiceAgreementUpdateArgs>(args: SelectSubset<T, ServiceAgreementUpdateArgs<ExtArgs>>): Prisma__ServiceAgreementClient<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ServiceAgreements.
+     * @param {ServiceAgreementDeleteManyArgs} args - Arguments to filter ServiceAgreements to delete.
+     * @example
+     * // Delete a few ServiceAgreements
+     * const { count } = await prisma.serviceAgreement.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ServiceAgreementDeleteManyArgs>(args?: SelectSubset<T, ServiceAgreementDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ServiceAgreements.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceAgreementUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ServiceAgreements
+     * const serviceAgreement = await prisma.serviceAgreement.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ServiceAgreementUpdateManyArgs>(args: SelectSubset<T, ServiceAgreementUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ServiceAgreements and returns the data updated in the database.
+     * @param {ServiceAgreementUpdateManyAndReturnArgs} args - Arguments to update many ServiceAgreements.
+     * @example
+     * // Update many ServiceAgreements
+     * const serviceAgreement = await prisma.serviceAgreement.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ServiceAgreements and only return the `id`
+     * const serviceAgreementWithIdOnly = await prisma.serviceAgreement.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ServiceAgreementUpdateManyAndReturnArgs>(args: SelectSubset<T, ServiceAgreementUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ServiceAgreement.
+     * @param {ServiceAgreementUpsertArgs} args - Arguments to update or create a ServiceAgreement.
+     * @example
+     * // Update or create a ServiceAgreement
+     * const serviceAgreement = await prisma.serviceAgreement.upsert({
+     *   create: {
+     *     // ... data to create a ServiceAgreement
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ServiceAgreement we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ServiceAgreementUpsertArgs>(args: SelectSubset<T, ServiceAgreementUpsertArgs<ExtArgs>>): Prisma__ServiceAgreementClient<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ServiceAgreements.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceAgreementCountArgs} args - Arguments to filter ServiceAgreements to count.
+     * @example
+     * // Count the number of ServiceAgreements
+     * const count = await prisma.serviceAgreement.count({
+     *   where: {
+     *     // ... the filter for the ServiceAgreements we want to count
+     *   }
+     * })
+    **/
+    count<T extends ServiceAgreementCountArgs>(
+      args?: Subset<T, ServiceAgreementCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ServiceAgreementCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ServiceAgreement.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceAgreementAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ServiceAgreementAggregateArgs>(args: Subset<T, ServiceAgreementAggregateArgs>): Prisma.PrismaPromise<GetServiceAgreementAggregateType<T>>
+
+    /**
+     * Group by ServiceAgreement.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceAgreementGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ServiceAgreementGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ServiceAgreementGroupByArgs['orderBy'] }
+        : { orderBy?: ServiceAgreementGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ServiceAgreementGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetServiceAgreementGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ServiceAgreement model
+   */
+  readonly fields: ServiceAgreementFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ServiceAgreement.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ServiceAgreementClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    service<T extends ServiceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ServiceDefaultArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    agreement<T extends AgreementDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AgreementDefaultArgs<ExtArgs>>): Prisma__AgreementClient<$Result.GetResult<Prisma.$AgreementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ServiceAgreement model
+   */
+  interface ServiceAgreementFieldRefs {
+    readonly id: FieldRef<"ServiceAgreement", 'String'>
+    readonly serviceId: FieldRef<"ServiceAgreement", 'String'>
+    readonly agreementId: FieldRef<"ServiceAgreement", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ServiceAgreement findUnique
+   */
+  export type ServiceAgreementFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAgreement
+     */
+    select?: ServiceAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAgreement
+     */
+    omit?: ServiceAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAgreementInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceAgreement to fetch.
+     */
+    where: ServiceAgreementWhereUniqueInput
+  }
+
+  /**
+   * ServiceAgreement findUniqueOrThrow
+   */
+  export type ServiceAgreementFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAgreement
+     */
+    select?: ServiceAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAgreement
+     */
+    omit?: ServiceAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAgreementInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceAgreement to fetch.
+     */
+    where: ServiceAgreementWhereUniqueInput
+  }
+
+  /**
+   * ServiceAgreement findFirst
+   */
+  export type ServiceAgreementFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAgreement
+     */
+    select?: ServiceAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAgreement
+     */
+    omit?: ServiceAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAgreementInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceAgreement to fetch.
+     */
+    where?: ServiceAgreementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceAgreements to fetch.
+     */
+    orderBy?: ServiceAgreementOrderByWithRelationInput | ServiceAgreementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ServiceAgreements.
+     */
+    cursor?: ServiceAgreementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceAgreements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceAgreements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ServiceAgreements.
+     */
+    distinct?: ServiceAgreementScalarFieldEnum | ServiceAgreementScalarFieldEnum[]
+  }
+
+  /**
+   * ServiceAgreement findFirstOrThrow
+   */
+  export type ServiceAgreementFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAgreement
+     */
+    select?: ServiceAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAgreement
+     */
+    omit?: ServiceAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAgreementInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceAgreement to fetch.
+     */
+    where?: ServiceAgreementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceAgreements to fetch.
+     */
+    orderBy?: ServiceAgreementOrderByWithRelationInput | ServiceAgreementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ServiceAgreements.
+     */
+    cursor?: ServiceAgreementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceAgreements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceAgreements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ServiceAgreements.
+     */
+    distinct?: ServiceAgreementScalarFieldEnum | ServiceAgreementScalarFieldEnum[]
+  }
+
+  /**
+   * ServiceAgreement findMany
+   */
+  export type ServiceAgreementFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAgreement
+     */
+    select?: ServiceAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAgreement
+     */
+    omit?: ServiceAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAgreementInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceAgreements to fetch.
+     */
+    where?: ServiceAgreementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceAgreements to fetch.
+     */
+    orderBy?: ServiceAgreementOrderByWithRelationInput | ServiceAgreementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ServiceAgreements.
+     */
+    cursor?: ServiceAgreementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceAgreements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceAgreements.
+     */
+    skip?: number
+    distinct?: ServiceAgreementScalarFieldEnum | ServiceAgreementScalarFieldEnum[]
+  }
+
+  /**
+   * ServiceAgreement create
+   */
+  export type ServiceAgreementCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAgreement
+     */
+    select?: ServiceAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAgreement
+     */
+    omit?: ServiceAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAgreementInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ServiceAgreement.
+     */
+    data: XOR<ServiceAgreementCreateInput, ServiceAgreementUncheckedCreateInput>
+  }
+
+  /**
+   * ServiceAgreement createMany
+   */
+  export type ServiceAgreementCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ServiceAgreements.
+     */
+    data: ServiceAgreementCreateManyInput | ServiceAgreementCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ServiceAgreement createManyAndReturn
+   */
+  export type ServiceAgreementCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAgreement
+     */
+    select?: ServiceAgreementSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAgreement
+     */
+    omit?: ServiceAgreementOmit<ExtArgs> | null
+    /**
+     * The data used to create many ServiceAgreements.
+     */
+    data: ServiceAgreementCreateManyInput | ServiceAgreementCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAgreementIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ServiceAgreement update
+   */
+  export type ServiceAgreementUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAgreement
+     */
+    select?: ServiceAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAgreement
+     */
+    omit?: ServiceAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAgreementInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ServiceAgreement.
+     */
+    data: XOR<ServiceAgreementUpdateInput, ServiceAgreementUncheckedUpdateInput>
+    /**
+     * Choose, which ServiceAgreement to update.
+     */
+    where: ServiceAgreementWhereUniqueInput
+  }
+
+  /**
+   * ServiceAgreement updateMany
+   */
+  export type ServiceAgreementUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ServiceAgreements.
+     */
+    data: XOR<ServiceAgreementUpdateManyMutationInput, ServiceAgreementUncheckedUpdateManyInput>
+    /**
+     * Filter which ServiceAgreements to update
+     */
+    where?: ServiceAgreementWhereInput
+    /**
+     * Limit how many ServiceAgreements to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ServiceAgreement updateManyAndReturn
+   */
+  export type ServiceAgreementUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAgreement
+     */
+    select?: ServiceAgreementSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAgreement
+     */
+    omit?: ServiceAgreementOmit<ExtArgs> | null
+    /**
+     * The data used to update ServiceAgreements.
+     */
+    data: XOR<ServiceAgreementUpdateManyMutationInput, ServiceAgreementUncheckedUpdateManyInput>
+    /**
+     * Filter which ServiceAgreements to update
+     */
+    where?: ServiceAgreementWhereInput
+    /**
+     * Limit how many ServiceAgreements to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAgreementIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ServiceAgreement upsert
+   */
+  export type ServiceAgreementUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAgreement
+     */
+    select?: ServiceAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAgreement
+     */
+    omit?: ServiceAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAgreementInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ServiceAgreement to update in case it exists.
+     */
+    where: ServiceAgreementWhereUniqueInput
+    /**
+     * In case the ServiceAgreement found by the `where` argument doesn't exist, create a new ServiceAgreement with this data.
+     */
+    create: XOR<ServiceAgreementCreateInput, ServiceAgreementUncheckedCreateInput>
+    /**
+     * In case the ServiceAgreement was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ServiceAgreementUpdateInput, ServiceAgreementUncheckedUpdateInput>
+  }
+
+  /**
+   * ServiceAgreement delete
+   */
+  export type ServiceAgreementDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAgreement
+     */
+    select?: ServiceAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAgreement
+     */
+    omit?: ServiceAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAgreementInclude<ExtArgs> | null
+    /**
+     * Filter which ServiceAgreement to delete.
+     */
+    where: ServiceAgreementWhereUniqueInput
+  }
+
+  /**
+   * ServiceAgreement deleteMany
+   */
+  export type ServiceAgreementDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ServiceAgreements to delete
+     */
+    where?: ServiceAgreementWhereInput
+    /**
+     * Limit how many ServiceAgreements to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ServiceAgreement without action
+   */
+  export type ServiceAgreementDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAgreement
+     */
+    select?: ServiceAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAgreement
+     */
+    omit?: ServiceAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAgreementInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ComboPlanAgreement
+   */
+
+  export type AggregateComboPlanAgreement = {
+    _count: ComboPlanAgreementCountAggregateOutputType | null
+    _min: ComboPlanAgreementMinAggregateOutputType | null
+    _max: ComboPlanAgreementMaxAggregateOutputType | null
+  }
+
+  export type ComboPlanAgreementMinAggregateOutputType = {
+    id: string | null
+    comboPlanId: string | null
+    agreementId: string | null
+  }
+
+  export type ComboPlanAgreementMaxAggregateOutputType = {
+    id: string | null
+    comboPlanId: string | null
+    agreementId: string | null
+  }
+
+  export type ComboPlanAgreementCountAggregateOutputType = {
+    id: number
+    comboPlanId: number
+    agreementId: number
+    _all: number
+  }
+
+
+  export type ComboPlanAgreementMinAggregateInputType = {
+    id?: true
+    comboPlanId?: true
+    agreementId?: true
+  }
+
+  export type ComboPlanAgreementMaxAggregateInputType = {
+    id?: true
+    comboPlanId?: true
+    agreementId?: true
+  }
+
+  export type ComboPlanAgreementCountAggregateInputType = {
+    id?: true
+    comboPlanId?: true
+    agreementId?: true
+    _all?: true
+  }
+
+  export type ComboPlanAgreementAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ComboPlanAgreement to aggregate.
+     */
+    where?: ComboPlanAgreementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ComboPlanAgreements to fetch.
+     */
+    orderBy?: ComboPlanAgreementOrderByWithRelationInput | ComboPlanAgreementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ComboPlanAgreementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ComboPlanAgreements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ComboPlanAgreements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ComboPlanAgreements
+    **/
+    _count?: true | ComboPlanAgreementCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ComboPlanAgreementMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ComboPlanAgreementMaxAggregateInputType
+  }
+
+  export type GetComboPlanAgreementAggregateType<T extends ComboPlanAgreementAggregateArgs> = {
+        [P in keyof T & keyof AggregateComboPlanAgreement]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateComboPlanAgreement[P]>
+      : GetScalarType<T[P], AggregateComboPlanAgreement[P]>
+  }
+
+
+
+
+  export type ComboPlanAgreementGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ComboPlanAgreementWhereInput
+    orderBy?: ComboPlanAgreementOrderByWithAggregationInput | ComboPlanAgreementOrderByWithAggregationInput[]
+    by: ComboPlanAgreementScalarFieldEnum[] | ComboPlanAgreementScalarFieldEnum
+    having?: ComboPlanAgreementScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ComboPlanAgreementCountAggregateInputType | true
+    _min?: ComboPlanAgreementMinAggregateInputType
+    _max?: ComboPlanAgreementMaxAggregateInputType
+  }
+
+  export type ComboPlanAgreementGroupByOutputType = {
+    id: string
+    comboPlanId: string
+    agreementId: string
+    _count: ComboPlanAgreementCountAggregateOutputType | null
+    _min: ComboPlanAgreementMinAggregateOutputType | null
+    _max: ComboPlanAgreementMaxAggregateOutputType | null
+  }
+
+  type GetComboPlanAgreementGroupByPayload<T extends ComboPlanAgreementGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ComboPlanAgreementGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ComboPlanAgreementGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ComboPlanAgreementGroupByOutputType[P]>
+            : GetScalarType<T[P], ComboPlanAgreementGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ComboPlanAgreementSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    comboPlanId?: boolean
+    agreementId?: boolean
+    comboPlan?: boolean | ComboPlanDefaultArgs<ExtArgs>
+    agreement?: boolean | AgreementDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["comboPlanAgreement"]>
+
+  export type ComboPlanAgreementSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    comboPlanId?: boolean
+    agreementId?: boolean
+    comboPlan?: boolean | ComboPlanDefaultArgs<ExtArgs>
+    agreement?: boolean | AgreementDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["comboPlanAgreement"]>
+
+  export type ComboPlanAgreementSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    comboPlanId?: boolean
+    agreementId?: boolean
+    comboPlan?: boolean | ComboPlanDefaultArgs<ExtArgs>
+    agreement?: boolean | AgreementDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["comboPlanAgreement"]>
+
+  export type ComboPlanAgreementSelectScalar = {
+    id?: boolean
+    comboPlanId?: boolean
+    agreementId?: boolean
+  }
+
+  export type ComboPlanAgreementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "comboPlanId" | "agreementId", ExtArgs["result"]["comboPlanAgreement"]>
+  export type ComboPlanAgreementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    comboPlan?: boolean | ComboPlanDefaultArgs<ExtArgs>
+    agreement?: boolean | AgreementDefaultArgs<ExtArgs>
+  }
+  export type ComboPlanAgreementIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    comboPlan?: boolean | ComboPlanDefaultArgs<ExtArgs>
+    agreement?: boolean | AgreementDefaultArgs<ExtArgs>
+  }
+  export type ComboPlanAgreementIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    comboPlan?: boolean | ComboPlanDefaultArgs<ExtArgs>
+    agreement?: boolean | AgreementDefaultArgs<ExtArgs>
+  }
+
+  export type $ComboPlanAgreementPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ComboPlanAgreement"
+    objects: {
+      comboPlan: Prisma.$ComboPlanPayload<ExtArgs>
+      agreement: Prisma.$AgreementPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      comboPlanId: string
+      agreementId: string
+    }, ExtArgs["result"]["comboPlanAgreement"]>
+    composites: {}
+  }
+
+  type ComboPlanAgreementGetPayload<S extends boolean | null | undefined | ComboPlanAgreementDefaultArgs> = $Result.GetResult<Prisma.$ComboPlanAgreementPayload, S>
+
+  type ComboPlanAgreementCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ComboPlanAgreementFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ComboPlanAgreementCountAggregateInputType | true
+    }
+
+  export interface ComboPlanAgreementDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ComboPlanAgreement'], meta: { name: 'ComboPlanAgreement' } }
+    /**
+     * Find zero or one ComboPlanAgreement that matches the filter.
+     * @param {ComboPlanAgreementFindUniqueArgs} args - Arguments to find a ComboPlanAgreement
+     * @example
+     * // Get one ComboPlanAgreement
+     * const comboPlanAgreement = await prisma.comboPlanAgreement.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ComboPlanAgreementFindUniqueArgs>(args: SelectSubset<T, ComboPlanAgreementFindUniqueArgs<ExtArgs>>): Prisma__ComboPlanAgreementClient<$Result.GetResult<Prisma.$ComboPlanAgreementPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ComboPlanAgreement that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ComboPlanAgreementFindUniqueOrThrowArgs} args - Arguments to find a ComboPlanAgreement
+     * @example
+     * // Get one ComboPlanAgreement
+     * const comboPlanAgreement = await prisma.comboPlanAgreement.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ComboPlanAgreementFindUniqueOrThrowArgs>(args: SelectSubset<T, ComboPlanAgreementFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ComboPlanAgreementClient<$Result.GetResult<Prisma.$ComboPlanAgreementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ComboPlanAgreement that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ComboPlanAgreementFindFirstArgs} args - Arguments to find a ComboPlanAgreement
+     * @example
+     * // Get one ComboPlanAgreement
+     * const comboPlanAgreement = await prisma.comboPlanAgreement.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ComboPlanAgreementFindFirstArgs>(args?: SelectSubset<T, ComboPlanAgreementFindFirstArgs<ExtArgs>>): Prisma__ComboPlanAgreementClient<$Result.GetResult<Prisma.$ComboPlanAgreementPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ComboPlanAgreement that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ComboPlanAgreementFindFirstOrThrowArgs} args - Arguments to find a ComboPlanAgreement
+     * @example
+     * // Get one ComboPlanAgreement
+     * const comboPlanAgreement = await prisma.comboPlanAgreement.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ComboPlanAgreementFindFirstOrThrowArgs>(args?: SelectSubset<T, ComboPlanAgreementFindFirstOrThrowArgs<ExtArgs>>): Prisma__ComboPlanAgreementClient<$Result.GetResult<Prisma.$ComboPlanAgreementPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ComboPlanAgreements that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ComboPlanAgreementFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ComboPlanAgreements
+     * const comboPlanAgreements = await prisma.comboPlanAgreement.findMany()
+     * 
+     * // Get first 10 ComboPlanAgreements
+     * const comboPlanAgreements = await prisma.comboPlanAgreement.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const comboPlanAgreementWithIdOnly = await prisma.comboPlanAgreement.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ComboPlanAgreementFindManyArgs>(args?: SelectSubset<T, ComboPlanAgreementFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ComboPlanAgreementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ComboPlanAgreement.
+     * @param {ComboPlanAgreementCreateArgs} args - Arguments to create a ComboPlanAgreement.
+     * @example
+     * // Create one ComboPlanAgreement
+     * const ComboPlanAgreement = await prisma.comboPlanAgreement.create({
+     *   data: {
+     *     // ... data to create a ComboPlanAgreement
+     *   }
+     * })
+     * 
+     */
+    create<T extends ComboPlanAgreementCreateArgs>(args: SelectSubset<T, ComboPlanAgreementCreateArgs<ExtArgs>>): Prisma__ComboPlanAgreementClient<$Result.GetResult<Prisma.$ComboPlanAgreementPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ComboPlanAgreements.
+     * @param {ComboPlanAgreementCreateManyArgs} args - Arguments to create many ComboPlanAgreements.
+     * @example
+     * // Create many ComboPlanAgreements
+     * const comboPlanAgreement = await prisma.comboPlanAgreement.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ComboPlanAgreementCreateManyArgs>(args?: SelectSubset<T, ComboPlanAgreementCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ComboPlanAgreements and returns the data saved in the database.
+     * @param {ComboPlanAgreementCreateManyAndReturnArgs} args - Arguments to create many ComboPlanAgreements.
+     * @example
+     * // Create many ComboPlanAgreements
+     * const comboPlanAgreement = await prisma.comboPlanAgreement.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ComboPlanAgreements and only return the `id`
+     * const comboPlanAgreementWithIdOnly = await prisma.comboPlanAgreement.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ComboPlanAgreementCreateManyAndReturnArgs>(args?: SelectSubset<T, ComboPlanAgreementCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ComboPlanAgreementPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ComboPlanAgreement.
+     * @param {ComboPlanAgreementDeleteArgs} args - Arguments to delete one ComboPlanAgreement.
+     * @example
+     * // Delete one ComboPlanAgreement
+     * const ComboPlanAgreement = await prisma.comboPlanAgreement.delete({
+     *   where: {
+     *     // ... filter to delete one ComboPlanAgreement
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ComboPlanAgreementDeleteArgs>(args: SelectSubset<T, ComboPlanAgreementDeleteArgs<ExtArgs>>): Prisma__ComboPlanAgreementClient<$Result.GetResult<Prisma.$ComboPlanAgreementPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ComboPlanAgreement.
+     * @param {ComboPlanAgreementUpdateArgs} args - Arguments to update one ComboPlanAgreement.
+     * @example
+     * // Update one ComboPlanAgreement
+     * const comboPlanAgreement = await prisma.comboPlanAgreement.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ComboPlanAgreementUpdateArgs>(args: SelectSubset<T, ComboPlanAgreementUpdateArgs<ExtArgs>>): Prisma__ComboPlanAgreementClient<$Result.GetResult<Prisma.$ComboPlanAgreementPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ComboPlanAgreements.
+     * @param {ComboPlanAgreementDeleteManyArgs} args - Arguments to filter ComboPlanAgreements to delete.
+     * @example
+     * // Delete a few ComboPlanAgreements
+     * const { count } = await prisma.comboPlanAgreement.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ComboPlanAgreementDeleteManyArgs>(args?: SelectSubset<T, ComboPlanAgreementDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ComboPlanAgreements.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ComboPlanAgreementUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ComboPlanAgreements
+     * const comboPlanAgreement = await prisma.comboPlanAgreement.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ComboPlanAgreementUpdateManyArgs>(args: SelectSubset<T, ComboPlanAgreementUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ComboPlanAgreements and returns the data updated in the database.
+     * @param {ComboPlanAgreementUpdateManyAndReturnArgs} args - Arguments to update many ComboPlanAgreements.
+     * @example
+     * // Update many ComboPlanAgreements
+     * const comboPlanAgreement = await prisma.comboPlanAgreement.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ComboPlanAgreements and only return the `id`
+     * const comboPlanAgreementWithIdOnly = await prisma.comboPlanAgreement.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ComboPlanAgreementUpdateManyAndReturnArgs>(args: SelectSubset<T, ComboPlanAgreementUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ComboPlanAgreementPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ComboPlanAgreement.
+     * @param {ComboPlanAgreementUpsertArgs} args - Arguments to update or create a ComboPlanAgreement.
+     * @example
+     * // Update or create a ComboPlanAgreement
+     * const comboPlanAgreement = await prisma.comboPlanAgreement.upsert({
+     *   create: {
+     *     // ... data to create a ComboPlanAgreement
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ComboPlanAgreement we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ComboPlanAgreementUpsertArgs>(args: SelectSubset<T, ComboPlanAgreementUpsertArgs<ExtArgs>>): Prisma__ComboPlanAgreementClient<$Result.GetResult<Prisma.$ComboPlanAgreementPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ComboPlanAgreements.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ComboPlanAgreementCountArgs} args - Arguments to filter ComboPlanAgreements to count.
+     * @example
+     * // Count the number of ComboPlanAgreements
+     * const count = await prisma.comboPlanAgreement.count({
+     *   where: {
+     *     // ... the filter for the ComboPlanAgreements we want to count
+     *   }
+     * })
+    **/
+    count<T extends ComboPlanAgreementCountArgs>(
+      args?: Subset<T, ComboPlanAgreementCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ComboPlanAgreementCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ComboPlanAgreement.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ComboPlanAgreementAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ComboPlanAgreementAggregateArgs>(args: Subset<T, ComboPlanAgreementAggregateArgs>): Prisma.PrismaPromise<GetComboPlanAgreementAggregateType<T>>
+
+    /**
+     * Group by ComboPlanAgreement.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ComboPlanAgreementGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ComboPlanAgreementGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ComboPlanAgreementGroupByArgs['orderBy'] }
+        : { orderBy?: ComboPlanAgreementGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ComboPlanAgreementGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetComboPlanAgreementGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ComboPlanAgreement model
+   */
+  readonly fields: ComboPlanAgreementFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ComboPlanAgreement.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ComboPlanAgreementClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    comboPlan<T extends ComboPlanDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ComboPlanDefaultArgs<ExtArgs>>): Prisma__ComboPlanClient<$Result.GetResult<Prisma.$ComboPlanPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    agreement<T extends AgreementDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AgreementDefaultArgs<ExtArgs>>): Prisma__AgreementClient<$Result.GetResult<Prisma.$AgreementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ComboPlanAgreement model
+   */
+  interface ComboPlanAgreementFieldRefs {
+    readonly id: FieldRef<"ComboPlanAgreement", 'String'>
+    readonly comboPlanId: FieldRef<"ComboPlanAgreement", 'String'>
+    readonly agreementId: FieldRef<"ComboPlanAgreement", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ComboPlanAgreement findUnique
+   */
+  export type ComboPlanAgreementFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComboPlanAgreement
+     */
+    select?: ComboPlanAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ComboPlanAgreement
+     */
+    omit?: ComboPlanAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComboPlanAgreementInclude<ExtArgs> | null
+    /**
+     * Filter, which ComboPlanAgreement to fetch.
+     */
+    where: ComboPlanAgreementWhereUniqueInput
+  }
+
+  /**
+   * ComboPlanAgreement findUniqueOrThrow
+   */
+  export type ComboPlanAgreementFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComboPlanAgreement
+     */
+    select?: ComboPlanAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ComboPlanAgreement
+     */
+    omit?: ComboPlanAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComboPlanAgreementInclude<ExtArgs> | null
+    /**
+     * Filter, which ComboPlanAgreement to fetch.
+     */
+    where: ComboPlanAgreementWhereUniqueInput
+  }
+
+  /**
+   * ComboPlanAgreement findFirst
+   */
+  export type ComboPlanAgreementFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComboPlanAgreement
+     */
+    select?: ComboPlanAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ComboPlanAgreement
+     */
+    omit?: ComboPlanAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComboPlanAgreementInclude<ExtArgs> | null
+    /**
+     * Filter, which ComboPlanAgreement to fetch.
+     */
+    where?: ComboPlanAgreementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ComboPlanAgreements to fetch.
+     */
+    orderBy?: ComboPlanAgreementOrderByWithRelationInput | ComboPlanAgreementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ComboPlanAgreements.
+     */
+    cursor?: ComboPlanAgreementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ComboPlanAgreements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ComboPlanAgreements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ComboPlanAgreements.
+     */
+    distinct?: ComboPlanAgreementScalarFieldEnum | ComboPlanAgreementScalarFieldEnum[]
+  }
+
+  /**
+   * ComboPlanAgreement findFirstOrThrow
+   */
+  export type ComboPlanAgreementFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComboPlanAgreement
+     */
+    select?: ComboPlanAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ComboPlanAgreement
+     */
+    omit?: ComboPlanAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComboPlanAgreementInclude<ExtArgs> | null
+    /**
+     * Filter, which ComboPlanAgreement to fetch.
+     */
+    where?: ComboPlanAgreementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ComboPlanAgreements to fetch.
+     */
+    orderBy?: ComboPlanAgreementOrderByWithRelationInput | ComboPlanAgreementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ComboPlanAgreements.
+     */
+    cursor?: ComboPlanAgreementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ComboPlanAgreements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ComboPlanAgreements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ComboPlanAgreements.
+     */
+    distinct?: ComboPlanAgreementScalarFieldEnum | ComboPlanAgreementScalarFieldEnum[]
+  }
+
+  /**
+   * ComboPlanAgreement findMany
+   */
+  export type ComboPlanAgreementFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComboPlanAgreement
+     */
+    select?: ComboPlanAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ComboPlanAgreement
+     */
+    omit?: ComboPlanAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComboPlanAgreementInclude<ExtArgs> | null
+    /**
+     * Filter, which ComboPlanAgreements to fetch.
+     */
+    where?: ComboPlanAgreementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ComboPlanAgreements to fetch.
+     */
+    orderBy?: ComboPlanAgreementOrderByWithRelationInput | ComboPlanAgreementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ComboPlanAgreements.
+     */
+    cursor?: ComboPlanAgreementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ComboPlanAgreements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ComboPlanAgreements.
+     */
+    skip?: number
+    distinct?: ComboPlanAgreementScalarFieldEnum | ComboPlanAgreementScalarFieldEnum[]
+  }
+
+  /**
+   * ComboPlanAgreement create
+   */
+  export type ComboPlanAgreementCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComboPlanAgreement
+     */
+    select?: ComboPlanAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ComboPlanAgreement
+     */
+    omit?: ComboPlanAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComboPlanAgreementInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ComboPlanAgreement.
+     */
+    data: XOR<ComboPlanAgreementCreateInput, ComboPlanAgreementUncheckedCreateInput>
+  }
+
+  /**
+   * ComboPlanAgreement createMany
+   */
+  export type ComboPlanAgreementCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ComboPlanAgreements.
+     */
+    data: ComboPlanAgreementCreateManyInput | ComboPlanAgreementCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ComboPlanAgreement createManyAndReturn
+   */
+  export type ComboPlanAgreementCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComboPlanAgreement
+     */
+    select?: ComboPlanAgreementSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ComboPlanAgreement
+     */
+    omit?: ComboPlanAgreementOmit<ExtArgs> | null
+    /**
+     * The data used to create many ComboPlanAgreements.
+     */
+    data: ComboPlanAgreementCreateManyInput | ComboPlanAgreementCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComboPlanAgreementIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ComboPlanAgreement update
+   */
+  export type ComboPlanAgreementUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComboPlanAgreement
+     */
+    select?: ComboPlanAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ComboPlanAgreement
+     */
+    omit?: ComboPlanAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComboPlanAgreementInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ComboPlanAgreement.
+     */
+    data: XOR<ComboPlanAgreementUpdateInput, ComboPlanAgreementUncheckedUpdateInput>
+    /**
+     * Choose, which ComboPlanAgreement to update.
+     */
+    where: ComboPlanAgreementWhereUniqueInput
+  }
+
+  /**
+   * ComboPlanAgreement updateMany
+   */
+  export type ComboPlanAgreementUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ComboPlanAgreements.
+     */
+    data: XOR<ComboPlanAgreementUpdateManyMutationInput, ComboPlanAgreementUncheckedUpdateManyInput>
+    /**
+     * Filter which ComboPlanAgreements to update
+     */
+    where?: ComboPlanAgreementWhereInput
+    /**
+     * Limit how many ComboPlanAgreements to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ComboPlanAgreement updateManyAndReturn
+   */
+  export type ComboPlanAgreementUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComboPlanAgreement
+     */
+    select?: ComboPlanAgreementSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ComboPlanAgreement
+     */
+    omit?: ComboPlanAgreementOmit<ExtArgs> | null
+    /**
+     * The data used to update ComboPlanAgreements.
+     */
+    data: XOR<ComboPlanAgreementUpdateManyMutationInput, ComboPlanAgreementUncheckedUpdateManyInput>
+    /**
+     * Filter which ComboPlanAgreements to update
+     */
+    where?: ComboPlanAgreementWhereInput
+    /**
+     * Limit how many ComboPlanAgreements to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComboPlanAgreementIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ComboPlanAgreement upsert
+   */
+  export type ComboPlanAgreementUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComboPlanAgreement
+     */
+    select?: ComboPlanAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ComboPlanAgreement
+     */
+    omit?: ComboPlanAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComboPlanAgreementInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ComboPlanAgreement to update in case it exists.
+     */
+    where: ComboPlanAgreementWhereUniqueInput
+    /**
+     * In case the ComboPlanAgreement found by the `where` argument doesn't exist, create a new ComboPlanAgreement with this data.
+     */
+    create: XOR<ComboPlanAgreementCreateInput, ComboPlanAgreementUncheckedCreateInput>
+    /**
+     * In case the ComboPlanAgreement was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ComboPlanAgreementUpdateInput, ComboPlanAgreementUncheckedUpdateInput>
+  }
+
+  /**
+   * ComboPlanAgreement delete
+   */
+  export type ComboPlanAgreementDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComboPlanAgreement
+     */
+    select?: ComboPlanAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ComboPlanAgreement
+     */
+    omit?: ComboPlanAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComboPlanAgreementInclude<ExtArgs> | null
+    /**
+     * Filter which ComboPlanAgreement to delete.
+     */
+    where: ComboPlanAgreementWhereUniqueInput
+  }
+
+  /**
+   * ComboPlanAgreement deleteMany
+   */
+  export type ComboPlanAgreementDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ComboPlanAgreements to delete
+     */
+    where?: ComboPlanAgreementWhereInput
+    /**
+     * Limit how many ComboPlanAgreements to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ComboPlanAgreement without action
+   */
+  export type ComboPlanAgreementDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComboPlanAgreement
+     */
+    select?: ComboPlanAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ComboPlanAgreement
+     */
+    omit?: ComboPlanAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComboPlanAgreementInclude<ExtArgs> | null
   }
 
 
@@ -12718,7 +15034,6 @@ export namespace Prisma {
     name: string | null
     description: string | null
     price: number | null
-    agreementId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -12728,7 +15043,6 @@ export namespace Prisma {
     name: string | null
     description: string | null
     price: number | null
-    agreementId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -12738,7 +15052,6 @@ export namespace Prisma {
     name: number
     description: number
     price: number
-    agreementId: number
     tenureDiscounts: number
     createdAt: number
     updatedAt: number
@@ -12759,7 +15072,6 @@ export namespace Prisma {
     name?: true
     description?: true
     price?: true
-    agreementId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -12769,7 +15081,6 @@ export namespace Prisma {
     name?: true
     description?: true
     price?: true
-    agreementId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -12779,7 +15090,6 @@ export namespace Prisma {
     name?: true
     description?: true
     price?: true
-    agreementId?: true
     tenureDiscounts?: true
     createdAt?: true
     updatedAt?: true
@@ -12877,7 +15187,6 @@ export namespace Prisma {
     name: string
     description: string | null
     price: number
-    agreementId: string | null
     tenureDiscounts: JsonValue
     createdAt: Date
     updatedAt: Date
@@ -12907,12 +15216,11 @@ export namespace Prisma {
     name?: boolean
     description?: boolean
     price?: boolean
-    agreementId?: boolean
     tenureDiscounts?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    services?: boolean | ComboPlan$servicesArgs<ExtArgs>
     agreement?: boolean | ComboPlan$agreementArgs<ExtArgs>
+    services?: boolean | ComboPlan$servicesArgs<ExtArgs>
     Transaction?: boolean | ComboPlan$TransactionArgs<ExtArgs>
     _count?: boolean | ComboPlanCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["comboPlan"]>
@@ -12922,11 +15230,9 @@ export namespace Prisma {
     name?: boolean
     description?: boolean
     price?: boolean
-    agreementId?: boolean
     tenureDiscounts?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    agreement?: boolean | ComboPlan$agreementArgs<ExtArgs>
   }, ExtArgs["result"]["comboPlan"]>
 
   export type ComboPlanSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -12934,11 +15240,9 @@ export namespace Prisma {
     name?: boolean
     description?: boolean
     price?: boolean
-    agreementId?: boolean
     tenureDiscounts?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    agreement?: boolean | ComboPlan$agreementArgs<ExtArgs>
   }, ExtArgs["result"]["comboPlan"]>
 
   export type ComboPlanSelectScalar = {
@@ -12946,31 +15250,26 @@ export namespace Prisma {
     name?: boolean
     description?: boolean
     price?: boolean
-    agreementId?: boolean
     tenureDiscounts?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ComboPlanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "price" | "agreementId" | "tenureDiscounts" | "createdAt" | "updatedAt", ExtArgs["result"]["comboPlan"]>
+  export type ComboPlanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "price" | "tenureDiscounts" | "createdAt" | "updatedAt", ExtArgs["result"]["comboPlan"]>
   export type ComboPlanInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    services?: boolean | ComboPlan$servicesArgs<ExtArgs>
     agreement?: boolean | ComboPlan$agreementArgs<ExtArgs>
+    services?: boolean | ComboPlan$servicesArgs<ExtArgs>
     Transaction?: boolean | ComboPlan$TransactionArgs<ExtArgs>
     _count?: boolean | ComboPlanCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type ComboPlanIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    agreement?: boolean | ComboPlan$agreementArgs<ExtArgs>
-  }
-  export type ComboPlanIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    agreement?: boolean | ComboPlan$agreementArgs<ExtArgs>
-  }
+  export type ComboPlanIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type ComboPlanIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $ComboPlanPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ComboPlan"
     objects: {
+      agreement: Prisma.$ComboPlanAgreementPayload<ExtArgs>[]
       services: Prisma.$ComboPlanServicePayload<ExtArgs>[]
-      agreement: Prisma.$AgreementPayload<ExtArgs> | null
       Transaction: Prisma.$TransactionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -12978,7 +15277,6 @@ export namespace Prisma {
       name: string
       description: string | null
       price: number
-      agreementId: string | null
       tenureDiscounts: Prisma.JsonValue
       createdAt: Date
       updatedAt: Date
@@ -13376,8 +15674,8 @@ export namespace Prisma {
    */
   export interface Prisma__ComboPlanClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    agreement<T extends ComboPlan$agreementArgs<ExtArgs> = {}>(args?: Subset<T, ComboPlan$agreementArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ComboPlanAgreementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     services<T extends ComboPlan$servicesArgs<ExtArgs> = {}>(args?: Subset<T, ComboPlan$servicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ComboPlanServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    agreement<T extends ComboPlan$agreementArgs<ExtArgs> = {}>(args?: Subset<T, ComboPlan$agreementArgs<ExtArgs>>): Prisma__AgreementClient<$Result.GetResult<Prisma.$AgreementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     Transaction<T extends ComboPlan$TransactionArgs<ExtArgs> = {}>(args?: Subset<T, ComboPlan$TransactionArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -13412,7 +15710,6 @@ export namespace Prisma {
     readonly name: FieldRef<"ComboPlan", 'String'>
     readonly description: FieldRef<"ComboPlan", 'String'>
     readonly price: FieldRef<"ComboPlan", 'Float'>
-    readonly agreementId: FieldRef<"ComboPlan", 'String'>
     readonly tenureDiscounts: FieldRef<"ComboPlan", 'Json'>
     readonly createdAt: FieldRef<"ComboPlan", 'DateTime'>
     readonly updatedAt: FieldRef<"ComboPlan", 'DateTime'>
@@ -13665,10 +15962,6 @@ export namespace Prisma {
      */
     data: ComboPlanCreateManyInput | ComboPlanCreateManyInput[]
     skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ComboPlanIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -13739,10 +16032,6 @@ export namespace Prisma {
      * Limit how many ComboPlans to update.
      */
     limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ComboPlanIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -13812,6 +16101,30 @@ export namespace Prisma {
   }
 
   /**
+   * ComboPlan.agreement
+   */
+  export type ComboPlan$agreementArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComboPlanAgreement
+     */
+    select?: ComboPlanAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ComboPlanAgreement
+     */
+    omit?: ComboPlanAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComboPlanAgreementInclude<ExtArgs> | null
+    where?: ComboPlanAgreementWhereInput
+    orderBy?: ComboPlanAgreementOrderByWithRelationInput | ComboPlanAgreementOrderByWithRelationInput[]
+    cursor?: ComboPlanAgreementWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ComboPlanAgreementScalarFieldEnum | ComboPlanAgreementScalarFieldEnum[]
+  }
+
+  /**
    * ComboPlan.services
    */
   export type ComboPlan$servicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13833,25 +16146,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ComboPlanServiceScalarFieldEnum | ComboPlanServiceScalarFieldEnum[]
-  }
-
-  /**
-   * ComboPlan.agreement
-   */
-  export type ComboPlan$agreementArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Agreement
-     */
-    select?: AgreementSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Agreement
-     */
-    omit?: AgreementOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AgreementInclude<ExtArgs> | null
-    where?: AgreementWhereInput
   }
 
   /**
@@ -14972,7 +17266,6 @@ export namespace Prisma {
     type: $Enums.ServiceType | null
     createdAt: Date | null
     updatedAt: Date | null
-    agreementId: string | null
   }
 
   export type ServiceMaxAggregateOutputType = {
@@ -14990,7 +17283,6 @@ export namespace Prisma {
     type: $Enums.ServiceType | null
     createdAt: Date | null
     updatedAt: Date | null
-    agreementId: string | null
   }
 
   export type ServiceCountAggregateOutputType = {
@@ -15013,7 +17305,6 @@ export namespace Prisma {
     type: number
     createdAt: number
     updatedAt: number
-    agreementId: number
     _all: number
   }
 
@@ -15041,7 +17332,6 @@ export namespace Prisma {
     type?: true
     createdAt?: true
     updatedAt?: true
-    agreementId?: true
   }
 
   export type ServiceMaxAggregateInputType = {
@@ -15059,7 +17349,6 @@ export namespace Prisma {
     type?: true
     createdAt?: true
     updatedAt?: true
-    agreementId?: true
   }
 
   export type ServiceCountAggregateInputType = {
@@ -15082,7 +17371,6 @@ export namespace Prisma {
     type?: true
     createdAt?: true
     updatedAt?: true
-    agreementId?: true
     _all?: true
   }
 
@@ -15192,7 +17480,6 @@ export namespace Prisma {
     type: $Enums.ServiceType
     createdAt: Date
     updatedAt: Date
-    agreementId: string | null
     _count: ServiceCountAggregateOutputType | null
     _avg: ServiceAvgAggregateOutputType | null
     _sum: ServiceSumAggregateOutputType | null
@@ -15234,12 +17521,11 @@ export namespace Prisma {
     type?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    agreementId?: boolean
+    agreements?: boolean | Service$agreementsArgs<ExtArgs>
     serviceTrading?: boolean | Service$serviceTradingArgs<ExtArgs>
     purchasedServices?: boolean | Service$purchasedServicesArgs<ExtArgs>
     userDocuments?: boolean | Service$userDocumentsArgs<ExtArgs>
     Transaction?: boolean | Service$TransactionArgs<ExtArgs>
-    agreement?: boolean | Service$agreementArgs<ExtArgs>
     ComboPlanService?: boolean | Service$ComboPlanServiceArgs<ExtArgs>
     _count?: boolean | ServiceCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["service"]>
@@ -15264,8 +17550,6 @@ export namespace Prisma {
     type?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    agreementId?: boolean
-    agreement?: boolean | Service$agreementArgs<ExtArgs>
   }, ExtArgs["result"]["service"]>
 
   export type ServiceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -15288,8 +17572,6 @@ export namespace Prisma {
     type?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    agreementId?: boolean
-    agreement?: boolean | Service$agreementArgs<ExtArgs>
   }, ExtArgs["result"]["service"]>
 
   export type ServiceSelectScalar = {
@@ -15312,34 +17594,29 @@ export namespace Prisma {
     type?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    agreementId?: boolean
   }
 
-  export type ServiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "tag" | "label" | "serviceClass" | "description" | "chart" | "comparisonTitle" | "recommendation" | "price" | "taxPercent" | "tenureDiscounts" | "features" | "faq" | "active" | "type" | "createdAt" | "updatedAt" | "agreementId", ExtArgs["result"]["service"]>
+  export type ServiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "tag" | "label" | "serviceClass" | "description" | "chart" | "comparisonTitle" | "recommendation" | "price" | "taxPercent" | "tenureDiscounts" | "features" | "faq" | "active" | "type" | "createdAt" | "updatedAt", ExtArgs["result"]["service"]>
   export type ServiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    agreements?: boolean | Service$agreementsArgs<ExtArgs>
     serviceTrading?: boolean | Service$serviceTradingArgs<ExtArgs>
     purchasedServices?: boolean | Service$purchasedServicesArgs<ExtArgs>
     userDocuments?: boolean | Service$userDocumentsArgs<ExtArgs>
     Transaction?: boolean | Service$TransactionArgs<ExtArgs>
-    agreement?: boolean | Service$agreementArgs<ExtArgs>
     ComboPlanService?: boolean | Service$ComboPlanServiceArgs<ExtArgs>
     _count?: boolean | ServiceCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type ServiceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    agreement?: boolean | Service$agreementArgs<ExtArgs>
-  }
-  export type ServiceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    agreement?: boolean | Service$agreementArgs<ExtArgs>
-  }
+  export type ServiceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type ServiceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $ServicePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Service"
     objects: {
+      agreements: Prisma.$ServiceAgreementPayload<ExtArgs>[]
       serviceTrading: Prisma.$ServiceTradingPayload<ExtArgs> | null
       purchasedServices: Prisma.$UserPurchasedServicesPayload<ExtArgs>[]
       userDocuments: Prisma.$UserDocumentsPayload<ExtArgs>[]
       Transaction: Prisma.$TransactionPayload<ExtArgs>[]
-      agreement: Prisma.$AgreementPayload<ExtArgs> | null
       ComboPlanService: Prisma.$ComboPlanServicePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -15362,7 +17639,6 @@ export namespace Prisma {
       type: $Enums.ServiceType
       createdAt: Date
       updatedAt: Date
-      agreementId: string | null
     }, ExtArgs["result"]["service"]>
     composites: {}
   }
@@ -15757,11 +18033,11 @@ export namespace Prisma {
    */
   export interface Prisma__ServiceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    agreements<T extends Service$agreementsArgs<ExtArgs> = {}>(args?: Subset<T, Service$agreementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     serviceTrading<T extends Service$serviceTradingArgs<ExtArgs> = {}>(args?: Subset<T, Service$serviceTradingArgs<ExtArgs>>): Prisma__ServiceTradingClient<$Result.GetResult<Prisma.$ServiceTradingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     purchasedServices<T extends Service$purchasedServicesArgs<ExtArgs> = {}>(args?: Subset<T, Service$purchasedServicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPurchasedServicesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     userDocuments<T extends Service$userDocumentsArgs<ExtArgs> = {}>(args?: Subset<T, Service$userDocumentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserDocumentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Transaction<T extends Service$TransactionArgs<ExtArgs> = {}>(args?: Subset<T, Service$TransactionArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    agreement<T extends Service$agreementArgs<ExtArgs> = {}>(args?: Subset<T, Service$agreementArgs<ExtArgs>>): Prisma__AgreementClient<$Result.GetResult<Prisma.$AgreementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     ComboPlanService<T extends Service$ComboPlanServiceArgs<ExtArgs> = {}>(args?: Subset<T, Service$ComboPlanServiceArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ComboPlanServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -15811,7 +18087,6 @@ export namespace Prisma {
     readonly type: FieldRef<"Service", 'ServiceType'>
     readonly createdAt: FieldRef<"Service", 'DateTime'>
     readonly updatedAt: FieldRef<"Service", 'DateTime'>
-    readonly agreementId: FieldRef<"Service", 'String'>
   }
     
 
@@ -16061,10 +18336,6 @@ export namespace Prisma {
      */
     data: ServiceCreateManyInput | ServiceCreateManyInput[]
     skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ServiceIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -16135,10 +18406,6 @@ export namespace Prisma {
      * Limit how many Services to update.
      */
     limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ServiceIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -16205,6 +18472,30 @@ export namespace Prisma {
      * Limit how many Services to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Service.agreements
+   */
+  export type Service$agreementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAgreement
+     */
+    select?: ServiceAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAgreement
+     */
+    omit?: ServiceAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAgreementInclude<ExtArgs> | null
+    where?: ServiceAgreementWhereInput
+    orderBy?: ServiceAgreementOrderByWithRelationInput | ServiceAgreementOrderByWithRelationInput[]
+    cursor?: ServiceAgreementWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ServiceAgreementScalarFieldEnum | ServiceAgreementScalarFieldEnum[]
   }
 
   /**
@@ -16296,25 +18587,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TransactionScalarFieldEnum | TransactionScalarFieldEnum[]
-  }
-
-  /**
-   * Service.agreement
-   */
-  export type Service$agreementArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Agreement
-     */
-    select?: AgreementSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Agreement
-     */
-    omit?: AgreementOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AgreementInclude<ExtArgs> | null
-    where?: AgreementWhereInput
   }
 
   /**
@@ -17506,7 +19778,8 @@ export namespace Prisma {
     expiryDate: 'expiryDate',
     planDays: 'planDays',
     planDiscount: 'planDiscount',
-    agreementAcceptedAt: 'agreementAcceptedAt'
+    agreementAcceptedAt: 'agreementAcceptedAt',
+    agreementData: 'agreementData'
   };
 
   export type UserPurchasedServicesScalarFieldEnum = (typeof UserPurchasedServicesScalarFieldEnum)[keyof typeof UserPurchasedServicesScalarFieldEnum]
@@ -17565,6 +19838,8 @@ export namespace Prisma {
     id: 'id',
     name: 'name',
     content: 'content',
+    signatoryPerson: 'signatoryPerson',
+    companyName: 'companyName',
     updatedAt: 'updatedAt',
     createdAt: 'createdAt'
   };
@@ -17572,12 +19847,29 @@ export namespace Prisma {
   export type AgreementScalarFieldEnum = (typeof AgreementScalarFieldEnum)[keyof typeof AgreementScalarFieldEnum]
 
 
+  export const ServiceAgreementScalarFieldEnum: {
+    id: 'id',
+    serviceId: 'serviceId',
+    agreementId: 'agreementId'
+  };
+
+  export type ServiceAgreementScalarFieldEnum = (typeof ServiceAgreementScalarFieldEnum)[keyof typeof ServiceAgreementScalarFieldEnum]
+
+
+  export const ComboPlanAgreementScalarFieldEnum: {
+    id: 'id',
+    comboPlanId: 'comboPlanId',
+    agreementId: 'agreementId'
+  };
+
+  export type ComboPlanAgreementScalarFieldEnum = (typeof ComboPlanAgreementScalarFieldEnum)[keyof typeof ComboPlanAgreementScalarFieldEnum]
+
+
   export const ComboPlanScalarFieldEnum: {
     id: 'id',
     name: 'name',
     description: 'description',
     price: 'price',
-    agreementId: 'agreementId',
     tenureDiscounts: 'tenureDiscounts',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -17614,8 +19906,7 @@ export namespace Prisma {
     active: 'active',
     type: 'type',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    agreementId: 'agreementId'
+    updatedAt: 'updatedAt'
   };
 
   export type ServiceScalarFieldEnum = (typeof ServiceScalarFieldEnum)[keyof typeof ServiceScalarFieldEnum]
@@ -18244,6 +20535,7 @@ export namespace Prisma {
     planDays?: IntFilter<"UserPurchasedServices"> | number
     planDiscount?: FloatFilter<"UserPurchasedServices"> | number
     agreementAcceptedAt?: DateTimeNullableFilter<"UserPurchasedServices"> | Date | string | null
+    agreementData?: JsonNullableFilter<"UserPurchasedServices">
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
   }
@@ -18257,6 +20549,7 @@ export namespace Prisma {
     planDays?: SortOrder
     planDiscount?: SortOrder
     agreementAcceptedAt?: SortOrderInput | SortOrder
+    agreementData?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
     service?: ServiceOrderByWithRelationInput
   }
@@ -18273,6 +20566,7 @@ export namespace Prisma {
     planDays?: IntFilter<"UserPurchasedServices"> | number
     planDiscount?: FloatFilter<"UserPurchasedServices"> | number
     agreementAcceptedAt?: DateTimeNullableFilter<"UserPurchasedServices"> | Date | string | null
+    agreementData?: JsonNullableFilter<"UserPurchasedServices">
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
   }, "id">
@@ -18286,6 +20580,7 @@ export namespace Prisma {
     planDays?: SortOrder
     planDiscount?: SortOrder
     agreementAcceptedAt?: SortOrderInput | SortOrder
+    agreementData?: SortOrderInput | SortOrder
     _count?: UserPurchasedServicesCountOrderByAggregateInput
     _avg?: UserPurchasedServicesAvgOrderByAggregateInput
     _max?: UserPurchasedServicesMaxOrderByAggregateInput
@@ -18305,6 +20600,7 @@ export namespace Prisma {
     planDays?: IntWithAggregatesFilter<"UserPurchasedServices"> | number
     planDiscount?: FloatWithAggregatesFilter<"UserPurchasedServices"> | number
     agreementAcceptedAt?: DateTimeNullableWithAggregatesFilter<"UserPurchasedServices"> | Date | string | null
+    agreementData?: JsonNullableWithAggregatesFilter<"UserPurchasedServices">
   }
 
   export type CouponWhereInput = {
@@ -18317,7 +20613,7 @@ export namespace Prisma {
     percentOff?: FloatFilter<"Coupon"> | number
     isActive?: BoolFilter<"Coupon"> | boolean
     expiryDate?: DateTimeFilter<"Coupon"> | Date | string
-    minAmount?: FloatNullableFilter<"Coupon"> | number | null
+    minAmount?: FloatFilter<"Coupon"> | number
     maxAmount?: FloatNullableFilter<"Coupon"> | number | null
     createdAt?: DateTimeFilter<"Coupon"> | Date | string
     updatedAt?: DateTimeFilter<"Coupon"> | Date | string
@@ -18330,7 +20626,7 @@ export namespace Prisma {
     percentOff?: SortOrder
     isActive?: SortOrder
     expiryDate?: SortOrder
-    minAmount?: SortOrderInput | SortOrder
+    minAmount?: SortOrder
     maxAmount?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -18346,7 +20642,7 @@ export namespace Prisma {
     percentOff?: FloatFilter<"Coupon"> | number
     isActive?: BoolFilter<"Coupon"> | boolean
     expiryDate?: DateTimeFilter<"Coupon"> | Date | string
-    minAmount?: FloatNullableFilter<"Coupon"> | number | null
+    minAmount?: FloatFilter<"Coupon"> | number
     maxAmount?: FloatNullableFilter<"Coupon"> | number | null
     createdAt?: DateTimeFilter<"Coupon"> | Date | string
     updatedAt?: DateTimeFilter<"Coupon"> | Date | string
@@ -18359,7 +20655,7 @@ export namespace Prisma {
     percentOff?: SortOrder
     isActive?: SortOrder
     expiryDate?: SortOrder
-    minAmount?: SortOrderInput | SortOrder
+    minAmount?: SortOrder
     maxAmount?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -18380,7 +20676,7 @@ export namespace Prisma {
     percentOff?: FloatWithAggregatesFilter<"Coupon"> | number
     isActive?: BoolWithAggregatesFilter<"Coupon"> | boolean
     expiryDate?: DateTimeWithAggregatesFilter<"Coupon"> | Date | string
-    minAmount?: FloatNullableWithAggregatesFilter<"Coupon"> | number | null
+    minAmount?: FloatWithAggregatesFilter<"Coupon"> | number
     maxAmount?: FloatNullableWithAggregatesFilter<"Coupon"> | number | null
     createdAt?: DateTimeWithAggregatesFilter<"Coupon"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Coupon"> | Date | string
@@ -18569,20 +20865,24 @@ export namespace Prisma {
     id?: StringFilter<"Agreement"> | string
     name?: StringFilter<"Agreement"> | string
     content?: JsonFilter<"Agreement">
+    signatoryPerson?: StringNullableFilter<"Agreement"> | string | null
+    companyName?: StringNullableFilter<"Agreement"> | string | null
     updatedAt?: DateTimeFilter<"Agreement"> | Date | string
     createdAt?: DateTimeFilter<"Agreement"> | Date | string
-    services?: ServiceListRelationFilter
-    ComboPlan?: ComboPlanListRelationFilter
+    serviceAgreements?: ServiceAgreementListRelationFilter
+    comboPlanAgreements?: ComboPlanAgreementListRelationFilter
   }
 
   export type AgreementOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
     content?: SortOrder
+    signatoryPerson?: SortOrderInput | SortOrder
+    companyName?: SortOrderInput | SortOrder
     updatedAt?: SortOrder
     createdAt?: SortOrder
-    services?: ServiceOrderByRelationAggregateInput
-    ComboPlan?: ComboPlanOrderByRelationAggregateInput
+    serviceAgreements?: ServiceAgreementOrderByRelationAggregateInput
+    comboPlanAgreements?: ComboPlanAgreementOrderByRelationAggregateInput
   }
 
   export type AgreementWhereUniqueInput = Prisma.AtLeast<{
@@ -18592,16 +20892,20 @@ export namespace Prisma {
     NOT?: AgreementWhereInput | AgreementWhereInput[]
     name?: StringFilter<"Agreement"> | string
     content?: JsonFilter<"Agreement">
+    signatoryPerson?: StringNullableFilter<"Agreement"> | string | null
+    companyName?: StringNullableFilter<"Agreement"> | string | null
     updatedAt?: DateTimeFilter<"Agreement"> | Date | string
     createdAt?: DateTimeFilter<"Agreement"> | Date | string
-    services?: ServiceListRelationFilter
-    ComboPlan?: ComboPlanListRelationFilter
+    serviceAgreements?: ServiceAgreementListRelationFilter
+    comboPlanAgreements?: ComboPlanAgreementListRelationFilter
   }, "id">
 
   export type AgreementOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
     content?: SortOrder
+    signatoryPerson?: SortOrderInput | SortOrder
+    companyName?: SortOrderInput | SortOrder
     updatedAt?: SortOrder
     createdAt?: SortOrder
     _count?: AgreementCountOrderByAggregateInput
@@ -18616,8 +20920,106 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Agreement"> | string
     name?: StringWithAggregatesFilter<"Agreement"> | string
     content?: JsonWithAggregatesFilter<"Agreement">
+    signatoryPerson?: StringNullableWithAggregatesFilter<"Agreement"> | string | null
+    companyName?: StringNullableWithAggregatesFilter<"Agreement"> | string | null
     updatedAt?: DateTimeWithAggregatesFilter<"Agreement"> | Date | string
     createdAt?: DateTimeWithAggregatesFilter<"Agreement"> | Date | string
+  }
+
+  export type ServiceAgreementWhereInput = {
+    AND?: ServiceAgreementWhereInput | ServiceAgreementWhereInput[]
+    OR?: ServiceAgreementWhereInput[]
+    NOT?: ServiceAgreementWhereInput | ServiceAgreementWhereInput[]
+    id?: StringFilter<"ServiceAgreement"> | string
+    serviceId?: StringFilter<"ServiceAgreement"> | string
+    agreementId?: StringFilter<"ServiceAgreement"> | string
+    service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
+    agreement?: XOR<AgreementScalarRelationFilter, AgreementWhereInput>
+  }
+
+  export type ServiceAgreementOrderByWithRelationInput = {
+    id?: SortOrder
+    serviceId?: SortOrder
+    agreementId?: SortOrder
+    service?: ServiceOrderByWithRelationInput
+    agreement?: AgreementOrderByWithRelationInput
+  }
+
+  export type ServiceAgreementWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ServiceAgreementWhereInput | ServiceAgreementWhereInput[]
+    OR?: ServiceAgreementWhereInput[]
+    NOT?: ServiceAgreementWhereInput | ServiceAgreementWhereInput[]
+    serviceId?: StringFilter<"ServiceAgreement"> | string
+    agreementId?: StringFilter<"ServiceAgreement"> | string
+    service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
+    agreement?: XOR<AgreementScalarRelationFilter, AgreementWhereInput>
+  }, "id">
+
+  export type ServiceAgreementOrderByWithAggregationInput = {
+    id?: SortOrder
+    serviceId?: SortOrder
+    agreementId?: SortOrder
+    _count?: ServiceAgreementCountOrderByAggregateInput
+    _max?: ServiceAgreementMaxOrderByAggregateInput
+    _min?: ServiceAgreementMinOrderByAggregateInput
+  }
+
+  export type ServiceAgreementScalarWhereWithAggregatesInput = {
+    AND?: ServiceAgreementScalarWhereWithAggregatesInput | ServiceAgreementScalarWhereWithAggregatesInput[]
+    OR?: ServiceAgreementScalarWhereWithAggregatesInput[]
+    NOT?: ServiceAgreementScalarWhereWithAggregatesInput | ServiceAgreementScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ServiceAgreement"> | string
+    serviceId?: StringWithAggregatesFilter<"ServiceAgreement"> | string
+    agreementId?: StringWithAggregatesFilter<"ServiceAgreement"> | string
+  }
+
+  export type ComboPlanAgreementWhereInput = {
+    AND?: ComboPlanAgreementWhereInput | ComboPlanAgreementWhereInput[]
+    OR?: ComboPlanAgreementWhereInput[]
+    NOT?: ComboPlanAgreementWhereInput | ComboPlanAgreementWhereInput[]
+    id?: StringFilter<"ComboPlanAgreement"> | string
+    comboPlanId?: StringFilter<"ComboPlanAgreement"> | string
+    agreementId?: StringFilter<"ComboPlanAgreement"> | string
+    comboPlan?: XOR<ComboPlanScalarRelationFilter, ComboPlanWhereInput>
+    agreement?: XOR<AgreementScalarRelationFilter, AgreementWhereInput>
+  }
+
+  export type ComboPlanAgreementOrderByWithRelationInput = {
+    id?: SortOrder
+    comboPlanId?: SortOrder
+    agreementId?: SortOrder
+    comboPlan?: ComboPlanOrderByWithRelationInput
+    agreement?: AgreementOrderByWithRelationInput
+  }
+
+  export type ComboPlanAgreementWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ComboPlanAgreementWhereInput | ComboPlanAgreementWhereInput[]
+    OR?: ComboPlanAgreementWhereInput[]
+    NOT?: ComboPlanAgreementWhereInput | ComboPlanAgreementWhereInput[]
+    comboPlanId?: StringFilter<"ComboPlanAgreement"> | string
+    agreementId?: StringFilter<"ComboPlanAgreement"> | string
+    comboPlan?: XOR<ComboPlanScalarRelationFilter, ComboPlanWhereInput>
+    agreement?: XOR<AgreementScalarRelationFilter, AgreementWhereInput>
+  }, "id">
+
+  export type ComboPlanAgreementOrderByWithAggregationInput = {
+    id?: SortOrder
+    comboPlanId?: SortOrder
+    agreementId?: SortOrder
+    _count?: ComboPlanAgreementCountOrderByAggregateInput
+    _max?: ComboPlanAgreementMaxOrderByAggregateInput
+    _min?: ComboPlanAgreementMinOrderByAggregateInput
+  }
+
+  export type ComboPlanAgreementScalarWhereWithAggregatesInput = {
+    AND?: ComboPlanAgreementScalarWhereWithAggregatesInput | ComboPlanAgreementScalarWhereWithAggregatesInput[]
+    OR?: ComboPlanAgreementScalarWhereWithAggregatesInput[]
+    NOT?: ComboPlanAgreementScalarWhereWithAggregatesInput | ComboPlanAgreementScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ComboPlanAgreement"> | string
+    comboPlanId?: StringWithAggregatesFilter<"ComboPlanAgreement"> | string
+    agreementId?: StringWithAggregatesFilter<"ComboPlanAgreement"> | string
   }
 
   export type ComboPlanWhereInput = {
@@ -18628,12 +21030,11 @@ export namespace Prisma {
     name?: StringFilter<"ComboPlan"> | string
     description?: StringNullableFilter<"ComboPlan"> | string | null
     price?: FloatFilter<"ComboPlan"> | number
-    agreementId?: StringNullableFilter<"ComboPlan"> | string | null
     tenureDiscounts?: JsonFilter<"ComboPlan">
     createdAt?: DateTimeFilter<"ComboPlan"> | Date | string
     updatedAt?: DateTimeFilter<"ComboPlan"> | Date | string
+    agreement?: ComboPlanAgreementListRelationFilter
     services?: ComboPlanServiceListRelationFilter
-    agreement?: XOR<AgreementNullableScalarRelationFilter, AgreementWhereInput> | null
     Transaction?: TransactionListRelationFilter
   }
 
@@ -18642,12 +21043,11 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrderInput | SortOrder
     price?: SortOrder
-    agreementId?: SortOrderInput | SortOrder
     tenureDiscounts?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    agreement?: ComboPlanAgreementOrderByRelationAggregateInput
     services?: ComboPlanServiceOrderByRelationAggregateInput
-    agreement?: AgreementOrderByWithRelationInput
     Transaction?: TransactionOrderByRelationAggregateInput
   }
 
@@ -18659,12 +21059,11 @@ export namespace Prisma {
     name?: StringFilter<"ComboPlan"> | string
     description?: StringNullableFilter<"ComboPlan"> | string | null
     price?: FloatFilter<"ComboPlan"> | number
-    agreementId?: StringNullableFilter<"ComboPlan"> | string | null
     tenureDiscounts?: JsonFilter<"ComboPlan">
     createdAt?: DateTimeFilter<"ComboPlan"> | Date | string
     updatedAt?: DateTimeFilter<"ComboPlan"> | Date | string
+    agreement?: ComboPlanAgreementListRelationFilter
     services?: ComboPlanServiceListRelationFilter
-    agreement?: XOR<AgreementNullableScalarRelationFilter, AgreementWhereInput> | null
     Transaction?: TransactionListRelationFilter
   }, "id">
 
@@ -18673,7 +21072,6 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrderInput | SortOrder
     price?: SortOrder
-    agreementId?: SortOrderInput | SortOrder
     tenureDiscounts?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -18692,7 +21090,6 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"ComboPlan"> | string
     description?: StringNullableWithAggregatesFilter<"ComboPlan"> | string | null
     price?: FloatWithAggregatesFilter<"ComboPlan"> | number
-    agreementId?: StringNullableWithAggregatesFilter<"ComboPlan"> | string | null
     tenureDiscounts?: JsonWithAggregatesFilter<"ComboPlan">
     createdAt?: DateTimeWithAggregatesFilter<"ComboPlan"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ComboPlan"> | Date | string
@@ -18769,12 +21166,11 @@ export namespace Prisma {
     type?: EnumServiceTypeFilter<"Service"> | $Enums.ServiceType
     createdAt?: DateTimeFilter<"Service"> | Date | string
     updatedAt?: DateTimeFilter<"Service"> | Date | string
-    agreementId?: StringNullableFilter<"Service"> | string | null
+    agreements?: ServiceAgreementListRelationFilter
     serviceTrading?: XOR<ServiceTradingNullableScalarRelationFilter, ServiceTradingWhereInput> | null
     purchasedServices?: UserPurchasedServicesListRelationFilter
     userDocuments?: UserDocumentsListRelationFilter
     Transaction?: TransactionListRelationFilter
-    agreement?: XOR<AgreementNullableScalarRelationFilter, AgreementWhereInput> | null
     ComboPlanService?: ComboPlanServiceListRelationFilter
   }
 
@@ -18798,12 +21194,11 @@ export namespace Prisma {
     type?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    agreementId?: SortOrderInput | SortOrder
+    agreements?: ServiceAgreementOrderByRelationAggregateInput
     serviceTrading?: ServiceTradingOrderByWithRelationInput
     purchasedServices?: UserPurchasedServicesOrderByRelationAggregateInput
     userDocuments?: UserDocumentsOrderByRelationAggregateInput
     Transaction?: TransactionOrderByRelationAggregateInput
-    agreement?: AgreementOrderByWithRelationInput
     ComboPlanService?: ComboPlanServiceOrderByRelationAggregateInput
   }
 
@@ -18830,12 +21225,11 @@ export namespace Prisma {
     type?: EnumServiceTypeFilter<"Service"> | $Enums.ServiceType
     createdAt?: DateTimeFilter<"Service"> | Date | string
     updatedAt?: DateTimeFilter<"Service"> | Date | string
-    agreementId?: StringNullableFilter<"Service"> | string | null
+    agreements?: ServiceAgreementListRelationFilter
     serviceTrading?: XOR<ServiceTradingNullableScalarRelationFilter, ServiceTradingWhereInput> | null
     purchasedServices?: UserPurchasedServicesListRelationFilter
     userDocuments?: UserDocumentsListRelationFilter
     Transaction?: TransactionListRelationFilter
-    agreement?: XOR<AgreementNullableScalarRelationFilter, AgreementWhereInput> | null
     ComboPlanService?: ComboPlanServiceListRelationFilter
   }, "id" | "slug">
 
@@ -18859,7 +21253,6 @@ export namespace Prisma {
     type?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    agreementId?: SortOrderInput | SortOrder
     _count?: ServiceCountOrderByAggregateInput
     _avg?: ServiceAvgOrderByAggregateInput
     _max?: ServiceMaxOrderByAggregateInput
@@ -18890,7 +21283,6 @@ export namespace Prisma {
     type?: EnumServiceTypeWithAggregatesFilter<"Service"> | $Enums.ServiceType
     createdAt?: DateTimeWithAggregatesFilter<"Service"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Service"> | Date | string
-    agreementId?: StringNullableWithAggregatesFilter<"Service"> | string | null
   }
 
   export type ServiceTradingWhereInput = {
@@ -19407,6 +21799,7 @@ export namespace Prisma {
     planDays: number
     planDiscount: number
     agreementAcceptedAt?: Date | string | null
+    agreementData?: NullableJsonNullValueInput | InputJsonValue
     user: UserCreateNestedOneWithoutPurchasedServicesInput
     service: ServiceCreateNestedOneWithoutPurchasedServicesInput
   }
@@ -19420,6 +21813,7 @@ export namespace Prisma {
     planDays: number
     planDiscount: number
     agreementAcceptedAt?: Date | string | null
+    agreementData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserPurchasedServicesUpdateInput = {
@@ -19429,6 +21823,7 @@ export namespace Prisma {
     planDays?: IntFieldUpdateOperationsInput | number
     planDiscount?: FloatFieldUpdateOperationsInput | number
     agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementData?: NullableJsonNullValueInput | InputJsonValue
     user?: UserUpdateOneRequiredWithoutPurchasedServicesNestedInput
     service?: ServiceUpdateOneRequiredWithoutPurchasedServicesNestedInput
   }
@@ -19442,6 +21837,7 @@ export namespace Prisma {
     planDays?: IntFieldUpdateOperationsInput | number
     planDiscount?: FloatFieldUpdateOperationsInput | number
     agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserPurchasedServicesCreateManyInput = {
@@ -19453,6 +21849,7 @@ export namespace Prisma {
     planDays: number
     planDiscount: number
     agreementAcceptedAt?: Date | string | null
+    agreementData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserPurchasedServicesUpdateManyMutationInput = {
@@ -19462,6 +21859,7 @@ export namespace Prisma {
     planDays?: IntFieldUpdateOperationsInput | number
     planDiscount?: FloatFieldUpdateOperationsInput | number
     agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserPurchasedServicesUncheckedUpdateManyInput = {
@@ -19473,6 +21871,7 @@ export namespace Prisma {
     planDays?: IntFieldUpdateOperationsInput | number
     planDiscount?: FloatFieldUpdateOperationsInput | number
     agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type CouponCreateInput = {
@@ -19482,7 +21881,7 @@ export namespace Prisma {
     percentOff: number
     isActive?: boolean
     expiryDate: Date | string
-    minAmount?: number | null
+    minAmount?: number
     maxAmount?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -19495,7 +21894,7 @@ export namespace Prisma {
     percentOff: number
     isActive?: boolean
     expiryDate: Date | string
-    minAmount?: number | null
+    minAmount?: number
     maxAmount?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -19508,7 +21907,7 @@ export namespace Prisma {
     percentOff?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    minAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    minAmount?: FloatFieldUpdateOperationsInput | number
     maxAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19521,7 +21920,7 @@ export namespace Prisma {
     percentOff?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    minAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    minAmount?: FloatFieldUpdateOperationsInput | number
     maxAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19534,7 +21933,7 @@ export namespace Prisma {
     percentOff: number
     isActive?: boolean
     expiryDate: Date | string
-    minAmount?: number | null
+    minAmount?: number
     maxAmount?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -19547,7 +21946,7 @@ export namespace Prisma {
     percentOff?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    minAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    minAmount?: FloatFieldUpdateOperationsInput | number
     maxAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19560,7 +21959,7 @@ export namespace Prisma {
     percentOff?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    minAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    minAmount?: FloatFieldUpdateOperationsInput | number
     maxAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19754,46 +22153,56 @@ export namespace Prisma {
     id?: string
     name: string
     content: JsonNullValueInput | InputJsonValue
+    signatoryPerson?: string | null
+    companyName?: string | null
     updatedAt?: Date | string
     createdAt?: Date | string
-    services?: ServiceCreateNestedManyWithoutAgreementInput
-    ComboPlan?: ComboPlanCreateNestedManyWithoutAgreementInput
+    serviceAgreements?: ServiceAgreementCreateNestedManyWithoutAgreementInput
+    comboPlanAgreements?: ComboPlanAgreementCreateNestedManyWithoutAgreementInput
   }
 
   export type AgreementUncheckedCreateInput = {
     id?: string
     name: string
     content: JsonNullValueInput | InputJsonValue
+    signatoryPerson?: string | null
+    companyName?: string | null
     updatedAt?: Date | string
     createdAt?: Date | string
-    services?: ServiceUncheckedCreateNestedManyWithoutAgreementInput
-    ComboPlan?: ComboPlanUncheckedCreateNestedManyWithoutAgreementInput
+    serviceAgreements?: ServiceAgreementUncheckedCreateNestedManyWithoutAgreementInput
+    comboPlanAgreements?: ComboPlanAgreementUncheckedCreateNestedManyWithoutAgreementInput
   }
 
   export type AgreementUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
+    signatoryPerson?: NullableStringFieldUpdateOperationsInput | string | null
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    services?: ServiceUpdateManyWithoutAgreementNestedInput
-    ComboPlan?: ComboPlanUpdateManyWithoutAgreementNestedInput
+    serviceAgreements?: ServiceAgreementUpdateManyWithoutAgreementNestedInput
+    comboPlanAgreements?: ComboPlanAgreementUpdateManyWithoutAgreementNestedInput
   }
 
   export type AgreementUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
+    signatoryPerson?: NullableStringFieldUpdateOperationsInput | string | null
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    services?: ServiceUncheckedUpdateManyWithoutAgreementNestedInput
-    ComboPlan?: ComboPlanUncheckedUpdateManyWithoutAgreementNestedInput
+    serviceAgreements?: ServiceAgreementUncheckedUpdateManyWithoutAgreementNestedInput
+    comboPlanAgreements?: ComboPlanAgreementUncheckedUpdateManyWithoutAgreementNestedInput
   }
 
   export type AgreementCreateManyInput = {
     id?: string
     name: string
     content: JsonNullValueInput | InputJsonValue
+    signatoryPerson?: string | null
+    companyName?: string | null
     updatedAt?: Date | string
     createdAt?: Date | string
   }
@@ -19802,6 +22211,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
+    signatoryPerson?: NullableStringFieldUpdateOperationsInput | string | null
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19810,8 +22221,90 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
+    signatoryPerson?: NullableStringFieldUpdateOperationsInput | string | null
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceAgreementCreateInput = {
+    id?: string
+    service: ServiceCreateNestedOneWithoutAgreementsInput
+    agreement: AgreementCreateNestedOneWithoutServiceAgreementsInput
+  }
+
+  export type ServiceAgreementUncheckedCreateInput = {
+    id?: string
+    serviceId: string
+    agreementId: string
+  }
+
+  export type ServiceAgreementUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    service?: ServiceUpdateOneRequiredWithoutAgreementsNestedInput
+    agreement?: AgreementUpdateOneRequiredWithoutServiceAgreementsNestedInput
+  }
+
+  export type ServiceAgreementUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    serviceId?: StringFieldUpdateOperationsInput | string
+    agreementId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ServiceAgreementCreateManyInput = {
+    id?: string
+    serviceId: string
+    agreementId: string
+  }
+
+  export type ServiceAgreementUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ServiceAgreementUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    serviceId?: StringFieldUpdateOperationsInput | string
+    agreementId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ComboPlanAgreementCreateInput = {
+    id?: string
+    comboPlan: ComboPlanCreateNestedOneWithoutAgreementInput
+    agreement: AgreementCreateNestedOneWithoutComboPlanAgreementsInput
+  }
+
+  export type ComboPlanAgreementUncheckedCreateInput = {
+    id?: string
+    comboPlanId: string
+    agreementId: string
+  }
+
+  export type ComboPlanAgreementUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    comboPlan?: ComboPlanUpdateOneRequiredWithoutAgreementNestedInput
+    agreement?: AgreementUpdateOneRequiredWithoutComboPlanAgreementsNestedInput
+  }
+
+  export type ComboPlanAgreementUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    comboPlanId?: StringFieldUpdateOperationsInput | string
+    agreementId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ComboPlanAgreementCreateManyInput = {
+    id?: string
+    comboPlanId: string
+    agreementId: string
+  }
+
+  export type ComboPlanAgreementUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ComboPlanAgreementUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    comboPlanId?: StringFieldUpdateOperationsInput | string
+    agreementId?: StringFieldUpdateOperationsInput | string
   }
 
   export type ComboPlanCreateInput = {
@@ -19822,8 +22315,8 @@ export namespace Prisma {
     tenureDiscounts: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
+    agreement?: ComboPlanAgreementCreateNestedManyWithoutComboPlanInput
     services?: ComboPlanServiceCreateNestedManyWithoutComboPlanInput
-    agreement?: AgreementCreateNestedOneWithoutComboPlanInput
     Transaction?: TransactionCreateNestedManyWithoutComboPlanInput
   }
 
@@ -19832,10 +22325,10 @@ export namespace Prisma {
     name: string
     description?: string | null
     price: number
-    agreementId?: string | null
     tenureDiscounts: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
+    agreement?: ComboPlanAgreementUncheckedCreateNestedManyWithoutComboPlanInput
     services?: ComboPlanServiceUncheckedCreateNestedManyWithoutComboPlanInput
     Transaction?: TransactionUncheckedCreateNestedManyWithoutComboPlanInput
   }
@@ -19848,8 +22341,8 @@ export namespace Prisma {
     tenureDiscounts?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agreement?: ComboPlanAgreementUpdateManyWithoutComboPlanNestedInput
     services?: ComboPlanServiceUpdateManyWithoutComboPlanNestedInput
-    agreement?: AgreementUpdateOneWithoutComboPlanNestedInput
     Transaction?: TransactionUpdateManyWithoutComboPlanNestedInput
   }
 
@@ -19858,10 +22351,10 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
-    agreementId?: NullableStringFieldUpdateOperationsInput | string | null
     tenureDiscounts?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agreement?: ComboPlanAgreementUncheckedUpdateManyWithoutComboPlanNestedInput
     services?: ComboPlanServiceUncheckedUpdateManyWithoutComboPlanNestedInput
     Transaction?: TransactionUncheckedUpdateManyWithoutComboPlanNestedInput
   }
@@ -19871,7 +22364,6 @@ export namespace Prisma {
     name: string
     description?: string | null
     price: number
-    agreementId?: string | null
     tenureDiscounts: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -19892,7 +22384,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
-    agreementId?: NullableStringFieldUpdateOperationsInput | string | null
     tenureDiscounts?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19958,11 +22449,11 @@ export namespace Prisma {
     type: $Enums.ServiceType
     createdAt?: Date | string
     updatedAt?: Date | string
+    agreements?: ServiceAgreementCreateNestedManyWithoutServiceInput
     serviceTrading?: ServiceTradingCreateNestedOneWithoutServiceInput
     purchasedServices?: UserPurchasedServicesCreateNestedManyWithoutServiceInput
     userDocuments?: UserDocumentsCreateNestedManyWithoutServiceInput
     Transaction?: TransactionCreateNestedManyWithoutServiceInput
-    agreement?: AgreementCreateNestedOneWithoutServicesInput
     ComboPlanService?: ComboPlanServiceCreateNestedManyWithoutServiceInput
   }
 
@@ -19986,7 +22477,7 @@ export namespace Prisma {
     type: $Enums.ServiceType
     createdAt?: Date | string
     updatedAt?: Date | string
-    agreementId?: string | null
+    agreements?: ServiceAgreementUncheckedCreateNestedManyWithoutServiceInput
     serviceTrading?: ServiceTradingUncheckedCreateNestedOneWithoutServiceInput
     purchasedServices?: UserPurchasedServicesUncheckedCreateNestedManyWithoutServiceInput
     userDocuments?: UserDocumentsUncheckedCreateNestedManyWithoutServiceInput
@@ -20014,11 +22505,11 @@ export namespace Prisma {
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agreements?: ServiceAgreementUpdateManyWithoutServiceNestedInput
     serviceTrading?: ServiceTradingUpdateOneWithoutServiceNestedInput
     purchasedServices?: UserPurchasedServicesUpdateManyWithoutServiceNestedInput
     userDocuments?: UserDocumentsUpdateManyWithoutServiceNestedInput
     Transaction?: TransactionUpdateManyWithoutServiceNestedInput
-    agreement?: AgreementUpdateOneWithoutServicesNestedInput
     ComboPlanService?: ComboPlanServiceUpdateManyWithoutServiceNestedInput
   }
 
@@ -20042,7 +22533,7 @@ export namespace Prisma {
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    agreementId?: NullableStringFieldUpdateOperationsInput | string | null
+    agreements?: ServiceAgreementUncheckedUpdateManyWithoutServiceNestedInput
     serviceTrading?: ServiceTradingUncheckedUpdateOneWithoutServiceNestedInput
     purchasedServices?: UserPurchasedServicesUncheckedUpdateManyWithoutServiceNestedInput
     userDocuments?: UserDocumentsUncheckedUpdateManyWithoutServiceNestedInput
@@ -20070,7 +22561,6 @@ export namespace Prisma {
     type: $Enums.ServiceType
     createdAt?: Date | string
     updatedAt?: Date | string
-    agreementId?: string | null
   }
 
   export type ServiceUpdateManyMutationInput = {
@@ -20115,7 +22605,6 @@ export namespace Prisma {
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    agreementId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ServiceTradingCreateInput = {
@@ -20713,6 +23202,29 @@ export namespace Prisma {
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
   }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type ServiceScalarRelationFilter = {
     is?: ServiceWhereInput
@@ -20728,6 +23240,7 @@ export namespace Prisma {
     planDays?: SortOrder
     planDiscount?: SortOrder
     agreementAcceptedAt?: SortOrder
+    agreementData?: SortOrder
   }
 
   export type UserPurchasedServicesAvgOrderByAggregateInput = {
@@ -20792,6 +23305,32 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type FloatNullableFilter<$PrismaModel = never> = {
@@ -21005,23 +23544,23 @@ export namespace Prisma {
     _max?: NestedEnumDocumentStatusFilter<$PrismaModel>
   }
 
-  export type ServiceListRelationFilter = {
-    every?: ServiceWhereInput
-    some?: ServiceWhereInput
-    none?: ServiceWhereInput
+  export type ServiceAgreementListRelationFilter = {
+    every?: ServiceAgreementWhereInput
+    some?: ServiceAgreementWhereInput
+    none?: ServiceAgreementWhereInput
   }
 
-  export type ComboPlanListRelationFilter = {
-    every?: ComboPlanWhereInput
-    some?: ComboPlanWhereInput
-    none?: ComboPlanWhereInput
+  export type ComboPlanAgreementListRelationFilter = {
+    every?: ComboPlanAgreementWhereInput
+    some?: ComboPlanAgreementWhereInput
+    none?: ComboPlanAgreementWhereInput
   }
 
-  export type ServiceOrderByRelationAggregateInput = {
+  export type ServiceAgreementOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type ComboPlanOrderByRelationAggregateInput = {
+  export type ComboPlanAgreementOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -21029,6 +23568,8 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     content?: SortOrder
+    signatoryPerson?: SortOrder
+    companyName?: SortOrder
     updatedAt?: SortOrder
     createdAt?: SortOrder
   }
@@ -21036,6 +23577,8 @@ export namespace Prisma {
   export type AgreementMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    signatoryPerson?: SortOrder
+    companyName?: SortOrder
     updatedAt?: SortOrder
     createdAt?: SortOrder
   }
@@ -21043,19 +23586,62 @@ export namespace Prisma {
   export type AgreementMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    signatoryPerson?: SortOrder
+    companyName?: SortOrder
     updatedAt?: SortOrder
     createdAt?: SortOrder
+  }
+
+  export type AgreementScalarRelationFilter = {
+    is?: AgreementWhereInput
+    isNot?: AgreementWhereInput
+  }
+
+  export type ServiceAgreementCountOrderByAggregateInput = {
+    id?: SortOrder
+    serviceId?: SortOrder
+    agreementId?: SortOrder
+  }
+
+  export type ServiceAgreementMaxOrderByAggregateInput = {
+    id?: SortOrder
+    serviceId?: SortOrder
+    agreementId?: SortOrder
+  }
+
+  export type ServiceAgreementMinOrderByAggregateInput = {
+    id?: SortOrder
+    serviceId?: SortOrder
+    agreementId?: SortOrder
+  }
+
+  export type ComboPlanScalarRelationFilter = {
+    is?: ComboPlanWhereInput
+    isNot?: ComboPlanWhereInput
+  }
+
+  export type ComboPlanAgreementCountOrderByAggregateInput = {
+    id?: SortOrder
+    comboPlanId?: SortOrder
+    agreementId?: SortOrder
+  }
+
+  export type ComboPlanAgreementMaxOrderByAggregateInput = {
+    id?: SortOrder
+    comboPlanId?: SortOrder
+    agreementId?: SortOrder
+  }
+
+  export type ComboPlanAgreementMinOrderByAggregateInput = {
+    id?: SortOrder
+    comboPlanId?: SortOrder
+    agreementId?: SortOrder
   }
 
   export type ComboPlanServiceListRelationFilter = {
     every?: ComboPlanServiceWhereInput
     some?: ComboPlanServiceWhereInput
     none?: ComboPlanServiceWhereInput
-  }
-
-  export type AgreementNullableScalarRelationFilter = {
-    is?: AgreementWhereInput | null
-    isNot?: AgreementWhereInput | null
   }
 
   export type ComboPlanServiceOrderByRelationAggregateInput = {
@@ -21067,7 +23653,6 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrder
     price?: SortOrder
-    agreementId?: SortOrder
     tenureDiscounts?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -21082,7 +23667,6 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrder
     price?: SortOrder
-    agreementId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -21092,18 +23676,12 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrder
     price?: SortOrder
-    agreementId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type ComboPlanSumOrderByAggregateInput = {
     price?: SortOrder
-  }
-
-  export type ComboPlanScalarRelationFilter = {
-    is?: ComboPlanWhereInput
-    isNot?: ComboPlanWhereInput
   }
 
   export type ComboPlanServiceCountOrderByAggregateInput = {
@@ -21122,29 +23700,6 @@ export namespace Prisma {
     id?: SortOrder
     comboPlanId?: SortOrder
     serviceId?: SortOrder
-  }
-  export type JsonNullableFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type StringNullableListFilter<$PrismaModel = never> = {
@@ -21192,7 +23747,6 @@ export namespace Prisma {
     type?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    agreementId?: SortOrder
   }
 
   export type ServiceAvgOrderByAggregateInput = {
@@ -21214,7 +23768,6 @@ export namespace Prisma {
     type?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    agreementId?: SortOrder
   }
 
   export type ServiceMinOrderByAggregateInput = {
@@ -21232,37 +23785,10 @@ export namespace Prisma {
     type?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    agreementId?: SortOrder
   }
 
   export type ServiceSumOrderByAggregateInput = {
     taxPercent?: SortOrder
-  }
-  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedJsonNullableFilter<$PrismaModel>
-    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -21717,88 +24243,151 @@ export namespace Prisma {
     update?: XOR<XOR<ServiceUpdateToOneWithWhereWithoutUserDocumentsInput, ServiceUpdateWithoutUserDocumentsInput>, ServiceUncheckedUpdateWithoutUserDocumentsInput>
   }
 
-  export type ServiceCreateNestedManyWithoutAgreementInput = {
-    create?: XOR<ServiceCreateWithoutAgreementInput, ServiceUncheckedCreateWithoutAgreementInput> | ServiceCreateWithoutAgreementInput[] | ServiceUncheckedCreateWithoutAgreementInput[]
-    connectOrCreate?: ServiceCreateOrConnectWithoutAgreementInput | ServiceCreateOrConnectWithoutAgreementInput[]
-    createMany?: ServiceCreateManyAgreementInputEnvelope
-    connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
+  export type ServiceAgreementCreateNestedManyWithoutAgreementInput = {
+    create?: XOR<ServiceAgreementCreateWithoutAgreementInput, ServiceAgreementUncheckedCreateWithoutAgreementInput> | ServiceAgreementCreateWithoutAgreementInput[] | ServiceAgreementUncheckedCreateWithoutAgreementInput[]
+    connectOrCreate?: ServiceAgreementCreateOrConnectWithoutAgreementInput | ServiceAgreementCreateOrConnectWithoutAgreementInput[]
+    createMany?: ServiceAgreementCreateManyAgreementInputEnvelope
+    connect?: ServiceAgreementWhereUniqueInput | ServiceAgreementWhereUniqueInput[]
   }
 
-  export type ComboPlanCreateNestedManyWithoutAgreementInput = {
-    create?: XOR<ComboPlanCreateWithoutAgreementInput, ComboPlanUncheckedCreateWithoutAgreementInput> | ComboPlanCreateWithoutAgreementInput[] | ComboPlanUncheckedCreateWithoutAgreementInput[]
-    connectOrCreate?: ComboPlanCreateOrConnectWithoutAgreementInput | ComboPlanCreateOrConnectWithoutAgreementInput[]
-    createMany?: ComboPlanCreateManyAgreementInputEnvelope
-    connect?: ComboPlanWhereUniqueInput | ComboPlanWhereUniqueInput[]
+  export type ComboPlanAgreementCreateNestedManyWithoutAgreementInput = {
+    create?: XOR<ComboPlanAgreementCreateWithoutAgreementInput, ComboPlanAgreementUncheckedCreateWithoutAgreementInput> | ComboPlanAgreementCreateWithoutAgreementInput[] | ComboPlanAgreementUncheckedCreateWithoutAgreementInput[]
+    connectOrCreate?: ComboPlanAgreementCreateOrConnectWithoutAgreementInput | ComboPlanAgreementCreateOrConnectWithoutAgreementInput[]
+    createMany?: ComboPlanAgreementCreateManyAgreementInputEnvelope
+    connect?: ComboPlanAgreementWhereUniqueInput | ComboPlanAgreementWhereUniqueInput[]
   }
 
-  export type ServiceUncheckedCreateNestedManyWithoutAgreementInput = {
-    create?: XOR<ServiceCreateWithoutAgreementInput, ServiceUncheckedCreateWithoutAgreementInput> | ServiceCreateWithoutAgreementInput[] | ServiceUncheckedCreateWithoutAgreementInput[]
-    connectOrCreate?: ServiceCreateOrConnectWithoutAgreementInput | ServiceCreateOrConnectWithoutAgreementInput[]
-    createMany?: ServiceCreateManyAgreementInputEnvelope
-    connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
+  export type ServiceAgreementUncheckedCreateNestedManyWithoutAgreementInput = {
+    create?: XOR<ServiceAgreementCreateWithoutAgreementInput, ServiceAgreementUncheckedCreateWithoutAgreementInput> | ServiceAgreementCreateWithoutAgreementInput[] | ServiceAgreementUncheckedCreateWithoutAgreementInput[]
+    connectOrCreate?: ServiceAgreementCreateOrConnectWithoutAgreementInput | ServiceAgreementCreateOrConnectWithoutAgreementInput[]
+    createMany?: ServiceAgreementCreateManyAgreementInputEnvelope
+    connect?: ServiceAgreementWhereUniqueInput | ServiceAgreementWhereUniqueInput[]
   }
 
-  export type ComboPlanUncheckedCreateNestedManyWithoutAgreementInput = {
-    create?: XOR<ComboPlanCreateWithoutAgreementInput, ComboPlanUncheckedCreateWithoutAgreementInput> | ComboPlanCreateWithoutAgreementInput[] | ComboPlanUncheckedCreateWithoutAgreementInput[]
-    connectOrCreate?: ComboPlanCreateOrConnectWithoutAgreementInput | ComboPlanCreateOrConnectWithoutAgreementInput[]
-    createMany?: ComboPlanCreateManyAgreementInputEnvelope
-    connect?: ComboPlanWhereUniqueInput | ComboPlanWhereUniqueInput[]
+  export type ComboPlanAgreementUncheckedCreateNestedManyWithoutAgreementInput = {
+    create?: XOR<ComboPlanAgreementCreateWithoutAgreementInput, ComboPlanAgreementUncheckedCreateWithoutAgreementInput> | ComboPlanAgreementCreateWithoutAgreementInput[] | ComboPlanAgreementUncheckedCreateWithoutAgreementInput[]
+    connectOrCreate?: ComboPlanAgreementCreateOrConnectWithoutAgreementInput | ComboPlanAgreementCreateOrConnectWithoutAgreementInput[]
+    createMany?: ComboPlanAgreementCreateManyAgreementInputEnvelope
+    connect?: ComboPlanAgreementWhereUniqueInput | ComboPlanAgreementWhereUniqueInput[]
   }
 
-  export type ServiceUpdateManyWithoutAgreementNestedInput = {
-    create?: XOR<ServiceCreateWithoutAgreementInput, ServiceUncheckedCreateWithoutAgreementInput> | ServiceCreateWithoutAgreementInput[] | ServiceUncheckedCreateWithoutAgreementInput[]
-    connectOrCreate?: ServiceCreateOrConnectWithoutAgreementInput | ServiceCreateOrConnectWithoutAgreementInput[]
-    upsert?: ServiceUpsertWithWhereUniqueWithoutAgreementInput | ServiceUpsertWithWhereUniqueWithoutAgreementInput[]
-    createMany?: ServiceCreateManyAgreementInputEnvelope
-    set?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
-    disconnect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
-    delete?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
-    connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
-    update?: ServiceUpdateWithWhereUniqueWithoutAgreementInput | ServiceUpdateWithWhereUniqueWithoutAgreementInput[]
-    updateMany?: ServiceUpdateManyWithWhereWithoutAgreementInput | ServiceUpdateManyWithWhereWithoutAgreementInput[]
-    deleteMany?: ServiceScalarWhereInput | ServiceScalarWhereInput[]
+  export type ServiceAgreementUpdateManyWithoutAgreementNestedInput = {
+    create?: XOR<ServiceAgreementCreateWithoutAgreementInput, ServiceAgreementUncheckedCreateWithoutAgreementInput> | ServiceAgreementCreateWithoutAgreementInput[] | ServiceAgreementUncheckedCreateWithoutAgreementInput[]
+    connectOrCreate?: ServiceAgreementCreateOrConnectWithoutAgreementInput | ServiceAgreementCreateOrConnectWithoutAgreementInput[]
+    upsert?: ServiceAgreementUpsertWithWhereUniqueWithoutAgreementInput | ServiceAgreementUpsertWithWhereUniqueWithoutAgreementInput[]
+    createMany?: ServiceAgreementCreateManyAgreementInputEnvelope
+    set?: ServiceAgreementWhereUniqueInput | ServiceAgreementWhereUniqueInput[]
+    disconnect?: ServiceAgreementWhereUniqueInput | ServiceAgreementWhereUniqueInput[]
+    delete?: ServiceAgreementWhereUniqueInput | ServiceAgreementWhereUniqueInput[]
+    connect?: ServiceAgreementWhereUniqueInput | ServiceAgreementWhereUniqueInput[]
+    update?: ServiceAgreementUpdateWithWhereUniqueWithoutAgreementInput | ServiceAgreementUpdateWithWhereUniqueWithoutAgreementInput[]
+    updateMany?: ServiceAgreementUpdateManyWithWhereWithoutAgreementInput | ServiceAgreementUpdateManyWithWhereWithoutAgreementInput[]
+    deleteMany?: ServiceAgreementScalarWhereInput | ServiceAgreementScalarWhereInput[]
   }
 
-  export type ComboPlanUpdateManyWithoutAgreementNestedInput = {
-    create?: XOR<ComboPlanCreateWithoutAgreementInput, ComboPlanUncheckedCreateWithoutAgreementInput> | ComboPlanCreateWithoutAgreementInput[] | ComboPlanUncheckedCreateWithoutAgreementInput[]
-    connectOrCreate?: ComboPlanCreateOrConnectWithoutAgreementInput | ComboPlanCreateOrConnectWithoutAgreementInput[]
-    upsert?: ComboPlanUpsertWithWhereUniqueWithoutAgreementInput | ComboPlanUpsertWithWhereUniqueWithoutAgreementInput[]
-    createMany?: ComboPlanCreateManyAgreementInputEnvelope
-    set?: ComboPlanWhereUniqueInput | ComboPlanWhereUniqueInput[]
-    disconnect?: ComboPlanWhereUniqueInput | ComboPlanWhereUniqueInput[]
-    delete?: ComboPlanWhereUniqueInput | ComboPlanWhereUniqueInput[]
-    connect?: ComboPlanWhereUniqueInput | ComboPlanWhereUniqueInput[]
-    update?: ComboPlanUpdateWithWhereUniqueWithoutAgreementInput | ComboPlanUpdateWithWhereUniqueWithoutAgreementInput[]
-    updateMany?: ComboPlanUpdateManyWithWhereWithoutAgreementInput | ComboPlanUpdateManyWithWhereWithoutAgreementInput[]
-    deleteMany?: ComboPlanScalarWhereInput | ComboPlanScalarWhereInput[]
+  export type ComboPlanAgreementUpdateManyWithoutAgreementNestedInput = {
+    create?: XOR<ComboPlanAgreementCreateWithoutAgreementInput, ComboPlanAgreementUncheckedCreateWithoutAgreementInput> | ComboPlanAgreementCreateWithoutAgreementInput[] | ComboPlanAgreementUncheckedCreateWithoutAgreementInput[]
+    connectOrCreate?: ComboPlanAgreementCreateOrConnectWithoutAgreementInput | ComboPlanAgreementCreateOrConnectWithoutAgreementInput[]
+    upsert?: ComboPlanAgreementUpsertWithWhereUniqueWithoutAgreementInput | ComboPlanAgreementUpsertWithWhereUniqueWithoutAgreementInput[]
+    createMany?: ComboPlanAgreementCreateManyAgreementInputEnvelope
+    set?: ComboPlanAgreementWhereUniqueInput | ComboPlanAgreementWhereUniqueInput[]
+    disconnect?: ComboPlanAgreementWhereUniqueInput | ComboPlanAgreementWhereUniqueInput[]
+    delete?: ComboPlanAgreementWhereUniqueInput | ComboPlanAgreementWhereUniqueInput[]
+    connect?: ComboPlanAgreementWhereUniqueInput | ComboPlanAgreementWhereUniqueInput[]
+    update?: ComboPlanAgreementUpdateWithWhereUniqueWithoutAgreementInput | ComboPlanAgreementUpdateWithWhereUniqueWithoutAgreementInput[]
+    updateMany?: ComboPlanAgreementUpdateManyWithWhereWithoutAgreementInput | ComboPlanAgreementUpdateManyWithWhereWithoutAgreementInput[]
+    deleteMany?: ComboPlanAgreementScalarWhereInput | ComboPlanAgreementScalarWhereInput[]
   }
 
-  export type ServiceUncheckedUpdateManyWithoutAgreementNestedInput = {
-    create?: XOR<ServiceCreateWithoutAgreementInput, ServiceUncheckedCreateWithoutAgreementInput> | ServiceCreateWithoutAgreementInput[] | ServiceUncheckedCreateWithoutAgreementInput[]
-    connectOrCreate?: ServiceCreateOrConnectWithoutAgreementInput | ServiceCreateOrConnectWithoutAgreementInput[]
-    upsert?: ServiceUpsertWithWhereUniqueWithoutAgreementInput | ServiceUpsertWithWhereUniqueWithoutAgreementInput[]
-    createMany?: ServiceCreateManyAgreementInputEnvelope
-    set?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
-    disconnect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
-    delete?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
-    connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
-    update?: ServiceUpdateWithWhereUniqueWithoutAgreementInput | ServiceUpdateWithWhereUniqueWithoutAgreementInput[]
-    updateMany?: ServiceUpdateManyWithWhereWithoutAgreementInput | ServiceUpdateManyWithWhereWithoutAgreementInput[]
-    deleteMany?: ServiceScalarWhereInput | ServiceScalarWhereInput[]
+  export type ServiceAgreementUncheckedUpdateManyWithoutAgreementNestedInput = {
+    create?: XOR<ServiceAgreementCreateWithoutAgreementInput, ServiceAgreementUncheckedCreateWithoutAgreementInput> | ServiceAgreementCreateWithoutAgreementInput[] | ServiceAgreementUncheckedCreateWithoutAgreementInput[]
+    connectOrCreate?: ServiceAgreementCreateOrConnectWithoutAgreementInput | ServiceAgreementCreateOrConnectWithoutAgreementInput[]
+    upsert?: ServiceAgreementUpsertWithWhereUniqueWithoutAgreementInput | ServiceAgreementUpsertWithWhereUniqueWithoutAgreementInput[]
+    createMany?: ServiceAgreementCreateManyAgreementInputEnvelope
+    set?: ServiceAgreementWhereUniqueInput | ServiceAgreementWhereUniqueInput[]
+    disconnect?: ServiceAgreementWhereUniqueInput | ServiceAgreementWhereUniqueInput[]
+    delete?: ServiceAgreementWhereUniqueInput | ServiceAgreementWhereUniqueInput[]
+    connect?: ServiceAgreementWhereUniqueInput | ServiceAgreementWhereUniqueInput[]
+    update?: ServiceAgreementUpdateWithWhereUniqueWithoutAgreementInput | ServiceAgreementUpdateWithWhereUniqueWithoutAgreementInput[]
+    updateMany?: ServiceAgreementUpdateManyWithWhereWithoutAgreementInput | ServiceAgreementUpdateManyWithWhereWithoutAgreementInput[]
+    deleteMany?: ServiceAgreementScalarWhereInput | ServiceAgreementScalarWhereInput[]
   }
 
-  export type ComboPlanUncheckedUpdateManyWithoutAgreementNestedInput = {
-    create?: XOR<ComboPlanCreateWithoutAgreementInput, ComboPlanUncheckedCreateWithoutAgreementInput> | ComboPlanCreateWithoutAgreementInput[] | ComboPlanUncheckedCreateWithoutAgreementInput[]
-    connectOrCreate?: ComboPlanCreateOrConnectWithoutAgreementInput | ComboPlanCreateOrConnectWithoutAgreementInput[]
-    upsert?: ComboPlanUpsertWithWhereUniqueWithoutAgreementInput | ComboPlanUpsertWithWhereUniqueWithoutAgreementInput[]
-    createMany?: ComboPlanCreateManyAgreementInputEnvelope
-    set?: ComboPlanWhereUniqueInput | ComboPlanWhereUniqueInput[]
-    disconnect?: ComboPlanWhereUniqueInput | ComboPlanWhereUniqueInput[]
-    delete?: ComboPlanWhereUniqueInput | ComboPlanWhereUniqueInput[]
-    connect?: ComboPlanWhereUniqueInput | ComboPlanWhereUniqueInput[]
-    update?: ComboPlanUpdateWithWhereUniqueWithoutAgreementInput | ComboPlanUpdateWithWhereUniqueWithoutAgreementInput[]
-    updateMany?: ComboPlanUpdateManyWithWhereWithoutAgreementInput | ComboPlanUpdateManyWithWhereWithoutAgreementInput[]
-    deleteMany?: ComboPlanScalarWhereInput | ComboPlanScalarWhereInput[]
+  export type ComboPlanAgreementUncheckedUpdateManyWithoutAgreementNestedInput = {
+    create?: XOR<ComboPlanAgreementCreateWithoutAgreementInput, ComboPlanAgreementUncheckedCreateWithoutAgreementInput> | ComboPlanAgreementCreateWithoutAgreementInput[] | ComboPlanAgreementUncheckedCreateWithoutAgreementInput[]
+    connectOrCreate?: ComboPlanAgreementCreateOrConnectWithoutAgreementInput | ComboPlanAgreementCreateOrConnectWithoutAgreementInput[]
+    upsert?: ComboPlanAgreementUpsertWithWhereUniqueWithoutAgreementInput | ComboPlanAgreementUpsertWithWhereUniqueWithoutAgreementInput[]
+    createMany?: ComboPlanAgreementCreateManyAgreementInputEnvelope
+    set?: ComboPlanAgreementWhereUniqueInput | ComboPlanAgreementWhereUniqueInput[]
+    disconnect?: ComboPlanAgreementWhereUniqueInput | ComboPlanAgreementWhereUniqueInput[]
+    delete?: ComboPlanAgreementWhereUniqueInput | ComboPlanAgreementWhereUniqueInput[]
+    connect?: ComboPlanAgreementWhereUniqueInput | ComboPlanAgreementWhereUniqueInput[]
+    update?: ComboPlanAgreementUpdateWithWhereUniqueWithoutAgreementInput | ComboPlanAgreementUpdateWithWhereUniqueWithoutAgreementInput[]
+    updateMany?: ComboPlanAgreementUpdateManyWithWhereWithoutAgreementInput | ComboPlanAgreementUpdateManyWithWhereWithoutAgreementInput[]
+    deleteMany?: ComboPlanAgreementScalarWhereInput | ComboPlanAgreementScalarWhereInput[]
+  }
+
+  export type ServiceCreateNestedOneWithoutAgreementsInput = {
+    create?: XOR<ServiceCreateWithoutAgreementsInput, ServiceUncheckedCreateWithoutAgreementsInput>
+    connectOrCreate?: ServiceCreateOrConnectWithoutAgreementsInput
+    connect?: ServiceWhereUniqueInput
+  }
+
+  export type AgreementCreateNestedOneWithoutServiceAgreementsInput = {
+    create?: XOR<AgreementCreateWithoutServiceAgreementsInput, AgreementUncheckedCreateWithoutServiceAgreementsInput>
+    connectOrCreate?: AgreementCreateOrConnectWithoutServiceAgreementsInput
+    connect?: AgreementWhereUniqueInput
+  }
+
+  export type ServiceUpdateOneRequiredWithoutAgreementsNestedInput = {
+    create?: XOR<ServiceCreateWithoutAgreementsInput, ServiceUncheckedCreateWithoutAgreementsInput>
+    connectOrCreate?: ServiceCreateOrConnectWithoutAgreementsInput
+    upsert?: ServiceUpsertWithoutAgreementsInput
+    connect?: ServiceWhereUniqueInput
+    update?: XOR<XOR<ServiceUpdateToOneWithWhereWithoutAgreementsInput, ServiceUpdateWithoutAgreementsInput>, ServiceUncheckedUpdateWithoutAgreementsInput>
+  }
+
+  export type AgreementUpdateOneRequiredWithoutServiceAgreementsNestedInput = {
+    create?: XOR<AgreementCreateWithoutServiceAgreementsInput, AgreementUncheckedCreateWithoutServiceAgreementsInput>
+    connectOrCreate?: AgreementCreateOrConnectWithoutServiceAgreementsInput
+    upsert?: AgreementUpsertWithoutServiceAgreementsInput
+    connect?: AgreementWhereUniqueInput
+    update?: XOR<XOR<AgreementUpdateToOneWithWhereWithoutServiceAgreementsInput, AgreementUpdateWithoutServiceAgreementsInput>, AgreementUncheckedUpdateWithoutServiceAgreementsInput>
+  }
+
+  export type ComboPlanCreateNestedOneWithoutAgreementInput = {
+    create?: XOR<ComboPlanCreateWithoutAgreementInput, ComboPlanUncheckedCreateWithoutAgreementInput>
+    connectOrCreate?: ComboPlanCreateOrConnectWithoutAgreementInput
+    connect?: ComboPlanWhereUniqueInput
+  }
+
+  export type AgreementCreateNestedOneWithoutComboPlanAgreementsInput = {
+    create?: XOR<AgreementCreateWithoutComboPlanAgreementsInput, AgreementUncheckedCreateWithoutComboPlanAgreementsInput>
+    connectOrCreate?: AgreementCreateOrConnectWithoutComboPlanAgreementsInput
+    connect?: AgreementWhereUniqueInput
+  }
+
+  export type ComboPlanUpdateOneRequiredWithoutAgreementNestedInput = {
+    create?: XOR<ComboPlanCreateWithoutAgreementInput, ComboPlanUncheckedCreateWithoutAgreementInput>
+    connectOrCreate?: ComboPlanCreateOrConnectWithoutAgreementInput
+    upsert?: ComboPlanUpsertWithoutAgreementInput
+    connect?: ComboPlanWhereUniqueInput
+    update?: XOR<XOR<ComboPlanUpdateToOneWithWhereWithoutAgreementInput, ComboPlanUpdateWithoutAgreementInput>, ComboPlanUncheckedUpdateWithoutAgreementInput>
+  }
+
+  export type AgreementUpdateOneRequiredWithoutComboPlanAgreementsNestedInput = {
+    create?: XOR<AgreementCreateWithoutComboPlanAgreementsInput, AgreementUncheckedCreateWithoutComboPlanAgreementsInput>
+    connectOrCreate?: AgreementCreateOrConnectWithoutComboPlanAgreementsInput
+    upsert?: AgreementUpsertWithoutComboPlanAgreementsInput
+    connect?: AgreementWhereUniqueInput
+    update?: XOR<XOR<AgreementUpdateToOneWithWhereWithoutComboPlanAgreementsInput, AgreementUpdateWithoutComboPlanAgreementsInput>, AgreementUncheckedUpdateWithoutComboPlanAgreementsInput>
+  }
+
+  export type ComboPlanAgreementCreateNestedManyWithoutComboPlanInput = {
+    create?: XOR<ComboPlanAgreementCreateWithoutComboPlanInput, ComboPlanAgreementUncheckedCreateWithoutComboPlanInput> | ComboPlanAgreementCreateWithoutComboPlanInput[] | ComboPlanAgreementUncheckedCreateWithoutComboPlanInput[]
+    connectOrCreate?: ComboPlanAgreementCreateOrConnectWithoutComboPlanInput | ComboPlanAgreementCreateOrConnectWithoutComboPlanInput[]
+    createMany?: ComboPlanAgreementCreateManyComboPlanInputEnvelope
+    connect?: ComboPlanAgreementWhereUniqueInput | ComboPlanAgreementWhereUniqueInput[]
   }
 
   export type ComboPlanServiceCreateNestedManyWithoutComboPlanInput = {
@@ -21808,17 +24397,18 @@ export namespace Prisma {
     connect?: ComboPlanServiceWhereUniqueInput | ComboPlanServiceWhereUniqueInput[]
   }
 
-  export type AgreementCreateNestedOneWithoutComboPlanInput = {
-    create?: XOR<AgreementCreateWithoutComboPlanInput, AgreementUncheckedCreateWithoutComboPlanInput>
-    connectOrCreate?: AgreementCreateOrConnectWithoutComboPlanInput
-    connect?: AgreementWhereUniqueInput
-  }
-
   export type TransactionCreateNestedManyWithoutComboPlanInput = {
     create?: XOR<TransactionCreateWithoutComboPlanInput, TransactionUncheckedCreateWithoutComboPlanInput> | TransactionCreateWithoutComboPlanInput[] | TransactionUncheckedCreateWithoutComboPlanInput[]
     connectOrCreate?: TransactionCreateOrConnectWithoutComboPlanInput | TransactionCreateOrConnectWithoutComboPlanInput[]
     createMany?: TransactionCreateManyComboPlanInputEnvelope
     connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+  }
+
+  export type ComboPlanAgreementUncheckedCreateNestedManyWithoutComboPlanInput = {
+    create?: XOR<ComboPlanAgreementCreateWithoutComboPlanInput, ComboPlanAgreementUncheckedCreateWithoutComboPlanInput> | ComboPlanAgreementCreateWithoutComboPlanInput[] | ComboPlanAgreementUncheckedCreateWithoutComboPlanInput[]
+    connectOrCreate?: ComboPlanAgreementCreateOrConnectWithoutComboPlanInput | ComboPlanAgreementCreateOrConnectWithoutComboPlanInput[]
+    createMany?: ComboPlanAgreementCreateManyComboPlanInputEnvelope
+    connect?: ComboPlanAgreementWhereUniqueInput | ComboPlanAgreementWhereUniqueInput[]
   }
 
   export type ComboPlanServiceUncheckedCreateNestedManyWithoutComboPlanInput = {
@@ -21835,6 +24425,20 @@ export namespace Prisma {
     connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
   }
 
+  export type ComboPlanAgreementUpdateManyWithoutComboPlanNestedInput = {
+    create?: XOR<ComboPlanAgreementCreateWithoutComboPlanInput, ComboPlanAgreementUncheckedCreateWithoutComboPlanInput> | ComboPlanAgreementCreateWithoutComboPlanInput[] | ComboPlanAgreementUncheckedCreateWithoutComboPlanInput[]
+    connectOrCreate?: ComboPlanAgreementCreateOrConnectWithoutComboPlanInput | ComboPlanAgreementCreateOrConnectWithoutComboPlanInput[]
+    upsert?: ComboPlanAgreementUpsertWithWhereUniqueWithoutComboPlanInput | ComboPlanAgreementUpsertWithWhereUniqueWithoutComboPlanInput[]
+    createMany?: ComboPlanAgreementCreateManyComboPlanInputEnvelope
+    set?: ComboPlanAgreementWhereUniqueInput | ComboPlanAgreementWhereUniqueInput[]
+    disconnect?: ComboPlanAgreementWhereUniqueInput | ComboPlanAgreementWhereUniqueInput[]
+    delete?: ComboPlanAgreementWhereUniqueInput | ComboPlanAgreementWhereUniqueInput[]
+    connect?: ComboPlanAgreementWhereUniqueInput | ComboPlanAgreementWhereUniqueInput[]
+    update?: ComboPlanAgreementUpdateWithWhereUniqueWithoutComboPlanInput | ComboPlanAgreementUpdateWithWhereUniqueWithoutComboPlanInput[]
+    updateMany?: ComboPlanAgreementUpdateManyWithWhereWithoutComboPlanInput | ComboPlanAgreementUpdateManyWithWhereWithoutComboPlanInput[]
+    deleteMany?: ComboPlanAgreementScalarWhereInput | ComboPlanAgreementScalarWhereInput[]
+  }
+
   export type ComboPlanServiceUpdateManyWithoutComboPlanNestedInput = {
     create?: XOR<ComboPlanServiceCreateWithoutComboPlanInput, ComboPlanServiceUncheckedCreateWithoutComboPlanInput> | ComboPlanServiceCreateWithoutComboPlanInput[] | ComboPlanServiceUncheckedCreateWithoutComboPlanInput[]
     connectOrCreate?: ComboPlanServiceCreateOrConnectWithoutComboPlanInput | ComboPlanServiceCreateOrConnectWithoutComboPlanInput[]
@@ -21849,16 +24453,6 @@ export namespace Prisma {
     deleteMany?: ComboPlanServiceScalarWhereInput | ComboPlanServiceScalarWhereInput[]
   }
 
-  export type AgreementUpdateOneWithoutComboPlanNestedInput = {
-    create?: XOR<AgreementCreateWithoutComboPlanInput, AgreementUncheckedCreateWithoutComboPlanInput>
-    connectOrCreate?: AgreementCreateOrConnectWithoutComboPlanInput
-    upsert?: AgreementUpsertWithoutComboPlanInput
-    disconnect?: AgreementWhereInput | boolean
-    delete?: AgreementWhereInput | boolean
-    connect?: AgreementWhereUniqueInput
-    update?: XOR<XOR<AgreementUpdateToOneWithWhereWithoutComboPlanInput, AgreementUpdateWithoutComboPlanInput>, AgreementUncheckedUpdateWithoutComboPlanInput>
-  }
-
   export type TransactionUpdateManyWithoutComboPlanNestedInput = {
     create?: XOR<TransactionCreateWithoutComboPlanInput, TransactionUncheckedCreateWithoutComboPlanInput> | TransactionCreateWithoutComboPlanInput[] | TransactionUncheckedCreateWithoutComboPlanInput[]
     connectOrCreate?: TransactionCreateOrConnectWithoutComboPlanInput | TransactionCreateOrConnectWithoutComboPlanInput[]
@@ -21871,6 +24465,20 @@ export namespace Prisma {
     update?: TransactionUpdateWithWhereUniqueWithoutComboPlanInput | TransactionUpdateWithWhereUniqueWithoutComboPlanInput[]
     updateMany?: TransactionUpdateManyWithWhereWithoutComboPlanInput | TransactionUpdateManyWithWhereWithoutComboPlanInput[]
     deleteMany?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
+  }
+
+  export type ComboPlanAgreementUncheckedUpdateManyWithoutComboPlanNestedInput = {
+    create?: XOR<ComboPlanAgreementCreateWithoutComboPlanInput, ComboPlanAgreementUncheckedCreateWithoutComboPlanInput> | ComboPlanAgreementCreateWithoutComboPlanInput[] | ComboPlanAgreementUncheckedCreateWithoutComboPlanInput[]
+    connectOrCreate?: ComboPlanAgreementCreateOrConnectWithoutComboPlanInput | ComboPlanAgreementCreateOrConnectWithoutComboPlanInput[]
+    upsert?: ComboPlanAgreementUpsertWithWhereUniqueWithoutComboPlanInput | ComboPlanAgreementUpsertWithWhereUniqueWithoutComboPlanInput[]
+    createMany?: ComboPlanAgreementCreateManyComboPlanInputEnvelope
+    set?: ComboPlanAgreementWhereUniqueInput | ComboPlanAgreementWhereUniqueInput[]
+    disconnect?: ComboPlanAgreementWhereUniqueInput | ComboPlanAgreementWhereUniqueInput[]
+    delete?: ComboPlanAgreementWhereUniqueInput | ComboPlanAgreementWhereUniqueInput[]
+    connect?: ComboPlanAgreementWhereUniqueInput | ComboPlanAgreementWhereUniqueInput[]
+    update?: ComboPlanAgreementUpdateWithWhereUniqueWithoutComboPlanInput | ComboPlanAgreementUpdateWithWhereUniqueWithoutComboPlanInput[]
+    updateMany?: ComboPlanAgreementUpdateManyWithWhereWithoutComboPlanInput | ComboPlanAgreementUpdateManyWithWhereWithoutComboPlanInput[]
+    deleteMany?: ComboPlanAgreementScalarWhereInput | ComboPlanAgreementScalarWhereInput[]
   }
 
   export type ComboPlanServiceUncheckedUpdateManyWithoutComboPlanNestedInput = {
@@ -21933,6 +24541,13 @@ export namespace Prisma {
     set: string[]
   }
 
+  export type ServiceAgreementCreateNestedManyWithoutServiceInput = {
+    create?: XOR<ServiceAgreementCreateWithoutServiceInput, ServiceAgreementUncheckedCreateWithoutServiceInput> | ServiceAgreementCreateWithoutServiceInput[] | ServiceAgreementUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: ServiceAgreementCreateOrConnectWithoutServiceInput | ServiceAgreementCreateOrConnectWithoutServiceInput[]
+    createMany?: ServiceAgreementCreateManyServiceInputEnvelope
+    connect?: ServiceAgreementWhereUniqueInput | ServiceAgreementWhereUniqueInput[]
+  }
+
   export type ServiceTradingCreateNestedOneWithoutServiceInput = {
     create?: XOR<ServiceTradingCreateWithoutServiceInput, ServiceTradingUncheckedCreateWithoutServiceInput>
     connectOrCreate?: ServiceTradingCreateOrConnectWithoutServiceInput
@@ -21960,17 +24575,18 @@ export namespace Prisma {
     connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
   }
 
-  export type AgreementCreateNestedOneWithoutServicesInput = {
-    create?: XOR<AgreementCreateWithoutServicesInput, AgreementUncheckedCreateWithoutServicesInput>
-    connectOrCreate?: AgreementCreateOrConnectWithoutServicesInput
-    connect?: AgreementWhereUniqueInput
-  }
-
   export type ComboPlanServiceCreateNestedManyWithoutServiceInput = {
     create?: XOR<ComboPlanServiceCreateWithoutServiceInput, ComboPlanServiceUncheckedCreateWithoutServiceInput> | ComboPlanServiceCreateWithoutServiceInput[] | ComboPlanServiceUncheckedCreateWithoutServiceInput[]
     connectOrCreate?: ComboPlanServiceCreateOrConnectWithoutServiceInput | ComboPlanServiceCreateOrConnectWithoutServiceInput[]
     createMany?: ComboPlanServiceCreateManyServiceInputEnvelope
     connect?: ComboPlanServiceWhereUniqueInput | ComboPlanServiceWhereUniqueInput[]
+  }
+
+  export type ServiceAgreementUncheckedCreateNestedManyWithoutServiceInput = {
+    create?: XOR<ServiceAgreementCreateWithoutServiceInput, ServiceAgreementUncheckedCreateWithoutServiceInput> | ServiceAgreementCreateWithoutServiceInput[] | ServiceAgreementUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: ServiceAgreementCreateOrConnectWithoutServiceInput | ServiceAgreementCreateOrConnectWithoutServiceInput[]
+    createMany?: ServiceAgreementCreateManyServiceInputEnvelope
+    connect?: ServiceAgreementWhereUniqueInput | ServiceAgreementWhereUniqueInput[]
   }
 
   export type ServiceTradingUncheckedCreateNestedOneWithoutServiceInput = {
@@ -22018,6 +24634,20 @@ export namespace Prisma {
 
   export type EnumServiceTypeFieldUpdateOperationsInput = {
     set?: $Enums.ServiceType
+  }
+
+  export type ServiceAgreementUpdateManyWithoutServiceNestedInput = {
+    create?: XOR<ServiceAgreementCreateWithoutServiceInput, ServiceAgreementUncheckedCreateWithoutServiceInput> | ServiceAgreementCreateWithoutServiceInput[] | ServiceAgreementUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: ServiceAgreementCreateOrConnectWithoutServiceInput | ServiceAgreementCreateOrConnectWithoutServiceInput[]
+    upsert?: ServiceAgreementUpsertWithWhereUniqueWithoutServiceInput | ServiceAgreementUpsertWithWhereUniqueWithoutServiceInput[]
+    createMany?: ServiceAgreementCreateManyServiceInputEnvelope
+    set?: ServiceAgreementWhereUniqueInput | ServiceAgreementWhereUniqueInput[]
+    disconnect?: ServiceAgreementWhereUniqueInput | ServiceAgreementWhereUniqueInput[]
+    delete?: ServiceAgreementWhereUniqueInput | ServiceAgreementWhereUniqueInput[]
+    connect?: ServiceAgreementWhereUniqueInput | ServiceAgreementWhereUniqueInput[]
+    update?: ServiceAgreementUpdateWithWhereUniqueWithoutServiceInput | ServiceAgreementUpdateWithWhereUniqueWithoutServiceInput[]
+    updateMany?: ServiceAgreementUpdateManyWithWhereWithoutServiceInput | ServiceAgreementUpdateManyWithWhereWithoutServiceInput[]
+    deleteMany?: ServiceAgreementScalarWhereInput | ServiceAgreementScalarWhereInput[]
   }
 
   export type ServiceTradingUpdateOneWithoutServiceNestedInput = {
@@ -22072,16 +24702,6 @@ export namespace Prisma {
     deleteMany?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
   }
 
-  export type AgreementUpdateOneWithoutServicesNestedInput = {
-    create?: XOR<AgreementCreateWithoutServicesInput, AgreementUncheckedCreateWithoutServicesInput>
-    connectOrCreate?: AgreementCreateOrConnectWithoutServicesInput
-    upsert?: AgreementUpsertWithoutServicesInput
-    disconnect?: AgreementWhereInput | boolean
-    delete?: AgreementWhereInput | boolean
-    connect?: AgreementWhereUniqueInput
-    update?: XOR<XOR<AgreementUpdateToOneWithWhereWithoutServicesInput, AgreementUpdateWithoutServicesInput>, AgreementUncheckedUpdateWithoutServicesInput>
-  }
-
   export type ComboPlanServiceUpdateManyWithoutServiceNestedInput = {
     create?: XOR<ComboPlanServiceCreateWithoutServiceInput, ComboPlanServiceUncheckedCreateWithoutServiceInput> | ComboPlanServiceCreateWithoutServiceInput[] | ComboPlanServiceUncheckedCreateWithoutServiceInput[]
     connectOrCreate?: ComboPlanServiceCreateOrConnectWithoutServiceInput | ComboPlanServiceCreateOrConnectWithoutServiceInput[]
@@ -22094,6 +24714,20 @@ export namespace Prisma {
     update?: ComboPlanServiceUpdateWithWhereUniqueWithoutServiceInput | ComboPlanServiceUpdateWithWhereUniqueWithoutServiceInput[]
     updateMany?: ComboPlanServiceUpdateManyWithWhereWithoutServiceInput | ComboPlanServiceUpdateManyWithWhereWithoutServiceInput[]
     deleteMany?: ComboPlanServiceScalarWhereInput | ComboPlanServiceScalarWhereInput[]
+  }
+
+  export type ServiceAgreementUncheckedUpdateManyWithoutServiceNestedInput = {
+    create?: XOR<ServiceAgreementCreateWithoutServiceInput, ServiceAgreementUncheckedCreateWithoutServiceInput> | ServiceAgreementCreateWithoutServiceInput[] | ServiceAgreementUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: ServiceAgreementCreateOrConnectWithoutServiceInput | ServiceAgreementCreateOrConnectWithoutServiceInput[]
+    upsert?: ServiceAgreementUpsertWithWhereUniqueWithoutServiceInput | ServiceAgreementUpsertWithWhereUniqueWithoutServiceInput[]
+    createMany?: ServiceAgreementCreateManyServiceInputEnvelope
+    set?: ServiceAgreementWhereUniqueInput | ServiceAgreementWhereUniqueInput[]
+    disconnect?: ServiceAgreementWhereUniqueInput | ServiceAgreementWhereUniqueInput[]
+    delete?: ServiceAgreementWhereUniqueInput | ServiceAgreementWhereUniqueInput[]
+    connect?: ServiceAgreementWhereUniqueInput | ServiceAgreementWhereUniqueInput[]
+    update?: ServiceAgreementUpdateWithWhereUniqueWithoutServiceInput | ServiceAgreementUpdateWithWhereUniqueWithoutServiceInput[]
+    updateMany?: ServiceAgreementUpdateManyWithWhereWithoutServiceInput | ServiceAgreementUpdateManyWithWhereWithoutServiceInput[]
+    deleteMany?: ServiceAgreementScalarWhereInput | ServiceAgreementScalarWhereInput[]
   }
 
   export type ServiceTradingUncheckedUpdateOneWithoutServiceNestedInput = {
@@ -22466,6 +25100,29 @@ export namespace Prisma {
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
   }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
@@ -22527,29 +25184,6 @@ export namespace Prisma {
     in?: $Enums.ServiceType[] | ListEnumServiceTypeFieldRefInput<$PrismaModel>
     notIn?: $Enums.ServiceType[] | ListEnumServiceTypeFieldRefInput<$PrismaModel>
     not?: NestedEnumServiceTypeFilter<$PrismaModel> | $Enums.ServiceType
-  }
-  export type NestedJsonNullableFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<NestedJsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -22649,6 +25283,7 @@ export namespace Prisma {
     planDays: number
     planDiscount: number
     agreementAcceptedAt?: Date | string | null
+    agreementData?: NullableJsonNullValueInput | InputJsonValue
     service: ServiceCreateNestedOneWithoutPurchasedServicesInput
   }
 
@@ -22660,6 +25295,7 @@ export namespace Prisma {
     planDays: number
     planDiscount: number
     agreementAcceptedAt?: Date | string | null
+    agreementData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserPurchasedServicesCreateOrConnectWithoutUserInput = {
@@ -22830,6 +25466,7 @@ export namespace Prisma {
     planDays?: IntFilter<"UserPurchasedServices"> | number
     planDiscount?: FloatFilter<"UserPurchasedServices"> | number
     agreementAcceptedAt?: DateTimeNullableFilter<"UserPurchasedServices"> | Date | string | null
+    agreementData?: JsonNullableFilter<"UserPurchasedServices">
   }
 
   export type panVerificationDataUpsertWithWhereUniqueWithoutUserInput = {
@@ -23261,10 +25898,10 @@ export namespace Prisma {
     type: $Enums.ServiceType
     createdAt?: Date | string
     updatedAt?: Date | string
+    agreements?: ServiceAgreementCreateNestedManyWithoutServiceInput
     serviceTrading?: ServiceTradingCreateNestedOneWithoutServiceInput
     userDocuments?: UserDocumentsCreateNestedManyWithoutServiceInput
     Transaction?: TransactionCreateNestedManyWithoutServiceInput
-    agreement?: AgreementCreateNestedOneWithoutServicesInput
     ComboPlanService?: ComboPlanServiceCreateNestedManyWithoutServiceInput
   }
 
@@ -23288,7 +25925,7 @@ export namespace Prisma {
     type: $Enums.ServiceType
     createdAt?: Date | string
     updatedAt?: Date | string
-    agreementId?: string | null
+    agreements?: ServiceAgreementUncheckedCreateNestedManyWithoutServiceInput
     serviceTrading?: ServiceTradingUncheckedCreateNestedOneWithoutServiceInput
     userDocuments?: UserDocumentsUncheckedCreateNestedManyWithoutServiceInput
     Transaction?: TransactionUncheckedCreateNestedManyWithoutServiceInput
@@ -23404,10 +26041,10 @@ export namespace Prisma {
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agreements?: ServiceAgreementUpdateManyWithoutServiceNestedInput
     serviceTrading?: ServiceTradingUpdateOneWithoutServiceNestedInput
     userDocuments?: UserDocumentsUpdateManyWithoutServiceNestedInput
     Transaction?: TransactionUpdateManyWithoutServiceNestedInput
-    agreement?: AgreementUpdateOneWithoutServicesNestedInput
     ComboPlanService?: ComboPlanServiceUpdateManyWithoutServiceNestedInput
   }
 
@@ -23431,7 +26068,7 @@ export namespace Prisma {
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    agreementId?: NullableStringFieldUpdateOperationsInput | string | null
+    agreements?: ServiceAgreementUncheckedUpdateManyWithoutServiceNestedInput
     serviceTrading?: ServiceTradingUncheckedUpdateOneWithoutServiceNestedInput
     userDocuments?: UserDocumentsUncheckedUpdateManyWithoutServiceNestedInput
     Transaction?: TransactionUncheckedUpdateManyWithoutServiceNestedInput
@@ -23525,10 +26162,10 @@ export namespace Prisma {
     type: $Enums.ServiceType
     createdAt?: Date | string
     updatedAt?: Date | string
+    agreements?: ServiceAgreementCreateNestedManyWithoutServiceInput
     serviceTrading?: ServiceTradingCreateNestedOneWithoutServiceInput
     purchasedServices?: UserPurchasedServicesCreateNestedManyWithoutServiceInput
     userDocuments?: UserDocumentsCreateNestedManyWithoutServiceInput
-    agreement?: AgreementCreateNestedOneWithoutServicesInput
     ComboPlanService?: ComboPlanServiceCreateNestedManyWithoutServiceInput
   }
 
@@ -23552,7 +26189,7 @@ export namespace Prisma {
     type: $Enums.ServiceType
     createdAt?: Date | string
     updatedAt?: Date | string
-    agreementId?: string | null
+    agreements?: ServiceAgreementUncheckedCreateNestedManyWithoutServiceInput
     serviceTrading?: ServiceTradingUncheckedCreateNestedOneWithoutServiceInput
     purchasedServices?: UserPurchasedServicesUncheckedCreateNestedManyWithoutServiceInput
     userDocuments?: UserDocumentsUncheckedCreateNestedManyWithoutServiceInput
@@ -23572,8 +26209,8 @@ export namespace Prisma {
     tenureDiscounts: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
+    agreement?: ComboPlanAgreementCreateNestedManyWithoutComboPlanInput
     services?: ComboPlanServiceCreateNestedManyWithoutComboPlanInput
-    agreement?: AgreementCreateNestedOneWithoutComboPlanInput
   }
 
   export type ComboPlanUncheckedCreateWithoutTransactionInput = {
@@ -23581,10 +26218,10 @@ export namespace Prisma {
     name: string
     description?: string | null
     price: number
-    agreementId?: string | null
     tenureDiscounts: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
+    agreement?: ComboPlanAgreementUncheckedCreateNestedManyWithoutComboPlanInput
     services?: ComboPlanServiceUncheckedCreateNestedManyWithoutComboPlanInput
   }
 
@@ -23697,10 +26334,10 @@ export namespace Prisma {
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agreements?: ServiceAgreementUpdateManyWithoutServiceNestedInput
     serviceTrading?: ServiceTradingUpdateOneWithoutServiceNestedInput
     purchasedServices?: UserPurchasedServicesUpdateManyWithoutServiceNestedInput
     userDocuments?: UserDocumentsUpdateManyWithoutServiceNestedInput
-    agreement?: AgreementUpdateOneWithoutServicesNestedInput
     ComboPlanService?: ComboPlanServiceUpdateManyWithoutServiceNestedInput
   }
 
@@ -23724,7 +26361,7 @@ export namespace Prisma {
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    agreementId?: NullableStringFieldUpdateOperationsInput | string | null
+    agreements?: ServiceAgreementUncheckedUpdateManyWithoutServiceNestedInput
     serviceTrading?: ServiceTradingUncheckedUpdateOneWithoutServiceNestedInput
     purchasedServices?: UserPurchasedServicesUncheckedUpdateManyWithoutServiceNestedInput
     userDocuments?: UserDocumentsUncheckedUpdateManyWithoutServiceNestedInput
@@ -23750,8 +26387,8 @@ export namespace Prisma {
     tenureDiscounts?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agreement?: ComboPlanAgreementUpdateManyWithoutComboPlanNestedInput
     services?: ComboPlanServiceUpdateManyWithoutComboPlanNestedInput
-    agreement?: AgreementUpdateOneWithoutComboPlanNestedInput
   }
 
   export type ComboPlanUncheckedUpdateWithoutTransactionInput = {
@@ -23759,10 +26396,10 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
-    agreementId?: NullableStringFieldUpdateOperationsInput | string | null
     tenureDiscounts?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agreement?: ComboPlanAgreementUncheckedUpdateManyWithoutComboPlanNestedInput
     services?: ComboPlanServiceUncheckedUpdateManyWithoutComboPlanNestedInput
   }
 
@@ -23853,10 +26490,10 @@ export namespace Prisma {
     type: $Enums.ServiceType
     createdAt?: Date | string
     updatedAt?: Date | string
+    agreements?: ServiceAgreementCreateNestedManyWithoutServiceInput
     serviceTrading?: ServiceTradingCreateNestedOneWithoutServiceInput
     purchasedServices?: UserPurchasedServicesCreateNestedManyWithoutServiceInput
     Transaction?: TransactionCreateNestedManyWithoutServiceInput
-    agreement?: AgreementCreateNestedOneWithoutServicesInput
     ComboPlanService?: ComboPlanServiceCreateNestedManyWithoutServiceInput
   }
 
@@ -23880,7 +26517,7 @@ export namespace Prisma {
     type: $Enums.ServiceType
     createdAt?: Date | string
     updatedAt?: Date | string
-    agreementId?: string | null
+    agreements?: ServiceAgreementUncheckedCreateNestedManyWithoutServiceInput
     serviceTrading?: ServiceTradingUncheckedCreateNestedOneWithoutServiceInput
     purchasedServices?: UserPurchasedServicesUncheckedCreateNestedManyWithoutServiceInput
     Transaction?: TransactionUncheckedCreateNestedManyWithoutServiceInput
@@ -23996,10 +26633,10 @@ export namespace Prisma {
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agreements?: ServiceAgreementUpdateManyWithoutServiceNestedInput
     serviceTrading?: ServiceTradingUpdateOneWithoutServiceNestedInput
     purchasedServices?: UserPurchasedServicesUpdateManyWithoutServiceNestedInput
     Transaction?: TransactionUpdateManyWithoutServiceNestedInput
-    agreement?: AgreementUpdateOneWithoutServicesNestedInput
     ComboPlanService?: ComboPlanServiceUpdateManyWithoutServiceNestedInput
   }
 
@@ -24023,14 +26660,104 @@ export namespace Prisma {
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    agreementId?: NullableStringFieldUpdateOperationsInput | string | null
+    agreements?: ServiceAgreementUncheckedUpdateManyWithoutServiceNestedInput
     serviceTrading?: ServiceTradingUncheckedUpdateOneWithoutServiceNestedInput
     purchasedServices?: UserPurchasedServicesUncheckedUpdateManyWithoutServiceNestedInput
     Transaction?: TransactionUncheckedUpdateManyWithoutServiceNestedInput
     ComboPlanService?: ComboPlanServiceUncheckedUpdateManyWithoutServiceNestedInput
   }
 
-  export type ServiceCreateWithoutAgreementInput = {
+  export type ServiceAgreementCreateWithoutAgreementInput = {
+    id?: string
+    service: ServiceCreateNestedOneWithoutAgreementsInput
+  }
+
+  export type ServiceAgreementUncheckedCreateWithoutAgreementInput = {
+    id?: string
+    serviceId: string
+  }
+
+  export type ServiceAgreementCreateOrConnectWithoutAgreementInput = {
+    where: ServiceAgreementWhereUniqueInput
+    create: XOR<ServiceAgreementCreateWithoutAgreementInput, ServiceAgreementUncheckedCreateWithoutAgreementInput>
+  }
+
+  export type ServiceAgreementCreateManyAgreementInputEnvelope = {
+    data: ServiceAgreementCreateManyAgreementInput | ServiceAgreementCreateManyAgreementInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ComboPlanAgreementCreateWithoutAgreementInput = {
+    id?: string
+    comboPlan: ComboPlanCreateNestedOneWithoutAgreementInput
+  }
+
+  export type ComboPlanAgreementUncheckedCreateWithoutAgreementInput = {
+    id?: string
+    comboPlanId: string
+  }
+
+  export type ComboPlanAgreementCreateOrConnectWithoutAgreementInput = {
+    where: ComboPlanAgreementWhereUniqueInput
+    create: XOR<ComboPlanAgreementCreateWithoutAgreementInput, ComboPlanAgreementUncheckedCreateWithoutAgreementInput>
+  }
+
+  export type ComboPlanAgreementCreateManyAgreementInputEnvelope = {
+    data: ComboPlanAgreementCreateManyAgreementInput | ComboPlanAgreementCreateManyAgreementInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ServiceAgreementUpsertWithWhereUniqueWithoutAgreementInput = {
+    where: ServiceAgreementWhereUniqueInput
+    update: XOR<ServiceAgreementUpdateWithoutAgreementInput, ServiceAgreementUncheckedUpdateWithoutAgreementInput>
+    create: XOR<ServiceAgreementCreateWithoutAgreementInput, ServiceAgreementUncheckedCreateWithoutAgreementInput>
+  }
+
+  export type ServiceAgreementUpdateWithWhereUniqueWithoutAgreementInput = {
+    where: ServiceAgreementWhereUniqueInput
+    data: XOR<ServiceAgreementUpdateWithoutAgreementInput, ServiceAgreementUncheckedUpdateWithoutAgreementInput>
+  }
+
+  export type ServiceAgreementUpdateManyWithWhereWithoutAgreementInput = {
+    where: ServiceAgreementScalarWhereInput
+    data: XOR<ServiceAgreementUpdateManyMutationInput, ServiceAgreementUncheckedUpdateManyWithoutAgreementInput>
+  }
+
+  export type ServiceAgreementScalarWhereInput = {
+    AND?: ServiceAgreementScalarWhereInput | ServiceAgreementScalarWhereInput[]
+    OR?: ServiceAgreementScalarWhereInput[]
+    NOT?: ServiceAgreementScalarWhereInput | ServiceAgreementScalarWhereInput[]
+    id?: StringFilter<"ServiceAgreement"> | string
+    serviceId?: StringFilter<"ServiceAgreement"> | string
+    agreementId?: StringFilter<"ServiceAgreement"> | string
+  }
+
+  export type ComboPlanAgreementUpsertWithWhereUniqueWithoutAgreementInput = {
+    where: ComboPlanAgreementWhereUniqueInput
+    update: XOR<ComboPlanAgreementUpdateWithoutAgreementInput, ComboPlanAgreementUncheckedUpdateWithoutAgreementInput>
+    create: XOR<ComboPlanAgreementCreateWithoutAgreementInput, ComboPlanAgreementUncheckedCreateWithoutAgreementInput>
+  }
+
+  export type ComboPlanAgreementUpdateWithWhereUniqueWithoutAgreementInput = {
+    where: ComboPlanAgreementWhereUniqueInput
+    data: XOR<ComboPlanAgreementUpdateWithoutAgreementInput, ComboPlanAgreementUncheckedUpdateWithoutAgreementInput>
+  }
+
+  export type ComboPlanAgreementUpdateManyWithWhereWithoutAgreementInput = {
+    where: ComboPlanAgreementScalarWhereInput
+    data: XOR<ComboPlanAgreementUpdateManyMutationInput, ComboPlanAgreementUncheckedUpdateManyWithoutAgreementInput>
+  }
+
+  export type ComboPlanAgreementScalarWhereInput = {
+    AND?: ComboPlanAgreementScalarWhereInput | ComboPlanAgreementScalarWhereInput[]
+    OR?: ComboPlanAgreementScalarWhereInput[]
+    NOT?: ComboPlanAgreementScalarWhereInput | ComboPlanAgreementScalarWhereInput[]
+    id?: StringFilter<"ComboPlanAgreement"> | string
+    comboPlanId?: StringFilter<"ComboPlanAgreement"> | string
+    agreementId?: StringFilter<"ComboPlanAgreement"> | string
+  }
+
+  export type ServiceCreateWithoutAgreementsInput = {
     id?: string
     name: string
     slug: string
@@ -24057,7 +26784,7 @@ export namespace Prisma {
     ComboPlanService?: ComboPlanServiceCreateNestedManyWithoutServiceInput
   }
 
-  export type ServiceUncheckedCreateWithoutAgreementInput = {
+  export type ServiceUncheckedCreateWithoutAgreementsInput = {
     id?: string
     name: string
     slug: string
@@ -24084,14 +26811,134 @@ export namespace Prisma {
     ComboPlanService?: ComboPlanServiceUncheckedCreateNestedManyWithoutServiceInput
   }
 
-  export type ServiceCreateOrConnectWithoutAgreementInput = {
+  export type ServiceCreateOrConnectWithoutAgreementsInput = {
     where: ServiceWhereUniqueInput
-    create: XOR<ServiceCreateWithoutAgreementInput, ServiceUncheckedCreateWithoutAgreementInput>
+    create: XOR<ServiceCreateWithoutAgreementsInput, ServiceUncheckedCreateWithoutAgreementsInput>
   }
 
-  export type ServiceCreateManyAgreementInputEnvelope = {
-    data: ServiceCreateManyAgreementInput | ServiceCreateManyAgreementInput[]
-    skipDuplicates?: boolean
+  export type AgreementCreateWithoutServiceAgreementsInput = {
+    id?: string
+    name: string
+    content: JsonNullValueInput | InputJsonValue
+    signatoryPerson?: string | null
+    companyName?: string | null
+    updatedAt?: Date | string
+    createdAt?: Date | string
+    comboPlanAgreements?: ComboPlanAgreementCreateNestedManyWithoutAgreementInput
+  }
+
+  export type AgreementUncheckedCreateWithoutServiceAgreementsInput = {
+    id?: string
+    name: string
+    content: JsonNullValueInput | InputJsonValue
+    signatoryPerson?: string | null
+    companyName?: string | null
+    updatedAt?: Date | string
+    createdAt?: Date | string
+    comboPlanAgreements?: ComboPlanAgreementUncheckedCreateNestedManyWithoutAgreementInput
+  }
+
+  export type AgreementCreateOrConnectWithoutServiceAgreementsInput = {
+    where: AgreementWhereUniqueInput
+    create: XOR<AgreementCreateWithoutServiceAgreementsInput, AgreementUncheckedCreateWithoutServiceAgreementsInput>
+  }
+
+  export type ServiceUpsertWithoutAgreementsInput = {
+    update: XOR<ServiceUpdateWithoutAgreementsInput, ServiceUncheckedUpdateWithoutAgreementsInput>
+    create: XOR<ServiceCreateWithoutAgreementsInput, ServiceUncheckedCreateWithoutAgreementsInput>
+    where?: ServiceWhereInput
+  }
+
+  export type ServiceUpdateToOneWithWhereWithoutAgreementsInput = {
+    where?: ServiceWhereInput
+    data: XOR<ServiceUpdateWithoutAgreementsInput, ServiceUncheckedUpdateWithoutAgreementsInput>
+  }
+
+  export type ServiceUpdateWithoutAgreementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    tag?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceClass?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    chart?: NullableJsonNullValueInput | InputJsonValue
+    comparisonTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    recommendation?: ServiceUpdaterecommendationInput | string[]
+    price?: NullableStringFieldUpdateOperationsInput | string | null
+    taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
+    tenureDiscounts?: NullableJsonNullValueInput | InputJsonValue
+    features?: NullableJsonNullValueInput | InputJsonValue
+    faq?: NullableJsonNullValueInput | InputJsonValue
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceTrading?: ServiceTradingUpdateOneWithoutServiceNestedInput
+    purchasedServices?: UserPurchasedServicesUpdateManyWithoutServiceNestedInput
+    userDocuments?: UserDocumentsUpdateManyWithoutServiceNestedInput
+    Transaction?: TransactionUpdateManyWithoutServiceNestedInput
+    ComboPlanService?: ComboPlanServiceUpdateManyWithoutServiceNestedInput
+  }
+
+  export type ServiceUncheckedUpdateWithoutAgreementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    tag?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceClass?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    chart?: NullableJsonNullValueInput | InputJsonValue
+    comparisonTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    recommendation?: ServiceUpdaterecommendationInput | string[]
+    price?: NullableStringFieldUpdateOperationsInput | string | null
+    taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
+    tenureDiscounts?: NullableJsonNullValueInput | InputJsonValue
+    features?: NullableJsonNullValueInput | InputJsonValue
+    faq?: NullableJsonNullValueInput | InputJsonValue
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceTrading?: ServiceTradingUncheckedUpdateOneWithoutServiceNestedInput
+    purchasedServices?: UserPurchasedServicesUncheckedUpdateManyWithoutServiceNestedInput
+    userDocuments?: UserDocumentsUncheckedUpdateManyWithoutServiceNestedInput
+    Transaction?: TransactionUncheckedUpdateManyWithoutServiceNestedInput
+    ComboPlanService?: ComboPlanServiceUncheckedUpdateManyWithoutServiceNestedInput
+  }
+
+  export type AgreementUpsertWithoutServiceAgreementsInput = {
+    update: XOR<AgreementUpdateWithoutServiceAgreementsInput, AgreementUncheckedUpdateWithoutServiceAgreementsInput>
+    create: XOR<AgreementCreateWithoutServiceAgreementsInput, AgreementUncheckedCreateWithoutServiceAgreementsInput>
+    where?: AgreementWhereInput
+  }
+
+  export type AgreementUpdateToOneWithWhereWithoutServiceAgreementsInput = {
+    where?: AgreementWhereInput
+    data: XOR<AgreementUpdateWithoutServiceAgreementsInput, AgreementUncheckedUpdateWithoutServiceAgreementsInput>
+  }
+
+  export type AgreementUpdateWithoutServiceAgreementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    content?: JsonNullValueInput | InputJsonValue
+    signatoryPerson?: NullableStringFieldUpdateOperationsInput | string | null
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    comboPlanAgreements?: ComboPlanAgreementUpdateManyWithoutAgreementNestedInput
+  }
+
+  export type AgreementUncheckedUpdateWithoutServiceAgreementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    content?: JsonNullValueInput | InputJsonValue
+    signatoryPerson?: NullableStringFieldUpdateOperationsInput | string | null
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    comboPlanAgreements?: ComboPlanAgreementUncheckedUpdateManyWithoutAgreementNestedInput
   }
 
   export type ComboPlanCreateWithoutAgreementInput = {
@@ -24123,81 +26970,119 @@ export namespace Prisma {
     create: XOR<ComboPlanCreateWithoutAgreementInput, ComboPlanUncheckedCreateWithoutAgreementInput>
   }
 
-  export type ComboPlanCreateManyAgreementInputEnvelope = {
-    data: ComboPlanCreateManyAgreementInput | ComboPlanCreateManyAgreementInput[]
-    skipDuplicates?: boolean
+  export type AgreementCreateWithoutComboPlanAgreementsInput = {
+    id?: string
+    name: string
+    content: JsonNullValueInput | InputJsonValue
+    signatoryPerson?: string | null
+    companyName?: string | null
+    updatedAt?: Date | string
+    createdAt?: Date | string
+    serviceAgreements?: ServiceAgreementCreateNestedManyWithoutAgreementInput
   }
 
-  export type ServiceUpsertWithWhereUniqueWithoutAgreementInput = {
-    where: ServiceWhereUniqueInput
-    update: XOR<ServiceUpdateWithoutAgreementInput, ServiceUncheckedUpdateWithoutAgreementInput>
-    create: XOR<ServiceCreateWithoutAgreementInput, ServiceUncheckedCreateWithoutAgreementInput>
+  export type AgreementUncheckedCreateWithoutComboPlanAgreementsInput = {
+    id?: string
+    name: string
+    content: JsonNullValueInput | InputJsonValue
+    signatoryPerson?: string | null
+    companyName?: string | null
+    updatedAt?: Date | string
+    createdAt?: Date | string
+    serviceAgreements?: ServiceAgreementUncheckedCreateNestedManyWithoutAgreementInput
   }
 
-  export type ServiceUpdateWithWhereUniqueWithoutAgreementInput = {
-    where: ServiceWhereUniqueInput
-    data: XOR<ServiceUpdateWithoutAgreementInput, ServiceUncheckedUpdateWithoutAgreementInput>
+  export type AgreementCreateOrConnectWithoutComboPlanAgreementsInput = {
+    where: AgreementWhereUniqueInput
+    create: XOR<AgreementCreateWithoutComboPlanAgreementsInput, AgreementUncheckedCreateWithoutComboPlanAgreementsInput>
   }
 
-  export type ServiceUpdateManyWithWhereWithoutAgreementInput = {
-    where: ServiceScalarWhereInput
-    data: XOR<ServiceUpdateManyMutationInput, ServiceUncheckedUpdateManyWithoutAgreementInput>
-  }
-
-  export type ServiceScalarWhereInput = {
-    AND?: ServiceScalarWhereInput | ServiceScalarWhereInput[]
-    OR?: ServiceScalarWhereInput[]
-    NOT?: ServiceScalarWhereInput | ServiceScalarWhereInput[]
-    id?: StringFilter<"Service"> | string
-    name?: StringFilter<"Service"> | string
-    slug?: StringFilter<"Service"> | string
-    tag?: StringNullableFilter<"Service"> | string | null
-    label?: StringNullableFilter<"Service"> | string | null
-    serviceClass?: StringNullableFilter<"Service"> | string | null
-    description?: StringNullableFilter<"Service"> | string | null
-    chart?: JsonNullableFilter<"Service">
-    comparisonTitle?: StringNullableFilter<"Service"> | string | null
-    recommendation?: StringNullableListFilter<"Service">
-    price?: StringNullableFilter<"Service"> | string | null
-    taxPercent?: FloatNullableFilter<"Service"> | number | null
-    tenureDiscounts?: JsonNullableFilter<"Service">
-    features?: JsonNullableFilter<"Service">
-    faq?: JsonNullableFilter<"Service">
-    active?: BoolNullableFilter<"Service"> | boolean | null
-    type?: EnumServiceTypeFilter<"Service"> | $Enums.ServiceType
-    createdAt?: DateTimeFilter<"Service"> | Date | string
-    updatedAt?: DateTimeFilter<"Service"> | Date | string
-    agreementId?: StringNullableFilter<"Service"> | string | null
-  }
-
-  export type ComboPlanUpsertWithWhereUniqueWithoutAgreementInput = {
-    where: ComboPlanWhereUniqueInput
+  export type ComboPlanUpsertWithoutAgreementInput = {
     update: XOR<ComboPlanUpdateWithoutAgreementInput, ComboPlanUncheckedUpdateWithoutAgreementInput>
     create: XOR<ComboPlanCreateWithoutAgreementInput, ComboPlanUncheckedCreateWithoutAgreementInput>
+    where?: ComboPlanWhereInput
   }
 
-  export type ComboPlanUpdateWithWhereUniqueWithoutAgreementInput = {
-    where: ComboPlanWhereUniqueInput
+  export type ComboPlanUpdateToOneWithWhereWithoutAgreementInput = {
+    where?: ComboPlanWhereInput
     data: XOR<ComboPlanUpdateWithoutAgreementInput, ComboPlanUncheckedUpdateWithoutAgreementInput>
   }
 
-  export type ComboPlanUpdateManyWithWhereWithoutAgreementInput = {
-    where: ComboPlanScalarWhereInput
-    data: XOR<ComboPlanUpdateManyMutationInput, ComboPlanUncheckedUpdateManyWithoutAgreementInput>
+  export type ComboPlanUpdateWithoutAgreementInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: FloatFieldUpdateOperationsInput | number
+    tenureDiscounts?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    services?: ComboPlanServiceUpdateManyWithoutComboPlanNestedInput
+    Transaction?: TransactionUpdateManyWithoutComboPlanNestedInput
   }
 
-  export type ComboPlanScalarWhereInput = {
-    AND?: ComboPlanScalarWhereInput | ComboPlanScalarWhereInput[]
-    OR?: ComboPlanScalarWhereInput[]
-    NOT?: ComboPlanScalarWhereInput | ComboPlanScalarWhereInput[]
-    id?: StringFilter<"ComboPlan"> | string
-    name?: StringFilter<"ComboPlan"> | string
-    description?: StringNullableFilter<"ComboPlan"> | string | null
-    price?: FloatFilter<"ComboPlan"> | number
-    agreementId?: StringNullableFilter<"ComboPlan"> | string | null
-    tenureDiscounts?: JsonFilter<"ComboPlan">
-    createdAt?: DateTimeFilter<"ComboPlan"> | Date | string
-    updatedAt?: DateTimeFilter<"ComboPlan"> | Date | string
+  export type ComboPlanUncheckedUpdateWithoutAgreementInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: FloatFieldUpdateOperationsInput | number
+    tenureDiscounts?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    services?: ComboPlanServiceUncheckedUpdateManyWithoutComboPlanNestedInput
+    Transaction?: TransactionUncheckedUpdateManyWithoutComboPlanNestedInput
+  }
+
+  export type AgreementUpsertWithoutComboPlanAgreementsInput = {
+    update: XOR<AgreementUpdateWithoutComboPlanAgreementsInput, AgreementUncheckedUpdateWithoutComboPlanAgreementsInput>
+    create: XOR<AgreementCreateWithoutComboPlanAgreementsInput, AgreementUncheckedCreateWithoutComboPlanAgreementsInput>
+    where?: AgreementWhereInput
+  }
+
+  export type AgreementUpdateToOneWithWhereWithoutComboPlanAgreementsInput = {
+    where?: AgreementWhereInput
+    data: XOR<AgreementUpdateWithoutComboPlanAgreementsInput, AgreementUncheckedUpdateWithoutComboPlanAgreementsInput>
+  }
+
+  export type AgreementUpdateWithoutComboPlanAgreementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    content?: JsonNullValueInput | InputJsonValue
+    signatoryPerson?: NullableStringFieldUpdateOperationsInput | string | null
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceAgreements?: ServiceAgreementUpdateManyWithoutAgreementNestedInput
+  }
+
+  export type AgreementUncheckedUpdateWithoutComboPlanAgreementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    content?: JsonNullValueInput | InputJsonValue
+    signatoryPerson?: NullableStringFieldUpdateOperationsInput | string | null
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceAgreements?: ServiceAgreementUncheckedUpdateManyWithoutAgreementNestedInput
+  }
+
+  export type ComboPlanAgreementCreateWithoutComboPlanInput = {
+    id?: string
+    agreement: AgreementCreateNestedOneWithoutComboPlanAgreementsInput
+  }
+
+  export type ComboPlanAgreementUncheckedCreateWithoutComboPlanInput = {
+    id?: string
+    agreementId: string
+  }
+
+  export type ComboPlanAgreementCreateOrConnectWithoutComboPlanInput = {
+    where: ComboPlanAgreementWhereUniqueInput
+    create: XOR<ComboPlanAgreementCreateWithoutComboPlanInput, ComboPlanAgreementUncheckedCreateWithoutComboPlanInput>
+  }
+
+  export type ComboPlanAgreementCreateManyComboPlanInputEnvelope = {
+    data: ComboPlanAgreementCreateManyComboPlanInput | ComboPlanAgreementCreateManyComboPlanInput[]
+    skipDuplicates?: boolean
   }
 
   export type ComboPlanServiceCreateWithoutComboPlanInput = {
@@ -24218,29 +27103,6 @@ export namespace Prisma {
   export type ComboPlanServiceCreateManyComboPlanInputEnvelope = {
     data: ComboPlanServiceCreateManyComboPlanInput | ComboPlanServiceCreateManyComboPlanInput[]
     skipDuplicates?: boolean
-  }
-
-  export type AgreementCreateWithoutComboPlanInput = {
-    id?: string
-    name: string
-    content: JsonNullValueInput | InputJsonValue
-    updatedAt?: Date | string
-    createdAt?: Date | string
-    services?: ServiceCreateNestedManyWithoutAgreementInput
-  }
-
-  export type AgreementUncheckedCreateWithoutComboPlanInput = {
-    id?: string
-    name: string
-    content: JsonNullValueInput | InputJsonValue
-    updatedAt?: Date | string
-    createdAt?: Date | string
-    services?: ServiceUncheckedCreateNestedManyWithoutAgreementInput
-  }
-
-  export type AgreementCreateOrConnectWithoutComboPlanInput = {
-    where: AgreementWhereUniqueInput
-    create: XOR<AgreementCreateWithoutComboPlanInput, AgreementUncheckedCreateWithoutComboPlanInput>
   }
 
   export type TransactionCreateWithoutComboPlanInput = {
@@ -24281,6 +27143,22 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ComboPlanAgreementUpsertWithWhereUniqueWithoutComboPlanInput = {
+    where: ComboPlanAgreementWhereUniqueInput
+    update: XOR<ComboPlanAgreementUpdateWithoutComboPlanInput, ComboPlanAgreementUncheckedUpdateWithoutComboPlanInput>
+    create: XOR<ComboPlanAgreementCreateWithoutComboPlanInput, ComboPlanAgreementUncheckedCreateWithoutComboPlanInput>
+  }
+
+  export type ComboPlanAgreementUpdateWithWhereUniqueWithoutComboPlanInput = {
+    where: ComboPlanAgreementWhereUniqueInput
+    data: XOR<ComboPlanAgreementUpdateWithoutComboPlanInput, ComboPlanAgreementUncheckedUpdateWithoutComboPlanInput>
+  }
+
+  export type ComboPlanAgreementUpdateManyWithWhereWithoutComboPlanInput = {
+    where: ComboPlanAgreementScalarWhereInput
+    data: XOR<ComboPlanAgreementUpdateManyMutationInput, ComboPlanAgreementUncheckedUpdateManyWithoutComboPlanInput>
+  }
+
   export type ComboPlanServiceUpsertWithWhereUniqueWithoutComboPlanInput = {
     where: ComboPlanServiceWhereUniqueInput
     update: XOR<ComboPlanServiceUpdateWithoutComboPlanInput, ComboPlanServiceUncheckedUpdateWithoutComboPlanInput>
@@ -24304,35 +27182,6 @@ export namespace Prisma {
     id?: StringFilter<"ComboPlanService"> | string
     comboPlanId?: StringFilter<"ComboPlanService"> | string
     serviceId?: StringFilter<"ComboPlanService"> | string
-  }
-
-  export type AgreementUpsertWithoutComboPlanInput = {
-    update: XOR<AgreementUpdateWithoutComboPlanInput, AgreementUncheckedUpdateWithoutComboPlanInput>
-    create: XOR<AgreementCreateWithoutComboPlanInput, AgreementUncheckedCreateWithoutComboPlanInput>
-    where?: AgreementWhereInput
-  }
-
-  export type AgreementUpdateToOneWithWhereWithoutComboPlanInput = {
-    where?: AgreementWhereInput
-    data: XOR<AgreementUpdateWithoutComboPlanInput, AgreementUncheckedUpdateWithoutComboPlanInput>
-  }
-
-  export type AgreementUpdateWithoutComboPlanInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    content?: JsonNullValueInput | InputJsonValue
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    services?: ServiceUpdateManyWithoutAgreementNestedInput
-  }
-
-  export type AgreementUncheckedUpdateWithoutComboPlanInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    content?: JsonNullValueInput | InputJsonValue
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    services?: ServiceUncheckedUpdateManyWithoutAgreementNestedInput
   }
 
   export type TransactionUpsertWithWhereUniqueWithoutComboPlanInput = {
@@ -24359,7 +27208,7 @@ export namespace Prisma {
     tenureDiscounts: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    agreement?: AgreementCreateNestedOneWithoutComboPlanInput
+    agreement?: ComboPlanAgreementCreateNestedManyWithoutComboPlanInput
     Transaction?: TransactionCreateNestedManyWithoutComboPlanInput
   }
 
@@ -24368,10 +27217,10 @@ export namespace Prisma {
     name: string
     description?: string | null
     price: number
-    agreementId?: string | null
     tenureDiscounts: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
+    agreement?: ComboPlanAgreementUncheckedCreateNestedManyWithoutComboPlanInput
     Transaction?: TransactionUncheckedCreateNestedManyWithoutComboPlanInput
   }
 
@@ -24400,11 +27249,11 @@ export namespace Prisma {
     type: $Enums.ServiceType
     createdAt?: Date | string
     updatedAt?: Date | string
+    agreements?: ServiceAgreementCreateNestedManyWithoutServiceInput
     serviceTrading?: ServiceTradingCreateNestedOneWithoutServiceInput
     purchasedServices?: UserPurchasedServicesCreateNestedManyWithoutServiceInput
     userDocuments?: UserDocumentsCreateNestedManyWithoutServiceInput
     Transaction?: TransactionCreateNestedManyWithoutServiceInput
-    agreement?: AgreementCreateNestedOneWithoutServicesInput
   }
 
   export type ServiceUncheckedCreateWithoutComboPlanServiceInput = {
@@ -24427,7 +27276,7 @@ export namespace Prisma {
     type: $Enums.ServiceType
     createdAt?: Date | string
     updatedAt?: Date | string
-    agreementId?: string | null
+    agreements?: ServiceAgreementUncheckedCreateNestedManyWithoutServiceInput
     serviceTrading?: ServiceTradingUncheckedCreateNestedOneWithoutServiceInput
     purchasedServices?: UserPurchasedServicesUncheckedCreateNestedManyWithoutServiceInput
     userDocuments?: UserDocumentsUncheckedCreateNestedManyWithoutServiceInput
@@ -24458,7 +27307,7 @@ export namespace Prisma {
     tenureDiscounts?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    agreement?: AgreementUpdateOneWithoutComboPlanNestedInput
+    agreement?: ComboPlanAgreementUpdateManyWithoutComboPlanNestedInput
     Transaction?: TransactionUpdateManyWithoutComboPlanNestedInput
   }
 
@@ -24467,10 +27316,10 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
-    agreementId?: NullableStringFieldUpdateOperationsInput | string | null
     tenureDiscounts?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agreement?: ComboPlanAgreementUncheckedUpdateManyWithoutComboPlanNestedInput
     Transaction?: TransactionUncheckedUpdateManyWithoutComboPlanNestedInput
   }
 
@@ -24505,11 +27354,11 @@ export namespace Prisma {
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agreements?: ServiceAgreementUpdateManyWithoutServiceNestedInput
     serviceTrading?: ServiceTradingUpdateOneWithoutServiceNestedInput
     purchasedServices?: UserPurchasedServicesUpdateManyWithoutServiceNestedInput
     userDocuments?: UserDocumentsUpdateManyWithoutServiceNestedInput
     Transaction?: TransactionUpdateManyWithoutServiceNestedInput
-    agreement?: AgreementUpdateOneWithoutServicesNestedInput
   }
 
   export type ServiceUncheckedUpdateWithoutComboPlanServiceInput = {
@@ -24532,11 +27381,31 @@ export namespace Prisma {
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    agreementId?: NullableStringFieldUpdateOperationsInput | string | null
+    agreements?: ServiceAgreementUncheckedUpdateManyWithoutServiceNestedInput
     serviceTrading?: ServiceTradingUncheckedUpdateOneWithoutServiceNestedInput
     purchasedServices?: UserPurchasedServicesUncheckedUpdateManyWithoutServiceNestedInput
     userDocuments?: UserDocumentsUncheckedUpdateManyWithoutServiceNestedInput
     Transaction?: TransactionUncheckedUpdateManyWithoutServiceNestedInput
+  }
+
+  export type ServiceAgreementCreateWithoutServiceInput = {
+    id?: string
+    agreement: AgreementCreateNestedOneWithoutServiceAgreementsInput
+  }
+
+  export type ServiceAgreementUncheckedCreateWithoutServiceInput = {
+    id?: string
+    agreementId: string
+  }
+
+  export type ServiceAgreementCreateOrConnectWithoutServiceInput = {
+    where: ServiceAgreementWhereUniqueInput
+    create: XOR<ServiceAgreementCreateWithoutServiceInput, ServiceAgreementUncheckedCreateWithoutServiceInput>
+  }
+
+  export type ServiceAgreementCreateManyServiceInputEnvelope = {
+    data: ServiceAgreementCreateManyServiceInput | ServiceAgreementCreateManyServiceInput[]
+    skipDuplicates?: boolean
   }
 
   export type ServiceTradingCreateWithoutServiceInput = {
@@ -24565,6 +27434,7 @@ export namespace Prisma {
     planDays: number
     planDiscount: number
     agreementAcceptedAt?: Date | string | null
+    agreementData?: NullableJsonNullValueInput | InputJsonValue
     user: UserCreateNestedOneWithoutPurchasedServicesInput
   }
 
@@ -24576,6 +27446,7 @@ export namespace Prisma {
     planDays: number
     planDiscount: number
     agreementAcceptedAt?: Date | string | null
+    agreementData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserPurchasedServicesCreateOrConnectWithoutServiceInput = {
@@ -24658,29 +27529,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type AgreementCreateWithoutServicesInput = {
-    id?: string
-    name: string
-    content: JsonNullValueInput | InputJsonValue
-    updatedAt?: Date | string
-    createdAt?: Date | string
-    ComboPlan?: ComboPlanCreateNestedManyWithoutAgreementInput
-  }
-
-  export type AgreementUncheckedCreateWithoutServicesInput = {
-    id?: string
-    name: string
-    content: JsonNullValueInput | InputJsonValue
-    updatedAt?: Date | string
-    createdAt?: Date | string
-    ComboPlan?: ComboPlanUncheckedCreateNestedManyWithoutAgreementInput
-  }
-
-  export type AgreementCreateOrConnectWithoutServicesInput = {
-    where: AgreementWhereUniqueInput
-    create: XOR<AgreementCreateWithoutServicesInput, AgreementUncheckedCreateWithoutServicesInput>
-  }
-
   export type ComboPlanServiceCreateWithoutServiceInput = {
     id?: string
     comboPlan: ComboPlanCreateNestedOneWithoutServicesInput
@@ -24699,6 +27547,22 @@ export namespace Prisma {
   export type ComboPlanServiceCreateManyServiceInputEnvelope = {
     data: ComboPlanServiceCreateManyServiceInput | ComboPlanServiceCreateManyServiceInput[]
     skipDuplicates?: boolean
+  }
+
+  export type ServiceAgreementUpsertWithWhereUniqueWithoutServiceInput = {
+    where: ServiceAgreementWhereUniqueInput
+    update: XOR<ServiceAgreementUpdateWithoutServiceInput, ServiceAgreementUncheckedUpdateWithoutServiceInput>
+    create: XOR<ServiceAgreementCreateWithoutServiceInput, ServiceAgreementUncheckedCreateWithoutServiceInput>
+  }
+
+  export type ServiceAgreementUpdateWithWhereUniqueWithoutServiceInput = {
+    where: ServiceAgreementWhereUniqueInput
+    data: XOR<ServiceAgreementUpdateWithoutServiceInput, ServiceAgreementUncheckedUpdateWithoutServiceInput>
+  }
+
+  export type ServiceAgreementUpdateManyWithWhereWithoutServiceInput = {
+    where: ServiceAgreementScalarWhereInput
+    data: XOR<ServiceAgreementUpdateManyMutationInput, ServiceAgreementUncheckedUpdateManyWithoutServiceInput>
   }
 
   export type ServiceTradingUpsertWithoutServiceInput = {
@@ -24774,35 +27638,6 @@ export namespace Prisma {
     data: XOR<TransactionUpdateManyMutationInput, TransactionUncheckedUpdateManyWithoutServiceInput>
   }
 
-  export type AgreementUpsertWithoutServicesInput = {
-    update: XOR<AgreementUpdateWithoutServicesInput, AgreementUncheckedUpdateWithoutServicesInput>
-    create: XOR<AgreementCreateWithoutServicesInput, AgreementUncheckedCreateWithoutServicesInput>
-    where?: AgreementWhereInput
-  }
-
-  export type AgreementUpdateToOneWithWhereWithoutServicesInput = {
-    where?: AgreementWhereInput
-    data: XOR<AgreementUpdateWithoutServicesInput, AgreementUncheckedUpdateWithoutServicesInput>
-  }
-
-  export type AgreementUpdateWithoutServicesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    content?: JsonNullValueInput | InputJsonValue
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ComboPlan?: ComboPlanUpdateManyWithoutAgreementNestedInput
-  }
-
-  export type AgreementUncheckedUpdateWithoutServicesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    content?: JsonNullValueInput | InputJsonValue
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ComboPlan?: ComboPlanUncheckedUpdateManyWithoutAgreementNestedInput
-  }
-
   export type ComboPlanServiceUpsertWithWhereUniqueWithoutServiceInput = {
     where: ComboPlanServiceWhereUniqueInput
     update: XOR<ComboPlanServiceUpdateWithoutServiceInput, ComboPlanServiceUncheckedUpdateWithoutServiceInput>
@@ -24839,10 +27674,10 @@ export namespace Prisma {
     type: $Enums.ServiceType
     createdAt?: Date | string
     updatedAt?: Date | string
+    agreements?: ServiceAgreementCreateNestedManyWithoutServiceInput
     purchasedServices?: UserPurchasedServicesCreateNestedManyWithoutServiceInput
     userDocuments?: UserDocumentsCreateNestedManyWithoutServiceInput
     Transaction?: TransactionCreateNestedManyWithoutServiceInput
-    agreement?: AgreementCreateNestedOneWithoutServicesInput
     ComboPlanService?: ComboPlanServiceCreateNestedManyWithoutServiceInput
   }
 
@@ -24866,7 +27701,7 @@ export namespace Prisma {
     type: $Enums.ServiceType
     createdAt?: Date | string
     updatedAt?: Date | string
-    agreementId?: string | null
+    agreements?: ServiceAgreementUncheckedCreateNestedManyWithoutServiceInput
     purchasedServices?: UserPurchasedServicesUncheckedCreateNestedManyWithoutServiceInput
     userDocuments?: UserDocumentsUncheckedCreateNestedManyWithoutServiceInput
     Transaction?: TransactionUncheckedCreateNestedManyWithoutServiceInput
@@ -24909,10 +27744,10 @@ export namespace Prisma {
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agreements?: ServiceAgreementUpdateManyWithoutServiceNestedInput
     purchasedServices?: UserPurchasedServicesUpdateManyWithoutServiceNestedInput
     userDocuments?: UserDocumentsUpdateManyWithoutServiceNestedInput
     Transaction?: TransactionUpdateManyWithoutServiceNestedInput
-    agreement?: AgreementUpdateOneWithoutServicesNestedInput
     ComboPlanService?: ComboPlanServiceUpdateManyWithoutServiceNestedInput
   }
 
@@ -24936,7 +27771,7 @@ export namespace Prisma {
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    agreementId?: NullableStringFieldUpdateOperationsInput | string | null
+    agreements?: ServiceAgreementUncheckedUpdateManyWithoutServiceNestedInput
     purchasedServices?: UserPurchasedServicesUncheckedUpdateManyWithoutServiceNestedInput
     userDocuments?: UserDocumentsUncheckedUpdateManyWithoutServiceNestedInput
     Transaction?: TransactionUncheckedUpdateManyWithoutServiceNestedInput
@@ -24977,6 +27812,7 @@ export namespace Prisma {
     planDays: number
     planDiscount: number
     agreementAcceptedAt?: Date | string | null
+    agreementData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type panVerificationDataCreateManyUserInput = {
@@ -25086,6 +27922,7 @@ export namespace Prisma {
     planDays?: IntFieldUpdateOperationsInput | number
     planDiscount?: FloatFieldUpdateOperationsInput | number
     agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementData?: NullableJsonNullValueInput | InputJsonValue
     service?: ServiceUpdateOneRequiredWithoutPurchasedServicesNestedInput
   }
 
@@ -25097,6 +27934,7 @@ export namespace Prisma {
     planDays?: IntFieldUpdateOperationsInput | number
     planDiscount?: FloatFieldUpdateOperationsInput | number
     agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserPurchasedServicesUncheckedUpdateManyWithoutUserInput = {
@@ -25107,6 +27945,7 @@ export namespace Prisma {
     planDays?: IntFieldUpdateOperationsInput | number
     planDiscount?: FloatFieldUpdateOperationsInput | number
     agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type panVerificationDataUpdateWithoutUserInput = {
@@ -25175,146 +28014,49 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ServiceCreateManyAgreementInput = {
+  export type ServiceAgreementCreateManyAgreementInput = {
     id?: string
-    name: string
-    slug: string
-    tag?: string | null
-    label?: string | null
-    serviceClass?: string | null
-    description?: string | null
-    chart?: NullableJsonNullValueInput | InputJsonValue
-    comparisonTitle?: string | null
-    recommendation?: ServiceCreaterecommendationInput | string[]
-    price?: string | null
-    taxPercent?: number | null
-    tenureDiscounts?: NullableJsonNullValueInput | InputJsonValue
-    features?: NullableJsonNullValueInput | InputJsonValue
-    faq?: NullableJsonNullValueInput | InputJsonValue
-    active?: boolean | null
-    type: $Enums.ServiceType
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    serviceId: string
   }
 
-  export type ComboPlanCreateManyAgreementInput = {
+  export type ComboPlanAgreementCreateManyAgreementInput = {
     id?: string
-    name: string
-    description?: string | null
-    price: number
-    tenureDiscounts: JsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    comboPlanId: string
   }
 
-  export type ServiceUpdateWithoutAgreementInput = {
+  export type ServiceAgreementUpdateWithoutAgreementInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    tag?: NullableStringFieldUpdateOperationsInput | string | null
-    label?: NullableStringFieldUpdateOperationsInput | string | null
-    serviceClass?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    chart?: NullableJsonNullValueInput | InputJsonValue
-    comparisonTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendation?: ServiceUpdaterecommendationInput | string[]
-    price?: NullableStringFieldUpdateOperationsInput | string | null
-    taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
-    tenureDiscounts?: NullableJsonNullValueInput | InputJsonValue
-    features?: NullableJsonNullValueInput | InputJsonValue
-    faq?: NullableJsonNullValueInput | InputJsonValue
-    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    serviceTrading?: ServiceTradingUpdateOneWithoutServiceNestedInput
-    purchasedServices?: UserPurchasedServicesUpdateManyWithoutServiceNestedInput
-    userDocuments?: UserDocumentsUpdateManyWithoutServiceNestedInput
-    Transaction?: TransactionUpdateManyWithoutServiceNestedInput
-    ComboPlanService?: ComboPlanServiceUpdateManyWithoutServiceNestedInput
+    service?: ServiceUpdateOneRequiredWithoutAgreementsNestedInput
   }
 
-  export type ServiceUncheckedUpdateWithoutAgreementInput = {
+  export type ServiceAgreementUncheckedUpdateWithoutAgreementInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    tag?: NullableStringFieldUpdateOperationsInput | string | null
-    label?: NullableStringFieldUpdateOperationsInput | string | null
-    serviceClass?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    chart?: NullableJsonNullValueInput | InputJsonValue
-    comparisonTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendation?: ServiceUpdaterecommendationInput | string[]
-    price?: NullableStringFieldUpdateOperationsInput | string | null
-    taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
-    tenureDiscounts?: NullableJsonNullValueInput | InputJsonValue
-    features?: NullableJsonNullValueInput | InputJsonValue
-    faq?: NullableJsonNullValueInput | InputJsonValue
-    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    serviceTrading?: ServiceTradingUncheckedUpdateOneWithoutServiceNestedInput
-    purchasedServices?: UserPurchasedServicesUncheckedUpdateManyWithoutServiceNestedInput
-    userDocuments?: UserDocumentsUncheckedUpdateManyWithoutServiceNestedInput
-    Transaction?: TransactionUncheckedUpdateManyWithoutServiceNestedInput
-    ComboPlanService?: ComboPlanServiceUncheckedUpdateManyWithoutServiceNestedInput
+    serviceId?: StringFieldUpdateOperationsInput | string
   }
 
-  export type ServiceUncheckedUpdateManyWithoutAgreementInput = {
+  export type ServiceAgreementUncheckedUpdateManyWithoutAgreementInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    tag?: NullableStringFieldUpdateOperationsInput | string | null
-    label?: NullableStringFieldUpdateOperationsInput | string | null
-    serviceClass?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    chart?: NullableJsonNullValueInput | InputJsonValue
-    comparisonTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendation?: ServiceUpdaterecommendationInput | string[]
-    price?: NullableStringFieldUpdateOperationsInput | string | null
-    taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
-    tenureDiscounts?: NullableJsonNullValueInput | InputJsonValue
-    features?: NullableJsonNullValueInput | InputJsonValue
-    faq?: NullableJsonNullValueInput | InputJsonValue
-    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceId?: StringFieldUpdateOperationsInput | string
   }
 
-  export type ComboPlanUpdateWithoutAgreementInput = {
+  export type ComboPlanAgreementUpdateWithoutAgreementInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: FloatFieldUpdateOperationsInput | number
-    tenureDiscounts?: JsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    services?: ComboPlanServiceUpdateManyWithoutComboPlanNestedInput
-    Transaction?: TransactionUpdateManyWithoutComboPlanNestedInput
+    comboPlan?: ComboPlanUpdateOneRequiredWithoutAgreementNestedInput
   }
 
-  export type ComboPlanUncheckedUpdateWithoutAgreementInput = {
+  export type ComboPlanAgreementUncheckedUpdateWithoutAgreementInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: FloatFieldUpdateOperationsInput | number
-    tenureDiscounts?: JsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    services?: ComboPlanServiceUncheckedUpdateManyWithoutComboPlanNestedInput
-    Transaction?: TransactionUncheckedUpdateManyWithoutComboPlanNestedInput
+    comboPlanId?: StringFieldUpdateOperationsInput | string
   }
 
-  export type ComboPlanUncheckedUpdateManyWithoutAgreementInput = {
+  export type ComboPlanAgreementUncheckedUpdateManyWithoutAgreementInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: FloatFieldUpdateOperationsInput | number
-    tenureDiscounts?: JsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    comboPlanId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ComboPlanAgreementCreateManyComboPlanInput = {
+    id?: string
+    agreementId: string
   }
 
   export type ComboPlanServiceCreateManyComboPlanInput = {
@@ -25334,6 +28076,21 @@ export namespace Prisma {
     orderId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type ComboPlanAgreementUpdateWithoutComboPlanInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agreement?: AgreementUpdateOneRequiredWithoutComboPlanAgreementsNestedInput
+  }
+
+  export type ComboPlanAgreementUncheckedUpdateWithoutComboPlanInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agreementId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ComboPlanAgreementUncheckedUpdateManyWithoutComboPlanInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agreementId?: StringFieldUpdateOperationsInput | string
   }
 
   export type ComboPlanServiceUpdateWithoutComboPlanInput = {
@@ -25393,6 +28150,11 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ServiceAgreementCreateManyServiceInput = {
+    id?: string
+    agreementId: string
+  }
+
   export type UserPurchasedServicesCreateManyServiceInput = {
     id?: string
     userId: string
@@ -25401,6 +28163,7 @@ export namespace Prisma {
     planDays: number
     planDiscount: number
     agreementAcceptedAt?: Date | string | null
+    agreementData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserDocumentsCreateManyServiceInput = {
@@ -25433,6 +28196,21 @@ export namespace Prisma {
     comboPlanId: string
   }
 
+  export type ServiceAgreementUpdateWithoutServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agreement?: AgreementUpdateOneRequiredWithoutServiceAgreementsNestedInput
+  }
+
+  export type ServiceAgreementUncheckedUpdateWithoutServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agreementId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ServiceAgreementUncheckedUpdateManyWithoutServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agreementId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type UserPurchasedServicesUpdateWithoutServiceInput = {
     id?: StringFieldUpdateOperationsInput | string
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25440,6 +28218,7 @@ export namespace Prisma {
     planDays?: IntFieldUpdateOperationsInput | number
     planDiscount?: FloatFieldUpdateOperationsInput | number
     agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementData?: NullableJsonNullValueInput | InputJsonValue
     user?: UserUpdateOneRequiredWithoutPurchasedServicesNestedInput
   }
 
@@ -25451,6 +28230,7 @@ export namespace Prisma {
     planDays?: IntFieldUpdateOperationsInput | number
     planDiscount?: FloatFieldUpdateOperationsInput | number
     agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserPurchasedServicesUncheckedUpdateManyWithoutServiceInput = {
@@ -25461,6 +28241,7 @@ export namespace Prisma {
     planDays?: IntFieldUpdateOperationsInput | number
     planDiscount?: FloatFieldUpdateOperationsInput | number
     agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserDocumentsUpdateWithoutServiceInput = {

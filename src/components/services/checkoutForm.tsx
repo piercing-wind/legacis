@@ -1,5 +1,5 @@
 'use client';
-import { Coupon, Service } from "@/prisma/generated/client";
+import { Agreement, Coupon, Service } from "@/prisma/generated/client";
 import { OrderEntity } from "cashfree-pg";
 import { load } from "@cashfreepayments/cashfree-js";
 import { useEffect, useRef, useState } from "react";
@@ -14,6 +14,8 @@ import { Button } from "../ui/button";
 import { Line } from "../icon";
 import { findCouponByCode } from "@/lib/data/coupon";
 import { Input } from "../ui/input";
+import { ServiceAgreement } from "@/types/global";
+import { formatHumanDate } from "@/lib/utils";
 
 type CreateOrderResponse = OrderEntity & { error?: string };
 
@@ -22,7 +24,7 @@ type CashfreeInstance = {
 };
 
 
-export const CheckoutForm=({user, service, agreementContent} :{user: User, service: Service  | null, agreementContent : any})=>{
+export const CheckoutForm=({user, service, agreement} :{user: User, service: Service  | null, agreement: Agreement[] | null})=>{
    const cashfreeRef = useRef<CashfreeInstance | null>(null);
    const drawerCloseRef = useRef<HTMLButtonElement>(null);
    const [loading, setLoading] = useState(false);
@@ -62,11 +64,29 @@ export const CheckoutForm=({user, service, agreementContent} :{user: User, servi
 
    const total = taxableAmount + taxAmount;
 
+   const agreementData : ServiceAgreement = {
+      clientName: user.name || user.email || "Unknown User",
+      clientPhoneNumber: user.phone || "Unknown Phone",
+      clientpanNumber: user?.pan || "Unknown PAN",
+      serviceName: service?.name || "Unknown Service",
+      subscriptionStartDate: formatHumanDate(new Date()),
+      subscriptionFrequency: `${months} ${months === 1 ? 'Month' : 'Months'}`,
+      subscriptionPrice: String(total),
+   }
 
    const handlePlanSelect = async (tenure: TenureDiscount, finalPrice: number) => {
          try {
             const serviceId = service?.id;
-            dispatch(setModalOpen({open : true, modelType : 'agreement', agreementContent: agreementContent}));
+            drawerCloseRef.current?.click();
+
+            const serializableAgreement = agreement?.map(a => ({
+              ...a,
+              createdAt: a.createdAt instanceof Date ? a.createdAt.toISOString() : a.createdAt,
+              updatedAt: a.updatedAt instanceof Date ? a.updatedAt.toISOString() : a.updatedAt,
+            }));
+
+            dispatch(setModalOpen({open : true, modelType : 'agreement', agreement : serializableAgreement ?? undefined, agreementData}));
+           
             // if (user.panVerified === null) {
             //    dispatch(setModalType('panVerification'));
             //    toast.info(

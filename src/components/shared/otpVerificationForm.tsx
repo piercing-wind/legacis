@@ -62,6 +62,21 @@ export default function OTPVerificationForm({className}:{className ?:string}) {
     },
   });
 
+  const handleModalActions = () => {
+    switch (verificationType) {
+      case "RESET_PASS_VERIFY":
+        dispatch(setModalOpen({ open: false }));
+        dispatch(setAuthOpen(true));
+        dispatch(setAuthModel("reset-password"));
+        break;
+      case "EMAIL_VERIFY":
+        dispatch(setModalOpen({ open: true, modelType: "phoneVerification" }));
+        break;
+      default:
+        dispatch(setModalOpen({ open: false }));
+    }
+  };
+
   function onSubmit(values: z.infer<typeof FormSchema>) {
        if (!identifier) {
          toast.error("Identifier is missing.");
@@ -90,26 +105,8 @@ export default function OTPVerificationForm({className}:{className ?:string}) {
                description: `${res.message}`,
             });
             form.reset();
-            if(verificationType === 'PHONE_UPDATE'){
-               dispatch(setModalOpen({ open : false}));
-            }
-            if(verificationType === 'EMAIL_UPDATE'){
-               dispatch(setModalOpen({ open : false}));
-            }
-            if(verificationType === 'RESET_PASS_VERIFY'){
-               dispatch(setModalOpen({ open : false}));
-               dispatch(setAuthOpen(true))
-               dispatch(setAuthModel('reset-password'));
-            }
-            if(verificationType === 'EMAIL_VERIFY'){
-               dispatch(setModalOpen({ open :true, modelType: 'phoneVerification'}));
-            }
-            if(verificationType === 'PHONE_VERIFY'){
-               dispatch(setModalOpen({ open : false}));
-               
-            }
-          })
-          .catch((err) => {
+            handleModalActions()
+          }).catch((err) => {
             toast.error(<h6 style={{color:"red"}}>Failed to verify OTP!</h6>, {
               duration: 10000,
               action: {

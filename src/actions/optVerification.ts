@@ -7,6 +7,7 @@ import { findUser, markEmailVerifiedById, markPhoneVerifiedById, updateEmailAndV
 import { Session } from "./session";
 import { User } from "next-auth";
 import { VerificationType } from "@/prisma/generated/client";
+import { sendOTPSMS } from "@/sms/sms";
 
 
 const OTP_EXPIRY_MS = 10 * 60 * 1000; // 3 minutes
@@ -14,6 +15,19 @@ const OTP_RATE_LIMIT_MS = 2 * 60 * 1000; // 2 minutes
 
 function generateOTP() {
   return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
+function getVerificationTypeLabel(type: VerificationType) {
+  switch (type) {
+    case "EMAIL_VERIFY": return "Email Verification";
+    case "PHONE_VERIFY": return "Phone Verification";
+    case "EMAIL_UPDATE": return "Email Update";
+    case "PHONE_UPDATE": return "Phone Update";
+    case "RESET_PASS_VERIFY": return "Password Reset";
+    case "CONSENT": return "Consent Verification";
+    case "AGREEMENT_ACCEPTANCE": return "Agreement Acceptance";
+    default: return "Verification";
+  }
 }
 
 export const sendOTP = async ({ identifier, verificationType }: { identifier: string, verificationType : VerificationType}) => {
@@ -49,27 +63,8 @@ export const sendOTP = async ({ identifier, verificationType }: { identifier: st
         otp: OTP,
         year: new Date().getFullYear(),
       };
-       let subject = "Verification Code - Legacis";
-      switch (verificationType) {
-        case "EMAIL_VERIFY":
-          subject = "Email Verification Code - Legacis";
-          break;
-        case "PHONE_VERIFY":
-          subject = "Phone Verification Code - Legacis";
-          break;
-        case "EMAIL_UPDATE":
-          subject = "Email Update Code - Legacis";
-          break;
-        case "PHONE_UPDATE":
-          subject = "Phone Update Code - Legacis";
-          break;
-        case "RESET_PASS_VERIFY":
-          subject = "Password Reset Code - Legacis";
-          break;
-        case "CONSENT":
-          subject = "Consent Verification Code - Legacis";
-          break;
-      } 
+       let subject = `${getVerificationTypeLabel(verificationType)} - Legacis`;
+    
       await sendMail({
         to: identifier,
         subject: subject,
@@ -78,7 +73,11 @@ export const sendOTP = async ({ identifier, verificationType }: { identifier: st
       });
     }
     if (input_type === 'phone') {
-      // send sms logic here
+      await  sendOTPSMS({
+         phoneNumber: identifier,
+         otp: OTP,
+         type: getVerificationTypeLabel(verificationType) 
+      })
     }
 
     await db.otp.upsert({

@@ -12,7 +12,7 @@ import PurchasedServiceSection from "@/components/services/purchasedServiceSecti
 import { Session } from "@/actions/session"
 import { User } from "next-auth"
 import { formatHumanDate } from "@/lib/utils"
-import { findAgreementById } from "@/lib/data/agreement"
+import { findAgreementsByServiceId } from "@/lib/data/agreement"
 import { CheckoutForm } from "@/components/services/checkoutForm"
 
 export default async function Page({params}: { params: Promise<{ slug: string }>}) {
@@ -56,7 +56,7 @@ export default async function Page({params}: { params: Promise<{ slug: string }>
    const latestData = sortedChartData[sortedChartData.length - 1];
 
 
-   const agreement = await findAgreementById(service?.agreementId || '');
+   const agreement = await findAgreementsByServiceId(service?.id || '');
 
    return (
       <main className='w-full px-5 lg:px-10 xl:px-24 py-8'>
@@ -142,7 +142,7 @@ export default async function Page({params}: { params: Promise<{ slug: string }>
                     <CheckoutForm 
                       user={user}
                       service={service}
-                      agreementContent={agreement?.content || ''}   
+                      agreement={agreement}   
                     />
                   </div>
                </div>

@@ -16,7 +16,7 @@ import { AgreementViewer } from "../richTextViewer";
 const Modal = () => {
    const isOpen = useAppSelector((state) => state.profile.modalOpen);
    const model = useAppSelector((state) => state.profile.modalType);
-   const agreementContent = useAppSelector((state) => state.profile.agreementContent);
+   const {agreement, agreementData } = useAppSelector((state) => state.profile);
    
    const dispatch = useAppDispatch();
 
@@ -45,7 +45,7 @@ const Modal = () => {
        case 'consent':
          return <ConsentForm/>
        case 'agreement':
-         return <AgreementViewer agreementContent={agreementContent} />;
+         return <AgreementViewer agreementContent={agreement} agreementData={agreementData} />;
 
        default:
          return null;
