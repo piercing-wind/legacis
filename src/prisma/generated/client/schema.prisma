@@ -1,0 +1,373 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/prisma/generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserType {
+  INDIVIDUAL
+  BUSINESS
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum Status {
+  CLOSED_CALL
+  ACTIVE_CALL
+}
+
+enum DocumentStatus {
+  PENDING
+  UNDER_REVIEW
+  RESUBMISSION_REQUIRED
+  COMPLETED
+  CANCELLED
+}
+
+enum ServiceType {
+  TRADING
+  RESEARCH_ADVISORY
+  RESEARCH_ADVISORY_MODEL_PORTFOLIO
+  RESEARCH_ADVISORY_PORTFOLIO_REVIEW
+  INVESTMENT_ADVISORY
+  RESEARCH_ADVISORY_MUTUAL_FUNDS
+  SMALLCASE
+}
+
+enum VerificationType {
+  EMAIL_UPDATE
+  PHONE_UPDATE
+  EMAIL_VERIFY
+  PHONE_VERIFY
+  RESET_PASS_VERIFY
+  CONSENT
+}
+
+enum TransactionStatus {
+  SUCCESS
+  FAILED
+  PENDING
+}
+
+model User {
+  id            String    @id @default(uuid())
+  name          String?
+  email         String    @unique
+  phone         String?   @unique
+  username      String?   @unique
+  image         String?
+  password      String?
+  dob           String?
+  pan           String?   @unique
+  aadharNumber  String?
+  gstin         String?
+  address       String?
+  state         String?
+  city          String?
+  zip           String?
+  panVerified   DateTime?
+  termsAccepted DateTime?
+  emailVerified DateTime?
+  phoneVerified DateTime?
+  isBanned      Boolean   @default(false)
+
+  userType            UserType                @default(INDIVIDUAL)
+  role                UserRole                @default(USER)
+  createdAt           DateTime                @default(now())
+  updatedAt           DateTime                @updatedAt
+  accounts            Account[]
+  documents           UserDocuments[]
+  purchasedServices   UserPurchasedServices[]
+  panVerificationData panVerificationData[]
+  transaction         Transaction[]
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Otp {
+  id               String           @id @default(uuid())
+  userId           String
+  identifier       String
+  otp              String
+  expires_at       DateTime
+  verificationType VerificationType
+  createdAt        DateTime         @default(now())
+
+  @@unique([userId, identifier, verificationType])
+  @@index([userId, identifier])
+}
+
+model panVerificationData {
+  userId    String   @id
+  provider  String
+  result    Json
+  status    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model UserPurchasedServices {
+  id                  String    @id @default(uuid())
+  userId              String
+  serviceId           String
+  purchaseDate        DateTime  @default(now())
+  expiryDate          DateTime
+  planDays            Int
+  planDiscount        Float
+  agreementAcceptedAt DateTime?
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+}
+
+model Coupon {
+  id          String   @id @default(uuid())
+  code        String   @unique
+  description String?
+  percentOff  Float
+  isActive    Boolean  @default(true)
+  expiryDate  DateTime
+  minAmount   Float?
+  maxAmount   Float?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Transaction {
+  id             String            @id @default(uuid())
+  userId         String
+  serviceId      String?
+  comboPlanId    String?
+  amount         Float
+  currency       String            @default("INR")
+  status         TransactionStatus
+  paymentGateway String
+  paymentId      String?
+  orderId        String?
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  service   Service?   @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  comboPlan ComboPlan? @relation(fields: [comboPlanId], references: [id])
+}
+
+model UserDocuments {
+  id                  String         @id @default(uuid())
+  serviceId           String
+  userId              String
+  documentUrl         String
+  reviewedDocumentUrl String?
+  status              DocumentStatus @default(PENDING)
+  reviewedBy          String?
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  service Service? @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+}
+
+model Agreement {
+  id        String   @id @default(uuid())
+  name      String
+  content   Json
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  services  Service[]
+  ComboPlan ComboPlan[]
+}
+
+model ComboPlan {
+  id              String             @id @default(uuid())
+  name            String
+  description     String?
+  price           Float
+  agreementId     String?
+  services        ComboPlanService[]
+  tenureDiscounts Json
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  agreement Agreement? @relation(fields: [agreementId], references: [id])
+
+  Transaction Transaction[]
+}
+
+model ComboPlanService {
+  id          String    @id @default(uuid())
+  comboPlanId String
+  serviceId   String
+  comboPlan   ComboPlan @relation(fields: [comboPlanId], references: [id])
+  service     Service   @relation(fields: [serviceId], references: [id])
+}
+
+model Service {
+  id                String                  @id @default(uuid())
+  name              String
+  slug              String                  @unique
+  tag               String?
+  label             String?
+  serviceClass      String?
+  description       String?
+  chart             Json?
+  comparisonTitle   String?
+  recommendation    String[]
+  price             String?
+  taxPercent        Float?
+  tenureDiscounts   Json?
+  features          Json?
+  faq               Json?
+  active            Boolean?
+  type              ServiceType
+  createdAt         DateTime                @default(now())
+  updatedAt         DateTime                @updatedAt
+  agreementId       String?
+  serviceTrading    ServiceTrading?
+  //serviceResearchAdvisory                ServiceResearchAdvisory?       
+  //serviceResearchAdvisoryModelPortfolio  ServiceResearchAdvisoryModelPortfolio? 
+  //serviceResearchAdvisoryPortfolioReview ServiceResearchAdvisoryPortfolioReview? 
+  //investmentAdvisory                     InvestmentAdviosry?   
+  purchasedServices UserPurchasedServices[]
+  userDocuments     UserDocuments[]
+  //complimentaryServices                  ComplimentaryService[]    
+  //ServiceResearchAdvisoryMutualFunds     ServiceResearchAdvisoryMutualFunds[]
+  Transaction       Transaction[]
+  agreement         Agreement?              @relation(fields: [agreementId], references: [id])
+  ComboPlanService  ComboPlanService[]
+}
+
+model ServiceTrading {
+  id              String   @id
+  buy_stock_list  Json
+  sell_stock_list Json
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  service Service @relation(fields: [id], references: [id], onDelete: Cascade)
+}
+
+//sell_stock_list { name, research_report_document }
+//buy_stock_list { name, target_price, buy_price, stop_loss, research_report_document }
+//for valuevest & SME champion
+
+//model ServiceResearchAdvisory {
+//   id              String     @id 
+//   stockList       Json
+//   createdAt       DateTime @default(now())
+//   updatedAt       DateTime @updatedAt
+//
+//   service     Service  @relation(fields: [id], references: [id], onDelete: Cascade)
+//}
+
+//   stock_list { name, research_report_document, buy_range, holding_peroid, target_price, status, selling_rational_document? }
+
+//model ServiceResearchAdvisoryModelPortfolio {
+//   id               String   @id
+//   stockList        Json
+//   isAvailable      Boolean   @default(true)
+//   recommendation   String[]
+//   createdAt        DateTime @default(now())
+//   updatedAt        DateTime @updatedAt
+//
+//   service     Service  @relation(fields: [id], references: [id], onDelete: Cascade)
+//}
+//   stock_list {name, weight, sector, research_report_document, status, selling_rational_document? }
+
+//Maybe addon services in future
+
+//model ServiceResearchAdvisoryPortfolioReview {
+//   id               String   @id
+//   minimumStock     Int?    //Change to range
+//   minimumPrice     Float?
+//   addonPrice       Float?
+//   addonStock       Int?
+//   reviewReport     String?
+//   isAvailable      Boolean   @default(true)
+//   recommendation   String[]
+//   createdAt        DateTime  @default(now())
+//   updatedAt        DateTime  @updatedAt
+//
+//   service     Service  @relation(fields: [id], references: [id], onDelete: Cascade)
+//}
+
+//model InvestmentAdviosry {
+//   id               String   @id
+//   stockList        Json
+//   reviewedPortfolioDocument  String?
+//   ServiceList      Json
+//   isAvailable      Boolean   @default(true)
+//   duration         Int
+//   recommendation   String[]
+//   createdAt        DateTime  @default(now())
+//   updatedAt        DateTime  @updatedAt
+//
+//   service          Service  @relation(fields: [id], references: [id], onDelete: Cascade)
+//   complimentaryServices ComplimentaryService[]
+//}
+
+//model ComplimentaryService {
+//  id                  String   @id
+//  investmentAdvisoryId String   
+//  serviceId           String
+//  createdAt           DateTime @default(now())
+//
+//  investmentAdvisory  InvestmentAdviosry @relation(fields: [investmentAdvisoryId], references: [id], onDelete: Cascade)
+//  service             Service            @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+//}
+
+// stock_list { name, research_report_document, buy_range, holding_peroid, target_price, status, selling_rational_document? }
+// service_list [VALUE, SME, MUTUAL, Momentun]
+// display_status
+
+//model ServiceResearchAdvisoryMutualFunds {
+//   id              String     @id
+//   chart           Json
+//   serviceHighlights Json
+//   faq             Json?
+//   price           Float
+//   discountedPrice Float?
+//   duration        Int
+//   isAvailable     Boolean   @default(true)
+//   stockList       Json
+//
+//   createdAt       DateTime @default(now())
+//   updatedAt       DateTime @updatedAt
+//   service         Service  @relation(fields: [id], references: [id], onDelete: Cascade)
+//
+//}
+//Stock list{name, weight, sector }

@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Coupon" ADD COLUMN     "maxAmount" DOUBLE PRECISION,
+ADD COLUMN     "minAmount" DOUBLE PRECISION;
