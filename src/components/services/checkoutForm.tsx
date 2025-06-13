@@ -1,7 +1,6 @@
 'use client';
 import { Agreement, Coupon, Service } from "@/prisma/generated/client";
 import { OrderEntity } from "cashfree-pg";
-import { load } from "@cashfreepayments/cashfree-js";
 import { useEffect, useRef, useState } from "react";
 import { ClipLoader } from 'react-spinners';
 import { DrawerClose } from "../ui/drawer";
@@ -14,37 +13,25 @@ import { Button } from "../ui/button";
 import { Line } from "../icon";
 import { findCouponByCode } from "@/lib/data/coupon";
 import { Input } from "../ui/input";
-import { ServiceAgreement } from "@/types/global";
+import { SerializableAgreement, ServiceAgreement } from "@/types/global";
 import { formatHumanDate } from "@/lib/utils";
+import { selectTenure, setAgreement, setAgreementSummary, setCoupon } from "@/lib/slices/checkoutSlice";
+import { useSession } from "next-auth/react";
 
-type CreateOrderResponse = OrderEntity & { error?: string };
-
-type CashfreeInstance = {
-  checkout: (options: { paymentSessionId: string; redirectTarget?: string }) => Promise<any>;
-};
-
-
-export const CheckoutForm=({user, service, agreement} :{user: User, service: Service  | null, agreement: Agreement[] | null})=>{
-   const cashfreeRef = useRef<CashfreeInstance | null>(null);
+export const CheckoutForm=({ service, agreement} :{service: Service  | null, agreement: Agreement[] | null})=>{
    const drawerCloseRef = useRef<HTMLButtonElement>(null);
    const [loading, setLoading] = useState(false);
    const [couponCode, setCouponCode] = useState("");
-   const [appliedCoupon, setAppliedCoupon] = useState<Coupon | null>(null);
    const [couponLoading, setCouponLoading] = useState(false);
- 
-   const selectedTenure = useAppSelector((state) => state.checkout.tenureDiscount);
-   
+   const {data} = useSession()
+   const user = data?.user as User;
+
+   const selectedTenure = useAppSelector((state) => state.checkout.service.tenureDiscount);
+   const appliedCoupon = useAppSelector((state) => state.checkout.coupon);
    const dispatch = useAppDispatch();
-   
-   useEffect(() => {
-    load({ mode: "sandbox" }).then((cf) => {
-      cashfreeRef.current = cf;
-    });
-   }, []);
 
    useEffect(() => {
       setCouponCode("");
-      setAppliedCoupon(null);
    },[selectedTenure]);
 
    const months = Math.round(selectedTenure.days / 30)
@@ -64,7 +51,7 @@ export const CheckoutForm=({user, service, agreement} :{user: User, service: Ser
 
    const total = taxableAmount + taxAmount;
 
-   const agreementData : ServiceAgreement = {
+   const agreementSummary : ServiceAgreement = {
       clientName: user.name || user.email || "Unknown User",
       clientPhoneNumber: user.phone || "Unknown Phone",
       clientpanNumber: user?.pan || "Unknown PAN",
@@ -74,99 +61,41 @@ export const CheckoutForm=({user, service, agreement} :{user: User, service: Ser
       subscriptionPrice: String(total),
    }
 
-   const handlePlanSelect = async (tenure: TenureDiscount, finalPrice: number) => {
+   const handlePlanSelect = async () => {
          try {
             const serviceId = service?.id;
             drawerCloseRef.current?.click();
 
-            const serializableAgreement = agreement?.map(a => ({
+            if (user.panVerified === null) {
+               dispatch(setModalOpen({open : true, modelType :'panVerification'}));
+               toast.info(
+                  "After Completing KYC your Name, Date of Birth (DOB), PAN, Address, Account Type Cannot be Changed.",
+                  {
+                  duration: 30000,
+                  }
+               );
+               return;
+            } else if (user.emailVerified === null) {
+               dispatch(setModalOpen({ open : true, modelType: "emailVerification"}));
+               return;
+            } else if (user.phoneVerified === null) {
+               dispatch(setModalOpen({ open : true, modelType: 'phoneVerification'}));
+               return;
+            }
+   
+            if(!serviceId) throw new Error("Service ID is required to select a plan.");
+   
+            const serializableAgreement: SerializableAgreement[] = (agreement ?? []).map(a => ({
               ...a,
               createdAt: a.createdAt instanceof Date ? a.createdAt.toISOString() : a.createdAt,
               updatedAt: a.updatedAt instanceof Date ? a.updatedAt.toISOString() : a.updatedAt,
             }));
-
-            dispatch(setModalOpen({open : true, modelType : 'agreement', agreement : serializableAgreement ?? undefined, agreementData}));
-           
-            // if (user.panVerified === null) {
-            //    dispatch(setModalType('panVerification'));
-            //    toast.info(
-            //       "After Completing KYC your Name, Date of Birth (DOB), PAN, Address, Account Type Cannot be Changed.",
-            //       {
-            //       duration: 30000,
-            //       }
-            //    );
-            //    drawerCloseRef.current?.click();
-               
-            //    return;
-            // }
-            return;
-            // } else if (user.emailVerified === null) {
-            //    dispatch(setModalType("emailVerification"));
-            //    drawerCloseRef.current?.click();
-            //    return;
-            // } else if (user.phoneVerified === null) {
-            //    dispatch(setModalType('phoneVerification'));
-               
-            //    drawerCloseRef.current?.click();
-            //    return;
-            // }
-   
-            if(!serviceId) throw new Error("Service ID is required to select a plan.");
-            setLoading(true);
-            const res = await fetch('/api/payment/create-order',{
-               method: 'POST',
-               headers: {
-                  'Content-Type': 'application/json',
-               },
-               body: JSON.stringify({
-                  serviceId,
-                  tenureDays: tenure.days,
-                  tenureDicount : tenure.discount,
-               })
-            })
             
-            const data = await res.json() as CreateOrderResponse;
-            setLoading(false);
-            if (!res.ok) throw new Error(data.error || "Failed to create order.");
-            if (cashfreeRef.current) {
-               if (!data.payment_session_id) throw new Error("Payment session ID not received from server.");
-   
-               let checkoutOptions = {
-                 paymentSessionId: data.payment_session_id,
-                 redirectTarget: "_modal",
-               };
-               
-               drawerCloseRef.current?.click();
-   
-               cashfreeRef.current.checkout(checkoutOptions).then((result: any) => {
-                 if (result.error) {
-                   toast.error(`Transaction was not completed. ${result.error.message} or contact support if the issue persists.`,{
-                     duration: 10000,
-                   });
-                 }
-                 if (result.redirect) {
-                   toast.info("Payment will be redirected.");
-                 }
-                 if (result.paymentDetails) {
-                   console.log("Payment completed:", result.paymentDetails);
-                   toast.success("Payment completed: " + result.paymentDetails.paymentMessage);
-                 }
-               });
-            } else {
-              toast.error("Cashfree SDK not loaded.");
-            } 
-   
-   
-            // toast.success(`${data.}`);
-            // console.log(response);
-            // if(response.status === 500) throw new Error(`${response.message}`);
-   
-            // if (assginService.success) {
-            //    toast.success(`Purchase successful! ₹${finalPrice} has been deducted from your account.`);
-            // } else {
-            //    throw new Error(assginService.message || "Failed to assign service.");
-            // }
-   
+            dispatch(selectTenure({...selectedTenure, serviceId}));
+            dispatch(setAgreement(serializableAgreement ?? null));
+            dispatch(setAgreementSummary(agreementSummary));
+            dispatch(setModalOpen({open : true, modelType : 'agreement'}));
+
          } catch (error) {
             setLoading(false);
             toast.error(`Failed to select plan. ${(error as Error).message}`);
@@ -179,14 +108,20 @@ export const CheckoutForm=({user, service, agreement} :{user: User, service: Ser
    const handleApplyCoupon = async () => {
       try{
          setCouponLoading(true);
-         const coupon = await findCouponByCode(couponCode);
+         const coupon = await findCouponByCode({code : couponCode, serviceId : service?.id || "",  planDays : selectedTenure.days });
+         
          if(!coupon) throw new Error("Invalid or expired coupon code.");
 
          if(taxableAmount < (coupon.minAmount ?? 0)) throw new Error(`This coupon can only be applied on orders above ₹${coupon.minAmount?.toLocaleString() || 0}.`);
          if(coupon.maxAmount != null && taxableAmount > coupon.maxAmount) throw new Error(`Coupon can only be applied on orders below ₹${coupon.maxAmount.toLocaleString()}.`);
-        
-         setAppliedCoupon(coupon);
-         toast.success(` Coupon applied successfully! You saved ₹${coupon.percentOff}% on your purchase.`);
+         const serializableCoupon = {
+           ...coupon,
+           expiryDate: coupon.expiryDate instanceof Date ? coupon.expiryDate.toISOString() : coupon.expiryDate,
+           createdAt: coupon.createdAt instanceof Date ? coupon.createdAt.toISOString() : coupon.createdAt,
+           updatedAt: coupon.updatedAt instanceof Date ? coupon.updatedAt.toISOString() : coupon.updatedAt,
+         };
+         dispatch(setCoupon(serializableCoupon));     
+         toast.success(` Coupon applied successfully! You saved ${coupon.percentOff}% on your purchase.`);
       }catch(error){
         toast.error(`Failed to apply coupon. ${(error as Error).message}`);
       }finally {
@@ -243,7 +178,7 @@ export const CheckoutForm=({user, service, agreement} :{user: User, service: Ser
       <div className="mb-4 flex gap-2">
          <Input
            type="text"
-           className="border rounded px-2 py-1 flex-1"
+           className="border rounded px-2 py-1 flex-1 h-auto"
            placeholder="Coupon code"
            value={couponCode}
            onChange={e => setCouponCode(e.target.value)}
@@ -258,7 +193,7 @@ export const CheckoutForm=({user, service, agreement} :{user: User, service: Ser
       </div>
       <Button
          className="w-full mt-2 uppercase rounded-full h-12"
-         onClick={() => handlePlanSelect(selectedTenure, total)}
+         onClick={() => handlePlanSelect()}
          disabled={loading || !service}
          variant={'legacis'}
       >

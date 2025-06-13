@@ -139,8 +139,7 @@ export default async function Page({params}: { params: Promise<{ slug: string }>
                     />
                   </div>
                   <div className="flex-1 min-w-0 flex flex-col">
-                    <CheckoutForm 
-                      user={user}
+                    <CheckoutForm
                       service={service}
                       agreement={agreement}   
                     />

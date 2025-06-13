@@ -73,11 +73,12 @@ export const sendOTP = async ({ identifier, verificationType }: { identifier: st
       });
     }
     if (input_type === 'phone') {
-      await  sendOTPSMS({
+      const res = await  sendOTPSMS({
          phoneNumber: identifier,
          otp: OTP,
          type: getVerificationTypeLabel(verificationType) 
       })
+      if(res.ErrorCode !== '000') throw new Error(`Failed to send OTP SMS: ${res.ErrorMessage}`);
     }
 
     await db.otp.upsert({
@@ -169,7 +170,13 @@ export const verifyOTP = async ({identifier, otp}:{identifier : string, otp: str
 
       return { success: true, message, res}
    } catch (error) {
-      console
+      if(
+         typeof error === "object" &&
+         error !== null &&
+         "code" in error && error.code === "P2002") {
+        const fields = (error as any).meta?.target?.join(", ") || "";
+        return { success: false, message: `This ${fields} is already in use.` };
+      }
       return { success: false, message: (error as Error).message }
    }
 }

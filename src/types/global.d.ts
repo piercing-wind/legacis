@@ -1,3 +1,5 @@
+import { Agreement, Coupon } from "@/prisma/generated/client";
+
 declare global {
    type Identifier = "email" | "phone" | "username";
 }
@@ -93,6 +95,12 @@ export type ServiceAgreement = {
 }
 
 export type SerializableAgreement = Omit<Agreement, 'createdAt' | 'updatedAt'> & {
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type SerializableCoupon = Omit<Coupon, 'expiryDate' | 'createdAt' | 'updatedAt'> & {
+  expiryDate: string;
   createdAt: string;
   updatedAt: string;
 };

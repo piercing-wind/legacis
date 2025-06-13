@@ -199,27 +199,33 @@ exports.Prisma.CouponScalarFieldEnum = {
   code: 'code',
   description: 'description',
   percentOff: 'percentOff',
-  isActive: 'isActive',
   expiryDate: 'expiryDate',
   minAmount: 'minAmount',
   maxAmount: 'maxAmount',
+  serviceId: 'serviceId',
+  comboPlanId: 'comboPlanId',
+  planDays: 'planDays',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
 exports.Prisma.TransactionScalarFieldEnum = {
   id: 'id',
+  orderId: 'orderId',
+  paymentId: 'paymentId',
+  couponId: 'couponId',
   userId: 'userId',
   serviceId: 'serviceId',
   comboPlanId: 'comboPlanId',
   amount: 'amount',
+  tenure: 'tenure',
   currency: 'currency',
   status: 'status',
   paymentGateway: 'paymentGateway',
-  paymentId: 'paymentId',
-  orderId: 'orderId',
+  webhookResponse: 'webhookResponse',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  extraData: 'extraData'
 };
 
 exports.Prisma.UserDocumentsScalarFieldEnum = {
@@ -238,6 +244,8 @@ exports.Prisma.AgreementScalarFieldEnum = {
   id: 'id',
   name: 'name',
   content: 'content',
+  version: 'version',
+  hash: 'hash',
   signatoryPerson: 'signatoryPerson',
   companyName: 'companyName',
   updatedAt: 'updatedAt',
@@ -261,6 +269,7 @@ exports.Prisma.ComboPlanScalarFieldEnum = {
   name: 'name',
   description: 'description',
   price: 'price',
+  active: 'active',
   tenureDiscounts: 'tenureDiscounts',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -349,12 +358,6 @@ exports.VerificationType = exports.$Enums.VerificationType = {
   RESET_PASS_VERIFY: 'RESET_PASS_VERIFY',
   CONSENT: 'CONSENT',
   AGREEMENT_ACCEPTANCE: 'AGREEMENT_ACCEPTANCE'
-};
-
-exports.TransactionStatus = exports.$Enums.TransactionStatus = {
-  SUCCESS: 'SUCCESS',
-  FAILED: 'FAILED',
-  PENDING: 'PENDING'
 };
 
 exports.DocumentStatus = exports.$Enums.DocumentStatus = {

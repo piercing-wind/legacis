@@ -1,8 +1,7 @@
-import { Agreement, User, VerificationType } from "@/prisma/generated/client";
+import { User, VerificationType } from "@/prisma/generated/client";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { findUserById } from "../data/user";
-import { set } from "zod";
-import { SerializableAgreement, ServiceAgreement } from "@/types/global";
+import { SerializableAgreement } from "@/types/global";
 
 type SerializableUser = Omit<User, 'createdAt' | 'updatedAt' | 'emailVerified' | 'phoneVerified' | 'panVerified'> & {
   createdAt: string;
@@ -38,8 +37,6 @@ type ProfileState = {
    error : string | null;
    identifier : string | null;
    verificationType: VerificationType;  // Only because for Resend OTP
-   agreement: SerializableAgreement[] | null;
-   agreementData : ServiceAgreement | null;
 }
 
 
@@ -51,8 +48,6 @@ const initialState : ProfileState = {
    error : null,
    identifier : null,  // For OTP form to let user know which identifier is being verified
    verificationType: 'RESET_PASS_VERIFY',
-   agreement: null, 
-   agreementData: null,
 }
 
 const profileSlice = createSlice({
@@ -63,12 +58,9 @@ const profileSlice = createSlice({
          open: boolean;
          modelType?: ProfileState['modalType']; 
          agreement?: SerializableAgreement[] | null; 
-         agreementData?: ServiceAgreement | null;
       } }) => {
          state.modalOpen = action.payload.open;
          state.modalType = action.payload.modelType ?? null;
-         state.agreement = action.payload.agreement ?? null;
-         state.agreementData = action.payload.agreementData ?? null;
       },
       setIdentifier: (state, action: { payload: string | null }) => {
          state.identifier = action.payload;

@@ -153,15 +153,6 @@ export const VerificationType: {
 
 export type VerificationType = (typeof VerificationType)[keyof typeof VerificationType]
 
-
-export const TransactionStatus: {
-  SUCCESS: 'SUCCESS',
-  FAILED: 'FAILED',
-  PENDING: 'PENDING'
-};
-
-export type TransactionStatus = (typeof TransactionStatus)[keyof typeof TransactionStatus]
-
 }
 
 export type UserType = $Enums.UserType
@@ -187,10 +178,6 @@ export const ServiceType: typeof $Enums.ServiceType
 export type VerificationType = $Enums.VerificationType
 
 export const VerificationType: typeof $Enums.VerificationType
-
-export type TransactionStatus = $Enums.TransactionStatus
-
-export const TransactionStatus: typeof $Enums.TransactionStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -2309,6 +2296,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type CouponCountOutputType
+   */
+
+  export type CouponCountOutputType = {
+    transactions: number
+  }
+
+  export type CouponCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    transactions?: boolean | CouponCountOutputTypeCountTransactionsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * CouponCountOutputType without action
+   */
+  export type CouponCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CouponCountOutputType
+     */
+    select?: CouponCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CouponCountOutputType without action
+   */
+  export type CouponCountOutputTypeCountTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TransactionWhereInput
+  }
+
+
+  /**
    * Count Type AgreementCountOutputType
    */
 
@@ -2355,12 +2373,14 @@ export namespace Prisma {
   export type ComboPlanCountOutputType = {
     agreement: number
     services: number
+    coupon: number
     Transaction: number
   }
 
   export type ComboPlanCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     agreement?: boolean | ComboPlanCountOutputTypeCountAgreementArgs
     services?: boolean | ComboPlanCountOutputTypeCountServicesArgs
+    coupon?: boolean | ComboPlanCountOutputTypeCountCouponArgs
     Transaction?: boolean | ComboPlanCountOutputTypeCountTransactionArgs
   }
 
@@ -2392,6 +2412,13 @@ export namespace Prisma {
   /**
    * ComboPlanCountOutputType without action
    */
+  export type ComboPlanCountOutputTypeCountCouponArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CouponWhereInput
+  }
+
+  /**
+   * ComboPlanCountOutputType without action
+   */
   export type ComboPlanCountOutputTypeCountTransactionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TransactionWhereInput
   }
@@ -2407,6 +2434,7 @@ export namespace Prisma {
     userDocuments: number
     Transaction: number
     ComboPlanService: number
+    coupon: number
   }
 
   export type ServiceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2415,6 +2443,7 @@ export namespace Prisma {
     userDocuments?: boolean | ServiceCountOutputTypeCountUserDocumentsArgs
     Transaction?: boolean | ServiceCountOutputTypeCountTransactionArgs
     ComboPlanService?: boolean | ServiceCountOutputTypeCountComboPlanServiceArgs
+    coupon?: boolean | ServiceCountOutputTypeCountCouponArgs
   }
 
   // Custom InputTypes
@@ -2461,6 +2490,13 @@ export namespace Prisma {
    */
   export type ServiceCountOutputTypeCountComboPlanServiceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ComboPlanServiceWhereInput
+  }
+
+  /**
+   * ServiceCountOutputType without action
+   */
+  export type ServiceCountOutputTypeCountCouponArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CouponWhereInput
   }
 
 
@@ -8349,12 +8385,14 @@ export namespace Prisma {
     percentOff: number | null
     minAmount: number | null
     maxAmount: number | null
+    planDays: number | null
   }
 
   export type CouponSumAggregateOutputType = {
     percentOff: number | null
     minAmount: number | null
     maxAmount: number | null
+    planDays: number | null
   }
 
   export type CouponMinAggregateOutputType = {
@@ -8362,10 +8400,12 @@ export namespace Prisma {
     code: string | null
     description: string | null
     percentOff: number | null
-    isActive: boolean | null
     expiryDate: Date | null
     minAmount: number | null
     maxAmount: number | null
+    serviceId: string | null
+    comboPlanId: string | null
+    planDays: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -8375,10 +8415,12 @@ export namespace Prisma {
     code: string | null
     description: string | null
     percentOff: number | null
-    isActive: boolean | null
     expiryDate: Date | null
     minAmount: number | null
     maxAmount: number | null
+    serviceId: string | null
+    comboPlanId: string | null
+    planDays: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -8388,10 +8430,12 @@ export namespace Prisma {
     code: number
     description: number
     percentOff: number
-    isActive: number
     expiryDate: number
     minAmount: number
     maxAmount: number
+    serviceId: number
+    comboPlanId: number
+    planDays: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -8402,12 +8446,14 @@ export namespace Prisma {
     percentOff?: true
     minAmount?: true
     maxAmount?: true
+    planDays?: true
   }
 
   export type CouponSumAggregateInputType = {
     percentOff?: true
     minAmount?: true
     maxAmount?: true
+    planDays?: true
   }
 
   export type CouponMinAggregateInputType = {
@@ -8415,10 +8461,12 @@ export namespace Prisma {
     code?: true
     description?: true
     percentOff?: true
-    isActive?: true
     expiryDate?: true
     minAmount?: true
     maxAmount?: true
+    serviceId?: true
+    comboPlanId?: true
+    planDays?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -8428,10 +8476,12 @@ export namespace Prisma {
     code?: true
     description?: true
     percentOff?: true
-    isActive?: true
     expiryDate?: true
     minAmount?: true
     maxAmount?: true
+    serviceId?: true
+    comboPlanId?: true
+    planDays?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -8441,10 +8491,12 @@ export namespace Prisma {
     code?: true
     description?: true
     percentOff?: true
-    isActive?: true
     expiryDate?: true
     minAmount?: true
     maxAmount?: true
+    serviceId?: true
+    comboPlanId?: true
+    planDays?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -8541,10 +8593,12 @@ export namespace Prisma {
     code: string
     description: string | null
     percentOff: number
-    isActive: boolean
     expiryDate: Date
     minAmount: number
     maxAmount: number | null
+    serviceId: string | null
+    comboPlanId: string | null
+    planDays: number | null
     createdAt: Date
     updatedAt: Date
     _count: CouponCountAggregateOutputType | null
@@ -8573,12 +8627,18 @@ export namespace Prisma {
     code?: boolean
     description?: boolean
     percentOff?: boolean
-    isActive?: boolean
     expiryDate?: boolean
     minAmount?: boolean
     maxAmount?: boolean
+    serviceId?: boolean
+    comboPlanId?: boolean
+    planDays?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    comboPlan?: boolean | Coupon$comboPlanArgs<ExtArgs>
+    service?: boolean | Coupon$serviceArgs<ExtArgs>
+    transactions?: boolean | Coupon$transactionsArgs<ExtArgs>
+    _count?: boolean | CouponCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["coupon"]>
 
   export type CouponSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -8586,12 +8646,16 @@ export namespace Prisma {
     code?: boolean
     description?: boolean
     percentOff?: boolean
-    isActive?: boolean
     expiryDate?: boolean
     minAmount?: boolean
     maxAmount?: boolean
+    serviceId?: boolean
+    comboPlanId?: boolean
+    planDays?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    comboPlan?: boolean | Coupon$comboPlanArgs<ExtArgs>
+    service?: boolean | Coupon$serviceArgs<ExtArgs>
   }, ExtArgs["result"]["coupon"]>
 
   export type CouponSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -8599,12 +8663,16 @@ export namespace Prisma {
     code?: boolean
     description?: boolean
     percentOff?: boolean
-    isActive?: boolean
     expiryDate?: boolean
     minAmount?: boolean
     maxAmount?: boolean
+    serviceId?: boolean
+    comboPlanId?: boolean
+    planDays?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    comboPlan?: boolean | Coupon$comboPlanArgs<ExtArgs>
+    service?: boolean | Coupon$serviceArgs<ExtArgs>
   }, ExtArgs["result"]["coupon"]>
 
   export type CouponSelectScalar = {
@@ -8612,28 +8680,50 @@ export namespace Prisma {
     code?: boolean
     description?: boolean
     percentOff?: boolean
-    isActive?: boolean
     expiryDate?: boolean
     minAmount?: boolean
     maxAmount?: boolean
+    serviceId?: boolean
+    comboPlanId?: boolean
+    planDays?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type CouponOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "description" | "percentOff" | "isActive" | "expiryDate" | "minAmount" | "maxAmount" | "createdAt" | "updatedAt", ExtArgs["result"]["coupon"]>
+  export type CouponOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "description" | "percentOff" | "expiryDate" | "minAmount" | "maxAmount" | "serviceId" | "comboPlanId" | "planDays" | "createdAt" | "updatedAt", ExtArgs["result"]["coupon"]>
+  export type CouponInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    comboPlan?: boolean | Coupon$comboPlanArgs<ExtArgs>
+    service?: boolean | Coupon$serviceArgs<ExtArgs>
+    transactions?: boolean | Coupon$transactionsArgs<ExtArgs>
+    _count?: boolean | CouponCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type CouponIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    comboPlan?: boolean | Coupon$comboPlanArgs<ExtArgs>
+    service?: boolean | Coupon$serviceArgs<ExtArgs>
+  }
+  export type CouponIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    comboPlan?: boolean | Coupon$comboPlanArgs<ExtArgs>
+    service?: boolean | Coupon$serviceArgs<ExtArgs>
+  }
 
   export type $CouponPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Coupon"
-    objects: {}
+    objects: {
+      comboPlan: Prisma.$ComboPlanPayload<ExtArgs> | null
+      service: Prisma.$ServicePayload<ExtArgs> | null
+      transactions: Prisma.$TransactionPayload<ExtArgs>[]
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       code: string
       description: string | null
       percentOff: number
-      isActive: boolean
       expiryDate: Date
       minAmount: number
       maxAmount: number | null
+      serviceId: string | null
+      comboPlanId: string | null
+      planDays: number | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["coupon"]>
@@ -9030,6 +9120,9 @@ export namespace Prisma {
    */
   export interface Prisma__CouponClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    comboPlan<T extends Coupon$comboPlanArgs<ExtArgs> = {}>(args?: Subset<T, Coupon$comboPlanArgs<ExtArgs>>): Prisma__ComboPlanClient<$Result.GetResult<Prisma.$ComboPlanPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    service<T extends Coupon$serviceArgs<ExtArgs> = {}>(args?: Subset<T, Coupon$serviceArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    transactions<T extends Coupon$transactionsArgs<ExtArgs> = {}>(args?: Subset<T, Coupon$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9063,10 +9156,12 @@ export namespace Prisma {
     readonly code: FieldRef<"Coupon", 'String'>
     readonly description: FieldRef<"Coupon", 'String'>
     readonly percentOff: FieldRef<"Coupon", 'Float'>
-    readonly isActive: FieldRef<"Coupon", 'Boolean'>
     readonly expiryDate: FieldRef<"Coupon", 'DateTime'>
     readonly minAmount: FieldRef<"Coupon", 'Float'>
     readonly maxAmount: FieldRef<"Coupon", 'Float'>
+    readonly serviceId: FieldRef<"Coupon", 'String'>
+    readonly comboPlanId: FieldRef<"Coupon", 'String'>
+    readonly planDays: FieldRef<"Coupon", 'Int'>
     readonly createdAt: FieldRef<"Coupon", 'DateTime'>
     readonly updatedAt: FieldRef<"Coupon", 'DateTime'>
   }
@@ -9086,6 +9181,10 @@ export namespace Prisma {
      */
     omit?: CouponOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CouponInclude<ExtArgs> | null
+    /**
      * Filter, which Coupon to fetch.
      */
     where: CouponWhereUniqueInput
@@ -9104,6 +9203,10 @@ export namespace Prisma {
      */
     omit?: CouponOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CouponInclude<ExtArgs> | null
+    /**
      * Filter, which Coupon to fetch.
      */
     where: CouponWhereUniqueInput
@@ -9121,6 +9224,10 @@ export namespace Prisma {
      * Omit specific fields from the Coupon
      */
     omit?: CouponOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CouponInclude<ExtArgs> | null
     /**
      * Filter, which Coupon to fetch.
      */
@@ -9170,6 +9277,10 @@ export namespace Prisma {
      */
     omit?: CouponOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CouponInclude<ExtArgs> | null
+    /**
      * Filter, which Coupon to fetch.
      */
     where?: CouponWhereInput
@@ -9218,6 +9329,10 @@ export namespace Prisma {
      */
     omit?: CouponOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CouponInclude<ExtArgs> | null
+    /**
      * Filter, which Coupons to fetch.
      */
     where?: CouponWhereInput
@@ -9261,6 +9376,10 @@ export namespace Prisma {
      */
     omit?: CouponOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CouponInclude<ExtArgs> | null
+    /**
      * The data needed to create a Coupon.
      */
     data: XOR<CouponCreateInput, CouponUncheckedCreateInput>
@@ -9294,6 +9413,10 @@ export namespace Prisma {
      */
     data: CouponCreateManyInput | CouponCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CouponIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -9308,6 +9431,10 @@ export namespace Prisma {
      * Omit specific fields from the Coupon
      */
     omit?: CouponOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CouponInclude<ExtArgs> | null
     /**
      * The data needed to update a Coupon.
      */
@@ -9360,6 +9487,10 @@ export namespace Prisma {
      * Limit how many Coupons to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CouponIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -9374,6 +9505,10 @@ export namespace Prisma {
      * Omit specific fields from the Coupon
      */
     omit?: CouponOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CouponInclude<ExtArgs> | null
     /**
      * The filter to search for the Coupon to update in case it exists.
      */
@@ -9401,6 +9536,10 @@ export namespace Prisma {
      */
     omit?: CouponOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CouponInclude<ExtArgs> | null
+    /**
      * Filter which Coupon to delete.
      */
     where: CouponWhereUniqueInput
@@ -9421,6 +9560,68 @@ export namespace Prisma {
   }
 
   /**
+   * Coupon.comboPlan
+   */
+  export type Coupon$comboPlanArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComboPlan
+     */
+    select?: ComboPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ComboPlan
+     */
+    omit?: ComboPlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComboPlanInclude<ExtArgs> | null
+    where?: ComboPlanWhereInput
+  }
+
+  /**
+   * Coupon.service
+   */
+  export type Coupon$serviceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Service
+     */
+    select?: ServiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Service
+     */
+    omit?: ServiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceInclude<ExtArgs> | null
+    where?: ServiceWhereInput
+  }
+
+  /**
+   * Coupon.transactions
+   */
+  export type Coupon$transactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Transaction
+     */
+    select?: TransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Transaction
+     */
+    omit?: TransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransactionInclude<ExtArgs> | null
+    where?: TransactionWhereInput
+    orderBy?: TransactionOrderByWithRelationInput | TransactionOrderByWithRelationInput[]
+    cursor?: TransactionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TransactionScalarFieldEnum | TransactionScalarFieldEnum[]
+  }
+
+  /**
    * Coupon without action
    */
   export type CouponDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9432,6 +9633,10 @@ export namespace Prisma {
      * Omit specific fields from the Coupon
      */
     omit?: CouponOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CouponInclude<ExtArgs> | null
   }
 
 
@@ -9457,47 +9662,53 @@ export namespace Prisma {
 
   export type TransactionMinAggregateOutputType = {
     id: string | null
+    orderId: string | null
+    paymentId: string | null
+    couponId: string | null
     userId: string | null
     serviceId: string | null
     comboPlanId: string | null
     amount: number | null
     currency: string | null
-    status: $Enums.TransactionStatus | null
+    status: string | null
     paymentGateway: string | null
-    paymentId: string | null
-    orderId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type TransactionMaxAggregateOutputType = {
     id: string | null
+    orderId: string | null
+    paymentId: string | null
+    couponId: string | null
     userId: string | null
     serviceId: string | null
     comboPlanId: string | null
     amount: number | null
     currency: string | null
-    status: $Enums.TransactionStatus | null
+    status: string | null
     paymentGateway: string | null
-    paymentId: string | null
-    orderId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type TransactionCountAggregateOutputType = {
     id: number
+    orderId: number
+    paymentId: number
+    couponId: number
     userId: number
     serviceId: number
     comboPlanId: number
     amount: number
+    tenure: number
     currency: number
     status: number
     paymentGateway: number
-    paymentId: number
-    orderId: number
+    webhookResponse: number
     createdAt: number
     updatedAt: number
+    extraData: number
     _all: number
   }
 
@@ -9512,6 +9723,9 @@ export namespace Prisma {
 
   export type TransactionMinAggregateInputType = {
     id?: true
+    orderId?: true
+    paymentId?: true
+    couponId?: true
     userId?: true
     serviceId?: true
     comboPlanId?: true
@@ -9519,14 +9733,15 @@ export namespace Prisma {
     currency?: true
     status?: true
     paymentGateway?: true
-    paymentId?: true
-    orderId?: true
     createdAt?: true
     updatedAt?: true
   }
 
   export type TransactionMaxAggregateInputType = {
     id?: true
+    orderId?: true
+    paymentId?: true
+    couponId?: true
     userId?: true
     serviceId?: true
     comboPlanId?: true
@@ -9534,25 +9749,27 @@ export namespace Prisma {
     currency?: true
     status?: true
     paymentGateway?: true
-    paymentId?: true
-    orderId?: true
     createdAt?: true
     updatedAt?: true
   }
 
   export type TransactionCountAggregateInputType = {
     id?: true
+    orderId?: true
+    paymentId?: true
+    couponId?: true
     userId?: true
     serviceId?: true
     comboPlanId?: true
     amount?: true
+    tenure?: true
     currency?: true
     status?: true
     paymentGateway?: true
-    paymentId?: true
-    orderId?: true
+    webhookResponse?: true
     createdAt?: true
     updatedAt?: true
+    extraData?: true
     _all?: true
   }
 
@@ -9644,17 +9861,21 @@ export namespace Prisma {
 
   export type TransactionGroupByOutputType = {
     id: string
+    orderId: string | null
+    paymentId: string | null
+    couponId: string | null
     userId: string
     serviceId: string | null
     comboPlanId: string | null
     amount: number
+    tenure: JsonValue | null
     currency: string
-    status: $Enums.TransactionStatus
+    status: string
     paymentGateway: string
-    paymentId: string | null
-    orderId: string | null
+    webhookResponse: JsonValue | null
     createdAt: Date
     updatedAt: Date
+    extraData: JsonValue | null
     _count: TransactionCountAggregateOutputType | null
     _avg: TransactionAvgAggregateOutputType | null
     _sum: TransactionSumAggregateOutputType | null
@@ -9678,88 +9899,110 @@ export namespace Prisma {
 
   export type TransactionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    orderId?: boolean
+    paymentId?: boolean
+    couponId?: boolean
     userId?: boolean
     serviceId?: boolean
     comboPlanId?: boolean
     amount?: boolean
+    tenure?: boolean
     currency?: boolean
     status?: boolean
     paymentGateway?: boolean
-    paymentId?: boolean
-    orderId?: boolean
+    webhookResponse?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    extraData?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | Transaction$serviceArgs<ExtArgs>
     comboPlan?: boolean | Transaction$comboPlanArgs<ExtArgs>
+    coupon?: boolean | Transaction$couponArgs<ExtArgs>
   }, ExtArgs["result"]["transaction"]>
 
   export type TransactionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    orderId?: boolean
+    paymentId?: boolean
+    couponId?: boolean
     userId?: boolean
     serviceId?: boolean
     comboPlanId?: boolean
     amount?: boolean
+    tenure?: boolean
     currency?: boolean
     status?: boolean
     paymentGateway?: boolean
-    paymentId?: boolean
-    orderId?: boolean
+    webhookResponse?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    extraData?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | Transaction$serviceArgs<ExtArgs>
     comboPlan?: boolean | Transaction$comboPlanArgs<ExtArgs>
+    coupon?: boolean | Transaction$couponArgs<ExtArgs>
   }, ExtArgs["result"]["transaction"]>
 
   export type TransactionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    orderId?: boolean
+    paymentId?: boolean
+    couponId?: boolean
     userId?: boolean
     serviceId?: boolean
     comboPlanId?: boolean
     amount?: boolean
+    tenure?: boolean
     currency?: boolean
     status?: boolean
     paymentGateway?: boolean
-    paymentId?: boolean
-    orderId?: boolean
+    webhookResponse?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    extraData?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | Transaction$serviceArgs<ExtArgs>
     comboPlan?: boolean | Transaction$comboPlanArgs<ExtArgs>
+    coupon?: boolean | Transaction$couponArgs<ExtArgs>
   }, ExtArgs["result"]["transaction"]>
 
   export type TransactionSelectScalar = {
     id?: boolean
+    orderId?: boolean
+    paymentId?: boolean
+    couponId?: boolean
     userId?: boolean
     serviceId?: boolean
     comboPlanId?: boolean
     amount?: boolean
+    tenure?: boolean
     currency?: boolean
     status?: boolean
     paymentGateway?: boolean
-    paymentId?: boolean
-    orderId?: boolean
+    webhookResponse?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    extraData?: boolean
   }
 
-  export type TransactionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "serviceId" | "comboPlanId" | "amount" | "currency" | "status" | "paymentGateway" | "paymentId" | "orderId" | "createdAt" | "updatedAt", ExtArgs["result"]["transaction"]>
+  export type TransactionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orderId" | "paymentId" | "couponId" | "userId" | "serviceId" | "comboPlanId" | "amount" | "tenure" | "currency" | "status" | "paymentGateway" | "webhookResponse" | "createdAt" | "updatedAt" | "extraData", ExtArgs["result"]["transaction"]>
   export type TransactionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | Transaction$serviceArgs<ExtArgs>
     comboPlan?: boolean | Transaction$comboPlanArgs<ExtArgs>
+    coupon?: boolean | Transaction$couponArgs<ExtArgs>
   }
   export type TransactionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | Transaction$serviceArgs<ExtArgs>
     comboPlan?: boolean | Transaction$comboPlanArgs<ExtArgs>
+    coupon?: boolean | Transaction$couponArgs<ExtArgs>
   }
   export type TransactionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | Transaction$serviceArgs<ExtArgs>
     comboPlan?: boolean | Transaction$comboPlanArgs<ExtArgs>
+    coupon?: boolean | Transaction$couponArgs<ExtArgs>
   }
 
   export type $TransactionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9768,20 +10011,25 @@ export namespace Prisma {
       user: Prisma.$UserPayload<ExtArgs>
       service: Prisma.$ServicePayload<ExtArgs> | null
       comboPlan: Prisma.$ComboPlanPayload<ExtArgs> | null
+      coupon: Prisma.$CouponPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      orderId: string | null
+      paymentId: string | null
+      couponId: string | null
       userId: string
       serviceId: string | null
       comboPlanId: string | null
       amount: number
+      tenure: Prisma.JsonValue | null
       currency: string
-      status: $Enums.TransactionStatus
+      status: string
       paymentGateway: string
-      paymentId: string | null
-      orderId: string | null
+      webhookResponse: Prisma.JsonValue | null
       createdAt: Date
       updatedAt: Date
+      extraData: Prisma.JsonValue | null
     }, ExtArgs["result"]["transaction"]>
     composites: {}
   }
@@ -10179,6 +10427,7 @@ export namespace Prisma {
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     service<T extends Transaction$serviceArgs<ExtArgs> = {}>(args?: Subset<T, Transaction$serviceArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     comboPlan<T extends Transaction$comboPlanArgs<ExtArgs> = {}>(args?: Subset<T, Transaction$comboPlanArgs<ExtArgs>>): Prisma__ComboPlanClient<$Result.GetResult<Prisma.$ComboPlanPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    coupon<T extends Transaction$couponArgs<ExtArgs> = {}>(args?: Subset<T, Transaction$couponArgs<ExtArgs>>): Prisma__CouponClient<$Result.GetResult<Prisma.$CouponPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10209,17 +10458,21 @@ export namespace Prisma {
    */
   interface TransactionFieldRefs {
     readonly id: FieldRef<"Transaction", 'String'>
+    readonly orderId: FieldRef<"Transaction", 'String'>
+    readonly paymentId: FieldRef<"Transaction", 'String'>
+    readonly couponId: FieldRef<"Transaction", 'String'>
     readonly userId: FieldRef<"Transaction", 'String'>
     readonly serviceId: FieldRef<"Transaction", 'String'>
     readonly comboPlanId: FieldRef<"Transaction", 'String'>
     readonly amount: FieldRef<"Transaction", 'Float'>
+    readonly tenure: FieldRef<"Transaction", 'Json'>
     readonly currency: FieldRef<"Transaction", 'String'>
-    readonly status: FieldRef<"Transaction", 'TransactionStatus'>
+    readonly status: FieldRef<"Transaction", 'String'>
     readonly paymentGateway: FieldRef<"Transaction", 'String'>
-    readonly paymentId: FieldRef<"Transaction", 'String'>
-    readonly orderId: FieldRef<"Transaction", 'String'>
+    readonly webhookResponse: FieldRef<"Transaction", 'Json'>
     readonly createdAt: FieldRef<"Transaction", 'DateTime'>
     readonly updatedAt: FieldRef<"Transaction", 'DateTime'>
+    readonly extraData: FieldRef<"Transaction", 'Json'>
   }
     
 
@@ -10651,6 +10904,25 @@ export namespace Prisma {
      */
     include?: ComboPlanInclude<ExtArgs> | null
     where?: ComboPlanWhereInput
+  }
+
+  /**
+   * Transaction.coupon
+   */
+  export type Transaction$couponArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Coupon
+     */
+    select?: CouponSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Coupon
+     */
+    omit?: CouponOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CouponInclude<ExtArgs> | null
+    where?: CouponWhereInput
   }
 
   /**
@@ -11815,13 +12087,25 @@ export namespace Prisma {
 
   export type AggregateAgreement = {
     _count: AgreementCountAggregateOutputType | null
+    _avg: AgreementAvgAggregateOutputType | null
+    _sum: AgreementSumAggregateOutputType | null
     _min: AgreementMinAggregateOutputType | null
     _max: AgreementMaxAggregateOutputType | null
+  }
+
+  export type AgreementAvgAggregateOutputType = {
+    version: number | null
+  }
+
+  export type AgreementSumAggregateOutputType = {
+    version: number | null
   }
 
   export type AgreementMinAggregateOutputType = {
     id: string | null
     name: string | null
+    version: number | null
+    hash: string | null
     signatoryPerson: string | null
     companyName: string | null
     updatedAt: Date | null
@@ -11831,6 +12115,8 @@ export namespace Prisma {
   export type AgreementMaxAggregateOutputType = {
     id: string | null
     name: string | null
+    version: number | null
+    hash: string | null
     signatoryPerson: string | null
     companyName: string | null
     updatedAt: Date | null
@@ -11841,6 +12127,8 @@ export namespace Prisma {
     id: number
     name: number
     content: number
+    version: number
+    hash: number
     signatoryPerson: number
     companyName: number
     updatedAt: number
@@ -11849,9 +12137,19 @@ export namespace Prisma {
   }
 
 
+  export type AgreementAvgAggregateInputType = {
+    version?: true
+  }
+
+  export type AgreementSumAggregateInputType = {
+    version?: true
+  }
+
   export type AgreementMinAggregateInputType = {
     id?: true
     name?: true
+    version?: true
+    hash?: true
     signatoryPerson?: true
     companyName?: true
     updatedAt?: true
@@ -11861,6 +12159,8 @@ export namespace Prisma {
   export type AgreementMaxAggregateInputType = {
     id?: true
     name?: true
+    version?: true
+    hash?: true
     signatoryPerson?: true
     companyName?: true
     updatedAt?: true
@@ -11871,6 +12171,8 @@ export namespace Prisma {
     id?: true
     name?: true
     content?: true
+    version?: true
+    hash?: true
     signatoryPerson?: true
     companyName?: true
     updatedAt?: true
@@ -11916,6 +12218,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: AgreementAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AgreementSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: AgreementMinAggregateInputType
@@ -11946,6 +12260,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: AgreementCountAggregateInputType | true
+    _avg?: AgreementAvgAggregateInputType
+    _sum?: AgreementSumAggregateInputType
     _min?: AgreementMinAggregateInputType
     _max?: AgreementMaxAggregateInputType
   }
@@ -11954,11 +12270,15 @@ export namespace Prisma {
     id: string
     name: string
     content: JsonValue
+    version: number
+    hash: string
     signatoryPerson: string | null
     companyName: string | null
     updatedAt: Date
     createdAt: Date
     _count: AgreementCountAggregateOutputType | null
+    _avg: AgreementAvgAggregateOutputType | null
+    _sum: AgreementSumAggregateOutputType | null
     _min: AgreementMinAggregateOutputType | null
     _max: AgreementMaxAggregateOutputType | null
   }
@@ -11981,6 +12301,8 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     content?: boolean
+    version?: boolean
+    hash?: boolean
     signatoryPerson?: boolean
     companyName?: boolean
     updatedAt?: boolean
@@ -11994,6 +12316,8 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     content?: boolean
+    version?: boolean
+    hash?: boolean
     signatoryPerson?: boolean
     companyName?: boolean
     updatedAt?: boolean
@@ -12004,6 +12328,8 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     content?: boolean
+    version?: boolean
+    hash?: boolean
     signatoryPerson?: boolean
     companyName?: boolean
     updatedAt?: boolean
@@ -12014,13 +12340,15 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     content?: boolean
+    version?: boolean
+    hash?: boolean
     signatoryPerson?: boolean
     companyName?: boolean
     updatedAt?: boolean
     createdAt?: boolean
   }
 
-  export type AgreementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "content" | "signatoryPerson" | "companyName" | "updatedAt" | "createdAt", ExtArgs["result"]["agreement"]>
+  export type AgreementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "content" | "version" | "hash" | "signatoryPerson" | "companyName" | "updatedAt" | "createdAt", ExtArgs["result"]["agreement"]>
   export type AgreementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     serviceAgreements?: boolean | Agreement$serviceAgreementsArgs<ExtArgs>
     comboPlanAgreements?: boolean | Agreement$comboPlanAgreementsArgs<ExtArgs>
@@ -12039,6 +12367,8 @@ export namespace Prisma {
       id: string
       name: string
       content: Prisma.JsonValue
+      version: number
+      hash: string
       signatoryPerson: string | null
       companyName: string | null
       updatedAt: Date
@@ -12471,6 +12801,8 @@ export namespace Prisma {
     readonly id: FieldRef<"Agreement", 'String'>
     readonly name: FieldRef<"Agreement", 'String'>
     readonly content: FieldRef<"Agreement", 'Json'>
+    readonly version: FieldRef<"Agreement", 'Int'>
+    readonly hash: FieldRef<"Agreement", 'String'>
     readonly signatoryPerson: FieldRef<"Agreement", 'String'>
     readonly companyName: FieldRef<"Agreement", 'String'>
     readonly updatedAt: FieldRef<"Agreement", 'DateTime'>
@@ -15034,6 +15366,7 @@ export namespace Prisma {
     name: string | null
     description: string | null
     price: number | null
+    active: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -15043,6 +15376,7 @@ export namespace Prisma {
     name: string | null
     description: string | null
     price: number | null
+    active: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -15052,6 +15386,7 @@ export namespace Prisma {
     name: number
     description: number
     price: number
+    active: number
     tenureDiscounts: number
     createdAt: number
     updatedAt: number
@@ -15072,6 +15407,7 @@ export namespace Prisma {
     name?: true
     description?: true
     price?: true
+    active?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -15081,6 +15417,7 @@ export namespace Prisma {
     name?: true
     description?: true
     price?: true
+    active?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -15090,6 +15427,7 @@ export namespace Prisma {
     name?: true
     description?: true
     price?: true
+    active?: true
     tenureDiscounts?: true
     createdAt?: true
     updatedAt?: true
@@ -15187,6 +15525,7 @@ export namespace Prisma {
     name: string
     description: string | null
     price: number
+    active: boolean | null
     tenureDiscounts: JsonValue
     createdAt: Date
     updatedAt: Date
@@ -15216,11 +15555,13 @@ export namespace Prisma {
     name?: boolean
     description?: boolean
     price?: boolean
+    active?: boolean
     tenureDiscounts?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     agreement?: boolean | ComboPlan$agreementArgs<ExtArgs>
     services?: boolean | ComboPlan$servicesArgs<ExtArgs>
+    coupon?: boolean | ComboPlan$couponArgs<ExtArgs>
     Transaction?: boolean | ComboPlan$TransactionArgs<ExtArgs>
     _count?: boolean | ComboPlanCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["comboPlan"]>
@@ -15230,6 +15571,7 @@ export namespace Prisma {
     name?: boolean
     description?: boolean
     price?: boolean
+    active?: boolean
     tenureDiscounts?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -15240,6 +15582,7 @@ export namespace Prisma {
     name?: boolean
     description?: boolean
     price?: boolean
+    active?: boolean
     tenureDiscounts?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -15250,15 +15593,17 @@ export namespace Prisma {
     name?: boolean
     description?: boolean
     price?: boolean
+    active?: boolean
     tenureDiscounts?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ComboPlanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "price" | "tenureDiscounts" | "createdAt" | "updatedAt", ExtArgs["result"]["comboPlan"]>
+  export type ComboPlanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "price" | "active" | "tenureDiscounts" | "createdAt" | "updatedAt", ExtArgs["result"]["comboPlan"]>
   export type ComboPlanInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     agreement?: boolean | ComboPlan$agreementArgs<ExtArgs>
     services?: boolean | ComboPlan$servicesArgs<ExtArgs>
+    coupon?: boolean | ComboPlan$couponArgs<ExtArgs>
     Transaction?: boolean | ComboPlan$TransactionArgs<ExtArgs>
     _count?: boolean | ComboPlanCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -15270,6 +15615,7 @@ export namespace Prisma {
     objects: {
       agreement: Prisma.$ComboPlanAgreementPayload<ExtArgs>[]
       services: Prisma.$ComboPlanServicePayload<ExtArgs>[]
+      coupon: Prisma.$CouponPayload<ExtArgs>[]
       Transaction: Prisma.$TransactionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -15277,6 +15623,7 @@ export namespace Prisma {
       name: string
       description: string | null
       price: number
+      active: boolean | null
       tenureDiscounts: Prisma.JsonValue
       createdAt: Date
       updatedAt: Date
@@ -15676,6 +16023,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     agreement<T extends ComboPlan$agreementArgs<ExtArgs> = {}>(args?: Subset<T, ComboPlan$agreementArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ComboPlanAgreementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     services<T extends ComboPlan$servicesArgs<ExtArgs> = {}>(args?: Subset<T, ComboPlan$servicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ComboPlanServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    coupon<T extends ComboPlan$couponArgs<ExtArgs> = {}>(args?: Subset<T, ComboPlan$couponArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CouponPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Transaction<T extends ComboPlan$TransactionArgs<ExtArgs> = {}>(args?: Subset<T, ComboPlan$TransactionArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -15710,6 +16058,7 @@ export namespace Prisma {
     readonly name: FieldRef<"ComboPlan", 'String'>
     readonly description: FieldRef<"ComboPlan", 'String'>
     readonly price: FieldRef<"ComboPlan", 'Float'>
+    readonly active: FieldRef<"ComboPlan", 'Boolean'>
     readonly tenureDiscounts: FieldRef<"ComboPlan", 'Json'>
     readonly createdAt: FieldRef<"ComboPlan", 'DateTime'>
     readonly updatedAt: FieldRef<"ComboPlan", 'DateTime'>
@@ -16146,6 +16495,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ComboPlanServiceScalarFieldEnum | ComboPlanServiceScalarFieldEnum[]
+  }
+
+  /**
+   * ComboPlan.coupon
+   */
+  export type ComboPlan$couponArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Coupon
+     */
+    select?: CouponSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Coupon
+     */
+    omit?: CouponOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CouponInclude<ExtArgs> | null
+    where?: CouponWhereInput
+    orderBy?: CouponOrderByWithRelationInput | CouponOrderByWithRelationInput[]
+    cursor?: CouponWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CouponScalarFieldEnum | CouponScalarFieldEnum[]
   }
 
   /**
@@ -17527,6 +17900,7 @@ export namespace Prisma {
     userDocuments?: boolean | Service$userDocumentsArgs<ExtArgs>
     Transaction?: boolean | Service$TransactionArgs<ExtArgs>
     ComboPlanService?: boolean | Service$ComboPlanServiceArgs<ExtArgs>
+    coupon?: boolean | Service$couponArgs<ExtArgs>
     _count?: boolean | ServiceCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["service"]>
 
@@ -17604,6 +17978,7 @@ export namespace Prisma {
     userDocuments?: boolean | Service$userDocumentsArgs<ExtArgs>
     Transaction?: boolean | Service$TransactionArgs<ExtArgs>
     ComboPlanService?: boolean | Service$ComboPlanServiceArgs<ExtArgs>
+    coupon?: boolean | Service$couponArgs<ExtArgs>
     _count?: boolean | ServiceCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ServiceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -17618,6 +17993,7 @@ export namespace Prisma {
       userDocuments: Prisma.$UserDocumentsPayload<ExtArgs>[]
       Transaction: Prisma.$TransactionPayload<ExtArgs>[]
       ComboPlanService: Prisma.$ComboPlanServicePayload<ExtArgs>[]
+      coupon: Prisma.$CouponPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -18039,6 +18415,7 @@ export namespace Prisma {
     userDocuments<T extends Service$userDocumentsArgs<ExtArgs> = {}>(args?: Subset<T, Service$userDocumentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserDocumentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Transaction<T extends Service$TransactionArgs<ExtArgs> = {}>(args?: Subset<T, Service$TransactionArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     ComboPlanService<T extends Service$ComboPlanServiceArgs<ExtArgs> = {}>(args?: Subset<T, Service$ComboPlanServiceArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ComboPlanServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    coupon<T extends Service$couponArgs<ExtArgs> = {}>(args?: Subset<T, Service$couponArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CouponPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -18611,6 +18988,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ComboPlanServiceScalarFieldEnum | ComboPlanServiceScalarFieldEnum[]
+  }
+
+  /**
+   * Service.coupon
+   */
+  export type Service$couponArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Coupon
+     */
+    select?: CouponSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Coupon
+     */
+    omit?: CouponOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CouponInclude<ExtArgs> | null
+    where?: CouponWhereInput
+    orderBy?: CouponOrderByWithRelationInput | CouponOrderByWithRelationInput[]
+    cursor?: CouponWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CouponScalarFieldEnum | CouponScalarFieldEnum[]
   }
 
   /**
@@ -19790,10 +20191,12 @@ export namespace Prisma {
     code: 'code',
     description: 'description',
     percentOff: 'percentOff',
-    isActive: 'isActive',
     expiryDate: 'expiryDate',
     minAmount: 'minAmount',
     maxAmount: 'maxAmount',
+    serviceId: 'serviceId',
+    comboPlanId: 'comboPlanId',
+    planDays: 'planDays',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -19803,17 +20206,21 @@ export namespace Prisma {
 
   export const TransactionScalarFieldEnum: {
     id: 'id',
+    orderId: 'orderId',
+    paymentId: 'paymentId',
+    couponId: 'couponId',
     userId: 'userId',
     serviceId: 'serviceId',
     comboPlanId: 'comboPlanId',
     amount: 'amount',
+    tenure: 'tenure',
     currency: 'currency',
     status: 'status',
     paymentGateway: 'paymentGateway',
-    paymentId: 'paymentId',
-    orderId: 'orderId',
+    webhookResponse: 'webhookResponse',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    extraData: 'extraData'
   };
 
   export type TransactionScalarFieldEnum = (typeof TransactionScalarFieldEnum)[keyof typeof TransactionScalarFieldEnum]
@@ -19838,6 +20245,8 @@ export namespace Prisma {
     id: 'id',
     name: 'name',
     content: 'content',
+    version: 'version',
+    hash: 'hash',
     signatoryPerson: 'signatoryPerson',
     companyName: 'companyName',
     updatedAt: 'updatedAt',
@@ -19870,6 +20279,7 @@ export namespace Prisma {
     name: 'name',
     description: 'description',
     price: 'price',
+    active: 'active',
     tenureDiscounts: 'tenureDiscounts',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -20092,20 +20502,6 @@ export namespace Prisma {
    * Reference to a field of type 'Float[]'
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'TransactionStatus'
-   */
-  export type EnumTransactionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TransactionStatus'>
-    
-
-
-  /**
-   * Reference to a field of type 'TransactionStatus[]'
-   */
-  export type ListEnumTransactionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TransactionStatus[]'>
     
 
 
@@ -20611,12 +21007,17 @@ export namespace Prisma {
     code?: StringFilter<"Coupon"> | string
     description?: StringNullableFilter<"Coupon"> | string | null
     percentOff?: FloatFilter<"Coupon"> | number
-    isActive?: BoolFilter<"Coupon"> | boolean
     expiryDate?: DateTimeFilter<"Coupon"> | Date | string
     minAmount?: FloatFilter<"Coupon"> | number
     maxAmount?: FloatNullableFilter<"Coupon"> | number | null
+    serviceId?: StringNullableFilter<"Coupon"> | string | null
+    comboPlanId?: StringNullableFilter<"Coupon"> | string | null
+    planDays?: IntNullableFilter<"Coupon"> | number | null
     createdAt?: DateTimeFilter<"Coupon"> | Date | string
     updatedAt?: DateTimeFilter<"Coupon"> | Date | string
+    comboPlan?: XOR<ComboPlanNullableScalarRelationFilter, ComboPlanWhereInput> | null
+    service?: XOR<ServiceNullableScalarRelationFilter, ServiceWhereInput> | null
+    transactions?: TransactionListRelationFilter
   }
 
   export type CouponOrderByWithRelationInput = {
@@ -20624,12 +21025,17 @@ export namespace Prisma {
     code?: SortOrder
     description?: SortOrderInput | SortOrder
     percentOff?: SortOrder
-    isActive?: SortOrder
     expiryDate?: SortOrder
     minAmount?: SortOrder
     maxAmount?: SortOrderInput | SortOrder
+    serviceId?: SortOrderInput | SortOrder
+    comboPlanId?: SortOrderInput | SortOrder
+    planDays?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    comboPlan?: ComboPlanOrderByWithRelationInput
+    service?: ServiceOrderByWithRelationInput
+    transactions?: TransactionOrderByRelationAggregateInput
   }
 
   export type CouponWhereUniqueInput = Prisma.AtLeast<{
@@ -20640,12 +21046,17 @@ export namespace Prisma {
     NOT?: CouponWhereInput | CouponWhereInput[]
     description?: StringNullableFilter<"Coupon"> | string | null
     percentOff?: FloatFilter<"Coupon"> | number
-    isActive?: BoolFilter<"Coupon"> | boolean
     expiryDate?: DateTimeFilter<"Coupon"> | Date | string
     minAmount?: FloatFilter<"Coupon"> | number
     maxAmount?: FloatNullableFilter<"Coupon"> | number | null
+    serviceId?: StringNullableFilter<"Coupon"> | string | null
+    comboPlanId?: StringNullableFilter<"Coupon"> | string | null
+    planDays?: IntNullableFilter<"Coupon"> | number | null
     createdAt?: DateTimeFilter<"Coupon"> | Date | string
     updatedAt?: DateTimeFilter<"Coupon"> | Date | string
+    comboPlan?: XOR<ComboPlanNullableScalarRelationFilter, ComboPlanWhereInput> | null
+    service?: XOR<ServiceNullableScalarRelationFilter, ServiceWhereInput> | null
+    transactions?: TransactionListRelationFilter
   }, "id" | "code">
 
   export type CouponOrderByWithAggregationInput = {
@@ -20653,10 +21064,12 @@ export namespace Prisma {
     code?: SortOrder
     description?: SortOrderInput | SortOrder
     percentOff?: SortOrder
-    isActive?: SortOrder
     expiryDate?: SortOrder
     minAmount?: SortOrder
     maxAmount?: SortOrderInput | SortOrder
+    serviceId?: SortOrderInput | SortOrder
+    comboPlanId?: SortOrderInput | SortOrder
+    planDays?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: CouponCountOrderByAggregateInput
@@ -20674,10 +21087,12 @@ export namespace Prisma {
     code?: StringWithAggregatesFilter<"Coupon"> | string
     description?: StringNullableWithAggregatesFilter<"Coupon"> | string | null
     percentOff?: FloatWithAggregatesFilter<"Coupon"> | number
-    isActive?: BoolWithAggregatesFilter<"Coupon"> | boolean
     expiryDate?: DateTimeWithAggregatesFilter<"Coupon"> | Date | string
     minAmount?: FloatWithAggregatesFilter<"Coupon"> | number
     maxAmount?: FloatNullableWithAggregatesFilter<"Coupon"> | number | null
+    serviceId?: StringNullableWithAggregatesFilter<"Coupon"> | string | null
+    comboPlanId?: StringNullableWithAggregatesFilter<"Coupon"> | string | null
+    planDays?: IntNullableWithAggregatesFilter<"Coupon"> | number | null
     createdAt?: DateTimeWithAggregatesFilter<"Coupon"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Coupon"> | Date | string
   }
@@ -20687,74 +21102,93 @@ export namespace Prisma {
     OR?: TransactionWhereInput[]
     NOT?: TransactionWhereInput | TransactionWhereInput[]
     id?: StringFilter<"Transaction"> | string
+    orderId?: StringNullableFilter<"Transaction"> | string | null
+    paymentId?: StringNullableFilter<"Transaction"> | string | null
+    couponId?: StringNullableFilter<"Transaction"> | string | null
     userId?: StringFilter<"Transaction"> | string
     serviceId?: StringNullableFilter<"Transaction"> | string | null
     comboPlanId?: StringNullableFilter<"Transaction"> | string | null
     amount?: FloatFilter<"Transaction"> | number
+    tenure?: JsonNullableFilter<"Transaction">
     currency?: StringFilter<"Transaction"> | string
-    status?: EnumTransactionStatusFilter<"Transaction"> | $Enums.TransactionStatus
+    status?: StringFilter<"Transaction"> | string
     paymentGateway?: StringFilter<"Transaction"> | string
-    paymentId?: StringNullableFilter<"Transaction"> | string | null
-    orderId?: StringNullableFilter<"Transaction"> | string | null
+    webhookResponse?: JsonNullableFilter<"Transaction">
     createdAt?: DateTimeFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeFilter<"Transaction"> | Date | string
+    extraData?: JsonNullableFilter<"Transaction">
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     service?: XOR<ServiceNullableScalarRelationFilter, ServiceWhereInput> | null
     comboPlan?: XOR<ComboPlanNullableScalarRelationFilter, ComboPlanWhereInput> | null
+    coupon?: XOR<CouponNullableScalarRelationFilter, CouponWhereInput> | null
   }
 
   export type TransactionOrderByWithRelationInput = {
     id?: SortOrder
+    orderId?: SortOrderInput | SortOrder
+    paymentId?: SortOrderInput | SortOrder
+    couponId?: SortOrderInput | SortOrder
     userId?: SortOrder
     serviceId?: SortOrderInput | SortOrder
     comboPlanId?: SortOrderInput | SortOrder
     amount?: SortOrder
+    tenure?: SortOrderInput | SortOrder
     currency?: SortOrder
     status?: SortOrder
     paymentGateway?: SortOrder
-    paymentId?: SortOrderInput | SortOrder
-    orderId?: SortOrderInput | SortOrder
+    webhookResponse?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    extraData?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
     service?: ServiceOrderByWithRelationInput
     comboPlan?: ComboPlanOrderByWithRelationInput
+    coupon?: CouponOrderByWithRelationInput
   }
 
   export type TransactionWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    orderId?: string
     AND?: TransactionWhereInput | TransactionWhereInput[]
     OR?: TransactionWhereInput[]
     NOT?: TransactionWhereInput | TransactionWhereInput[]
+    paymentId?: StringNullableFilter<"Transaction"> | string | null
+    couponId?: StringNullableFilter<"Transaction"> | string | null
     userId?: StringFilter<"Transaction"> | string
     serviceId?: StringNullableFilter<"Transaction"> | string | null
     comboPlanId?: StringNullableFilter<"Transaction"> | string | null
     amount?: FloatFilter<"Transaction"> | number
+    tenure?: JsonNullableFilter<"Transaction">
     currency?: StringFilter<"Transaction"> | string
-    status?: EnumTransactionStatusFilter<"Transaction"> | $Enums.TransactionStatus
+    status?: StringFilter<"Transaction"> | string
     paymentGateway?: StringFilter<"Transaction"> | string
-    paymentId?: StringNullableFilter<"Transaction"> | string | null
-    orderId?: StringNullableFilter<"Transaction"> | string | null
+    webhookResponse?: JsonNullableFilter<"Transaction">
     createdAt?: DateTimeFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeFilter<"Transaction"> | Date | string
+    extraData?: JsonNullableFilter<"Transaction">
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     service?: XOR<ServiceNullableScalarRelationFilter, ServiceWhereInput> | null
     comboPlan?: XOR<ComboPlanNullableScalarRelationFilter, ComboPlanWhereInput> | null
-  }, "id">
+    coupon?: XOR<CouponNullableScalarRelationFilter, CouponWhereInput> | null
+  }, "id" | "orderId">
 
   export type TransactionOrderByWithAggregationInput = {
     id?: SortOrder
+    orderId?: SortOrderInput | SortOrder
+    paymentId?: SortOrderInput | SortOrder
+    couponId?: SortOrderInput | SortOrder
     userId?: SortOrder
     serviceId?: SortOrderInput | SortOrder
     comboPlanId?: SortOrderInput | SortOrder
     amount?: SortOrder
+    tenure?: SortOrderInput | SortOrder
     currency?: SortOrder
     status?: SortOrder
     paymentGateway?: SortOrder
-    paymentId?: SortOrderInput | SortOrder
-    orderId?: SortOrderInput | SortOrder
+    webhookResponse?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    extraData?: SortOrderInput | SortOrder
     _count?: TransactionCountOrderByAggregateInput
     _avg?: TransactionAvgOrderByAggregateInput
     _max?: TransactionMaxOrderByAggregateInput
@@ -20767,17 +21201,21 @@ export namespace Prisma {
     OR?: TransactionScalarWhereWithAggregatesInput[]
     NOT?: TransactionScalarWhereWithAggregatesInput | TransactionScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Transaction"> | string
+    orderId?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
+    paymentId?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
+    couponId?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
     userId?: StringWithAggregatesFilter<"Transaction"> | string
     serviceId?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
     comboPlanId?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
     amount?: FloatWithAggregatesFilter<"Transaction"> | number
+    tenure?: JsonNullableWithAggregatesFilter<"Transaction">
     currency?: StringWithAggregatesFilter<"Transaction"> | string
-    status?: EnumTransactionStatusWithAggregatesFilter<"Transaction"> | $Enums.TransactionStatus
+    status?: StringWithAggregatesFilter<"Transaction"> | string
     paymentGateway?: StringWithAggregatesFilter<"Transaction"> | string
-    paymentId?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
-    orderId?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
+    webhookResponse?: JsonNullableWithAggregatesFilter<"Transaction">
     createdAt?: DateTimeWithAggregatesFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Transaction"> | Date | string
+    extraData?: JsonNullableWithAggregatesFilter<"Transaction">
   }
 
   export type UserDocumentsWhereInput = {
@@ -20865,6 +21303,8 @@ export namespace Prisma {
     id?: StringFilter<"Agreement"> | string
     name?: StringFilter<"Agreement"> | string
     content?: JsonFilter<"Agreement">
+    version?: IntFilter<"Agreement"> | number
+    hash?: StringFilter<"Agreement"> | string
     signatoryPerson?: StringNullableFilter<"Agreement"> | string | null
     companyName?: StringNullableFilter<"Agreement"> | string | null
     updatedAt?: DateTimeFilter<"Agreement"> | Date | string
@@ -20877,6 +21317,8 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     content?: SortOrder
+    version?: SortOrder
+    hash?: SortOrder
     signatoryPerson?: SortOrderInput | SortOrder
     companyName?: SortOrderInput | SortOrder
     updatedAt?: SortOrder
@@ -20892,6 +21334,8 @@ export namespace Prisma {
     NOT?: AgreementWhereInput | AgreementWhereInput[]
     name?: StringFilter<"Agreement"> | string
     content?: JsonFilter<"Agreement">
+    version?: IntFilter<"Agreement"> | number
+    hash?: StringFilter<"Agreement"> | string
     signatoryPerson?: StringNullableFilter<"Agreement"> | string | null
     companyName?: StringNullableFilter<"Agreement"> | string | null
     updatedAt?: DateTimeFilter<"Agreement"> | Date | string
@@ -20904,13 +21348,17 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     content?: SortOrder
+    version?: SortOrder
+    hash?: SortOrder
     signatoryPerson?: SortOrderInput | SortOrder
     companyName?: SortOrderInput | SortOrder
     updatedAt?: SortOrder
     createdAt?: SortOrder
     _count?: AgreementCountOrderByAggregateInput
+    _avg?: AgreementAvgOrderByAggregateInput
     _max?: AgreementMaxOrderByAggregateInput
     _min?: AgreementMinOrderByAggregateInput
+    _sum?: AgreementSumOrderByAggregateInput
   }
 
   export type AgreementScalarWhereWithAggregatesInput = {
@@ -20920,6 +21368,8 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Agreement"> | string
     name?: StringWithAggregatesFilter<"Agreement"> | string
     content?: JsonWithAggregatesFilter<"Agreement">
+    version?: IntWithAggregatesFilter<"Agreement"> | number
+    hash?: StringWithAggregatesFilter<"Agreement"> | string
     signatoryPerson?: StringNullableWithAggregatesFilter<"Agreement"> | string | null
     companyName?: StringNullableWithAggregatesFilter<"Agreement"> | string | null
     updatedAt?: DateTimeWithAggregatesFilter<"Agreement"> | Date | string
@@ -21030,11 +21480,13 @@ export namespace Prisma {
     name?: StringFilter<"ComboPlan"> | string
     description?: StringNullableFilter<"ComboPlan"> | string | null
     price?: FloatFilter<"ComboPlan"> | number
+    active?: BoolNullableFilter<"ComboPlan"> | boolean | null
     tenureDiscounts?: JsonFilter<"ComboPlan">
     createdAt?: DateTimeFilter<"ComboPlan"> | Date | string
     updatedAt?: DateTimeFilter<"ComboPlan"> | Date | string
     agreement?: ComboPlanAgreementListRelationFilter
     services?: ComboPlanServiceListRelationFilter
+    coupon?: CouponListRelationFilter
     Transaction?: TransactionListRelationFilter
   }
 
@@ -21043,11 +21495,13 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrderInput | SortOrder
     price?: SortOrder
+    active?: SortOrderInput | SortOrder
     tenureDiscounts?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     agreement?: ComboPlanAgreementOrderByRelationAggregateInput
     services?: ComboPlanServiceOrderByRelationAggregateInput
+    coupon?: CouponOrderByRelationAggregateInput
     Transaction?: TransactionOrderByRelationAggregateInput
   }
 
@@ -21059,11 +21513,13 @@ export namespace Prisma {
     name?: StringFilter<"ComboPlan"> | string
     description?: StringNullableFilter<"ComboPlan"> | string | null
     price?: FloatFilter<"ComboPlan"> | number
+    active?: BoolNullableFilter<"ComboPlan"> | boolean | null
     tenureDiscounts?: JsonFilter<"ComboPlan">
     createdAt?: DateTimeFilter<"ComboPlan"> | Date | string
     updatedAt?: DateTimeFilter<"ComboPlan"> | Date | string
     agreement?: ComboPlanAgreementListRelationFilter
     services?: ComboPlanServiceListRelationFilter
+    coupon?: CouponListRelationFilter
     Transaction?: TransactionListRelationFilter
   }, "id">
 
@@ -21072,6 +21528,7 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrderInput | SortOrder
     price?: SortOrder
+    active?: SortOrderInput | SortOrder
     tenureDiscounts?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -21090,6 +21547,7 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"ComboPlan"> | string
     description?: StringNullableWithAggregatesFilter<"ComboPlan"> | string | null
     price?: FloatWithAggregatesFilter<"ComboPlan"> | number
+    active?: BoolNullableWithAggregatesFilter<"ComboPlan"> | boolean | null
     tenureDiscounts?: JsonWithAggregatesFilter<"ComboPlan">
     createdAt?: DateTimeWithAggregatesFilter<"ComboPlan"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ComboPlan"> | Date | string
@@ -21172,6 +21630,7 @@ export namespace Prisma {
     userDocuments?: UserDocumentsListRelationFilter
     Transaction?: TransactionListRelationFilter
     ComboPlanService?: ComboPlanServiceListRelationFilter
+    coupon?: CouponListRelationFilter
   }
 
   export type ServiceOrderByWithRelationInput = {
@@ -21200,6 +21659,7 @@ export namespace Prisma {
     userDocuments?: UserDocumentsOrderByRelationAggregateInput
     Transaction?: TransactionOrderByRelationAggregateInput
     ComboPlanService?: ComboPlanServiceOrderByRelationAggregateInput
+    coupon?: CouponOrderByRelationAggregateInput
   }
 
   export type ServiceWhereUniqueInput = Prisma.AtLeast<{
@@ -21231,6 +21691,7 @@ export namespace Prisma {
     userDocuments?: UserDocumentsListRelationFilter
     Transaction?: TransactionListRelationFilter
     ComboPlanService?: ComboPlanServiceListRelationFilter
+    coupon?: CouponListRelationFilter
   }, "id" | "slug">
 
   export type ServiceOrderByWithAggregationInput = {
@@ -21879,12 +22340,15 @@ export namespace Prisma {
     code: string
     description?: string | null
     percentOff: number
-    isActive?: boolean
     expiryDate: Date | string
     minAmount?: number
     maxAmount?: number | null
+    planDays?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    comboPlan?: ComboPlanCreateNestedOneWithoutCouponInput
+    service?: ServiceCreateNestedOneWithoutCouponInput
+    transactions?: TransactionCreateNestedManyWithoutCouponInput
   }
 
   export type CouponUncheckedCreateInput = {
@@ -21892,12 +22356,15 @@ export namespace Prisma {
     code: string
     description?: string | null
     percentOff: number
-    isActive?: boolean
     expiryDate: Date | string
     minAmount?: number
     maxAmount?: number | null
+    serviceId?: string | null
+    comboPlanId?: string | null
+    planDays?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    transactions?: TransactionUncheckedCreateNestedManyWithoutCouponInput
   }
 
   export type CouponUpdateInput = {
@@ -21905,12 +22372,15 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     percentOff?: FloatFieldUpdateOperationsInput | number
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
     minAmount?: FloatFieldUpdateOperationsInput | number
     maxAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    planDays?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    comboPlan?: ComboPlanUpdateOneWithoutCouponNestedInput
+    service?: ServiceUpdateOneWithoutCouponNestedInput
+    transactions?: TransactionUpdateManyWithoutCouponNestedInput
   }
 
   export type CouponUncheckedUpdateInput = {
@@ -21918,12 +22388,15 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     percentOff?: FloatFieldUpdateOperationsInput | number
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
     minAmount?: FloatFieldUpdateOperationsInput | number
     maxAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    comboPlanId?: NullableStringFieldUpdateOperationsInput | string | null
+    planDays?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transactions?: TransactionUncheckedUpdateManyWithoutCouponNestedInput
   }
 
   export type CouponCreateManyInput = {
@@ -21931,10 +22404,12 @@ export namespace Prisma {
     code: string
     description?: string | null
     percentOff: number
-    isActive?: boolean
     expiryDate: Date | string
     minAmount?: number
     maxAmount?: number | null
+    serviceId?: string | null
+    comboPlanId?: string | null
+    planDays?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -21944,10 +22419,10 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     percentOff?: FloatFieldUpdateOperationsInput | number
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
     minAmount?: FloatFieldUpdateOperationsInput | number
     maxAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    planDays?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -21957,114 +22432,143 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     percentOff?: FloatFieldUpdateOperationsInput | number
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
     minAmount?: FloatFieldUpdateOperationsInput | number
     maxAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    comboPlanId?: NullableStringFieldUpdateOperationsInput | string | null
+    planDays?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TransactionCreateInput = {
     id?: string
-    amount: number
-    currency?: string
-    status: $Enums.TransactionStatus
-    paymentGateway: string
-    paymentId?: string | null
     orderId?: string | null
+    paymentId?: string | null
+    amount: number
+    tenure?: NullableJsonNullValueInput | InputJsonValue
+    currency?: string
+    status: string
+    paymentGateway: string
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
     user: UserCreateNestedOneWithoutTransactionInput
     service?: ServiceCreateNestedOneWithoutTransactionInput
     comboPlan?: ComboPlanCreateNestedOneWithoutTransactionInput
+    coupon?: CouponCreateNestedOneWithoutTransactionsInput
   }
 
   export type TransactionUncheckedCreateInput = {
     id?: string
+    orderId?: string | null
+    paymentId?: string | null
+    couponId?: string | null
     userId: string
     serviceId?: string | null
     comboPlanId?: string | null
     amount: number
+    tenure?: NullableJsonNullValueInput | InputJsonValue
     currency?: string
-    status: $Enums.TransactionStatus
+    status: string
     paymentGateway: string
-    paymentId?: string | null
-    orderId?: string | null
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type TransactionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    amount?: FloatFieldUpdateOperationsInput | number
-    currency?: StringFieldUpdateOperationsInput | string
-    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
-    paymentGateway?: StringFieldUpdateOperationsInput | string
-    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
     orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: FloatFieldUpdateOperationsInput | number
+    tenure?: NullableJsonNullValueInput | InputJsonValue
+    currency?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    paymentGateway?: StringFieldUpdateOperationsInput | string
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
     user?: UserUpdateOneRequiredWithoutTransactionNestedInput
     service?: ServiceUpdateOneWithoutTransactionNestedInput
     comboPlan?: ComboPlanUpdateOneWithoutTransactionNestedInput
+    coupon?: CouponUpdateOneWithoutTransactionsNestedInput
   }
 
   export type TransactionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    couponId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     serviceId?: NullableStringFieldUpdateOperationsInput | string | null
     comboPlanId?: NullableStringFieldUpdateOperationsInput | string | null
     amount?: FloatFieldUpdateOperationsInput | number
+    tenure?: NullableJsonNullValueInput | InputJsonValue
     currency?: StringFieldUpdateOperationsInput | string
-    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    status?: StringFieldUpdateOperationsInput | string
     paymentGateway?: StringFieldUpdateOperationsInput | string
-    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
-    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type TransactionCreateManyInput = {
     id?: string
+    orderId?: string | null
+    paymentId?: string | null
+    couponId?: string | null
     userId: string
     serviceId?: string | null
     comboPlanId?: string | null
     amount: number
+    tenure?: NullableJsonNullValueInput | InputJsonValue
     currency?: string
-    status: $Enums.TransactionStatus
+    status: string
     paymentGateway: string
-    paymentId?: string | null
-    orderId?: string | null
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type TransactionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    amount?: FloatFieldUpdateOperationsInput | number
-    currency?: StringFieldUpdateOperationsInput | string
-    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
-    paymentGateway?: StringFieldUpdateOperationsInput | string
-    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
     orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: FloatFieldUpdateOperationsInput | number
+    tenure?: NullableJsonNullValueInput | InputJsonValue
+    currency?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    paymentGateway?: StringFieldUpdateOperationsInput | string
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type TransactionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    couponId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     serviceId?: NullableStringFieldUpdateOperationsInput | string | null
     comboPlanId?: NullableStringFieldUpdateOperationsInput | string | null
     amount?: FloatFieldUpdateOperationsInput | number
+    tenure?: NullableJsonNullValueInput | InputJsonValue
     currency?: StringFieldUpdateOperationsInput | string
-    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    status?: StringFieldUpdateOperationsInput | string
     paymentGateway?: StringFieldUpdateOperationsInput | string
-    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
-    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserDocumentsCreateInput = {
@@ -22153,6 +22657,8 @@ export namespace Prisma {
     id?: string
     name: string
     content: JsonNullValueInput | InputJsonValue
+    version: number
+    hash: string
     signatoryPerson?: string | null
     companyName?: string | null
     updatedAt?: Date | string
@@ -22165,6 +22671,8 @@ export namespace Prisma {
     id?: string
     name: string
     content: JsonNullValueInput | InputJsonValue
+    version: number
+    hash: string
     signatoryPerson?: string | null
     companyName?: string | null
     updatedAt?: Date | string
@@ -22177,6 +22685,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
+    version?: IntFieldUpdateOperationsInput | number
+    hash?: StringFieldUpdateOperationsInput | string
     signatoryPerson?: NullableStringFieldUpdateOperationsInput | string | null
     companyName?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22189,6 +22699,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
+    version?: IntFieldUpdateOperationsInput | number
+    hash?: StringFieldUpdateOperationsInput | string
     signatoryPerson?: NullableStringFieldUpdateOperationsInput | string | null
     companyName?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22201,6 +22713,8 @@ export namespace Prisma {
     id?: string
     name: string
     content: JsonNullValueInput | InputJsonValue
+    version: number
+    hash: string
     signatoryPerson?: string | null
     companyName?: string | null
     updatedAt?: Date | string
@@ -22211,6 +22725,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
+    version?: IntFieldUpdateOperationsInput | number
+    hash?: StringFieldUpdateOperationsInput | string
     signatoryPerson?: NullableStringFieldUpdateOperationsInput | string | null
     companyName?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22221,6 +22737,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
+    version?: IntFieldUpdateOperationsInput | number
+    hash?: StringFieldUpdateOperationsInput | string
     signatoryPerson?: NullableStringFieldUpdateOperationsInput | string | null
     companyName?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22312,11 +22830,13 @@ export namespace Prisma {
     name: string
     description?: string | null
     price: number
+    active?: boolean | null
     tenureDiscounts: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     agreement?: ComboPlanAgreementCreateNestedManyWithoutComboPlanInput
     services?: ComboPlanServiceCreateNestedManyWithoutComboPlanInput
+    coupon?: CouponCreateNestedManyWithoutComboPlanInput
     Transaction?: TransactionCreateNestedManyWithoutComboPlanInput
   }
 
@@ -22325,11 +22845,13 @@ export namespace Prisma {
     name: string
     description?: string | null
     price: number
+    active?: boolean | null
     tenureDiscounts: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     agreement?: ComboPlanAgreementUncheckedCreateNestedManyWithoutComboPlanInput
     services?: ComboPlanServiceUncheckedCreateNestedManyWithoutComboPlanInput
+    coupon?: CouponUncheckedCreateNestedManyWithoutComboPlanInput
     Transaction?: TransactionUncheckedCreateNestedManyWithoutComboPlanInput
   }
 
@@ -22338,11 +22860,13 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     tenureDiscounts?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     agreement?: ComboPlanAgreementUpdateManyWithoutComboPlanNestedInput
     services?: ComboPlanServiceUpdateManyWithoutComboPlanNestedInput
+    coupon?: CouponUpdateManyWithoutComboPlanNestedInput
     Transaction?: TransactionUpdateManyWithoutComboPlanNestedInput
   }
 
@@ -22351,11 +22875,13 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     tenureDiscounts?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     agreement?: ComboPlanAgreementUncheckedUpdateManyWithoutComboPlanNestedInput
     services?: ComboPlanServiceUncheckedUpdateManyWithoutComboPlanNestedInput
+    coupon?: CouponUncheckedUpdateManyWithoutComboPlanNestedInput
     Transaction?: TransactionUncheckedUpdateManyWithoutComboPlanNestedInput
   }
 
@@ -22364,6 +22890,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     price: number
+    active?: boolean | null
     tenureDiscounts: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -22374,6 +22901,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     tenureDiscounts?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22384,6 +22912,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     tenureDiscounts?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22455,6 +22984,7 @@ export namespace Prisma {
     userDocuments?: UserDocumentsCreateNestedManyWithoutServiceInput
     Transaction?: TransactionCreateNestedManyWithoutServiceInput
     ComboPlanService?: ComboPlanServiceCreateNestedManyWithoutServiceInput
+    coupon?: CouponCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceUncheckedCreateInput = {
@@ -22483,6 +23013,7 @@ export namespace Prisma {
     userDocuments?: UserDocumentsUncheckedCreateNestedManyWithoutServiceInput
     Transaction?: TransactionUncheckedCreateNestedManyWithoutServiceInput
     ComboPlanService?: ComboPlanServiceUncheckedCreateNestedManyWithoutServiceInput
+    coupon?: CouponUncheckedCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceUpdateInput = {
@@ -22511,6 +23042,7 @@ export namespace Prisma {
     userDocuments?: UserDocumentsUpdateManyWithoutServiceNestedInput
     Transaction?: TransactionUpdateManyWithoutServiceNestedInput
     ComboPlanService?: ComboPlanServiceUpdateManyWithoutServiceNestedInput
+    coupon?: CouponUpdateManyWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateInput = {
@@ -22539,6 +23071,7 @@ export namespace Prisma {
     userDocuments?: UserDocumentsUncheckedUpdateManyWithoutServiceNestedInput
     Transaction?: TransactionUncheckedUpdateManyWithoutServiceNestedInput
     ComboPlanService?: ComboPlanServiceUncheckedUpdateManyWithoutServiceNestedInput
+    coupon?: CouponUncheckedUpdateManyWithoutServiceNestedInput
   }
 
   export type ServiceCreateManyInput = {
@@ -23344,15 +23877,27 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
+  export type ComboPlanNullableScalarRelationFilter = {
+    is?: ComboPlanWhereInput | null
+    isNot?: ComboPlanWhereInput | null
+  }
+
+  export type ServiceNullableScalarRelationFilter = {
+    is?: ServiceWhereInput | null
+    isNot?: ServiceWhereInput | null
+  }
+
   export type CouponCountOrderByAggregateInput = {
     id?: SortOrder
     code?: SortOrder
     description?: SortOrder
     percentOff?: SortOrder
-    isActive?: SortOrder
     expiryDate?: SortOrder
     minAmount?: SortOrder
     maxAmount?: SortOrder
+    serviceId?: SortOrder
+    comboPlanId?: SortOrder
+    planDays?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -23361,6 +23906,7 @@ export namespace Prisma {
     percentOff?: SortOrder
     minAmount?: SortOrder
     maxAmount?: SortOrder
+    planDays?: SortOrder
   }
 
   export type CouponMaxOrderByAggregateInput = {
@@ -23368,10 +23914,12 @@ export namespace Prisma {
     code?: SortOrder
     description?: SortOrder
     percentOff?: SortOrder
-    isActive?: SortOrder
     expiryDate?: SortOrder
     minAmount?: SortOrder
     maxAmount?: SortOrder
+    serviceId?: SortOrder
+    comboPlanId?: SortOrder
+    planDays?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -23381,10 +23929,12 @@ export namespace Prisma {
     code?: SortOrder
     description?: SortOrder
     percentOff?: SortOrder
-    isActive?: SortOrder
     expiryDate?: SortOrder
     minAmount?: SortOrder
     maxAmount?: SortOrder
+    serviceId?: SortOrder
+    comboPlanId?: SortOrder
+    planDays?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -23393,6 +23943,7 @@ export namespace Prisma {
     percentOff?: SortOrder
     minAmount?: SortOrder
     maxAmount?: SortOrder
+    planDays?: SortOrder
   }
 
   export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -23411,36 +23962,28 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
-  export type EnumTransactionStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.TransactionStatus | EnumTransactionStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumTransactionStatusFilter<$PrismaModel> | $Enums.TransactionStatus
-  }
-
-  export type ServiceNullableScalarRelationFilter = {
-    is?: ServiceWhereInput | null
-    isNot?: ServiceWhereInput | null
-  }
-
-  export type ComboPlanNullableScalarRelationFilter = {
-    is?: ComboPlanWhereInput | null
-    isNot?: ComboPlanWhereInput | null
+  export type CouponNullableScalarRelationFilter = {
+    is?: CouponWhereInput | null
+    isNot?: CouponWhereInput | null
   }
 
   export type TransactionCountOrderByAggregateInput = {
     id?: SortOrder
+    orderId?: SortOrder
+    paymentId?: SortOrder
+    couponId?: SortOrder
     userId?: SortOrder
     serviceId?: SortOrder
     comboPlanId?: SortOrder
     amount?: SortOrder
+    tenure?: SortOrder
     currency?: SortOrder
     status?: SortOrder
     paymentGateway?: SortOrder
-    paymentId?: SortOrder
-    orderId?: SortOrder
+    webhookResponse?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    extraData?: SortOrder
   }
 
   export type TransactionAvgOrderByAggregateInput = {
@@ -23449,6 +23992,9 @@ export namespace Prisma {
 
   export type TransactionMaxOrderByAggregateInput = {
     id?: SortOrder
+    orderId?: SortOrder
+    paymentId?: SortOrder
+    couponId?: SortOrder
     userId?: SortOrder
     serviceId?: SortOrder
     comboPlanId?: SortOrder
@@ -23456,14 +24002,15 @@ export namespace Prisma {
     currency?: SortOrder
     status?: SortOrder
     paymentGateway?: SortOrder
-    paymentId?: SortOrder
-    orderId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type TransactionMinOrderByAggregateInput = {
     id?: SortOrder
+    orderId?: SortOrder
+    paymentId?: SortOrder
+    couponId?: SortOrder
     userId?: SortOrder
     serviceId?: SortOrder
     comboPlanId?: SortOrder
@@ -23471,24 +24018,12 @@ export namespace Prisma {
     currency?: SortOrder
     status?: SortOrder
     paymentGateway?: SortOrder
-    paymentId?: SortOrder
-    orderId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type TransactionSumOrderByAggregateInput = {
     amount?: SortOrder
-  }
-
-  export type EnumTransactionStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.TransactionStatus | EnumTransactionStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumTransactionStatusWithAggregatesFilter<$PrismaModel> | $Enums.TransactionStatus
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumTransactionStatusFilter<$PrismaModel>
-    _max?: NestedEnumTransactionStatusFilter<$PrismaModel>
   }
 
   export type EnumDocumentStatusFilter<$PrismaModel = never> = {
@@ -23568,15 +24103,23 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     content?: SortOrder
+    version?: SortOrder
+    hash?: SortOrder
     signatoryPerson?: SortOrder
     companyName?: SortOrder
     updatedAt?: SortOrder
     createdAt?: SortOrder
   }
 
+  export type AgreementAvgOrderByAggregateInput = {
+    version?: SortOrder
+  }
+
   export type AgreementMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    version?: SortOrder
+    hash?: SortOrder
     signatoryPerson?: SortOrder
     companyName?: SortOrder
     updatedAt?: SortOrder
@@ -23586,10 +24129,16 @@ export namespace Prisma {
   export type AgreementMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    version?: SortOrder
+    hash?: SortOrder
     signatoryPerson?: SortOrder
     companyName?: SortOrder
     updatedAt?: SortOrder
     createdAt?: SortOrder
+  }
+
+  export type AgreementSumOrderByAggregateInput = {
+    version?: SortOrder
   }
 
   export type AgreementScalarRelationFilter = {
@@ -23638,13 +24187,28 @@ export namespace Prisma {
     agreementId?: SortOrder
   }
 
+  export type BoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
   export type ComboPlanServiceListRelationFilter = {
     every?: ComboPlanServiceWhereInput
     some?: ComboPlanServiceWhereInput
     none?: ComboPlanServiceWhereInput
   }
 
+  export type CouponListRelationFilter = {
+    every?: CouponWhereInput
+    some?: CouponWhereInput
+    none?: CouponWhereInput
+  }
+
   export type ComboPlanServiceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CouponOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -23653,6 +24217,7 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrder
     price?: SortOrder
+    active?: SortOrder
     tenureDiscounts?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -23667,6 +24232,7 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrder
     price?: SortOrder
+    active?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -23676,12 +24242,21 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrder
     price?: SortOrder
+    active?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type ComboPlanSumOrderByAggregateInput = {
     price?: SortOrder
+  }
+
+  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
   export type ComboPlanServiceCountOrderByAggregateInput = {
@@ -23708,11 +24283,6 @@ export namespace Prisma {
     hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
     hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
     isEmpty?: boolean
-  }
-
-  export type BoolNullableFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
   }
 
   export type EnumServiceTypeFilter<$PrismaModel = never> = {
@@ -23789,14 +24359,6 @@ export namespace Prisma {
 
   export type ServiceSumOrderByAggregateInput = {
     taxPercent?: SortOrder
-  }
-
-  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedBoolNullableFilter<$PrismaModel>
-    _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
   export type EnumServiceTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -24151,12 +24713,86 @@ export namespace Prisma {
     update?: XOR<XOR<ServiceUpdateToOneWithWhereWithoutPurchasedServicesInput, ServiceUpdateWithoutPurchasedServicesInput>, ServiceUncheckedUpdateWithoutPurchasedServicesInput>
   }
 
+  export type ComboPlanCreateNestedOneWithoutCouponInput = {
+    create?: XOR<ComboPlanCreateWithoutCouponInput, ComboPlanUncheckedCreateWithoutCouponInput>
+    connectOrCreate?: ComboPlanCreateOrConnectWithoutCouponInput
+    connect?: ComboPlanWhereUniqueInput
+  }
+
+  export type ServiceCreateNestedOneWithoutCouponInput = {
+    create?: XOR<ServiceCreateWithoutCouponInput, ServiceUncheckedCreateWithoutCouponInput>
+    connectOrCreate?: ServiceCreateOrConnectWithoutCouponInput
+    connect?: ServiceWhereUniqueInput
+  }
+
+  export type TransactionCreateNestedManyWithoutCouponInput = {
+    create?: XOR<TransactionCreateWithoutCouponInput, TransactionUncheckedCreateWithoutCouponInput> | TransactionCreateWithoutCouponInput[] | TransactionUncheckedCreateWithoutCouponInput[]
+    connectOrCreate?: TransactionCreateOrConnectWithoutCouponInput | TransactionCreateOrConnectWithoutCouponInput[]
+    createMany?: TransactionCreateManyCouponInputEnvelope
+    connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+  }
+
+  export type TransactionUncheckedCreateNestedManyWithoutCouponInput = {
+    create?: XOR<TransactionCreateWithoutCouponInput, TransactionUncheckedCreateWithoutCouponInput> | TransactionCreateWithoutCouponInput[] | TransactionUncheckedCreateWithoutCouponInput[]
+    connectOrCreate?: TransactionCreateOrConnectWithoutCouponInput | TransactionCreateOrConnectWithoutCouponInput[]
+    createMany?: TransactionCreateManyCouponInputEnvelope
+    connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+  }
+
   export type NullableFloatFieldUpdateOperationsInput = {
     set?: number | null
     increment?: number
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type ComboPlanUpdateOneWithoutCouponNestedInput = {
+    create?: XOR<ComboPlanCreateWithoutCouponInput, ComboPlanUncheckedCreateWithoutCouponInput>
+    connectOrCreate?: ComboPlanCreateOrConnectWithoutCouponInput
+    upsert?: ComboPlanUpsertWithoutCouponInput
+    disconnect?: ComboPlanWhereInput | boolean
+    delete?: ComboPlanWhereInput | boolean
+    connect?: ComboPlanWhereUniqueInput
+    update?: XOR<XOR<ComboPlanUpdateToOneWithWhereWithoutCouponInput, ComboPlanUpdateWithoutCouponInput>, ComboPlanUncheckedUpdateWithoutCouponInput>
+  }
+
+  export type ServiceUpdateOneWithoutCouponNestedInput = {
+    create?: XOR<ServiceCreateWithoutCouponInput, ServiceUncheckedCreateWithoutCouponInput>
+    connectOrCreate?: ServiceCreateOrConnectWithoutCouponInput
+    upsert?: ServiceUpsertWithoutCouponInput
+    disconnect?: ServiceWhereInput | boolean
+    delete?: ServiceWhereInput | boolean
+    connect?: ServiceWhereUniqueInput
+    update?: XOR<XOR<ServiceUpdateToOneWithWhereWithoutCouponInput, ServiceUpdateWithoutCouponInput>, ServiceUncheckedUpdateWithoutCouponInput>
+  }
+
+  export type TransactionUpdateManyWithoutCouponNestedInput = {
+    create?: XOR<TransactionCreateWithoutCouponInput, TransactionUncheckedCreateWithoutCouponInput> | TransactionCreateWithoutCouponInput[] | TransactionUncheckedCreateWithoutCouponInput[]
+    connectOrCreate?: TransactionCreateOrConnectWithoutCouponInput | TransactionCreateOrConnectWithoutCouponInput[]
+    upsert?: TransactionUpsertWithWhereUniqueWithoutCouponInput | TransactionUpsertWithWhereUniqueWithoutCouponInput[]
+    createMany?: TransactionCreateManyCouponInputEnvelope
+    set?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+    disconnect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+    delete?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+    connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+    update?: TransactionUpdateWithWhereUniqueWithoutCouponInput | TransactionUpdateWithWhereUniqueWithoutCouponInput[]
+    updateMany?: TransactionUpdateManyWithWhereWithoutCouponInput | TransactionUpdateManyWithWhereWithoutCouponInput[]
+    deleteMany?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
+  }
+
+  export type TransactionUncheckedUpdateManyWithoutCouponNestedInput = {
+    create?: XOR<TransactionCreateWithoutCouponInput, TransactionUncheckedCreateWithoutCouponInput> | TransactionCreateWithoutCouponInput[] | TransactionUncheckedCreateWithoutCouponInput[]
+    connectOrCreate?: TransactionCreateOrConnectWithoutCouponInput | TransactionCreateOrConnectWithoutCouponInput[]
+    upsert?: TransactionUpsertWithWhereUniqueWithoutCouponInput | TransactionUpsertWithWhereUniqueWithoutCouponInput[]
+    createMany?: TransactionCreateManyCouponInputEnvelope
+    set?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+    disconnect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+    delete?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+    connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+    update?: TransactionUpdateWithWhereUniqueWithoutCouponInput | TransactionUpdateWithWhereUniqueWithoutCouponInput[]
+    updateMany?: TransactionUpdateManyWithWhereWithoutCouponInput | TransactionUpdateManyWithWhereWithoutCouponInput[]
+    deleteMany?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutTransactionInput = {
@@ -24177,8 +24813,10 @@ export namespace Prisma {
     connect?: ComboPlanWhereUniqueInput
   }
 
-  export type EnumTransactionStatusFieldUpdateOperationsInput = {
-    set?: $Enums.TransactionStatus
+  export type CouponCreateNestedOneWithoutTransactionsInput = {
+    create?: XOR<CouponCreateWithoutTransactionsInput, CouponUncheckedCreateWithoutTransactionsInput>
+    connectOrCreate?: CouponCreateOrConnectWithoutTransactionsInput
+    connect?: CouponWhereUniqueInput
   }
 
   export type UserUpdateOneRequiredWithoutTransactionNestedInput = {
@@ -24207,6 +24845,16 @@ export namespace Prisma {
     delete?: ComboPlanWhereInput | boolean
     connect?: ComboPlanWhereUniqueInput
     update?: XOR<XOR<ComboPlanUpdateToOneWithWhereWithoutTransactionInput, ComboPlanUpdateWithoutTransactionInput>, ComboPlanUncheckedUpdateWithoutTransactionInput>
+  }
+
+  export type CouponUpdateOneWithoutTransactionsNestedInput = {
+    create?: XOR<CouponCreateWithoutTransactionsInput, CouponUncheckedCreateWithoutTransactionsInput>
+    connectOrCreate?: CouponCreateOrConnectWithoutTransactionsInput
+    upsert?: CouponUpsertWithoutTransactionsInput
+    disconnect?: CouponWhereInput | boolean
+    delete?: CouponWhereInput | boolean
+    connect?: CouponWhereUniqueInput
+    update?: XOR<XOR<CouponUpdateToOneWithWhereWithoutTransactionsInput, CouponUpdateWithoutTransactionsInput>, CouponUncheckedUpdateWithoutTransactionsInput>
   }
 
   export type UserCreateNestedOneWithoutDocumentsInput = {
@@ -24397,6 +25045,13 @@ export namespace Prisma {
     connect?: ComboPlanServiceWhereUniqueInput | ComboPlanServiceWhereUniqueInput[]
   }
 
+  export type CouponCreateNestedManyWithoutComboPlanInput = {
+    create?: XOR<CouponCreateWithoutComboPlanInput, CouponUncheckedCreateWithoutComboPlanInput> | CouponCreateWithoutComboPlanInput[] | CouponUncheckedCreateWithoutComboPlanInput[]
+    connectOrCreate?: CouponCreateOrConnectWithoutComboPlanInput | CouponCreateOrConnectWithoutComboPlanInput[]
+    createMany?: CouponCreateManyComboPlanInputEnvelope
+    connect?: CouponWhereUniqueInput | CouponWhereUniqueInput[]
+  }
+
   export type TransactionCreateNestedManyWithoutComboPlanInput = {
     create?: XOR<TransactionCreateWithoutComboPlanInput, TransactionUncheckedCreateWithoutComboPlanInput> | TransactionCreateWithoutComboPlanInput[] | TransactionUncheckedCreateWithoutComboPlanInput[]
     connectOrCreate?: TransactionCreateOrConnectWithoutComboPlanInput | TransactionCreateOrConnectWithoutComboPlanInput[]
@@ -24418,11 +25073,22 @@ export namespace Prisma {
     connect?: ComboPlanServiceWhereUniqueInput | ComboPlanServiceWhereUniqueInput[]
   }
 
+  export type CouponUncheckedCreateNestedManyWithoutComboPlanInput = {
+    create?: XOR<CouponCreateWithoutComboPlanInput, CouponUncheckedCreateWithoutComboPlanInput> | CouponCreateWithoutComboPlanInput[] | CouponUncheckedCreateWithoutComboPlanInput[]
+    connectOrCreate?: CouponCreateOrConnectWithoutComboPlanInput | CouponCreateOrConnectWithoutComboPlanInput[]
+    createMany?: CouponCreateManyComboPlanInputEnvelope
+    connect?: CouponWhereUniqueInput | CouponWhereUniqueInput[]
+  }
+
   export type TransactionUncheckedCreateNestedManyWithoutComboPlanInput = {
     create?: XOR<TransactionCreateWithoutComboPlanInput, TransactionUncheckedCreateWithoutComboPlanInput> | TransactionCreateWithoutComboPlanInput[] | TransactionUncheckedCreateWithoutComboPlanInput[]
     connectOrCreate?: TransactionCreateOrConnectWithoutComboPlanInput | TransactionCreateOrConnectWithoutComboPlanInput[]
     createMany?: TransactionCreateManyComboPlanInputEnvelope
     connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+  }
+
+  export type NullableBoolFieldUpdateOperationsInput = {
+    set?: boolean | null
   }
 
   export type ComboPlanAgreementUpdateManyWithoutComboPlanNestedInput = {
@@ -24451,6 +25117,20 @@ export namespace Prisma {
     update?: ComboPlanServiceUpdateWithWhereUniqueWithoutComboPlanInput | ComboPlanServiceUpdateWithWhereUniqueWithoutComboPlanInput[]
     updateMany?: ComboPlanServiceUpdateManyWithWhereWithoutComboPlanInput | ComboPlanServiceUpdateManyWithWhereWithoutComboPlanInput[]
     deleteMany?: ComboPlanServiceScalarWhereInput | ComboPlanServiceScalarWhereInput[]
+  }
+
+  export type CouponUpdateManyWithoutComboPlanNestedInput = {
+    create?: XOR<CouponCreateWithoutComboPlanInput, CouponUncheckedCreateWithoutComboPlanInput> | CouponCreateWithoutComboPlanInput[] | CouponUncheckedCreateWithoutComboPlanInput[]
+    connectOrCreate?: CouponCreateOrConnectWithoutComboPlanInput | CouponCreateOrConnectWithoutComboPlanInput[]
+    upsert?: CouponUpsertWithWhereUniqueWithoutComboPlanInput | CouponUpsertWithWhereUniqueWithoutComboPlanInput[]
+    createMany?: CouponCreateManyComboPlanInputEnvelope
+    set?: CouponWhereUniqueInput | CouponWhereUniqueInput[]
+    disconnect?: CouponWhereUniqueInput | CouponWhereUniqueInput[]
+    delete?: CouponWhereUniqueInput | CouponWhereUniqueInput[]
+    connect?: CouponWhereUniqueInput | CouponWhereUniqueInput[]
+    update?: CouponUpdateWithWhereUniqueWithoutComboPlanInput | CouponUpdateWithWhereUniqueWithoutComboPlanInput[]
+    updateMany?: CouponUpdateManyWithWhereWithoutComboPlanInput | CouponUpdateManyWithWhereWithoutComboPlanInput[]
+    deleteMany?: CouponScalarWhereInput | CouponScalarWhereInput[]
   }
 
   export type TransactionUpdateManyWithoutComboPlanNestedInput = {
@@ -24493,6 +25173,20 @@ export namespace Prisma {
     update?: ComboPlanServiceUpdateWithWhereUniqueWithoutComboPlanInput | ComboPlanServiceUpdateWithWhereUniqueWithoutComboPlanInput[]
     updateMany?: ComboPlanServiceUpdateManyWithWhereWithoutComboPlanInput | ComboPlanServiceUpdateManyWithWhereWithoutComboPlanInput[]
     deleteMany?: ComboPlanServiceScalarWhereInput | ComboPlanServiceScalarWhereInput[]
+  }
+
+  export type CouponUncheckedUpdateManyWithoutComboPlanNestedInput = {
+    create?: XOR<CouponCreateWithoutComboPlanInput, CouponUncheckedCreateWithoutComboPlanInput> | CouponCreateWithoutComboPlanInput[] | CouponUncheckedCreateWithoutComboPlanInput[]
+    connectOrCreate?: CouponCreateOrConnectWithoutComboPlanInput | CouponCreateOrConnectWithoutComboPlanInput[]
+    upsert?: CouponUpsertWithWhereUniqueWithoutComboPlanInput | CouponUpsertWithWhereUniqueWithoutComboPlanInput[]
+    createMany?: CouponCreateManyComboPlanInputEnvelope
+    set?: CouponWhereUniqueInput | CouponWhereUniqueInput[]
+    disconnect?: CouponWhereUniqueInput | CouponWhereUniqueInput[]
+    delete?: CouponWhereUniqueInput | CouponWhereUniqueInput[]
+    connect?: CouponWhereUniqueInput | CouponWhereUniqueInput[]
+    update?: CouponUpdateWithWhereUniqueWithoutComboPlanInput | CouponUpdateWithWhereUniqueWithoutComboPlanInput[]
+    updateMany?: CouponUpdateManyWithWhereWithoutComboPlanInput | CouponUpdateManyWithWhereWithoutComboPlanInput[]
+    deleteMany?: CouponScalarWhereInput | CouponScalarWhereInput[]
   }
 
   export type TransactionUncheckedUpdateManyWithoutComboPlanNestedInput = {
@@ -24582,6 +25276,13 @@ export namespace Prisma {
     connect?: ComboPlanServiceWhereUniqueInput | ComboPlanServiceWhereUniqueInput[]
   }
 
+  export type CouponCreateNestedManyWithoutServiceInput = {
+    create?: XOR<CouponCreateWithoutServiceInput, CouponUncheckedCreateWithoutServiceInput> | CouponCreateWithoutServiceInput[] | CouponUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: CouponCreateOrConnectWithoutServiceInput | CouponCreateOrConnectWithoutServiceInput[]
+    createMany?: CouponCreateManyServiceInputEnvelope
+    connect?: CouponWhereUniqueInput | CouponWhereUniqueInput[]
+  }
+
   export type ServiceAgreementUncheckedCreateNestedManyWithoutServiceInput = {
     create?: XOR<ServiceAgreementCreateWithoutServiceInput, ServiceAgreementUncheckedCreateWithoutServiceInput> | ServiceAgreementCreateWithoutServiceInput[] | ServiceAgreementUncheckedCreateWithoutServiceInput[]
     connectOrCreate?: ServiceAgreementCreateOrConnectWithoutServiceInput | ServiceAgreementCreateOrConnectWithoutServiceInput[]
@@ -24623,13 +25324,16 @@ export namespace Prisma {
     connect?: ComboPlanServiceWhereUniqueInput | ComboPlanServiceWhereUniqueInput[]
   }
 
+  export type CouponUncheckedCreateNestedManyWithoutServiceInput = {
+    create?: XOR<CouponCreateWithoutServiceInput, CouponUncheckedCreateWithoutServiceInput> | CouponCreateWithoutServiceInput[] | CouponUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: CouponCreateOrConnectWithoutServiceInput | CouponCreateOrConnectWithoutServiceInput[]
+    createMany?: CouponCreateManyServiceInputEnvelope
+    connect?: CouponWhereUniqueInput | CouponWhereUniqueInput[]
+  }
+
   export type ServiceUpdaterecommendationInput = {
     set?: string[]
     push?: string | string[]
-  }
-
-  export type NullableBoolFieldUpdateOperationsInput = {
-    set?: boolean | null
   }
 
   export type EnumServiceTypeFieldUpdateOperationsInput = {
@@ -24716,6 +25420,20 @@ export namespace Prisma {
     deleteMany?: ComboPlanServiceScalarWhereInput | ComboPlanServiceScalarWhereInput[]
   }
 
+  export type CouponUpdateManyWithoutServiceNestedInput = {
+    create?: XOR<CouponCreateWithoutServiceInput, CouponUncheckedCreateWithoutServiceInput> | CouponCreateWithoutServiceInput[] | CouponUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: CouponCreateOrConnectWithoutServiceInput | CouponCreateOrConnectWithoutServiceInput[]
+    upsert?: CouponUpsertWithWhereUniqueWithoutServiceInput | CouponUpsertWithWhereUniqueWithoutServiceInput[]
+    createMany?: CouponCreateManyServiceInputEnvelope
+    set?: CouponWhereUniqueInput | CouponWhereUniqueInput[]
+    disconnect?: CouponWhereUniqueInput | CouponWhereUniqueInput[]
+    delete?: CouponWhereUniqueInput | CouponWhereUniqueInput[]
+    connect?: CouponWhereUniqueInput | CouponWhereUniqueInput[]
+    update?: CouponUpdateWithWhereUniqueWithoutServiceInput | CouponUpdateWithWhereUniqueWithoutServiceInput[]
+    updateMany?: CouponUpdateManyWithWhereWithoutServiceInput | CouponUpdateManyWithWhereWithoutServiceInput[]
+    deleteMany?: CouponScalarWhereInput | CouponScalarWhereInput[]
+  }
+
   export type ServiceAgreementUncheckedUpdateManyWithoutServiceNestedInput = {
     create?: XOR<ServiceAgreementCreateWithoutServiceInput, ServiceAgreementUncheckedCreateWithoutServiceInput> | ServiceAgreementCreateWithoutServiceInput[] | ServiceAgreementUncheckedCreateWithoutServiceInput[]
     connectOrCreate?: ServiceAgreementCreateOrConnectWithoutServiceInput | ServiceAgreementCreateOrConnectWithoutServiceInput[]
@@ -24794,6 +25512,20 @@ export namespace Prisma {
     update?: ComboPlanServiceUpdateWithWhereUniqueWithoutServiceInput | ComboPlanServiceUpdateWithWhereUniqueWithoutServiceInput[]
     updateMany?: ComboPlanServiceUpdateManyWithWhereWithoutServiceInput | ComboPlanServiceUpdateManyWithWhereWithoutServiceInput[]
     deleteMany?: ComboPlanServiceScalarWhereInput | ComboPlanServiceScalarWhereInput[]
+  }
+
+  export type CouponUncheckedUpdateManyWithoutServiceNestedInput = {
+    create?: XOR<CouponCreateWithoutServiceInput, CouponUncheckedCreateWithoutServiceInput> | CouponCreateWithoutServiceInput[] | CouponUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: CouponCreateOrConnectWithoutServiceInput | CouponCreateOrConnectWithoutServiceInput[]
+    upsert?: CouponUpsertWithWhereUniqueWithoutServiceInput | CouponUpsertWithWhereUniqueWithoutServiceInput[]
+    createMany?: CouponCreateManyServiceInputEnvelope
+    set?: CouponWhereUniqueInput | CouponWhereUniqueInput[]
+    disconnect?: CouponWhereUniqueInput | CouponWhereUniqueInput[]
+    delete?: CouponWhereUniqueInput | CouponWhereUniqueInput[]
+    connect?: CouponWhereUniqueInput | CouponWhereUniqueInput[]
+    update?: CouponUpdateWithWhereUniqueWithoutServiceInput | CouponUpdateWithWhereUniqueWithoutServiceInput[]
+    updateMany?: CouponUpdateManyWithWhereWithoutServiceInput | CouponUpdateManyWithWhereWithoutServiceInput[]
+    deleteMany?: CouponScalarWhereInput | CouponScalarWhereInput[]
   }
 
   export type ServiceCreateNestedOneWithoutServiceTradingInput = {
@@ -25140,23 +25872,6 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
-  export type NestedEnumTransactionStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.TransactionStatus | EnumTransactionStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumTransactionStatusFilter<$PrismaModel> | $Enums.TransactionStatus
-  }
-
-  export type NestedEnumTransactionStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.TransactionStatus | EnumTransactionStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumTransactionStatusWithAggregatesFilter<$PrismaModel> | $Enums.TransactionStatus
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumTransactionStatusFilter<$PrismaModel>
-    _max?: NestedEnumTransactionStatusFilter<$PrismaModel>
-  }
-
   export type NestedEnumDocumentStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.DocumentStatus | EnumDocumentStatusFieldRefInput<$PrismaModel>
     in?: $Enums.DocumentStatus[] | ListEnumDocumentStatusFieldRefInput<$PrismaModel>
@@ -25179,19 +25894,19 @@ export namespace Prisma {
     not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
   }
 
-  export type NestedEnumServiceTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.ServiceType | EnumServiceTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.ServiceType[] | ListEnumServiceTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.ServiceType[] | ListEnumServiceTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumServiceTypeFilter<$PrismaModel> | $Enums.ServiceType
-  }
-
   export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
     not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedBoolNullableFilter<$PrismaModel>
     _max?: NestedBoolNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumServiceTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ServiceType | EnumServiceTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ServiceType[] | ListEnumServiceTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ServiceType[] | ListEnumServiceTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumServiceTypeFilter<$PrismaModel> | $Enums.ServiceType
   }
 
   export type NestedEnumServiceTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -25336,30 +26051,38 @@ export namespace Prisma {
 
   export type TransactionCreateWithoutUserInput = {
     id?: string
-    amount: number
-    currency?: string
-    status: $Enums.TransactionStatus
-    paymentGateway: string
-    paymentId?: string | null
     orderId?: string | null
+    paymentId?: string | null
+    amount: number
+    tenure?: NullableJsonNullValueInput | InputJsonValue
+    currency?: string
+    status: string
+    paymentGateway: string
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
     service?: ServiceCreateNestedOneWithoutTransactionInput
     comboPlan?: ComboPlanCreateNestedOneWithoutTransactionInput
+    coupon?: CouponCreateNestedOneWithoutTransactionsInput
   }
 
   export type TransactionUncheckedCreateWithoutUserInput = {
     id?: string
+    orderId?: string | null
+    paymentId?: string | null
+    couponId?: string | null
     serviceId?: string | null
     comboPlanId?: string | null
     amount: number
+    tenure?: NullableJsonNullValueInput | InputJsonValue
     currency?: string
-    status: $Enums.TransactionStatus
+    status: string
     paymentGateway: string
-    paymentId?: string | null
-    orderId?: string | null
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type TransactionCreateOrConnectWithoutUserInput = {
@@ -25518,17 +26241,21 @@ export namespace Prisma {
     OR?: TransactionScalarWhereInput[]
     NOT?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
     id?: StringFilter<"Transaction"> | string
+    orderId?: StringNullableFilter<"Transaction"> | string | null
+    paymentId?: StringNullableFilter<"Transaction"> | string | null
+    couponId?: StringNullableFilter<"Transaction"> | string | null
     userId?: StringFilter<"Transaction"> | string
     serviceId?: StringNullableFilter<"Transaction"> | string | null
     comboPlanId?: StringNullableFilter<"Transaction"> | string | null
     amount?: FloatFilter<"Transaction"> | number
+    tenure?: JsonNullableFilter<"Transaction">
     currency?: StringFilter<"Transaction"> | string
-    status?: EnumTransactionStatusFilter<"Transaction"> | $Enums.TransactionStatus
+    status?: StringFilter<"Transaction"> | string
     paymentGateway?: StringFilter<"Transaction"> | string
-    paymentId?: StringNullableFilter<"Transaction"> | string | null
-    orderId?: StringNullableFilter<"Transaction"> | string | null
+    webhookResponse?: JsonNullableFilter<"Transaction">
     createdAt?: DateTimeFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeFilter<"Transaction"> | Date | string
+    extraData?: JsonNullableFilter<"Transaction">
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -25903,6 +26630,7 @@ export namespace Prisma {
     userDocuments?: UserDocumentsCreateNestedManyWithoutServiceInput
     Transaction?: TransactionCreateNestedManyWithoutServiceInput
     ComboPlanService?: ComboPlanServiceCreateNestedManyWithoutServiceInput
+    coupon?: CouponCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceUncheckedCreateWithoutPurchasedServicesInput = {
@@ -25930,6 +26658,7 @@ export namespace Prisma {
     userDocuments?: UserDocumentsUncheckedCreateNestedManyWithoutServiceInput
     Transaction?: TransactionUncheckedCreateNestedManyWithoutServiceInput
     ComboPlanService?: ComboPlanServiceUncheckedCreateNestedManyWithoutServiceInput
+    coupon?: CouponUncheckedCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceCreateOrConnectWithoutPurchasedServicesInput = {
@@ -26046,6 +26775,7 @@ export namespace Prisma {
     userDocuments?: UserDocumentsUpdateManyWithoutServiceNestedInput
     Transaction?: TransactionUpdateManyWithoutServiceNestedInput
     ComboPlanService?: ComboPlanServiceUpdateManyWithoutServiceNestedInput
+    coupon?: CouponUpdateManyWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateWithoutPurchasedServicesInput = {
@@ -26073,6 +26803,269 @@ export namespace Prisma {
     userDocuments?: UserDocumentsUncheckedUpdateManyWithoutServiceNestedInput
     Transaction?: TransactionUncheckedUpdateManyWithoutServiceNestedInput
     ComboPlanService?: ComboPlanServiceUncheckedUpdateManyWithoutServiceNestedInput
+    coupon?: CouponUncheckedUpdateManyWithoutServiceNestedInput
+  }
+
+  export type ComboPlanCreateWithoutCouponInput = {
+    id?: string
+    name: string
+    description?: string | null
+    price: number
+    active?: boolean | null
+    tenureDiscounts: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    agreement?: ComboPlanAgreementCreateNestedManyWithoutComboPlanInput
+    services?: ComboPlanServiceCreateNestedManyWithoutComboPlanInput
+    Transaction?: TransactionCreateNestedManyWithoutComboPlanInput
+  }
+
+  export type ComboPlanUncheckedCreateWithoutCouponInput = {
+    id?: string
+    name: string
+    description?: string | null
+    price: number
+    active?: boolean | null
+    tenureDiscounts: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    agreement?: ComboPlanAgreementUncheckedCreateNestedManyWithoutComboPlanInput
+    services?: ComboPlanServiceUncheckedCreateNestedManyWithoutComboPlanInput
+    Transaction?: TransactionUncheckedCreateNestedManyWithoutComboPlanInput
+  }
+
+  export type ComboPlanCreateOrConnectWithoutCouponInput = {
+    where: ComboPlanWhereUniqueInput
+    create: XOR<ComboPlanCreateWithoutCouponInput, ComboPlanUncheckedCreateWithoutCouponInput>
+  }
+
+  export type ServiceCreateWithoutCouponInput = {
+    id?: string
+    name: string
+    slug: string
+    tag?: string | null
+    label?: string | null
+    serviceClass?: string | null
+    description?: string | null
+    chart?: NullableJsonNullValueInput | InputJsonValue
+    comparisonTitle?: string | null
+    recommendation?: ServiceCreaterecommendationInput | string[]
+    price?: string | null
+    taxPercent?: number | null
+    tenureDiscounts?: NullableJsonNullValueInput | InputJsonValue
+    features?: NullableJsonNullValueInput | InputJsonValue
+    faq?: NullableJsonNullValueInput | InputJsonValue
+    active?: boolean | null
+    type: $Enums.ServiceType
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    agreements?: ServiceAgreementCreateNestedManyWithoutServiceInput
+    serviceTrading?: ServiceTradingCreateNestedOneWithoutServiceInput
+    purchasedServices?: UserPurchasedServicesCreateNestedManyWithoutServiceInput
+    userDocuments?: UserDocumentsCreateNestedManyWithoutServiceInput
+    Transaction?: TransactionCreateNestedManyWithoutServiceInput
+    ComboPlanService?: ComboPlanServiceCreateNestedManyWithoutServiceInput
+  }
+
+  export type ServiceUncheckedCreateWithoutCouponInput = {
+    id?: string
+    name: string
+    slug: string
+    tag?: string | null
+    label?: string | null
+    serviceClass?: string | null
+    description?: string | null
+    chart?: NullableJsonNullValueInput | InputJsonValue
+    comparisonTitle?: string | null
+    recommendation?: ServiceCreaterecommendationInput | string[]
+    price?: string | null
+    taxPercent?: number | null
+    tenureDiscounts?: NullableJsonNullValueInput | InputJsonValue
+    features?: NullableJsonNullValueInput | InputJsonValue
+    faq?: NullableJsonNullValueInput | InputJsonValue
+    active?: boolean | null
+    type: $Enums.ServiceType
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    agreements?: ServiceAgreementUncheckedCreateNestedManyWithoutServiceInput
+    serviceTrading?: ServiceTradingUncheckedCreateNestedOneWithoutServiceInput
+    purchasedServices?: UserPurchasedServicesUncheckedCreateNestedManyWithoutServiceInput
+    userDocuments?: UserDocumentsUncheckedCreateNestedManyWithoutServiceInput
+    Transaction?: TransactionUncheckedCreateNestedManyWithoutServiceInput
+    ComboPlanService?: ComboPlanServiceUncheckedCreateNestedManyWithoutServiceInput
+  }
+
+  export type ServiceCreateOrConnectWithoutCouponInput = {
+    where: ServiceWhereUniqueInput
+    create: XOR<ServiceCreateWithoutCouponInput, ServiceUncheckedCreateWithoutCouponInput>
+  }
+
+  export type TransactionCreateWithoutCouponInput = {
+    id?: string
+    orderId?: string | null
+    paymentId?: string | null
+    amount: number
+    tenure?: NullableJsonNullValueInput | InputJsonValue
+    currency?: string
+    status: string
+    paymentGateway: string
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
+    user: UserCreateNestedOneWithoutTransactionInput
+    service?: ServiceCreateNestedOneWithoutTransactionInput
+    comboPlan?: ComboPlanCreateNestedOneWithoutTransactionInput
+  }
+
+  export type TransactionUncheckedCreateWithoutCouponInput = {
+    id?: string
+    orderId?: string | null
+    paymentId?: string | null
+    userId: string
+    serviceId?: string | null
+    comboPlanId?: string | null
+    amount: number
+    tenure?: NullableJsonNullValueInput | InputJsonValue
+    currency?: string
+    status: string
+    paymentGateway: string
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type TransactionCreateOrConnectWithoutCouponInput = {
+    where: TransactionWhereUniqueInput
+    create: XOR<TransactionCreateWithoutCouponInput, TransactionUncheckedCreateWithoutCouponInput>
+  }
+
+  export type TransactionCreateManyCouponInputEnvelope = {
+    data: TransactionCreateManyCouponInput | TransactionCreateManyCouponInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ComboPlanUpsertWithoutCouponInput = {
+    update: XOR<ComboPlanUpdateWithoutCouponInput, ComboPlanUncheckedUpdateWithoutCouponInput>
+    create: XOR<ComboPlanCreateWithoutCouponInput, ComboPlanUncheckedCreateWithoutCouponInput>
+    where?: ComboPlanWhereInput
+  }
+
+  export type ComboPlanUpdateToOneWithWhereWithoutCouponInput = {
+    where?: ComboPlanWhereInput
+    data: XOR<ComboPlanUpdateWithoutCouponInput, ComboPlanUncheckedUpdateWithoutCouponInput>
+  }
+
+  export type ComboPlanUpdateWithoutCouponInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: FloatFieldUpdateOperationsInput | number
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tenureDiscounts?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agreement?: ComboPlanAgreementUpdateManyWithoutComboPlanNestedInput
+    services?: ComboPlanServiceUpdateManyWithoutComboPlanNestedInput
+    Transaction?: TransactionUpdateManyWithoutComboPlanNestedInput
+  }
+
+  export type ComboPlanUncheckedUpdateWithoutCouponInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: FloatFieldUpdateOperationsInput | number
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tenureDiscounts?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agreement?: ComboPlanAgreementUncheckedUpdateManyWithoutComboPlanNestedInput
+    services?: ComboPlanServiceUncheckedUpdateManyWithoutComboPlanNestedInput
+    Transaction?: TransactionUncheckedUpdateManyWithoutComboPlanNestedInput
+  }
+
+  export type ServiceUpsertWithoutCouponInput = {
+    update: XOR<ServiceUpdateWithoutCouponInput, ServiceUncheckedUpdateWithoutCouponInput>
+    create: XOR<ServiceCreateWithoutCouponInput, ServiceUncheckedCreateWithoutCouponInput>
+    where?: ServiceWhereInput
+  }
+
+  export type ServiceUpdateToOneWithWhereWithoutCouponInput = {
+    where?: ServiceWhereInput
+    data: XOR<ServiceUpdateWithoutCouponInput, ServiceUncheckedUpdateWithoutCouponInput>
+  }
+
+  export type ServiceUpdateWithoutCouponInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    tag?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceClass?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    chart?: NullableJsonNullValueInput | InputJsonValue
+    comparisonTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    recommendation?: ServiceUpdaterecommendationInput | string[]
+    price?: NullableStringFieldUpdateOperationsInput | string | null
+    taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
+    tenureDiscounts?: NullableJsonNullValueInput | InputJsonValue
+    features?: NullableJsonNullValueInput | InputJsonValue
+    faq?: NullableJsonNullValueInput | InputJsonValue
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agreements?: ServiceAgreementUpdateManyWithoutServiceNestedInput
+    serviceTrading?: ServiceTradingUpdateOneWithoutServiceNestedInput
+    purchasedServices?: UserPurchasedServicesUpdateManyWithoutServiceNestedInput
+    userDocuments?: UserDocumentsUpdateManyWithoutServiceNestedInput
+    Transaction?: TransactionUpdateManyWithoutServiceNestedInput
+    ComboPlanService?: ComboPlanServiceUpdateManyWithoutServiceNestedInput
+  }
+
+  export type ServiceUncheckedUpdateWithoutCouponInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    tag?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceClass?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    chart?: NullableJsonNullValueInput | InputJsonValue
+    comparisonTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    recommendation?: ServiceUpdaterecommendationInput | string[]
+    price?: NullableStringFieldUpdateOperationsInput | string | null
+    taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
+    tenureDiscounts?: NullableJsonNullValueInput | InputJsonValue
+    features?: NullableJsonNullValueInput | InputJsonValue
+    faq?: NullableJsonNullValueInput | InputJsonValue
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agreements?: ServiceAgreementUncheckedUpdateManyWithoutServiceNestedInput
+    serviceTrading?: ServiceTradingUncheckedUpdateOneWithoutServiceNestedInput
+    purchasedServices?: UserPurchasedServicesUncheckedUpdateManyWithoutServiceNestedInput
+    userDocuments?: UserDocumentsUncheckedUpdateManyWithoutServiceNestedInput
+    Transaction?: TransactionUncheckedUpdateManyWithoutServiceNestedInput
+    ComboPlanService?: ComboPlanServiceUncheckedUpdateManyWithoutServiceNestedInput
+  }
+
+  export type TransactionUpsertWithWhereUniqueWithoutCouponInput = {
+    where: TransactionWhereUniqueInput
+    update: XOR<TransactionUpdateWithoutCouponInput, TransactionUncheckedUpdateWithoutCouponInput>
+    create: XOR<TransactionCreateWithoutCouponInput, TransactionUncheckedCreateWithoutCouponInput>
+  }
+
+  export type TransactionUpdateWithWhereUniqueWithoutCouponInput = {
+    where: TransactionWhereUniqueInput
+    data: XOR<TransactionUpdateWithoutCouponInput, TransactionUncheckedUpdateWithoutCouponInput>
+  }
+
+  export type TransactionUpdateManyWithWhereWithoutCouponInput = {
+    where: TransactionScalarWhereInput
+    data: XOR<TransactionUpdateManyMutationInput, TransactionUncheckedUpdateManyWithoutCouponInput>
   }
 
   export type UserCreateWithoutTransactionInput = {
@@ -26167,6 +27160,7 @@ export namespace Prisma {
     purchasedServices?: UserPurchasedServicesCreateNestedManyWithoutServiceInput
     userDocuments?: UserDocumentsCreateNestedManyWithoutServiceInput
     ComboPlanService?: ComboPlanServiceCreateNestedManyWithoutServiceInput
+    coupon?: CouponCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceUncheckedCreateWithoutTransactionInput = {
@@ -26194,6 +27188,7 @@ export namespace Prisma {
     purchasedServices?: UserPurchasedServicesUncheckedCreateNestedManyWithoutServiceInput
     userDocuments?: UserDocumentsUncheckedCreateNestedManyWithoutServiceInput
     ComboPlanService?: ComboPlanServiceUncheckedCreateNestedManyWithoutServiceInput
+    coupon?: CouponUncheckedCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceCreateOrConnectWithoutTransactionInput = {
@@ -26206,11 +27201,13 @@ export namespace Prisma {
     name: string
     description?: string | null
     price: number
+    active?: boolean | null
     tenureDiscounts: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     agreement?: ComboPlanAgreementCreateNestedManyWithoutComboPlanInput
     services?: ComboPlanServiceCreateNestedManyWithoutComboPlanInput
+    coupon?: CouponCreateNestedManyWithoutComboPlanInput
   }
 
   export type ComboPlanUncheckedCreateWithoutTransactionInput = {
@@ -26218,16 +27215,53 @@ export namespace Prisma {
     name: string
     description?: string | null
     price: number
+    active?: boolean | null
     tenureDiscounts: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     agreement?: ComboPlanAgreementUncheckedCreateNestedManyWithoutComboPlanInput
     services?: ComboPlanServiceUncheckedCreateNestedManyWithoutComboPlanInput
+    coupon?: CouponUncheckedCreateNestedManyWithoutComboPlanInput
   }
 
   export type ComboPlanCreateOrConnectWithoutTransactionInput = {
     where: ComboPlanWhereUniqueInput
     create: XOR<ComboPlanCreateWithoutTransactionInput, ComboPlanUncheckedCreateWithoutTransactionInput>
+  }
+
+  export type CouponCreateWithoutTransactionsInput = {
+    id?: string
+    code: string
+    description?: string | null
+    percentOff: number
+    expiryDate: Date | string
+    minAmount?: number
+    maxAmount?: number | null
+    planDays?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    comboPlan?: ComboPlanCreateNestedOneWithoutCouponInput
+    service?: ServiceCreateNestedOneWithoutCouponInput
+  }
+
+  export type CouponUncheckedCreateWithoutTransactionsInput = {
+    id?: string
+    code: string
+    description?: string | null
+    percentOff: number
+    expiryDate: Date | string
+    minAmount?: number
+    maxAmount?: number | null
+    serviceId?: string | null
+    comboPlanId?: string | null
+    planDays?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CouponCreateOrConnectWithoutTransactionsInput = {
+    where: CouponWhereUniqueInput
+    create: XOR<CouponCreateWithoutTransactionsInput, CouponUncheckedCreateWithoutTransactionsInput>
   }
 
   export type UserUpsertWithoutTransactionInput = {
@@ -26339,6 +27373,7 @@ export namespace Prisma {
     purchasedServices?: UserPurchasedServicesUpdateManyWithoutServiceNestedInput
     userDocuments?: UserDocumentsUpdateManyWithoutServiceNestedInput
     ComboPlanService?: ComboPlanServiceUpdateManyWithoutServiceNestedInput
+    coupon?: CouponUpdateManyWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateWithoutTransactionInput = {
@@ -26366,6 +27401,7 @@ export namespace Prisma {
     purchasedServices?: UserPurchasedServicesUncheckedUpdateManyWithoutServiceNestedInput
     userDocuments?: UserDocumentsUncheckedUpdateManyWithoutServiceNestedInput
     ComboPlanService?: ComboPlanServiceUncheckedUpdateManyWithoutServiceNestedInput
+    coupon?: CouponUncheckedUpdateManyWithoutServiceNestedInput
   }
 
   export type ComboPlanUpsertWithoutTransactionInput = {
@@ -26384,11 +27420,13 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     tenureDiscounts?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     agreement?: ComboPlanAgreementUpdateManyWithoutComboPlanNestedInput
     services?: ComboPlanServiceUpdateManyWithoutComboPlanNestedInput
+    coupon?: CouponUpdateManyWithoutComboPlanNestedInput
   }
 
   export type ComboPlanUncheckedUpdateWithoutTransactionInput = {
@@ -26396,11 +27434,54 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     tenureDiscounts?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     agreement?: ComboPlanAgreementUncheckedUpdateManyWithoutComboPlanNestedInput
     services?: ComboPlanServiceUncheckedUpdateManyWithoutComboPlanNestedInput
+    coupon?: CouponUncheckedUpdateManyWithoutComboPlanNestedInput
+  }
+
+  export type CouponUpsertWithoutTransactionsInput = {
+    update: XOR<CouponUpdateWithoutTransactionsInput, CouponUncheckedUpdateWithoutTransactionsInput>
+    create: XOR<CouponCreateWithoutTransactionsInput, CouponUncheckedCreateWithoutTransactionsInput>
+    where?: CouponWhereInput
+  }
+
+  export type CouponUpdateToOneWithWhereWithoutTransactionsInput = {
+    where?: CouponWhereInput
+    data: XOR<CouponUpdateWithoutTransactionsInput, CouponUncheckedUpdateWithoutTransactionsInput>
+  }
+
+  export type CouponUpdateWithoutTransactionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    percentOff?: FloatFieldUpdateOperationsInput | number
+    expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    minAmount?: FloatFieldUpdateOperationsInput | number
+    maxAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    planDays?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    comboPlan?: ComboPlanUpdateOneWithoutCouponNestedInput
+    service?: ServiceUpdateOneWithoutCouponNestedInput
+  }
+
+  export type CouponUncheckedUpdateWithoutTransactionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    percentOff?: FloatFieldUpdateOperationsInput | number
+    expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    minAmount?: FloatFieldUpdateOperationsInput | number
+    maxAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    comboPlanId?: NullableStringFieldUpdateOperationsInput | string | null
+    planDays?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserCreateWithoutDocumentsInput = {
@@ -26495,6 +27576,7 @@ export namespace Prisma {
     purchasedServices?: UserPurchasedServicesCreateNestedManyWithoutServiceInput
     Transaction?: TransactionCreateNestedManyWithoutServiceInput
     ComboPlanService?: ComboPlanServiceCreateNestedManyWithoutServiceInput
+    coupon?: CouponCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceUncheckedCreateWithoutUserDocumentsInput = {
@@ -26522,6 +27604,7 @@ export namespace Prisma {
     purchasedServices?: UserPurchasedServicesUncheckedCreateNestedManyWithoutServiceInput
     Transaction?: TransactionUncheckedCreateNestedManyWithoutServiceInput
     ComboPlanService?: ComboPlanServiceUncheckedCreateNestedManyWithoutServiceInput
+    coupon?: CouponUncheckedCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceCreateOrConnectWithoutUserDocumentsInput = {
@@ -26638,6 +27721,7 @@ export namespace Prisma {
     purchasedServices?: UserPurchasedServicesUpdateManyWithoutServiceNestedInput
     Transaction?: TransactionUpdateManyWithoutServiceNestedInput
     ComboPlanService?: ComboPlanServiceUpdateManyWithoutServiceNestedInput
+    coupon?: CouponUpdateManyWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateWithoutUserDocumentsInput = {
@@ -26665,6 +27749,7 @@ export namespace Prisma {
     purchasedServices?: UserPurchasedServicesUncheckedUpdateManyWithoutServiceNestedInput
     Transaction?: TransactionUncheckedUpdateManyWithoutServiceNestedInput
     ComboPlanService?: ComboPlanServiceUncheckedUpdateManyWithoutServiceNestedInput
+    coupon?: CouponUncheckedUpdateManyWithoutServiceNestedInput
   }
 
   export type ServiceAgreementCreateWithoutAgreementInput = {
@@ -26782,6 +27867,7 @@ export namespace Prisma {
     userDocuments?: UserDocumentsCreateNestedManyWithoutServiceInput
     Transaction?: TransactionCreateNestedManyWithoutServiceInput
     ComboPlanService?: ComboPlanServiceCreateNestedManyWithoutServiceInput
+    coupon?: CouponCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceUncheckedCreateWithoutAgreementsInput = {
@@ -26809,6 +27895,7 @@ export namespace Prisma {
     userDocuments?: UserDocumentsUncheckedCreateNestedManyWithoutServiceInput
     Transaction?: TransactionUncheckedCreateNestedManyWithoutServiceInput
     ComboPlanService?: ComboPlanServiceUncheckedCreateNestedManyWithoutServiceInput
+    coupon?: CouponUncheckedCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceCreateOrConnectWithoutAgreementsInput = {
@@ -26820,6 +27907,8 @@ export namespace Prisma {
     id?: string
     name: string
     content: JsonNullValueInput | InputJsonValue
+    version: number
+    hash: string
     signatoryPerson?: string | null
     companyName?: string | null
     updatedAt?: Date | string
@@ -26831,6 +27920,8 @@ export namespace Prisma {
     id?: string
     name: string
     content: JsonNullValueInput | InputJsonValue
+    version: number
+    hash: string
     signatoryPerson?: string | null
     companyName?: string | null
     updatedAt?: Date | string
@@ -26879,6 +27970,7 @@ export namespace Prisma {
     userDocuments?: UserDocumentsUpdateManyWithoutServiceNestedInput
     Transaction?: TransactionUpdateManyWithoutServiceNestedInput
     ComboPlanService?: ComboPlanServiceUpdateManyWithoutServiceNestedInput
+    coupon?: CouponUpdateManyWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateWithoutAgreementsInput = {
@@ -26906,6 +27998,7 @@ export namespace Prisma {
     userDocuments?: UserDocumentsUncheckedUpdateManyWithoutServiceNestedInput
     Transaction?: TransactionUncheckedUpdateManyWithoutServiceNestedInput
     ComboPlanService?: ComboPlanServiceUncheckedUpdateManyWithoutServiceNestedInput
+    coupon?: CouponUncheckedUpdateManyWithoutServiceNestedInput
   }
 
   export type AgreementUpsertWithoutServiceAgreementsInput = {
@@ -26923,6 +28016,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
+    version?: IntFieldUpdateOperationsInput | number
+    hash?: StringFieldUpdateOperationsInput | string
     signatoryPerson?: NullableStringFieldUpdateOperationsInput | string | null
     companyName?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26934,6 +28029,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
+    version?: IntFieldUpdateOperationsInput | number
+    hash?: StringFieldUpdateOperationsInput | string
     signatoryPerson?: NullableStringFieldUpdateOperationsInput | string | null
     companyName?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26946,10 +28043,12 @@ export namespace Prisma {
     name: string
     description?: string | null
     price: number
+    active?: boolean | null
     tenureDiscounts: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     services?: ComboPlanServiceCreateNestedManyWithoutComboPlanInput
+    coupon?: CouponCreateNestedManyWithoutComboPlanInput
     Transaction?: TransactionCreateNestedManyWithoutComboPlanInput
   }
 
@@ -26958,10 +28057,12 @@ export namespace Prisma {
     name: string
     description?: string | null
     price: number
+    active?: boolean | null
     tenureDiscounts: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     services?: ComboPlanServiceUncheckedCreateNestedManyWithoutComboPlanInput
+    coupon?: CouponUncheckedCreateNestedManyWithoutComboPlanInput
     Transaction?: TransactionUncheckedCreateNestedManyWithoutComboPlanInput
   }
 
@@ -26974,6 +28075,8 @@ export namespace Prisma {
     id?: string
     name: string
     content: JsonNullValueInput | InputJsonValue
+    version: number
+    hash: string
     signatoryPerson?: string | null
     companyName?: string | null
     updatedAt?: Date | string
@@ -26985,6 +28088,8 @@ export namespace Prisma {
     id?: string
     name: string
     content: JsonNullValueInput | InputJsonValue
+    version: number
+    hash: string
     signatoryPerson?: string | null
     companyName?: string | null
     updatedAt?: Date | string
@@ -27013,10 +28118,12 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     tenureDiscounts?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     services?: ComboPlanServiceUpdateManyWithoutComboPlanNestedInput
+    coupon?: CouponUpdateManyWithoutComboPlanNestedInput
     Transaction?: TransactionUpdateManyWithoutComboPlanNestedInput
   }
 
@@ -27025,10 +28132,12 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     tenureDiscounts?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     services?: ComboPlanServiceUncheckedUpdateManyWithoutComboPlanNestedInput
+    coupon?: CouponUncheckedUpdateManyWithoutComboPlanNestedInput
     Transaction?: TransactionUncheckedUpdateManyWithoutComboPlanNestedInput
   }
 
@@ -27047,6 +28156,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
+    version?: IntFieldUpdateOperationsInput | number
+    hash?: StringFieldUpdateOperationsInput | string
     signatoryPerson?: NullableStringFieldUpdateOperationsInput | string | null
     companyName?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27058,6 +28169,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
+    version?: IntFieldUpdateOperationsInput | number
+    hash?: StringFieldUpdateOperationsInput | string
     signatoryPerson?: NullableStringFieldUpdateOperationsInput | string | null
     companyName?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27105,32 +28218,80 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type TransactionCreateWithoutComboPlanInput = {
+  export type CouponCreateWithoutComboPlanInput = {
     id?: string
-    amount: number
-    currency?: string
-    status: $Enums.TransactionStatus
-    paymentGateway: string
-    paymentId?: string | null
-    orderId?: string | null
+    code: string
+    description?: string | null
+    percentOff: number
+    expiryDate: Date | string
+    minAmount?: number
+    maxAmount?: number | null
+    planDays?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    service?: ServiceCreateNestedOneWithoutCouponInput
+    transactions?: TransactionCreateNestedManyWithoutCouponInput
+  }
+
+  export type CouponUncheckedCreateWithoutComboPlanInput = {
+    id?: string
+    code: string
+    description?: string | null
+    percentOff: number
+    expiryDate: Date | string
+    minAmount?: number
+    maxAmount?: number | null
+    serviceId?: string | null
+    planDays?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    transactions?: TransactionUncheckedCreateNestedManyWithoutCouponInput
+  }
+
+  export type CouponCreateOrConnectWithoutComboPlanInput = {
+    where: CouponWhereUniqueInput
+    create: XOR<CouponCreateWithoutComboPlanInput, CouponUncheckedCreateWithoutComboPlanInput>
+  }
+
+  export type CouponCreateManyComboPlanInputEnvelope = {
+    data: CouponCreateManyComboPlanInput | CouponCreateManyComboPlanInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TransactionCreateWithoutComboPlanInput = {
+    id?: string
+    orderId?: string | null
+    paymentId?: string | null
+    amount: number
+    tenure?: NullableJsonNullValueInput | InputJsonValue
+    currency?: string
+    status: string
+    paymentGateway: string
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
     user: UserCreateNestedOneWithoutTransactionInput
     service?: ServiceCreateNestedOneWithoutTransactionInput
+    coupon?: CouponCreateNestedOneWithoutTransactionsInput
   }
 
   export type TransactionUncheckedCreateWithoutComboPlanInput = {
     id?: string
+    orderId?: string | null
+    paymentId?: string | null
+    couponId?: string | null
     userId: string
     serviceId?: string | null
     amount: number
+    tenure?: NullableJsonNullValueInput | InputJsonValue
     currency?: string
-    status: $Enums.TransactionStatus
+    status: string
     paymentGateway: string
-    paymentId?: string | null
-    orderId?: string | null
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type TransactionCreateOrConnectWithoutComboPlanInput = {
@@ -27184,6 +28345,40 @@ export namespace Prisma {
     serviceId?: StringFilter<"ComboPlanService"> | string
   }
 
+  export type CouponUpsertWithWhereUniqueWithoutComboPlanInput = {
+    where: CouponWhereUniqueInput
+    update: XOR<CouponUpdateWithoutComboPlanInput, CouponUncheckedUpdateWithoutComboPlanInput>
+    create: XOR<CouponCreateWithoutComboPlanInput, CouponUncheckedCreateWithoutComboPlanInput>
+  }
+
+  export type CouponUpdateWithWhereUniqueWithoutComboPlanInput = {
+    where: CouponWhereUniqueInput
+    data: XOR<CouponUpdateWithoutComboPlanInput, CouponUncheckedUpdateWithoutComboPlanInput>
+  }
+
+  export type CouponUpdateManyWithWhereWithoutComboPlanInput = {
+    where: CouponScalarWhereInput
+    data: XOR<CouponUpdateManyMutationInput, CouponUncheckedUpdateManyWithoutComboPlanInput>
+  }
+
+  export type CouponScalarWhereInput = {
+    AND?: CouponScalarWhereInput | CouponScalarWhereInput[]
+    OR?: CouponScalarWhereInput[]
+    NOT?: CouponScalarWhereInput | CouponScalarWhereInput[]
+    id?: StringFilter<"Coupon"> | string
+    code?: StringFilter<"Coupon"> | string
+    description?: StringNullableFilter<"Coupon"> | string | null
+    percentOff?: FloatFilter<"Coupon"> | number
+    expiryDate?: DateTimeFilter<"Coupon"> | Date | string
+    minAmount?: FloatFilter<"Coupon"> | number
+    maxAmount?: FloatNullableFilter<"Coupon"> | number | null
+    serviceId?: StringNullableFilter<"Coupon"> | string | null
+    comboPlanId?: StringNullableFilter<"Coupon"> | string | null
+    planDays?: IntNullableFilter<"Coupon"> | number | null
+    createdAt?: DateTimeFilter<"Coupon"> | Date | string
+    updatedAt?: DateTimeFilter<"Coupon"> | Date | string
+  }
+
   export type TransactionUpsertWithWhereUniqueWithoutComboPlanInput = {
     where: TransactionWhereUniqueInput
     update: XOR<TransactionUpdateWithoutComboPlanInput, TransactionUncheckedUpdateWithoutComboPlanInput>
@@ -27205,10 +28400,12 @@ export namespace Prisma {
     name: string
     description?: string | null
     price: number
+    active?: boolean | null
     tenureDiscounts: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     agreement?: ComboPlanAgreementCreateNestedManyWithoutComboPlanInput
+    coupon?: CouponCreateNestedManyWithoutComboPlanInput
     Transaction?: TransactionCreateNestedManyWithoutComboPlanInput
   }
 
@@ -27217,10 +28414,12 @@ export namespace Prisma {
     name: string
     description?: string | null
     price: number
+    active?: boolean | null
     tenureDiscounts: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     agreement?: ComboPlanAgreementUncheckedCreateNestedManyWithoutComboPlanInput
+    coupon?: CouponUncheckedCreateNestedManyWithoutComboPlanInput
     Transaction?: TransactionUncheckedCreateNestedManyWithoutComboPlanInput
   }
 
@@ -27254,6 +28453,7 @@ export namespace Prisma {
     purchasedServices?: UserPurchasedServicesCreateNestedManyWithoutServiceInput
     userDocuments?: UserDocumentsCreateNestedManyWithoutServiceInput
     Transaction?: TransactionCreateNestedManyWithoutServiceInput
+    coupon?: CouponCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceUncheckedCreateWithoutComboPlanServiceInput = {
@@ -27281,6 +28481,7 @@ export namespace Prisma {
     purchasedServices?: UserPurchasedServicesUncheckedCreateNestedManyWithoutServiceInput
     userDocuments?: UserDocumentsUncheckedCreateNestedManyWithoutServiceInput
     Transaction?: TransactionUncheckedCreateNestedManyWithoutServiceInput
+    coupon?: CouponUncheckedCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceCreateOrConnectWithoutComboPlanServiceInput = {
@@ -27304,10 +28505,12 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     tenureDiscounts?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     agreement?: ComboPlanAgreementUpdateManyWithoutComboPlanNestedInput
+    coupon?: CouponUpdateManyWithoutComboPlanNestedInput
     Transaction?: TransactionUpdateManyWithoutComboPlanNestedInput
   }
 
@@ -27316,10 +28519,12 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     tenureDiscounts?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     agreement?: ComboPlanAgreementUncheckedUpdateManyWithoutComboPlanNestedInput
+    coupon?: CouponUncheckedUpdateManyWithoutComboPlanNestedInput
     Transaction?: TransactionUncheckedUpdateManyWithoutComboPlanNestedInput
   }
 
@@ -27359,6 +28564,7 @@ export namespace Prisma {
     purchasedServices?: UserPurchasedServicesUpdateManyWithoutServiceNestedInput
     userDocuments?: UserDocumentsUpdateManyWithoutServiceNestedInput
     Transaction?: TransactionUpdateManyWithoutServiceNestedInput
+    coupon?: CouponUpdateManyWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateWithoutComboPlanServiceInput = {
@@ -27386,6 +28592,7 @@ export namespace Prisma {
     purchasedServices?: UserPurchasedServicesUncheckedUpdateManyWithoutServiceNestedInput
     userDocuments?: UserDocumentsUncheckedUpdateManyWithoutServiceNestedInput
     Transaction?: TransactionUncheckedUpdateManyWithoutServiceNestedInput
+    coupon?: CouponUncheckedUpdateManyWithoutServiceNestedInput
   }
 
   export type ServiceAgreementCreateWithoutServiceInput = {
@@ -27493,30 +28700,38 @@ export namespace Prisma {
 
   export type TransactionCreateWithoutServiceInput = {
     id?: string
-    amount: number
-    currency?: string
-    status: $Enums.TransactionStatus
-    paymentGateway: string
-    paymentId?: string | null
     orderId?: string | null
+    paymentId?: string | null
+    amount: number
+    tenure?: NullableJsonNullValueInput | InputJsonValue
+    currency?: string
+    status: string
+    paymentGateway: string
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
     user: UserCreateNestedOneWithoutTransactionInput
     comboPlan?: ComboPlanCreateNestedOneWithoutTransactionInput
+    coupon?: CouponCreateNestedOneWithoutTransactionsInput
   }
 
   export type TransactionUncheckedCreateWithoutServiceInput = {
     id?: string
+    orderId?: string | null
+    paymentId?: string | null
+    couponId?: string | null
     userId: string
     comboPlanId?: string | null
     amount: number
+    tenure?: NullableJsonNullValueInput | InputJsonValue
     currency?: string
-    status: $Enums.TransactionStatus
+    status: string
     paymentGateway: string
-    paymentId?: string | null
-    orderId?: string | null
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type TransactionCreateOrConnectWithoutServiceInput = {
@@ -27546,6 +28761,46 @@ export namespace Prisma {
 
   export type ComboPlanServiceCreateManyServiceInputEnvelope = {
     data: ComboPlanServiceCreateManyServiceInput | ComboPlanServiceCreateManyServiceInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CouponCreateWithoutServiceInput = {
+    id?: string
+    code: string
+    description?: string | null
+    percentOff: number
+    expiryDate: Date | string
+    minAmount?: number
+    maxAmount?: number | null
+    planDays?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    comboPlan?: ComboPlanCreateNestedOneWithoutCouponInput
+    transactions?: TransactionCreateNestedManyWithoutCouponInput
+  }
+
+  export type CouponUncheckedCreateWithoutServiceInput = {
+    id?: string
+    code: string
+    description?: string | null
+    percentOff: number
+    expiryDate: Date | string
+    minAmount?: number
+    maxAmount?: number | null
+    comboPlanId?: string | null
+    planDays?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    transactions?: TransactionUncheckedCreateNestedManyWithoutCouponInput
+  }
+
+  export type CouponCreateOrConnectWithoutServiceInput = {
+    where: CouponWhereUniqueInput
+    create: XOR<CouponCreateWithoutServiceInput, CouponUncheckedCreateWithoutServiceInput>
+  }
+
+  export type CouponCreateManyServiceInputEnvelope = {
+    data: CouponCreateManyServiceInput | CouponCreateManyServiceInput[]
     skipDuplicates?: boolean
   }
 
@@ -27654,6 +28909,22 @@ export namespace Prisma {
     data: XOR<ComboPlanServiceUpdateManyMutationInput, ComboPlanServiceUncheckedUpdateManyWithoutServiceInput>
   }
 
+  export type CouponUpsertWithWhereUniqueWithoutServiceInput = {
+    where: CouponWhereUniqueInput
+    update: XOR<CouponUpdateWithoutServiceInput, CouponUncheckedUpdateWithoutServiceInput>
+    create: XOR<CouponCreateWithoutServiceInput, CouponUncheckedCreateWithoutServiceInput>
+  }
+
+  export type CouponUpdateWithWhereUniqueWithoutServiceInput = {
+    where: CouponWhereUniqueInput
+    data: XOR<CouponUpdateWithoutServiceInput, CouponUncheckedUpdateWithoutServiceInput>
+  }
+
+  export type CouponUpdateManyWithWhereWithoutServiceInput = {
+    where: CouponScalarWhereInput
+    data: XOR<CouponUpdateManyMutationInput, CouponUncheckedUpdateManyWithoutServiceInput>
+  }
+
   export type ServiceCreateWithoutServiceTradingInput = {
     id?: string
     name: string
@@ -27679,6 +28950,7 @@ export namespace Prisma {
     userDocuments?: UserDocumentsCreateNestedManyWithoutServiceInput
     Transaction?: TransactionCreateNestedManyWithoutServiceInput
     ComboPlanService?: ComboPlanServiceCreateNestedManyWithoutServiceInput
+    coupon?: CouponCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceUncheckedCreateWithoutServiceTradingInput = {
@@ -27706,6 +28978,7 @@ export namespace Prisma {
     userDocuments?: UserDocumentsUncheckedCreateNestedManyWithoutServiceInput
     Transaction?: TransactionUncheckedCreateNestedManyWithoutServiceInput
     ComboPlanService?: ComboPlanServiceUncheckedCreateNestedManyWithoutServiceInput
+    coupon?: CouponUncheckedCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceCreateOrConnectWithoutServiceTradingInput = {
@@ -27749,6 +29022,7 @@ export namespace Prisma {
     userDocuments?: UserDocumentsUpdateManyWithoutServiceNestedInput
     Transaction?: TransactionUpdateManyWithoutServiceNestedInput
     ComboPlanService?: ComboPlanServiceUpdateManyWithoutServiceNestedInput
+    coupon?: CouponUpdateManyWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateWithoutServiceTradingInput = {
@@ -27776,6 +29050,7 @@ export namespace Prisma {
     userDocuments?: UserDocumentsUncheckedUpdateManyWithoutServiceNestedInput
     Transaction?: TransactionUncheckedUpdateManyWithoutServiceNestedInput
     ComboPlanService?: ComboPlanServiceUncheckedUpdateManyWithoutServiceNestedInput
+    coupon?: CouponUncheckedUpdateManyWithoutServiceNestedInput
   }
 
   export type AccountCreateManyUserInput = {
@@ -27825,16 +29100,20 @@ export namespace Prisma {
 
   export type TransactionCreateManyUserInput = {
     id?: string
+    orderId?: string | null
+    paymentId?: string | null
+    couponId?: string | null
     serviceId?: string | null
     comboPlanId?: string | null
     amount: number
+    tenure?: NullableJsonNullValueInput | InputJsonValue
     currency?: string
-    status: $Enums.TransactionStatus
+    status: string
     paymentGateway: string
-    paymentId?: string | null
-    orderId?: string | null
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type AccountUpdateWithoutUserInput = {
@@ -27974,44 +29253,128 @@ export namespace Prisma {
 
   export type TransactionUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    amount?: FloatFieldUpdateOperationsInput | number
-    currency?: StringFieldUpdateOperationsInput | string
-    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
-    paymentGateway?: StringFieldUpdateOperationsInput | string
-    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
     orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: FloatFieldUpdateOperationsInput | number
+    tenure?: NullableJsonNullValueInput | InputJsonValue
+    currency?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    paymentGateway?: StringFieldUpdateOperationsInput | string
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
     service?: ServiceUpdateOneWithoutTransactionNestedInput
     comboPlan?: ComboPlanUpdateOneWithoutTransactionNestedInput
+    coupon?: CouponUpdateOneWithoutTransactionsNestedInput
   }
 
   export type TransactionUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    couponId?: NullableStringFieldUpdateOperationsInput | string | null
     serviceId?: NullableStringFieldUpdateOperationsInput | string | null
     comboPlanId?: NullableStringFieldUpdateOperationsInput | string | null
     amount?: FloatFieldUpdateOperationsInput | number
+    tenure?: NullableJsonNullValueInput | InputJsonValue
     currency?: StringFieldUpdateOperationsInput | string
-    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    status?: StringFieldUpdateOperationsInput | string
     paymentGateway?: StringFieldUpdateOperationsInput | string
-    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
-    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type TransactionUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    couponId?: NullableStringFieldUpdateOperationsInput | string | null
     serviceId?: NullableStringFieldUpdateOperationsInput | string | null
     comboPlanId?: NullableStringFieldUpdateOperationsInput | string | null
     amount?: FloatFieldUpdateOperationsInput | number
+    tenure?: NullableJsonNullValueInput | InputJsonValue
     currency?: StringFieldUpdateOperationsInput | string
-    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    status?: StringFieldUpdateOperationsInput | string
     paymentGateway?: StringFieldUpdateOperationsInput | string
-    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
-    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type TransactionCreateManyCouponInput = {
+    id?: string
+    orderId?: string | null
+    paymentId?: string | null
+    userId: string
+    serviceId?: string | null
+    comboPlanId?: string | null
+    amount: number
+    tenure?: NullableJsonNullValueInput | InputJsonValue
+    currency?: string
+    status: string
+    paymentGateway: string
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type TransactionUpdateWithoutCouponInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: FloatFieldUpdateOperationsInput | number
+    tenure?: NullableJsonNullValueInput | InputJsonValue
+    currency?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    paymentGateway?: StringFieldUpdateOperationsInput | string
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
+    user?: UserUpdateOneRequiredWithoutTransactionNestedInput
+    service?: ServiceUpdateOneWithoutTransactionNestedInput
+    comboPlan?: ComboPlanUpdateOneWithoutTransactionNestedInput
+  }
+
+  export type TransactionUncheckedUpdateWithoutCouponInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    comboPlanId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: FloatFieldUpdateOperationsInput | number
+    tenure?: NullableJsonNullValueInput | InputJsonValue
+    currency?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    paymentGateway?: StringFieldUpdateOperationsInput | string
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type TransactionUncheckedUpdateManyWithoutCouponInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    comboPlanId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: FloatFieldUpdateOperationsInput | number
+    tenure?: NullableJsonNullValueInput | InputJsonValue
+    currency?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    paymentGateway?: StringFieldUpdateOperationsInput | string
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type ServiceAgreementCreateManyAgreementInput = {
@@ -28064,18 +29427,36 @@ export namespace Prisma {
     serviceId: string
   }
 
+  export type CouponCreateManyComboPlanInput = {
+    id?: string
+    code: string
+    description?: string | null
+    percentOff: number
+    expiryDate: Date | string
+    minAmount?: number
+    maxAmount?: number | null
+    serviceId?: string | null
+    planDays?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type TransactionCreateManyComboPlanInput = {
     id?: string
+    orderId?: string | null
+    paymentId?: string | null
+    couponId?: string | null
     userId: string
     serviceId?: string | null
     amount: number
+    tenure?: NullableJsonNullValueInput | InputJsonValue
     currency?: string
-    status: $Enums.TransactionStatus
+    status: string
     paymentGateway: string
-    paymentId?: string | null
-    orderId?: string | null
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type ComboPlanAgreementUpdateWithoutComboPlanInput = {
@@ -28108,46 +29489,102 @@ export namespace Prisma {
     serviceId?: StringFieldUpdateOperationsInput | string
   }
 
-  export type TransactionUpdateWithoutComboPlanInput = {
+  export type CouponUpdateWithoutComboPlanInput = {
     id?: StringFieldUpdateOperationsInput | string
-    amount?: FloatFieldUpdateOperationsInput | number
-    currency?: StringFieldUpdateOperationsInput | string
-    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
-    paymentGateway?: StringFieldUpdateOperationsInput | string
-    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
-    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    code?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    percentOff?: FloatFieldUpdateOperationsInput | number
+    expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    minAmount?: FloatFieldUpdateOperationsInput | number
+    maxAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    planDays?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    service?: ServiceUpdateOneWithoutCouponNestedInput
+    transactions?: TransactionUpdateManyWithoutCouponNestedInput
+  }
+
+  export type CouponUncheckedUpdateWithoutComboPlanInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    percentOff?: FloatFieldUpdateOperationsInput | number
+    expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    minAmount?: FloatFieldUpdateOperationsInput | number
+    maxAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    planDays?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transactions?: TransactionUncheckedUpdateManyWithoutCouponNestedInput
+  }
+
+  export type CouponUncheckedUpdateManyWithoutComboPlanInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    percentOff?: FloatFieldUpdateOperationsInput | number
+    expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    minAmount?: FloatFieldUpdateOperationsInput | number
+    maxAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    planDays?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TransactionUpdateWithoutComboPlanInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: FloatFieldUpdateOperationsInput | number
+    tenure?: NullableJsonNullValueInput | InputJsonValue
+    currency?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    paymentGateway?: StringFieldUpdateOperationsInput | string
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
     user?: UserUpdateOneRequiredWithoutTransactionNestedInput
     service?: ServiceUpdateOneWithoutTransactionNestedInput
+    coupon?: CouponUpdateOneWithoutTransactionsNestedInput
   }
 
   export type TransactionUncheckedUpdateWithoutComboPlanInput = {
     id?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    couponId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     serviceId?: NullableStringFieldUpdateOperationsInput | string | null
     amount?: FloatFieldUpdateOperationsInput | number
+    tenure?: NullableJsonNullValueInput | InputJsonValue
     currency?: StringFieldUpdateOperationsInput | string
-    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    status?: StringFieldUpdateOperationsInput | string
     paymentGateway?: StringFieldUpdateOperationsInput | string
-    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
-    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type TransactionUncheckedUpdateManyWithoutComboPlanInput = {
     id?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    couponId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     serviceId?: NullableStringFieldUpdateOperationsInput | string | null
     amount?: FloatFieldUpdateOperationsInput | number
+    tenure?: NullableJsonNullValueInput | InputJsonValue
     currency?: StringFieldUpdateOperationsInput | string
-    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    status?: StringFieldUpdateOperationsInput | string
     paymentGateway?: StringFieldUpdateOperationsInput | string
-    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
-    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type ServiceAgreementCreateManyServiceInput = {
@@ -28179,21 +29616,39 @@ export namespace Prisma {
 
   export type TransactionCreateManyServiceInput = {
     id?: string
+    orderId?: string | null
+    paymentId?: string | null
+    couponId?: string | null
     userId: string
     comboPlanId?: string | null
     amount: number
+    tenure?: NullableJsonNullValueInput | InputJsonValue
     currency?: string
-    status: $Enums.TransactionStatus
+    status: string
     paymentGateway: string
-    paymentId?: string | null
-    orderId?: string | null
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type ComboPlanServiceCreateManyServiceInput = {
     id?: string
     comboPlanId: string
+  }
+
+  export type CouponCreateManyServiceInput = {
+    id?: string
+    code: string
+    description?: string | null
+    percentOff: number
+    expiryDate: Date | string
+    minAmount?: number
+    maxAmount?: number | null
+    comboPlanId?: string | null
+    planDays?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ServiceAgreementUpdateWithoutServiceInput = {
@@ -28279,44 +29734,56 @@ export namespace Prisma {
 
   export type TransactionUpdateWithoutServiceInput = {
     id?: StringFieldUpdateOperationsInput | string
-    amount?: FloatFieldUpdateOperationsInput | number
-    currency?: StringFieldUpdateOperationsInput | string
-    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
-    paymentGateway?: StringFieldUpdateOperationsInput | string
-    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
     orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: FloatFieldUpdateOperationsInput | number
+    tenure?: NullableJsonNullValueInput | InputJsonValue
+    currency?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    paymentGateway?: StringFieldUpdateOperationsInput | string
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
     user?: UserUpdateOneRequiredWithoutTransactionNestedInput
     comboPlan?: ComboPlanUpdateOneWithoutTransactionNestedInput
+    coupon?: CouponUpdateOneWithoutTransactionsNestedInput
   }
 
   export type TransactionUncheckedUpdateWithoutServiceInput = {
     id?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    couponId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     comboPlanId?: NullableStringFieldUpdateOperationsInput | string | null
     amount?: FloatFieldUpdateOperationsInput | number
+    tenure?: NullableJsonNullValueInput | InputJsonValue
     currency?: StringFieldUpdateOperationsInput | string
-    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    status?: StringFieldUpdateOperationsInput | string
     paymentGateway?: StringFieldUpdateOperationsInput | string
-    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
-    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type TransactionUncheckedUpdateManyWithoutServiceInput = {
     id?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    couponId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     comboPlanId?: NullableStringFieldUpdateOperationsInput | string | null
     amount?: FloatFieldUpdateOperationsInput | number
+    tenure?: NullableJsonNullValueInput | InputJsonValue
     currency?: StringFieldUpdateOperationsInput | string
-    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    status?: StringFieldUpdateOperationsInput | string
     paymentGateway?: StringFieldUpdateOperationsInput | string
-    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
-    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type ComboPlanServiceUpdateWithoutServiceInput = {
@@ -28332,6 +29799,50 @@ export namespace Prisma {
   export type ComboPlanServiceUncheckedUpdateManyWithoutServiceInput = {
     id?: StringFieldUpdateOperationsInput | string
     comboPlanId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type CouponUpdateWithoutServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    percentOff?: FloatFieldUpdateOperationsInput | number
+    expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    minAmount?: FloatFieldUpdateOperationsInput | number
+    maxAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    planDays?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    comboPlan?: ComboPlanUpdateOneWithoutCouponNestedInput
+    transactions?: TransactionUpdateManyWithoutCouponNestedInput
+  }
+
+  export type CouponUncheckedUpdateWithoutServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    percentOff?: FloatFieldUpdateOperationsInput | number
+    expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    minAmount?: FloatFieldUpdateOperationsInput | number
+    maxAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    comboPlanId?: NullableStringFieldUpdateOperationsInput | string | null
+    planDays?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transactions?: TransactionUncheckedUpdateManyWithoutCouponNestedInput
+  }
+
+  export type CouponUncheckedUpdateManyWithoutServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    percentOff?: FloatFieldUpdateOperationsInput | number
+    expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    minAmount?: FloatFieldUpdateOperationsInput | number
+    maxAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    comboPlanId?: NullableStringFieldUpdateOperationsInput | string | null
+    planDays?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 
