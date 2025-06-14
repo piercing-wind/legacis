@@ -88,44 +88,45 @@ export const AgreementViewer = () => {
       })
   }
 
-   function verify() {
+  async function verify() {
       if(otp === "" || otp.length < 4) {
          setOTPSent(false);
          toast.error(<h6 style={{color:"red"}}>Please enter the OTP!</h6> )
          return;  
       }
-        startTransition(() => {
-           verifyOTP({identifier : agreementSummary?.clientPhoneNumber || "", otp: otp})
-            .then(async (res) => {
-              if (!res.success) throw new Error(res.message);
-              setOTPSent(false);
+        setOTPSent(false);
+        setShowLoadingModal(true);
+        setShowAgreementModal(false);
+        try{
+         const res = await verifyOTP({identifier : agreementSummary?.clientPhoneNumber || "", otp: otp});
+         if (!res.success) throw new Error(res.message);
+         toast.success(<h6>OTP Verified!</h6>, {
+            duration: 10000,
+            action: {
+               label: "Close",
+               onClick: () => toast.dismiss(),
+            },
+            description: `${res.message}`,
+         });
+         const data = await handleCreateOrder();
+         if (!data.payment_session_id) throw new Error("Payment session ID not received from server.");
+         setShowLoadingModal(false);
+         await handlePayment(data.payment_session_id);
+         console.log("OTP verified successfully, proceeding to create order.");
 
-              toast.success(<h6>OTP Verified!</h6>, {
-                 duration: 10000,
-                 action: {
-                    label: "Close",
-                    onClick: () => toast.dismiss(),
-                 },
-                 description: `${res.message}`,
-              });
-              setShowLoadingModal(true);
-              setShowAgreementModal(false);
-              const data = await handleCreateOrder();
-              if (!data.payment_session_id) throw new Error("Payment session ID not received from server.");
-              setShowLoadingModal(false);
-              await handlePayment(data.payment_session_id);
-            }).catch((err) => {
-              setOTPSent(false);
-              toast.error(<h6 style={{color:"red"}}>Failed to verify OTP!</h6>, {
-                duration: 10000,
-                action: {
-                  label: "Close",
-                  onClick: () => toast.dismiss(),
-                },
-                description: `${(err as Error).message}`,
-              });
-            })
-        })
+        }catch(error){
+         setShowLoadingModal(false);
+         setShowAgreementModal(true);
+         toast.error(<h6 style={{color:"red"}}>Failed to verify OTP!</h6>, {
+            duration: 10000,
+            action: {
+               label: "Close",
+               onClick: () => toast.dismiss(),
+            },
+            description: `${(error as Error).message}`,
+         });
+         console.error("Error verifying OTP:", error);
+        }
   
    }
 
@@ -149,7 +150,7 @@ export const AgreementViewer = () => {
           serviceId,
           tenureDays: tenure.days,
           tenureDicount : tenure.discount,
-          coupon : coupon || "",
+          coupon : coupon || null,
           agreementSummary : agreementSummaryWithName,
        })
     })
@@ -251,7 +252,9 @@ export const AgreementViewer = () => {
                         className=" min-w-20 w-full h-auto max-w-xs border p-1 rounded-lg"
                      />
                      {otpSent ? (
-                        <Button onClick={verify} disabled={isPending} className="!text-sm h-auto">{isPending ? 'verifying' : 'Verify'}</Button>
+                       <Button onClick={verify} disabled={isPending || showLoadingModal} className="!text-sm h-auto">
+                         {isPending ? 'verifying' : 'Verify'}
+                       </Button>
                      ):(
                         <Button onClick={sendotp} disabled={isPending} className="!text-sm h-auto">Send OTP</Button>
                      )}

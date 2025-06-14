@@ -54,7 +54,6 @@ export const ServiceCard = ({service} : {service : Service}) => {
          <Line color="var(--legacisGreen)" height="2px" width="100%"/>
             <div className="">
                <ChartContainer config={chartConfig} className="min-h-[150px] w-full">
-                  <ResponsiveContainer width="100%" height="100%">
                     <ComposedChart data={chartData}>
                       <defs>
                         <linearGradient id="colorDesktop" x1="0" y1="0" x2="0" y2="1">
@@ -72,7 +71,6 @@ export const ServiceCard = ({service} : {service : Service}) => {
                         isAnimationActive={false}
                       />
                     </ComposedChart>
-                  </ResponsiveContainer>
                </ChartContainer>
             </div>
          <Line color="var(--legacisGreen)" height="2px" width="100%"/>

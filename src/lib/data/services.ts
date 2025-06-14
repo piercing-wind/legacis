@@ -54,9 +54,6 @@ export const findServicesBySlugs = async (slugs: string[]) => {
 };
 
 
-
-
-
 export const findActivePurchasedServiceByUserAndService = async (userId: string, serviceId : string) => {
    return await db.userPurchasedServices.findFirst({
       where: {

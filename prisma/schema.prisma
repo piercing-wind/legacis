@@ -149,6 +149,8 @@ model UserPurchasedServices {
 
   user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, serviceId, expiryDate])
 }
 
 model Coupon {
@@ -183,6 +185,7 @@ model Transaction {
   currency       String            @default("INR")
   status         String
   paymentGateway String
+  idempotencyKey  String?
   webhookResponse Json?
   createdAt      DateTime          @default(now())
   updatedAt      DateTime          @updatedAt
@@ -250,6 +253,7 @@ model ComboPlan {
   name            String
   description     String?
   price           Float
+  taxPercent      Float?
   active          Boolean?
   agreement       ComboPlanAgreement[]
   services        ComboPlanService[]

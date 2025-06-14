@@ -56,7 +56,7 @@ export const POST = auth(async (request)=> {
       const planMonths = Math.round(Number(tenureDays) / 30);
       const price = Number(entity.price) * planMonths
       let finalPrice = Math.round(price * (1 - Number(tenureDicount) / 100));
-
+      
       let couponData = null;
       if (coupon?.code) {
          couponData = await findCouponByCode({
@@ -71,15 +71,16 @@ export const POST = auth(async (request)=> {
          }
       }
 
+      const taxedPrice = finalPrice + Math.round(finalPrice * (entity.taxPercent || 0) / 100);
+      
 
       const shortUserId = String(user.id).slice(0, 8);
       const order_id = `LGC-${shortUserId}-${Date.now()}`;
 
-
       let requestBody = {
          order_id,
          order_currency: "INR",
-         order_amount: finalPrice,
+         order_amount: taxedPrice,
          customer_details: {
             customer_id: user.id,
             customer_name: user.name || "Guest",   
@@ -100,30 +101,30 @@ export const POST = auth(async (request)=> {
       }
 
       const order = await cashfree.PGCreateOrder(requestBody);
-      if (order.status === 200) {
-        console.log("Order created successfully:", order.data);
-        await db.transaction.create({
-         data: {
-            orderId: order.data.order_id,
-            userId: user.id,
-            couponId : coupon.code || "",
-            serviceId,
-            comboPlanId,
-            amount: order.data.order_amount || 0,
-            tenure : {tenureDays, tenureDicount},
-            status: "PENDING",
-            paymentGateway: "CASHFREE",
-            extraData : {
-               couponCode: coupon,
-               agreementSummary: agreementSummary,
-            }
-         }
-        })
-        return new Response(JSON.stringify(order.data), { status: 200 });
-      }
-      throw new Error(`Failed to create order: ${order.statusText}`);
-
+      if (order.status !== 200) throw new Error(`Failed to create order: ${order.statusText}`);
+      
+      console.log("Order created successfully:", order.data);
+      await db.transaction.create({
+       data: {
+          orderId: order.data.order_id,
+          userId: user.id,
+          couponId : coupon.id || null,
+          serviceId,
+          comboPlanId,
+          amount: order.data.order_amount || 0,
+          tenure : {tenureDays, tenureDicount},
+          status: "PENDING",
+          paymentGateway: "CASHFREE",
+          extraData : {
+             couponCode: coupon,
+             agreementSummary: agreementSummary,
+          }
+       }
+      })
+      return new Response(JSON.stringify(order.data), { status: 200 });
+   
    }catch(error){
+      console.error("Error creating order:", error);
       if (typeof error === "object" && error !== null && "response" in error) {
          // @ts-expect-error: error.response is not typed
          console.error("Cashfree error response:", error.response.data);

@@ -18,4 +18,21 @@ export type SubscriptionMailContext = {
   // add more fields as needed
 };
 
-export type MailType = 'otp' | 'update' | 'subscription';
+export type SuccessPurchaseMailContext = {
+  customerName: string;
+  serviceName: string;
+  planDuration: string;
+  planType: string;
+  orderId: string;
+  transactionId: string;
+  amount: string;
+  currency: string;
+  paymentMethod: string;
+  purchaseDate: string;
+  profileUrl: string;
+  dashboardUrl: string;
+  year: string;
+};
+
+
+export type MailType = 'otp' | 'update' | 'subscription' | 'successPurchase';

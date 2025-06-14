@@ -5,7 +5,8 @@ export const publicRoutes = [
    "/blog/:path*",
    "/services",
    "/services/:path*",
-   "/api/payment/notify"
+   "/api/payment/notify",
+   "thankyou",
 
 ]
 

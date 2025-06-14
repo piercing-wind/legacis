@@ -9672,6 +9672,7 @@ export namespace Prisma {
     currency: string | null
     status: string | null
     paymentGateway: string | null
+    idempotencyKey: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -9688,6 +9689,7 @@ export namespace Prisma {
     currency: string | null
     status: string | null
     paymentGateway: string | null
+    idempotencyKey: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -9705,6 +9707,7 @@ export namespace Prisma {
     currency: number
     status: number
     paymentGateway: number
+    idempotencyKey: number
     webhookResponse: number
     createdAt: number
     updatedAt: number
@@ -9733,6 +9736,7 @@ export namespace Prisma {
     currency?: true
     status?: true
     paymentGateway?: true
+    idempotencyKey?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -9749,6 +9753,7 @@ export namespace Prisma {
     currency?: true
     status?: true
     paymentGateway?: true
+    idempotencyKey?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -9766,6 +9771,7 @@ export namespace Prisma {
     currency?: true
     status?: true
     paymentGateway?: true
+    idempotencyKey?: true
     webhookResponse?: true
     createdAt?: true
     updatedAt?: true
@@ -9872,6 +9878,7 @@ export namespace Prisma {
     currency: string
     status: string
     paymentGateway: string
+    idempotencyKey: string | null
     webhookResponse: JsonValue | null
     createdAt: Date
     updatedAt: Date
@@ -9910,6 +9917,7 @@ export namespace Prisma {
     currency?: boolean
     status?: boolean
     paymentGateway?: boolean
+    idempotencyKey?: boolean
     webhookResponse?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -9933,6 +9941,7 @@ export namespace Prisma {
     currency?: boolean
     status?: boolean
     paymentGateway?: boolean
+    idempotencyKey?: boolean
     webhookResponse?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -9956,6 +9965,7 @@ export namespace Prisma {
     currency?: boolean
     status?: boolean
     paymentGateway?: boolean
+    idempotencyKey?: boolean
     webhookResponse?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -9979,13 +9989,14 @@ export namespace Prisma {
     currency?: boolean
     status?: boolean
     paymentGateway?: boolean
+    idempotencyKey?: boolean
     webhookResponse?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     extraData?: boolean
   }
 
-  export type TransactionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orderId" | "paymentId" | "couponId" | "userId" | "serviceId" | "comboPlanId" | "amount" | "tenure" | "currency" | "status" | "paymentGateway" | "webhookResponse" | "createdAt" | "updatedAt" | "extraData", ExtArgs["result"]["transaction"]>
+  export type TransactionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orderId" | "paymentId" | "couponId" | "userId" | "serviceId" | "comboPlanId" | "amount" | "tenure" | "currency" | "status" | "paymentGateway" | "idempotencyKey" | "webhookResponse" | "createdAt" | "updatedAt" | "extraData", ExtArgs["result"]["transaction"]>
   export type TransactionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | Transaction$serviceArgs<ExtArgs>
@@ -10026,6 +10037,7 @@ export namespace Prisma {
       currency: string
       status: string
       paymentGateway: string
+      idempotencyKey: string | null
       webhookResponse: Prisma.JsonValue | null
       createdAt: Date
       updatedAt: Date
@@ -10469,6 +10481,7 @@ export namespace Prisma {
     readonly currency: FieldRef<"Transaction", 'String'>
     readonly status: FieldRef<"Transaction", 'String'>
     readonly paymentGateway: FieldRef<"Transaction", 'String'>
+    readonly idempotencyKey: FieldRef<"Transaction", 'String'>
     readonly webhookResponse: FieldRef<"Transaction", 'Json'>
     readonly createdAt: FieldRef<"Transaction", 'DateTime'>
     readonly updatedAt: FieldRef<"Transaction", 'DateTime'>
@@ -15355,10 +15368,12 @@ export namespace Prisma {
 
   export type ComboPlanAvgAggregateOutputType = {
     price: number | null
+    taxPercent: number | null
   }
 
   export type ComboPlanSumAggregateOutputType = {
     price: number | null
+    taxPercent: number | null
   }
 
   export type ComboPlanMinAggregateOutputType = {
@@ -15366,6 +15381,7 @@ export namespace Prisma {
     name: string | null
     description: string | null
     price: number | null
+    taxPercent: number | null
     active: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -15376,6 +15392,7 @@ export namespace Prisma {
     name: string | null
     description: string | null
     price: number | null
+    taxPercent: number | null
     active: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -15386,6 +15403,7 @@ export namespace Prisma {
     name: number
     description: number
     price: number
+    taxPercent: number
     active: number
     tenureDiscounts: number
     createdAt: number
@@ -15396,10 +15414,12 @@ export namespace Prisma {
 
   export type ComboPlanAvgAggregateInputType = {
     price?: true
+    taxPercent?: true
   }
 
   export type ComboPlanSumAggregateInputType = {
     price?: true
+    taxPercent?: true
   }
 
   export type ComboPlanMinAggregateInputType = {
@@ -15407,6 +15427,7 @@ export namespace Prisma {
     name?: true
     description?: true
     price?: true
+    taxPercent?: true
     active?: true
     createdAt?: true
     updatedAt?: true
@@ -15417,6 +15438,7 @@ export namespace Prisma {
     name?: true
     description?: true
     price?: true
+    taxPercent?: true
     active?: true
     createdAt?: true
     updatedAt?: true
@@ -15427,6 +15449,7 @@ export namespace Prisma {
     name?: true
     description?: true
     price?: true
+    taxPercent?: true
     active?: true
     tenureDiscounts?: true
     createdAt?: true
@@ -15525,6 +15548,7 @@ export namespace Prisma {
     name: string
     description: string | null
     price: number
+    taxPercent: number | null
     active: boolean | null
     tenureDiscounts: JsonValue
     createdAt: Date
@@ -15555,6 +15579,7 @@ export namespace Prisma {
     name?: boolean
     description?: boolean
     price?: boolean
+    taxPercent?: boolean
     active?: boolean
     tenureDiscounts?: boolean
     createdAt?: boolean
@@ -15571,6 +15596,7 @@ export namespace Prisma {
     name?: boolean
     description?: boolean
     price?: boolean
+    taxPercent?: boolean
     active?: boolean
     tenureDiscounts?: boolean
     createdAt?: boolean
@@ -15582,6 +15608,7 @@ export namespace Prisma {
     name?: boolean
     description?: boolean
     price?: boolean
+    taxPercent?: boolean
     active?: boolean
     tenureDiscounts?: boolean
     createdAt?: boolean
@@ -15593,13 +15620,14 @@ export namespace Prisma {
     name?: boolean
     description?: boolean
     price?: boolean
+    taxPercent?: boolean
     active?: boolean
     tenureDiscounts?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ComboPlanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "price" | "active" | "tenureDiscounts" | "createdAt" | "updatedAt", ExtArgs["result"]["comboPlan"]>
+  export type ComboPlanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "price" | "taxPercent" | "active" | "tenureDiscounts" | "createdAt" | "updatedAt", ExtArgs["result"]["comboPlan"]>
   export type ComboPlanInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     agreement?: boolean | ComboPlan$agreementArgs<ExtArgs>
     services?: boolean | ComboPlan$servicesArgs<ExtArgs>
@@ -15623,6 +15651,7 @@ export namespace Prisma {
       name: string
       description: string | null
       price: number
+      taxPercent: number | null
       active: boolean | null
       tenureDiscounts: Prisma.JsonValue
       createdAt: Date
@@ -16058,6 +16087,7 @@ export namespace Prisma {
     readonly name: FieldRef<"ComboPlan", 'String'>
     readonly description: FieldRef<"ComboPlan", 'String'>
     readonly price: FieldRef<"ComboPlan", 'Float'>
+    readonly taxPercent: FieldRef<"ComboPlan", 'Float'>
     readonly active: FieldRef<"ComboPlan", 'Boolean'>
     readonly tenureDiscounts: FieldRef<"ComboPlan", 'Json'>
     readonly createdAt: FieldRef<"ComboPlan", 'DateTime'>
@@ -20217,6 +20247,7 @@ export namespace Prisma {
     currency: 'currency',
     status: 'status',
     paymentGateway: 'paymentGateway',
+    idempotencyKey: 'idempotencyKey',
     webhookResponse: 'webhookResponse',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
@@ -20279,6 +20310,7 @@ export namespace Prisma {
     name: 'name',
     description: 'description',
     price: 'price',
+    taxPercent: 'taxPercent',
     active: 'active',
     tenureDiscounts: 'tenureDiscounts',
     createdAt: 'createdAt',
@@ -20952,6 +20984,7 @@ export namespace Prisma {
 
   export type UserPurchasedServicesWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    userId_serviceId_expiryDate?: UserPurchasedServicesUserIdServiceIdExpiryDateCompoundUniqueInput
     AND?: UserPurchasedServicesWhereInput | UserPurchasedServicesWhereInput[]
     OR?: UserPurchasedServicesWhereInput[]
     NOT?: UserPurchasedServicesWhereInput | UserPurchasedServicesWhereInput[]
@@ -20965,7 +20998,7 @@ export namespace Prisma {
     agreementData?: JsonNullableFilter<"UserPurchasedServices">
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
-  }, "id">
+  }, "id" | "userId_serviceId_expiryDate">
 
   export type UserPurchasedServicesOrderByWithAggregationInput = {
     id?: SortOrder
@@ -21113,6 +21146,7 @@ export namespace Prisma {
     currency?: StringFilter<"Transaction"> | string
     status?: StringFilter<"Transaction"> | string
     paymentGateway?: StringFilter<"Transaction"> | string
+    idempotencyKey?: StringNullableFilter<"Transaction"> | string | null
     webhookResponse?: JsonNullableFilter<"Transaction">
     createdAt?: DateTimeFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeFilter<"Transaction"> | Date | string
@@ -21136,6 +21170,7 @@ export namespace Prisma {
     currency?: SortOrder
     status?: SortOrder
     paymentGateway?: SortOrder
+    idempotencyKey?: SortOrderInput | SortOrder
     webhookResponse?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -21162,6 +21197,7 @@ export namespace Prisma {
     currency?: StringFilter<"Transaction"> | string
     status?: StringFilter<"Transaction"> | string
     paymentGateway?: StringFilter<"Transaction"> | string
+    idempotencyKey?: StringNullableFilter<"Transaction"> | string | null
     webhookResponse?: JsonNullableFilter<"Transaction">
     createdAt?: DateTimeFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeFilter<"Transaction"> | Date | string
@@ -21185,6 +21221,7 @@ export namespace Prisma {
     currency?: SortOrder
     status?: SortOrder
     paymentGateway?: SortOrder
+    idempotencyKey?: SortOrderInput | SortOrder
     webhookResponse?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -21212,6 +21249,7 @@ export namespace Prisma {
     currency?: StringWithAggregatesFilter<"Transaction"> | string
     status?: StringWithAggregatesFilter<"Transaction"> | string
     paymentGateway?: StringWithAggregatesFilter<"Transaction"> | string
+    idempotencyKey?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
     webhookResponse?: JsonNullableWithAggregatesFilter<"Transaction">
     createdAt?: DateTimeWithAggregatesFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Transaction"> | Date | string
@@ -21480,6 +21518,7 @@ export namespace Prisma {
     name?: StringFilter<"ComboPlan"> | string
     description?: StringNullableFilter<"ComboPlan"> | string | null
     price?: FloatFilter<"ComboPlan"> | number
+    taxPercent?: FloatNullableFilter<"ComboPlan"> | number | null
     active?: BoolNullableFilter<"ComboPlan"> | boolean | null
     tenureDiscounts?: JsonFilter<"ComboPlan">
     createdAt?: DateTimeFilter<"ComboPlan"> | Date | string
@@ -21495,6 +21534,7 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrderInput | SortOrder
     price?: SortOrder
+    taxPercent?: SortOrderInput | SortOrder
     active?: SortOrderInput | SortOrder
     tenureDiscounts?: SortOrder
     createdAt?: SortOrder
@@ -21513,6 +21553,7 @@ export namespace Prisma {
     name?: StringFilter<"ComboPlan"> | string
     description?: StringNullableFilter<"ComboPlan"> | string | null
     price?: FloatFilter<"ComboPlan"> | number
+    taxPercent?: FloatNullableFilter<"ComboPlan"> | number | null
     active?: BoolNullableFilter<"ComboPlan"> | boolean | null
     tenureDiscounts?: JsonFilter<"ComboPlan">
     createdAt?: DateTimeFilter<"ComboPlan"> | Date | string
@@ -21528,6 +21569,7 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrderInput | SortOrder
     price?: SortOrder
+    taxPercent?: SortOrderInput | SortOrder
     active?: SortOrderInput | SortOrder
     tenureDiscounts?: SortOrder
     createdAt?: SortOrder
@@ -21547,6 +21589,7 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"ComboPlan"> | string
     description?: StringNullableWithAggregatesFilter<"ComboPlan"> | string | null
     price?: FloatWithAggregatesFilter<"ComboPlan"> | number
+    taxPercent?: FloatNullableWithAggregatesFilter<"ComboPlan"> | number | null
     active?: BoolNullableWithAggregatesFilter<"ComboPlan"> | boolean | null
     tenureDiscounts?: JsonWithAggregatesFilter<"ComboPlan">
     createdAt?: DateTimeWithAggregatesFilter<"ComboPlan"> | Date | string
@@ -22451,6 +22494,7 @@ export namespace Prisma {
     currency?: string
     status: string
     paymentGateway: string
+    idempotencyKey?: string | null
     webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -22474,6 +22518,7 @@ export namespace Prisma {
     currency?: string
     status: string
     paymentGateway: string
+    idempotencyKey?: string | null
     webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -22489,6 +22534,7 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     paymentGateway?: StringFieldUpdateOperationsInput | string
+    idempotencyKey?: NullableStringFieldUpdateOperationsInput | string | null
     webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22512,6 +22558,7 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     paymentGateway?: StringFieldUpdateOperationsInput | string
+    idempotencyKey?: NullableStringFieldUpdateOperationsInput | string | null
     webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22531,6 +22578,7 @@ export namespace Prisma {
     currency?: string
     status: string
     paymentGateway: string
+    idempotencyKey?: string | null
     webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -22546,6 +22594,7 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     paymentGateway?: StringFieldUpdateOperationsInput | string
+    idempotencyKey?: NullableStringFieldUpdateOperationsInput | string | null
     webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22565,6 +22614,7 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     paymentGateway?: StringFieldUpdateOperationsInput | string
+    idempotencyKey?: NullableStringFieldUpdateOperationsInput | string | null
     webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22830,6 +22880,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     price: number
+    taxPercent?: number | null
     active?: boolean | null
     tenureDiscounts: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
@@ -22845,6 +22896,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     price: number
+    taxPercent?: number | null
     active?: boolean | null
     tenureDiscounts: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
@@ -22860,6 +22912,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
+    taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     tenureDiscounts?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22875,6 +22928,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
+    taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     tenureDiscounts?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22890,6 +22944,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     price: number
+    taxPercent?: number | null
     active?: boolean | null
     tenureDiscounts: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
@@ -22901,6 +22956,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
+    taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     tenureDiscounts?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22912,6 +22968,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
+    taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     tenureDiscounts?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23764,6 +23821,12 @@ export namespace Prisma {
     isNot?: ServiceWhereInput
   }
 
+  export type UserPurchasedServicesUserIdServiceIdExpiryDateCompoundUniqueInput = {
+    userId: string
+    serviceId: string
+    expiryDate: Date | string
+  }
+
   export type UserPurchasedServicesCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
@@ -23980,6 +24043,7 @@ export namespace Prisma {
     currency?: SortOrder
     status?: SortOrder
     paymentGateway?: SortOrder
+    idempotencyKey?: SortOrder
     webhookResponse?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -24002,6 +24066,7 @@ export namespace Prisma {
     currency?: SortOrder
     status?: SortOrder
     paymentGateway?: SortOrder
+    idempotencyKey?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -24018,6 +24083,7 @@ export namespace Prisma {
     currency?: SortOrder
     status?: SortOrder
     paymentGateway?: SortOrder
+    idempotencyKey?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -24217,6 +24283,7 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrder
     price?: SortOrder
+    taxPercent?: SortOrder
     active?: SortOrder
     tenureDiscounts?: SortOrder
     createdAt?: SortOrder
@@ -24225,6 +24292,7 @@ export namespace Prisma {
 
   export type ComboPlanAvgOrderByAggregateInput = {
     price?: SortOrder
+    taxPercent?: SortOrder
   }
 
   export type ComboPlanMaxOrderByAggregateInput = {
@@ -24232,6 +24300,7 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrder
     price?: SortOrder
+    taxPercent?: SortOrder
     active?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -24242,6 +24311,7 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrder
     price?: SortOrder
+    taxPercent?: SortOrder
     active?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -24249,6 +24319,7 @@ export namespace Prisma {
 
   export type ComboPlanSumOrderByAggregateInput = {
     price?: SortOrder
+    taxPercent?: SortOrder
   }
 
   export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -26058,6 +26129,7 @@ export namespace Prisma {
     currency?: string
     status: string
     paymentGateway: string
+    idempotencyKey?: string | null
     webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26079,6 +26151,7 @@ export namespace Prisma {
     currency?: string
     status: string
     paymentGateway: string
+    idempotencyKey?: string | null
     webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26252,6 +26325,7 @@ export namespace Prisma {
     currency?: StringFilter<"Transaction"> | string
     status?: StringFilter<"Transaction"> | string
     paymentGateway?: StringFilter<"Transaction"> | string
+    idempotencyKey?: StringNullableFilter<"Transaction"> | string | null
     webhookResponse?: JsonNullableFilter<"Transaction">
     createdAt?: DateTimeFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeFilter<"Transaction"> | Date | string
@@ -26811,6 +26885,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     price: number
+    taxPercent?: number | null
     active?: boolean | null
     tenureDiscounts: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
@@ -26825,6 +26900,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     price: number
+    taxPercent?: number | null
     active?: boolean | null
     tenureDiscounts: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
@@ -26909,6 +26985,7 @@ export namespace Prisma {
     currency?: string
     status: string
     paymentGateway: string
+    idempotencyKey?: string | null
     webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26930,6 +27007,7 @@ export namespace Prisma {
     currency?: string
     status: string
     paymentGateway: string
+    idempotencyKey?: string | null
     webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26962,6 +27040,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
+    taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     tenureDiscounts?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26976,6 +27055,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
+    taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     tenureDiscounts?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27201,6 +27281,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     price: number
+    taxPercent?: number | null
     active?: boolean | null
     tenureDiscounts: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
@@ -27215,6 +27296,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     price: number
+    taxPercent?: number | null
     active?: boolean | null
     tenureDiscounts: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
@@ -27420,6 +27502,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
+    taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     tenureDiscounts?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27434,6 +27517,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
+    taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     tenureDiscounts?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28043,6 +28127,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     price: number
+    taxPercent?: number | null
     active?: boolean | null
     tenureDiscounts: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
@@ -28057,6 +28142,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     price: number
+    taxPercent?: number | null
     active?: boolean | null
     tenureDiscounts: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
@@ -28118,6 +28204,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
+    taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     tenureDiscounts?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28132,6 +28219,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
+    taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     tenureDiscounts?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28267,6 +28355,7 @@ export namespace Prisma {
     currency?: string
     status: string
     paymentGateway: string
+    idempotencyKey?: string | null
     webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -28288,6 +28377,7 @@ export namespace Prisma {
     currency?: string
     status: string
     paymentGateway: string
+    idempotencyKey?: string | null
     webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -28400,6 +28490,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     price: number
+    taxPercent?: number | null
     active?: boolean | null
     tenureDiscounts: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
@@ -28414,6 +28505,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     price: number
+    taxPercent?: number | null
     active?: boolean | null
     tenureDiscounts: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
@@ -28505,6 +28597,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
+    taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     tenureDiscounts?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28519,6 +28612,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
+    taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     tenureDiscounts?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28707,6 +28801,7 @@ export namespace Prisma {
     currency?: string
     status: string
     paymentGateway: string
+    idempotencyKey?: string | null
     webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -28728,6 +28823,7 @@ export namespace Prisma {
     currency?: string
     status: string
     paymentGateway: string
+    idempotencyKey?: string | null
     webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -29110,6 +29206,7 @@ export namespace Prisma {
     currency?: string
     status: string
     paymentGateway: string
+    idempotencyKey?: string | null
     webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -29260,6 +29357,7 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     paymentGateway?: StringFieldUpdateOperationsInput | string
+    idempotencyKey?: NullableStringFieldUpdateOperationsInput | string | null
     webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29281,6 +29379,7 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     paymentGateway?: StringFieldUpdateOperationsInput | string
+    idempotencyKey?: NullableStringFieldUpdateOperationsInput | string | null
     webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29299,6 +29398,7 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     paymentGateway?: StringFieldUpdateOperationsInput | string
+    idempotencyKey?: NullableStringFieldUpdateOperationsInput | string | null
     webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29317,6 +29417,7 @@ export namespace Prisma {
     currency?: string
     status: string
     paymentGateway: string
+    idempotencyKey?: string | null
     webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -29332,6 +29433,7 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     paymentGateway?: StringFieldUpdateOperationsInput | string
+    idempotencyKey?: NullableStringFieldUpdateOperationsInput | string | null
     webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29353,6 +29455,7 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     paymentGateway?: StringFieldUpdateOperationsInput | string
+    idempotencyKey?: NullableStringFieldUpdateOperationsInput | string | null
     webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29371,6 +29474,7 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     paymentGateway?: StringFieldUpdateOperationsInput | string
+    idempotencyKey?: NullableStringFieldUpdateOperationsInput | string | null
     webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29453,6 +29557,7 @@ export namespace Prisma {
     currency?: string
     status: string
     paymentGateway: string
+    idempotencyKey?: string | null
     webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -29542,6 +29647,7 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     paymentGateway?: StringFieldUpdateOperationsInput | string
+    idempotencyKey?: NullableStringFieldUpdateOperationsInput | string | null
     webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29563,6 +29669,7 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     paymentGateway?: StringFieldUpdateOperationsInput | string
+    idempotencyKey?: NullableStringFieldUpdateOperationsInput | string | null
     webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29581,6 +29688,7 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     paymentGateway?: StringFieldUpdateOperationsInput | string
+    idempotencyKey?: NullableStringFieldUpdateOperationsInput | string | null
     webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29626,6 +29734,7 @@ export namespace Prisma {
     currency?: string
     status: string
     paymentGateway: string
+    idempotencyKey?: string | null
     webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -29741,6 +29850,7 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     paymentGateway?: StringFieldUpdateOperationsInput | string
+    idempotencyKey?: NullableStringFieldUpdateOperationsInput | string | null
     webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29762,6 +29872,7 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     paymentGateway?: StringFieldUpdateOperationsInput | string
+    idempotencyKey?: NullableStringFieldUpdateOperationsInput | string | null
     webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29780,6 +29891,7 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     paymentGateway?: StringFieldUpdateOperationsInput | string
+    idempotencyKey?: NullableStringFieldUpdateOperationsInput | string | null
     webhookResponse?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
