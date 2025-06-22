@@ -53,7 +53,7 @@ const Modal = () => {
    if (!isOpen) return null;
 
   return (
-    <div onClick={handleBackdropClick} className="fixed inset-0 flex flex-col w-full h-screen overflow-y-auto overflow-x-clip items-center justify-center backdrop-blur-sm z-50"
+    <div onClick={handleBackdropClick} className="fixed inset-0 flex flex-col w-full px-2 h-screen overflow-y-auto overflow-x-clip items-center justify-center backdrop-blur-sm z-50"
       aria-modal="true"
       role="dialog"
     >

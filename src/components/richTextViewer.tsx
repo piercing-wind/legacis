@@ -11,8 +11,9 @@ import { OrderEntity } from 'cashfree-pg';
 import { load } from "@cashfreepayments/cashfree-js";
 import Loading from './loading';
 import { setModalOpen } from '@/lib/slices/profile';
+import { cn } from '@/lib/utils';
 
-export const QuillHtmlViewer = ({ delta }: { delta: any }) => {
+export const QuillHtmlViewer = ({ delta, className }: { delta: any, className?: string }) => {
   let html = '';
   try {
     const converter = new QuillDeltaToHtmlConverter(delta.ops, {});
@@ -20,7 +21,7 @@ export const QuillHtmlViewer = ({ delta }: { delta: any }) => {
   } catch {
     html = typeof delta === 'string' ? delta : '';
   }
-  return <div dangerouslySetInnerHTML={{ __html: html }} />;
+  return <div className={cn(className, "[&_h1]:text-xl [&_h1]:font-bold [&_h1]:mb-4 [&_h1]:text-gray-900 dark:[&_h1]:text-gray-100 [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:mb-3 [&_h2]:text-gray-900 dark:[&_h2]:text-gray-100 [&_h3]:text-base [&_h3]:font-medium [&_h3]:mb-2 [&_h3]:text-gray-900 dark:[&_h3]:text-gray-100 [&_p]:mb-3 [&_p]:leading-relaxed [&_p]:text-gray-700 dark:[&_p]:text-gray-300 [&_ul]:list-disc [&_ul]:ml-6 [&_ul]:mb-3 [&_ol]:list-decimal [&_ol]:ml-6 [&_ol]:mb-3 [&_li]:mb-1 [&_li]:text-gray-700 dark:[&_li]:text-gray-300 [&_strong]:font-semibold [&_em]:italic [&_blockquote]:border-l-4 [&_blockquote]:border-gray-300 dark:[&_blockquote]:border-gray-600 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-gray-600 dark:[&_blockquote]:text-gray-400")} dangerouslySetInnerHTML={{ __html: html }} />;
 };
 
 
@@ -37,6 +38,8 @@ export const AgreementViewer = () => {
    const agreementContent = agreement;
    const tenure = service.tenureDiscount;
    const serviceId = service.serviceId;
+   const comboPlanId = service.comboPlanId;
+
 
    if (!agreementContent || agreementContent.length === 0) {
       return <div className="text-center">No agreement available</div>;
@@ -148,6 +151,7 @@ export const AgreementViewer = () => {
        },
        body: JSON.stringify({
           serviceId,
+          comboPlanId,
           tenureDays: tenure.days,
           tenureDicount : tenure.discount,
           coupon : coupon || null,
@@ -193,7 +197,7 @@ export const AgreementViewer = () => {
            </div>
          )}
          {showAgreementModal && (
-            <div className="quill-agreement-content text-xs dark:!text-neutral-50 max-w-4xl w-full h-[80vh] overflow-x-hidden overflow-y-auto rounded-2xl lg:px-8 p-4 bg-white dark:bg-neutral-800">
+            <div className="quill-content text-xs dark:!text-neutral-50 max-w-4xl w-full h-[80vh] overflow-x-hidden overflow-y-auto rounded-2xl lg:px-8 p-4 bg-white dark:bg-neutral-800">
                {agreementContent.map((agreement) => (
                   <div key={agreement.id} className="mb-8 border-b pb-4 border-dashed">
                      <h2 className="font-semibold text-base mb-2 text-legacisPurple">{agreement.name}</h2>

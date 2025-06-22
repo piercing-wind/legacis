@@ -5,7 +5,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface CheckoutState {
    service : {
-      serviceId : string;
+      serviceId : string | null;
+      comboPlanId : string | null;
       tenureDiscount : TenureDiscount
    },
    agreement : SerializableAgreement[] | null;
@@ -15,7 +16,8 @@ interface CheckoutState {
 
 const initialState: CheckoutState = {
    service: {
-      serviceId: "",
+      serviceId: null,
+      comboPlanId: null,
       tenureDiscount: {
          days: 0,
          discount: 0,
@@ -31,9 +33,18 @@ const checkoutSlice = createSlice({
    name: "checkout",
    initialState,
    reducers: {
-      selectTenure: (state, action: PayloadAction<TenureDiscount & { serviceId?: string }>) => {
+      selectTenure: (state, action: PayloadAction<TenureDiscount & { serviceId?: string | null; comboPlanId?: string | null }>) => {
          state.service.tenureDiscount = action.payload;
-         state.service.serviceId = action.payload.serviceId || "";
+          if (action.payload.comboPlanId) {
+            state.service.comboPlanId = action.payload.comboPlanId;
+            state.service.serviceId = null;
+          } else if (action.payload.serviceId) {
+            state.service.serviceId = action.payload.serviceId;
+            state.service.comboPlanId = null;
+          } else {
+            state.service.serviceId = null;
+            state.service.comboPlanId = null;
+          }
       },
       setAgreementSummary: (state, action: PayloadAction<ServiceAgreement | null>) => {
          state.agreementSummary = action.payload;

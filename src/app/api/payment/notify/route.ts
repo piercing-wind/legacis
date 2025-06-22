@@ -102,6 +102,17 @@ export async function POST(request: Request) {
                   const days = (transaction.tenure as any)?.tenureDays! || 0;
                   const planDiscount = (transaction.tenure as any)?.tenureDiscount || 0;
                   const expiryDate = new Date(Date.now() + days * 24 * 60 * 60 * 1000);
+                  await txn.userPurchasedServices.create({
+                     data: {
+                       userId: customer_details.customer_id,
+                       comboPlanId: transaction.comboPlanId,
+                       expiryDate,
+                       planDays: days,
+                       planDiscount,
+                       agreementAcceptedAt: new Date(), 
+                       agreementData : (extraData as any)?.agreementSummary || {},
+                     }
+                  })
                   
                   if (comboPlan && comboPlan.services && comboPlan.services.length > 0) {
                      for (const service of comboPlan?.services) {

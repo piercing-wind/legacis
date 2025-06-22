@@ -65,7 +65,7 @@ export const Authentication = () => {
 
   return (
     <div
-      className="fixed inset-0 p-4 flex flex-col w-full h-screen overflow-y-auto overflow-x-clip items-center justify-center backdrop-blur-sm bg-neutral-100/20 z-50"
+      className="fixed inset-0 p-4 flex flex-col w-full px-2 h-screen overflow-y-auto overflow-x-clip items-center justify-center backdrop-blur-sm bg-neutral-100/20 z-50"
       aria-modal="true"
       role="dialog"
     >

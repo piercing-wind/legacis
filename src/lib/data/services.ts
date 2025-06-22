@@ -5,6 +5,9 @@ import { db } from "../db";
 
 export const findServices = async () => {
    return await db.service.findMany({
+      where: {
+         active: true,
+      },
       orderBy: {
          createdAt: "desc",
       },
@@ -35,6 +38,13 @@ export const findServiceBySlug = async (slug: string) => {
       where: {
          slug,
       },
+      include: {
+         complimentaryService : {
+            include: {
+               service: true,
+            },
+         }
+      }
    });
 }
 
@@ -53,8 +63,13 @@ export const findServicesBySlugs = async (slugs: string[]) => {
   });
 };
 
-
-export const findActivePurchasedServiceByUserAndService = async (userId: string, serviceId : string) => {
+/**
+ * This function finds a purchased service by user ID and service ID.
+ * @param userId - The ID of the user who purchased the service.
+ * @param serviceId - The ID of the service that was purchased.
+ * @return - Returns the purchased service object if found, otherwise null.
+ */
+export const isServicePurchased = async (userId: string, serviceId : string) => {
    return await db.userPurchasedServices.findFirst({
       where: {
          userId,
@@ -70,7 +85,6 @@ export const findActivePurchasedServiceByUserAndService = async (userId: string,
          purchaseDate: "desc",
       },
    });
-
 }
 
 

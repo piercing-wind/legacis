@@ -8,9 +8,9 @@ export const findCouponByCode = async ({
   comboPlanId
 }: {
   code: string,
-  serviceId?: string,
+  serviceId?: string | null,
   planDays?: number,
-  comboPlanId?: string
+  comboPlanId?: string | null
 }) => {
   const where: any = {
     code,

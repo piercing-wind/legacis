@@ -38,6 +38,7 @@ enum DocumentStatus {
 }
 
 enum ServiceType {
+  COMBO
   TRADING
   RESEARCH_ADVISORY
   RESEARCH_ADVISORY_MODEL_PORTFOLIO
@@ -45,6 +46,7 @@ enum ServiceType {
   INVESTMENT_ADVISORY
   RESEARCH_ADVISORY_MUTUAL_FUNDS
   SMALLCASE
+  PLATINA_WEALTH
 }
 
 enum VerificationType {
@@ -79,15 +81,18 @@ model User {
   phoneVerified DateTime?
   isBanned      Boolean   @default(false)
 
-  userType            UserType                @default(INDIVIDUAL)
-  role                UserRole                @default(USER)
-  createdAt           DateTime                @default(now())
-  updatedAt           DateTime                @updatedAt
-  accounts            Account[]
-  documents           UserDocuments[]
-  purchasedServices   UserPurchasedServices[]
-  panVerificationData panVerificationData[]
-  transaction         Transaction[]
+  userType               UserType                    @default(INDIVIDUAL)
+  role                   UserRole                    @default(USER)
+  createdAt              DateTime                    @default(now())
+  updatedAt              DateTime                    @updatedAt
+  accounts               Account[]
+  documents              UserDocuments[]
+  purchasedServices      UserPurchasedServices[]
+  panVerificationData    panVerificationData[]
+  transaction            Transaction[]
+  riskProfile            UserRiskProfile?
+  riskProfileResponses   UserRiskProfileResponse[]
+  platinaRecommendations UserPlatinaRecommendation[]
 }
 
 model Account {
@@ -146,8 +151,8 @@ model UserPurchasedServices {
   agreementAcceptedAt DateTime?
   agreementData       Json?
 
-  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  service Service? @relation(fields: [serviceId], references: [id], onDelete: SetNull)
 
   @@unique([userId, serviceId, expiryDate])
 }
@@ -161,12 +166,10 @@ model Coupon {
   minAmount   Float    @default(0)
   maxAmount   Float?
   serviceId   String?
-  comboPlanId String?
   planDays    Int?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  comboPlan    ComboPlan?    @relation(fields: [comboPlanId], references: [id])
   service      Service?      @relation(fields: [serviceId], references: [id])
   transactions Transaction[]
 }
@@ -177,8 +180,7 @@ model Transaction {
   paymentId       String?
   couponId        String?
   userId          String
-  serviceId       String?
-  comboPlanId     String?
+  serviceId       String
   amount          Float
   tenure          Json?
   currency        String   @default("INR")
@@ -190,10 +192,9 @@ model Transaction {
   updatedAt       DateTime @updatedAt
   extraData       Json?
 
-  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  service   Service?   @relation(fields: [serviceId], references: [id], onDelete: Cascade)
-  comboPlan ComboPlan? @relation(fields: [comboPlanId], references: [id])
-  coupon    Coupon?    @relation(fields: [couponId], references: [id])
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  service Service? @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  coupon  Coupon?  @relation(fields: [couponId], references: [id])
 
   @@index([userId])
   @@index([orderId])
@@ -225,8 +226,7 @@ model Agreement {
   updatedAt       DateTime @updatedAt
   createdAt       DateTime @default(now())
 
-  serviceAgreements   ServiceAgreement[]
-  comboPlanAgreements ComboPlanAgreement[]
+  serviceAgreements ServiceAgreement[]
 }
 
 model ServiceAgreement {
@@ -238,73 +238,55 @@ model ServiceAgreement {
   agreement Agreement @relation(fields: [agreementId], references: [id])
 }
 
-model ComboPlanAgreement {
-  id          String @id @default(uuid())
-  comboPlanId String
-  agreementId String
+model ComplimentaryService {
+  id                     String @id @default(uuid())
+  serviceId              String // The main service being sold
+  complimentaryServiceId String // The included complimentary service
 
-  comboPlan ComboPlan @relation(fields: [comboPlanId], references: [id])
-  agreement Agreement @relation(fields: [agreementId], references: [id])
-}
+  service              Service @relation("Complimentary", fields: [serviceId], references: [id], onDelete: Cascade)
+  complimentaryService Service @relation("ComplimentaryIncluded", fields: [complimentaryServiceId], references: [id], onDelete: Cascade)
 
-model ComboPlan {
-  id              String               @id @default(uuid())
-  name            String
-  description     String?
-  price           Float
-  taxPercent      Float?
-  active          Boolean?
-  agreement       ComboPlanAgreement[]
-  services        ComboPlanService[]
-  tenureDiscounts Json
-  createdAt       DateTime             @default(now())
-  updatedAt       DateTime             @updatedAt
-  coupon          Coupon[]
-
-  Transaction Transaction[]
-}
-
-model ComboPlanService {
-  id          String @id @default(uuid())
-  comboPlanId String
-  serviceId   String
-
-  comboPlan ComboPlan @relation(fields: [comboPlanId], references: [id])
-  service   Service   @relation(fields: [serviceId], references: [id])
+  @@unique([serviceId, complimentaryServiceId])
+  @@index([serviceId])
+  @@index([complimentaryServiceId])
 }
 
 model Service {
-  id                String                  @id @default(uuid())
-  name              String
-  slug              String                  @unique
-  tag               String?
-  label             String?
-  serviceClass      String?
-  description       String?
-  chart             Json?
-  comparisonTitle   String?
-  recommendation    String[]
-  price             String?
-  taxPercent        Float?
-  tenureDiscounts   Json?
-  features          Json?
-  faq               Json?
-  active            Boolean?
-  type              ServiceType
-  createdAt         DateTime                @default(now())
-  updatedAt         DateTime                @updatedAt
-  agreements        ServiceAgreement[]
-  serviceTrading    ServiceTrading?
+  id                   String                @id @default(uuid())
+  name                 String
+  slug                 String                @unique
+  tag                  String?
+  label                String?
+  serviceClass         String?
+  description          String?
+  chart                Json?
+  comparisonTitle      String?
+  recommendedService   String[]
+  price                Float
+  taxPercent           Float?
+  tenureDiscounts      Json?
+  features             Json?
+  faq                  Json?
+  active               Boolean               @default(true)
+  type                 ServiceType
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+  serviceTrading       ServiceTrading?
+  servicePlatinaWealth ServicePlatinaWealth?
+
   //serviceResearchAdvisory                ServiceResearchAdvisory?       
   //serviceResearchAdvisoryModelPortfolio  ServiceResearchAdvisoryModelPortfolio? 
   //serviceResearchAdvisoryPortfolioReview ServiceResearchAdvisoryPortfolioReview? 
   //investmentAdvisory                     InvestmentAdviosry?   
-  purchasedServices UserPurchasedServices[]
-  userDocuments     UserDocuments[]
   //complimentaryServices                  ComplimentaryService[]    
   //ServiceResearchAdvisoryMutualFunds     ServiceResearchAdvisoryMutualFunds[]
+  complimentaryService    ComplimentaryService[] @relation("Complimentary") //Use this when you want to find all complimentary services included with a main service.
+  complimentaryIncludedIn ComplimentaryService[] @relation("ComplimentaryIncluded") //Use this when you want to find all main services where a service is included as complimentary.
+
+  agreements        ServiceAgreement[]
+  purchasedServices UserPurchasedServices[]
+  userDocuments     UserDocuments[]
   Transaction       Transaction[]
-  ComboPlanService  ComboPlanService[]
   coupon            Coupon[]
 }
 
@@ -408,3 +390,132 @@ model ServiceTrading {
 //
 //}
 //Stock list{name, weight, sector }
+
+model RiskProfileQuestion {
+  id        String   @id @default(uuid())
+  question  String // The question text
+  type      String // "MULTIPLE_CHOICE", "SCALE", "YES_NO"
+  options   Json? // For multiple choice: [{"value": 1, "text": "Low risk", "score": 1}]
+  minScore  Int      @default(0)
+  maxScore  Int      @default(10)
+  weight    Float    @default(1.0) // Weight for this question in overall calculation
+  isActive  Boolean  @default(true)
+  order     Int // Display order
+  category  String? // Group questions: "INVESTMENT_EXPERIENCE", "RISK_TOLERANCE", etc.
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userResponses UserRiskProfileResponse[]
+}
+
+model UserRiskProfileResponse {
+  id         String   @id @default(uuid())
+  userId     String
+  questionId String
+  answer     Json // Store the selected answer(s)
+  score      Int // Score for this answer
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user     User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  question RiskProfileQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, questionId])
+}
+
+model UserRiskProfile {
+  id             String   @id @default(uuid())
+  userId         String   @unique
+  totalScore     Int // Sum of all question scores
+  riskLevel      String // "CONSERVATIVE", "MODERATE", "AGGRESSIVE", "VERY_AGGRESSIVE"
+  riskPercentage Float // Risk score as percentage
+  completedAt    DateTime @default(now())
+  lastUpdated    DateTime @updatedAt
+  isActive       Boolean  @default(true)
+
+  // Additional calculated fields
+  categories      Json? // Breakdown by category {"EXPERIENCE": 75, "TOLERANCE": 60}
+  recommendations Json? // Risk-based recommendations
+
+  user                   User                        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  platinaRecommendations UserPlatinaRecommendation[]
+}
+
+// For Platina Wealth service with individual recommendations
+model ServicePlatinaWealth {
+  id                  String   @id
+  minimumInvestment   Float?
+  portfolioTypes      Json? // Different portfolio categories
+  features            Json? // Unique features for this service
+  riskBasedAllocation Json? // Risk-based asset allocation templates
+  isAvailable         Boolean  @default(true)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  service            Service                     @relation(fields: [id], references: [id], onDelete: Cascade)
+  userRecommendation UserPlatinaRecommendation[]
+}
+
+// Individual recommendations for each user based on risk profile
+model UserPlatinaRecommendation {
+  id                   String   @id @default(uuid())
+  userId               String
+  platinaServiceId     String
+  riskProfileId        String?
+  portfolioType        String?
+  assetAllocation      Json?
+  userInvestmentAmount Float?
+  recommendationDate   DateTime @default(now())
+  isActive             Boolean  @default(true)
+  rationale            Json?
+  peChart              Json?
+  epsChart             Json?
+
+  notes     String?
+  createdAt DateTime               @default(now())
+  updatedAt DateTime               @updatedAt
+  stocks    UserPlatinaStockList[]
+
+  user           User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  platinaService ServicePlatinaWealth @relation(fields: [platinaServiceId], references: [id], onDelete: Cascade)
+  riskProfile    UserRiskProfile?     @relation(fields: [riskProfileId], references: [id], onDelete: SetNull)
+
+  @@unique([userId, platinaServiceId])
+  @@index([userId])
+}
+
+enum StockChangeType {
+  ADDED
+  UPDATED
+  REMOVED
+  INITIAL
+}
+
+// New model for individual stock tracking
+model UserPlatinaStockList {
+  id                String  @id @default(uuid())
+  recommendationId  String
+  stockName         String
+  stockTicker       String
+  sector            String
+  portfolioWeight   Float
+  totalShares       Int
+  currentSharePrice Float
+  purchaseAmount    Float
+  marketValue       Float
+  PEratio           Float
+  marketCapInCrore  Float
+  entryDate         String
+  exitDate          String?
+
+  // History tracking fields (from your PlatinaStockList)
+  recordDate String
+  isActive   Boolean          @default(true)
+  changeType StockChangeType? @default(INITIAL)
+
+  recommendation UserPlatinaRecommendation @relation(fields: [recommendationId], references: [id], onDelete: Cascade)
+
+  @@index([recommendationId])
+  @@index([stockTicker])
+  @@index([isActive])
+}

@@ -1,5 +1,5 @@
 'use client';
-import { Agreement, Coupon, Service } from "@/prisma/generated/client";
+import { Agreement, ComboPlan, Coupon, Service } from "@/prisma/generated/client";
 import { OrderEntity } from "cashfree-pg";
 import { useEffect, useRef, useState } from "react";
 import { ClipLoader } from 'react-spinners';
@@ -18,7 +18,7 @@ import { formatHumanDate } from "@/lib/utils";
 import { selectTenure, setAgreement, setAgreementSummary, setCoupon } from "@/lib/slices/checkoutSlice";
 import { useSession } from "next-auth/react";
 
-export const CheckoutForm=({ service, agreement} :{service: Service  | null, agreement: Agreement[] | null})=>{
+export const CheckoutForm=({ service, agreement} :{service: Service | ComboPlan | null, agreement: Agreement[] | null})=>{
    const drawerCloseRef = useRef<HTMLButtonElement>(null);
    const [loading, setLoading] = useState(false);
    const [couponCode, setCouponCode] = useState("");
@@ -29,6 +29,17 @@ export const CheckoutForm=({ service, agreement} :{service: Service  | null, agr
    const selectedTenure = useAppSelector((state) => state.checkout.service.tenureDiscount);
    const appliedCoupon = useAppSelector((state) => state.checkout.coupon);
    const dispatch = useAppDispatch();
+
+
+   let serviceId = null;
+   let comboPlanId = null;
+
+   if (service && 'services' in service) {
+      comboPlanId = service.id;
+   }
+   else if (service && 'type' in service) {
+      serviceId = service.id;
+   }
 
    useEffect(() => {
       setCouponCode("");
@@ -52,18 +63,17 @@ export const CheckoutForm=({ service, agreement} :{service: Service  | null, agr
    const total = taxableAmount + taxAmount;
 
    const agreementSummary : ServiceAgreement = {
-      clientName: user.name || user.email || "Unknown User",
-      clientPhoneNumber: user.phone || "Unknown Phone",
+      clientName: user?.name || user?.email || "Unknown User",
+      clientPhoneNumber: user?.phone || "Unknown Phone",
       clientpanNumber: user?.pan || "Unknown PAN",
       serviceName: service?.name || "Unknown Service",
       subscriptionStartDate: formatHumanDate(new Date()),
       subscriptionFrequency: `${months} ${months === 1 ? 'Month' : 'Months'}`,
-      subscriptionPrice: String(total),
+      subscriptionPrice: `₹${String(total)} /-`,
    }
 
    const handlePlanSelect = async () => {
          try {
-            const serviceId = service?.id;
             drawerCloseRef.current?.click();
 
             if (user.panVerified === null) {
@@ -83,15 +93,13 @@ export const CheckoutForm=({ service, agreement} :{service: Service  | null, agr
                return;
             }
    
-            if(!serviceId) throw new Error("Service ID is required to select a plan.");
-   
             const serializableAgreement: SerializableAgreement[] = (agreement ?? []).map(a => ({
               ...a,
               createdAt: a.createdAt instanceof Date ? a.createdAt.toISOString() : a.createdAt,
               updatedAt: a.updatedAt instanceof Date ? a.updatedAt.toISOString() : a.updatedAt,
             }));
             
-            dispatch(selectTenure({...selectedTenure, serviceId}));
+            dispatch(selectTenure({...selectedTenure, serviceId, comboPlanId}));
             dispatch(setAgreement(serializableAgreement ?? null));
             dispatch(setAgreementSummary(agreementSummary));
             dispatch(setModalOpen({open : true, modelType : 'agreement'}));
@@ -108,7 +116,7 @@ export const CheckoutForm=({ service, agreement} :{service: Service  | null, agr
    const handleApplyCoupon = async () => {
       try{
          setCouponLoading(true);
-         const coupon = await findCouponByCode({code : couponCode, serviceId : service?.id || "",  planDays : selectedTenure.days });
+         const coupon = await findCouponByCode({code : couponCode, comboPlanId, serviceId, planDays : selectedTenure.days });
          
          if(!coupon) throw new Error("Invalid or expired coupon code.");
 

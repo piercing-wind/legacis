@@ -11,7 +11,7 @@ export const GET = (request: Request) => {
    return new Response(JSON.stringify({ message: "Ristricted Access" }), { status: 200 });
 }
 
-export const POST = auth(async (request)=> {
+export const POST = auth(async (request : any)=> {
    try{
       if(!request.auth) throw new Error("Unauthorized");
 
@@ -108,7 +108,7 @@ export const POST = auth(async (request)=> {
        data: {
           orderId: order.data.order_id,
           userId: user.id,
-          couponId : coupon.id || null,
+          couponId : coupon?.id || null,
           serviceId,
           comboPlanId,
           amount: order.data.order_amount || 0,

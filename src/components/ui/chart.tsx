@@ -142,16 +142,18 @@ function ChartTooltipContent({
         : itemConfig?.label
 
     const data = item?.payload;
-    const week = data?.week;
-    const day = week ? week.split("-")[2] : undefined;
-    const month = data?.month;
-    if (day && month) {
+    const dateStr = data?.date;
+    if (dateStr) {
+      const [day, month, year] = dateStr.split('-');
+      // Format as "31 Oct 2023"
+      const dateObj = new Date(Number(year), Number(month) - 1, Number(day));
+      const formatted = dateObj.toLocaleString('default', { day: '2-digit', month: 'short', year: 'numeric' });
       return (
         <div className={cn("font-medium", labelClassName)}>
-          {day} {month}
+          {formatted}
         </div>
       );
-    }
+   }
 
     if (labelFormatter) {
       return (

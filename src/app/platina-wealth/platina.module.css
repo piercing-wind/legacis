@@ -1,0 +1,23 @@
+.platina_scrollbar::-webkit-scrollbar {
+  height: 8px;
+}
+
+.platina_scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+.platina_scrollbar::-webkit-scrollbar-thumb {
+  background: #f59e0b;
+  border-radius: 10px;
+}
+
+.platina_scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #d97706;
+}
+
+/* For Firefox */
+.platina_scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #f59e0b transparent;
+}

@@ -38,13 +38,13 @@ export const ServiceCard = ({service} : {service : Service}) => {
    const displayPrice = Math.round((basePrice * (1 - discountPercent / 100))/ 12) ;
 
    return (
-      <div className="w-full max-w-sm rounded-2xl border border-legacisGreen/30 p-6"
+      <div className="w-full flex flex-col rounded-2xl border border-legacisGreen/30 p-6 self-stretch dark:bg-neutral-800/50"
          style={{
             boxShadow: "0 0 16px 0 rgba(74, 237, 185, 0.2)"
          }}
       >
          <h5 className="!text-xl">{name}</h5>
-         <p className="text-sm">Legacis Direct - {tag}</p>
+         <p className="text-sm">{tag}</p>
          <div className="flex items-baseline justify-between mt-6 mb-2">
             <span className="flex items-baseline">
                <h2 className="font-urbanist !text-5xl !font-semibold">₹{displayPrice}</h2><p className="text-sm">/ month</p>
@@ -89,7 +89,7 @@ export const ServiceCard = ({service} : {service : Service}) => {
 
             ))}
          </div>
-         <Button asChild variant={'outline'} className="w-full p-2 h-14 border-2 border-legacisGreen/30 uppercase rounded-full">
+         <Button asChild variant={'outline'} className="w-full mt-auto p-2 h-14 border-2 border-legacisGreen/30 uppercase rounded-full">
            <Link href={`/services/${slug}`}>
               Subscribe Now
            </Link>

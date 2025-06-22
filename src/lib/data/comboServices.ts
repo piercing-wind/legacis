@@ -33,6 +33,28 @@ export type ComboPlanWithServices = Prisma.ComboPlanGetPayload<{
   };
 }>;
 
+
+
+/**
+ * This function finds a combo plan service by its slug.
+ * @param slug - The slug of the combo plan service to find, e.g. 'combo-plan-1'
+ * @returns 
+ */
+export const findComboPlanServiceBySlug = async (slug: string) => {
+   return await db.comboPlan.findUnique({
+      where: {
+         slug,
+      },
+      include: {
+         services: {
+            include : {
+               service: true,
+            }
+         }, 
+      }
+   });
+}
+
 /**
  * This function finds a combo plan service by its ID.
  * @param id - The ID of the combo plan service to find, e.g. 'combo-plan-1'
@@ -43,5 +65,24 @@ export const findComboPlanServiceById = async (id: string) => {
       where: {
          id,
       }
+   });
+}
+
+
+export const findActivePurchasedComboPlanServiceByUserIdAndId = async (userId: string, comboPlanId : string) => {
+   return await db.userPurchasedServices.findFirst({
+      where: {
+         userId,
+         comboPlanId,
+         expiryDate: {
+            gt: new Date(),
+         },
+      },
+      include: {
+         service: true,
+      },
+      orderBy: {
+         purchaseDate: "desc",
+      },
    });
 }

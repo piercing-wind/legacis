@@ -10,6 +10,9 @@
 !.yarn/releases
 !.yarn/versions
 
+# Ignore node_modules in all subfolders (apps, packages, etc.)
+**/node_modules
+
 # testing
 /coverage
 

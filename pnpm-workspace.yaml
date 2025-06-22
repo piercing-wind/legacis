@@ -1,3 +1,6 @@
+ignoredBuiltDependencies:
+  - esbuild
+
 onlyBuiltDependencies:
   - '@prisma/client'
   - '@prisma/engines'
@@ -6,3 +9,7 @@ onlyBuiltDependencies:
   - prisma
   - sharp
   - unrs-resolver
+
+packages:
+  - 'legacis_dashboard'
+  - '.'

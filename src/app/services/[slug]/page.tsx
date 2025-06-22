@@ -1,7 +1,7 @@
 import React from "react"
 import { Line } from "@/components/icon"
 import Chart from "@/components/services/chart"
-import { findActivePurchasedServiceByUserAndService, findServiceBySlug, getServiceDataById } from "@/lib/data/services"
+import { isServicePurchased, findServiceBySlug, getServiceDataById } from "@/lib/data/services"
 import { ChartDataPoint, FaqItem, ServiceFeature, TenureDiscount } from "@/types/service"
 import { Button } from "@/components/ui/button"
 import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer"
@@ -20,11 +20,11 @@ export default async function Page({params}: { params: Promise<{ slug: string }>
    const user : User = session?.user
 
    const { slug } = await params
-   const service = await findServiceBySlug(slug)
+   const service = await findServiceBySlug(slug);
    
    let purchasedService = null;
    if (user?.id && service?.id) {
-     purchasedService = await findActivePurchasedServiceByUserAndService(user.id, service.id);
+     purchasedService = await isServicePurchased(user.id, service.id);
    }
 
    let data = null;
@@ -49,11 +49,15 @@ export default async function Page({params}: { params: Promise<{ slug: string }>
 
 
    const chartData = Array.isArray(service?.chart) ? (service.chart as ChartDataPoint[]) : [];
-   const sortedChartData = chartData
-    .slice()
-    .sort((a, b) => new Date(a.week).getTime() - new Date(b.week).getTime());
+   chartData.sort((a, b) => {
+     const [dayA, monthA, yearA] = a.date.split('-').map(Number);
+     const [dayB, monthB, yearB] = b.date.split('-').map(Number);
+     const dateA = new Date(yearA, monthA - 1, dayA);
+     const dateB = new Date(yearB, monthB - 1, dayB);
+     return dateA.getTime() - dateB.getTime();
+   });
 
-   const latestData = sortedChartData[sortedChartData.length - 1];
+   const latestData = chartData[chartData.length - 1];
 
 
    const agreement = await findAgreementsByServiceId(service?.id || '');
@@ -68,20 +72,20 @@ export default async function Page({params}: { params: Promise<{ slug: string }>
          </>
        }
        <section className="flex flex-col lg:flex-row items-stretch justify-center gap-4 lg:gap-8 w-full my-8">
-         <div className="w-full lg:min-w-3xl xl:min-w-4xl flex-1 relative border rounded-2xl py-2 mb-4 lg:mb-0">
-            <div className="w-full flex items-center gap-8 justify-center">
-               <p className="text-sm">{service?.name}: <span className="text-green-500">{latestData?.main ?? ""}</span></p>
+         <div className="w-full lg:min-w-3xl xl:min-w-4xl flex-1 relative border rounded-2xl p-2 mb-4 lg:mb-0 ">
+            <div className="w-full flex flex-col md:flex-row md:items-center gap-1 md:gap-8 justify-center">
+               <p className="text-sm">{(service?.name)?.slice(0, 20)}: <span className="text-green-500">{latestData?.main ?? ""}</span></p>
                <p className="text-sm">{service?.comparisonTitle}: <span className="text-green-500">{latestData?.comparison ?? ""}</span></p>
             </div>
             <Chart
-               chartData={sortedChartData}
+               chartData={chartData}
                mainLabel={service?.name || "Main"}
                comparisonLabel={service?.comparisonTitle || "Comparison"}
             />
          </div>
          <div className="max-w-xl w-full flex-1 border rounded-2xl p-4 flex flex-col gap-2">
             <h6 className="!text-xl">{service?.name}</h6>
-            <p className="text-xs">Legacis Direct - {service?.tag}</p>
+            <p className="text-xs">{service?.tag}</p>
             <p className="text-xs my-2">{service?.description}</p>
             <Line color="var(--text-color)" height="2px" className="self-stretch opacity-20"/>
             {highlights &&

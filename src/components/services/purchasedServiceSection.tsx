@@ -293,3 +293,8 @@ const StockCard = ({ stock }: { stock: StockList }) => {
     </div>
   );
 };
+
+
+//const Platina Card
+
+
