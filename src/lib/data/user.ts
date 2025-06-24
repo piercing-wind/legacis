@@ -119,7 +119,6 @@ export const getUserTransactions = async (userId: string) => {
       where: { userId: userId },
       include: { 
          service: true, 
-         comboPlan: true,
       },
       orderBy: { createdAt: "desc" },
    });

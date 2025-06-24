@@ -108,6 +108,11 @@ export type UserPlatinaRecommendation = $Result.DefaultSelection<Prisma.$UserPla
  * 
  */
 export type UserPlatinaStockList = $Result.DefaultSelection<Prisma.$UserPlatinaStockListPayload>
+/**
+ * Model UserPlatinaStockHistory
+ * 
+ */
+export type UserPlatinaStockHistory = $Result.DefaultSelection<Prisma.$UserPlatinaStockHistoryPayload>
 
 /**
  * Enums
@@ -176,6 +181,15 @@ export const VerificationType: {
 export type VerificationType = (typeof VerificationType)[keyof typeof VerificationType]
 
 
+export const GrantType: {
+  PURCHASED: 'PURCHASED',
+  COMPLIMENTARY: 'COMPLIMENTARY',
+  ADMIN_GRANTED: 'ADMIN_GRANTED'
+};
+
+export type GrantType = (typeof GrantType)[keyof typeof GrantType]
+
+
 export const StockChangeType: {
   ADDED: 'ADDED',
   UPDATED: 'UPDATED',
@@ -210,6 +224,10 @@ export const ServiceType: typeof $Enums.ServiceType
 export type VerificationType = $Enums.VerificationType
 
 export const VerificationType: typeof $Enums.VerificationType
+
+export type GrantType = $Enums.GrantType
+
+export const GrantType: typeof $Enums.GrantType
 
 export type StockChangeType = $Enums.StockChangeType
 
@@ -529,6 +547,16 @@ export class PrismaClient<
     * ```
     */
   get userPlatinaStockList(): Prisma.UserPlatinaStockListDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.userPlatinaStockHistory`: Exposes CRUD operations for the **UserPlatinaStockHistory** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserPlatinaStockHistories
+    * const userPlatinaStockHistories = await prisma.userPlatinaStockHistory.findMany()
+    * ```
+    */
+  get userPlatinaStockHistory(): Prisma.UserPlatinaStockHistoryDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -987,7 +1015,8 @@ export namespace Prisma {
     UserRiskProfile: 'UserRiskProfile',
     ServicePlatinaWealth: 'ServicePlatinaWealth',
     UserPlatinaRecommendation: 'UserPlatinaRecommendation',
-    UserPlatinaStockList: 'UserPlatinaStockList'
+    UserPlatinaStockList: 'UserPlatinaStockList',
+    UserPlatinaStockHistory: 'UserPlatinaStockHistory'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1006,7 +1035,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "otp" | "panVerificationData" | "userPurchasedServices" | "coupon" | "transaction" | "userDocuments" | "agreement" | "serviceAgreement" | "complimentaryService" | "service" | "serviceTrading" | "riskProfileQuestion" | "userRiskProfileResponse" | "userRiskProfile" | "servicePlatinaWealth" | "userPlatinaRecommendation" | "userPlatinaStockList"
+      modelProps: "user" | "account" | "otp" | "panVerificationData" | "userPurchasedServices" | "coupon" | "transaction" | "userDocuments" | "agreement" | "serviceAgreement" | "complimentaryService" | "service" | "serviceTrading" | "riskProfileQuestion" | "userRiskProfileResponse" | "userRiskProfile" | "servicePlatinaWealth" | "userPlatinaRecommendation" | "userPlatinaStockList" | "userPlatinaStockHistory"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2416,6 +2445,80 @@ export namespace Prisma {
           }
         }
       }
+      UserPlatinaStockHistory: {
+        payload: Prisma.$UserPlatinaStockHistoryPayload<ExtArgs>
+        fields: Prisma.UserPlatinaStockHistoryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserPlatinaStockHistoryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPlatinaStockHistoryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserPlatinaStockHistoryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPlatinaStockHistoryPayload>
+          }
+          findFirst: {
+            args: Prisma.UserPlatinaStockHistoryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPlatinaStockHistoryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserPlatinaStockHistoryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPlatinaStockHistoryPayload>
+          }
+          findMany: {
+            args: Prisma.UserPlatinaStockHistoryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPlatinaStockHistoryPayload>[]
+          }
+          create: {
+            args: Prisma.UserPlatinaStockHistoryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPlatinaStockHistoryPayload>
+          }
+          createMany: {
+            args: Prisma.UserPlatinaStockHistoryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserPlatinaStockHistoryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPlatinaStockHistoryPayload>[]
+          }
+          delete: {
+            args: Prisma.UserPlatinaStockHistoryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPlatinaStockHistoryPayload>
+          }
+          update: {
+            args: Prisma.UserPlatinaStockHistoryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPlatinaStockHistoryPayload>
+          }
+          deleteMany: {
+            args: Prisma.UserPlatinaStockHistoryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserPlatinaStockHistoryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserPlatinaStockHistoryUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPlatinaStockHistoryPayload>[]
+          }
+          upsert: {
+            args: Prisma.UserPlatinaStockHistoryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPlatinaStockHistoryPayload>
+          }
+          aggregate: {
+            args: Prisma.UserPlatinaStockHistoryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserPlatinaStockHistory>
+          }
+          groupBy: {
+            args: Prisma.UserPlatinaStockHistoryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserPlatinaStockHistoryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserPlatinaStockHistoryCountArgs<ExtArgs>
+            result: $Utils.Optional<UserPlatinaStockHistoryCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2519,6 +2622,7 @@ export namespace Prisma {
     servicePlatinaWealth?: ServicePlatinaWealthOmit
     userPlatinaRecommendation?: UserPlatinaRecommendationOmit
     userPlatinaStockList?: UserPlatinaStockListOmit
+    userPlatinaStockHistory?: UserPlatinaStockHistoryOmit
   }
 
   /* Types for Logging */
@@ -2939,10 +3043,12 @@ export namespace Prisma {
 
   export type UserPlatinaRecommendationCountOutputType = {
     stocks: number
+    stockHistory: number
   }
 
   export type UserPlatinaRecommendationCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     stocks?: boolean | UserPlatinaRecommendationCountOutputTypeCountStocksArgs
+    stockHistory?: boolean | UserPlatinaRecommendationCountOutputTypeCountStockHistoryArgs
   }
 
   // Custom InputTypes
@@ -2961,6 +3067,13 @@ export namespace Prisma {
    */
   export type UserPlatinaRecommendationCountOutputTypeCountStocksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UserPlatinaStockListWhereInput
+  }
+
+  /**
+   * UserPlatinaRecommendationCountOutputType without action
+   */
+  export type UserPlatinaRecommendationCountOutputTypeCountStockHistoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserPlatinaStockHistoryWhereInput
   }
 
 
@@ -7791,6 +7904,12 @@ export namespace Prisma {
     planDays: number | null
     planDiscount: number | null
     agreementAcceptedAt: Date | null
+    grantType: $Enums.GrantType | null
+    grantedBy: string | null
+    grantReason: string | null
+    parentServiceId: string | null
+    transactionId: string | null
+    isActive: boolean | null
   }
 
   export type UserPurchasedServicesMaxAggregateOutputType = {
@@ -7802,6 +7921,12 @@ export namespace Prisma {
     planDays: number | null
     planDiscount: number | null
     agreementAcceptedAt: Date | null
+    grantType: $Enums.GrantType | null
+    grantedBy: string | null
+    grantReason: string | null
+    parentServiceId: string | null
+    transactionId: string | null
+    isActive: boolean | null
   }
 
   export type UserPurchasedServicesCountAggregateOutputType = {
@@ -7814,6 +7939,13 @@ export namespace Prisma {
     planDiscount: number
     agreementAcceptedAt: number
     agreementData: number
+    grantType: number
+    grantedBy: number
+    grantReason: number
+    parentServiceId: number
+    transactionId: number
+    isActive: number
+    grantMetadata: number
     _all: number
   }
 
@@ -7837,6 +7969,12 @@ export namespace Prisma {
     planDays?: true
     planDiscount?: true
     agreementAcceptedAt?: true
+    grantType?: true
+    grantedBy?: true
+    grantReason?: true
+    parentServiceId?: true
+    transactionId?: true
+    isActive?: true
   }
 
   export type UserPurchasedServicesMaxAggregateInputType = {
@@ -7848,6 +7986,12 @@ export namespace Prisma {
     planDays?: true
     planDiscount?: true
     agreementAcceptedAt?: true
+    grantType?: true
+    grantedBy?: true
+    grantReason?: true
+    parentServiceId?: true
+    transactionId?: true
+    isActive?: true
   }
 
   export type UserPurchasedServicesCountAggregateInputType = {
@@ -7860,6 +8004,13 @@ export namespace Prisma {
     planDiscount?: true
     agreementAcceptedAt?: true
     agreementData?: true
+    grantType?: true
+    grantedBy?: true
+    grantReason?: true
+    parentServiceId?: true
+    transactionId?: true
+    isActive?: true
+    grantMetadata?: true
     _all?: true
   }
 
@@ -7959,6 +8110,13 @@ export namespace Prisma {
     planDiscount: number
     agreementAcceptedAt: Date | null
     agreementData: JsonValue | null
+    grantType: $Enums.GrantType
+    grantedBy: string | null
+    grantReason: string | null
+    parentServiceId: string | null
+    transactionId: string | null
+    isActive: boolean
+    grantMetadata: JsonValue | null
     _count: UserPurchasedServicesCountAggregateOutputType | null
     _avg: UserPurchasedServicesAvgAggregateOutputType | null
     _sum: UserPurchasedServicesSumAggregateOutputType | null
@@ -7990,6 +8148,13 @@ export namespace Prisma {
     planDiscount?: boolean
     agreementAcceptedAt?: boolean
     agreementData?: boolean
+    grantType?: boolean
+    grantedBy?: boolean
+    grantReason?: boolean
+    parentServiceId?: boolean
+    transactionId?: boolean
+    isActive?: boolean
+    grantMetadata?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | UserPurchasedServices$serviceArgs<ExtArgs>
   }, ExtArgs["result"]["userPurchasedServices"]>
@@ -8004,6 +8169,13 @@ export namespace Prisma {
     planDiscount?: boolean
     agreementAcceptedAt?: boolean
     agreementData?: boolean
+    grantType?: boolean
+    grantedBy?: boolean
+    grantReason?: boolean
+    parentServiceId?: boolean
+    transactionId?: boolean
+    isActive?: boolean
+    grantMetadata?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | UserPurchasedServices$serviceArgs<ExtArgs>
   }, ExtArgs["result"]["userPurchasedServices"]>
@@ -8018,6 +8190,13 @@ export namespace Prisma {
     planDiscount?: boolean
     agreementAcceptedAt?: boolean
     agreementData?: boolean
+    grantType?: boolean
+    grantedBy?: boolean
+    grantReason?: boolean
+    parentServiceId?: boolean
+    transactionId?: boolean
+    isActive?: boolean
+    grantMetadata?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | UserPurchasedServices$serviceArgs<ExtArgs>
   }, ExtArgs["result"]["userPurchasedServices"]>
@@ -8032,9 +8211,16 @@ export namespace Prisma {
     planDiscount?: boolean
     agreementAcceptedAt?: boolean
     agreementData?: boolean
+    grantType?: boolean
+    grantedBy?: boolean
+    grantReason?: boolean
+    parentServiceId?: boolean
+    transactionId?: boolean
+    isActive?: boolean
+    grantMetadata?: boolean
   }
 
-  export type UserPurchasedServicesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "serviceId" | "purchaseDate" | "expiryDate" | "planDays" | "planDiscount" | "agreementAcceptedAt" | "agreementData", ExtArgs["result"]["userPurchasedServices"]>
+  export type UserPurchasedServicesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "serviceId" | "purchaseDate" | "expiryDate" | "planDays" | "planDiscount" | "agreementAcceptedAt" | "agreementData" | "grantType" | "grantedBy" | "grantReason" | "parentServiceId" | "transactionId" | "isActive" | "grantMetadata", ExtArgs["result"]["userPurchasedServices"]>
   export type UserPurchasedServicesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | UserPurchasedServices$serviceArgs<ExtArgs>
@@ -8064,6 +8250,13 @@ export namespace Prisma {
       planDiscount: number
       agreementAcceptedAt: Date | null
       agreementData: Prisma.JsonValue | null
+      grantType: $Enums.GrantType
+      grantedBy: string | null
+      grantReason: string | null
+      parentServiceId: string | null
+      transactionId: string | null
+      isActive: boolean
+      grantMetadata: Prisma.JsonValue | null
     }, ExtArgs["result"]["userPurchasedServices"]>
     composites: {}
   }
@@ -8498,6 +8691,13 @@ export namespace Prisma {
     readonly planDiscount: FieldRef<"UserPurchasedServices", 'Float'>
     readonly agreementAcceptedAt: FieldRef<"UserPurchasedServices", 'DateTime'>
     readonly agreementData: FieldRef<"UserPurchasedServices", 'Json'>
+    readonly grantType: FieldRef<"UserPurchasedServices", 'GrantType'>
+    readonly grantedBy: FieldRef<"UserPurchasedServices", 'String'>
+    readonly grantReason: FieldRef<"UserPurchasedServices", 'String'>
+    readonly parentServiceId: FieldRef<"UserPurchasedServices", 'String'>
+    readonly transactionId: FieldRef<"UserPurchasedServices", 'String'>
+    readonly isActive: FieldRef<"UserPurchasedServices", 'Boolean'>
+    readonly grantMetadata: FieldRef<"UserPurchasedServices", 'Json'>
   }
     
 
@@ -23262,6 +23462,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     stocks?: boolean | UserPlatinaRecommendation$stocksArgs<ExtArgs>
+    stockHistory?: boolean | UserPlatinaRecommendation$stockHistoryArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     platinaService?: boolean | ServicePlatinaWealthDefaultArgs<ExtArgs>
     riskProfile?: boolean | UserPlatinaRecommendation$riskProfileArgs<ExtArgs>
@@ -23331,6 +23532,7 @@ export namespace Prisma {
   export type UserPlatinaRecommendationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "platinaServiceId" | "riskProfileId" | "portfolioType" | "assetAllocation" | "userInvestmentAmount" | "recommendationDate" | "isActive" | "rationale" | "peChart" | "epsChart" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["userPlatinaRecommendation"]>
   export type UserPlatinaRecommendationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     stocks?: boolean | UserPlatinaRecommendation$stocksArgs<ExtArgs>
+    stockHistory?: boolean | UserPlatinaRecommendation$stockHistoryArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     platinaService?: boolean | ServicePlatinaWealthDefaultArgs<ExtArgs>
     riskProfile?: boolean | UserPlatinaRecommendation$riskProfileArgs<ExtArgs>
@@ -23351,6 +23553,7 @@ export namespace Prisma {
     name: "UserPlatinaRecommendation"
     objects: {
       stocks: Prisma.$UserPlatinaStockListPayload<ExtArgs>[]
+      stockHistory: Prisma.$UserPlatinaStockHistoryPayload<ExtArgs>[]
       user: Prisma.$UserPayload<ExtArgs>
       platinaService: Prisma.$ServicePlatinaWealthPayload<ExtArgs>
       riskProfile: Prisma.$UserRiskProfilePayload<ExtArgs> | null
@@ -23766,6 +23969,7 @@ export namespace Prisma {
   export interface Prisma__UserPlatinaRecommendationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     stocks<T extends UserPlatinaRecommendation$stocksArgs<ExtArgs> = {}>(args?: Subset<T, UserPlatinaRecommendation$stocksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPlatinaStockListPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    stockHistory<T extends UserPlatinaRecommendation$stockHistoryArgs<ExtArgs> = {}>(args?: Subset<T, UserPlatinaRecommendation$stockHistoryArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPlatinaStockHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     platinaService<T extends ServicePlatinaWealthDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ServicePlatinaWealthDefaultArgs<ExtArgs>>): Prisma__ServicePlatinaWealthClient<$Result.GetResult<Prisma.$ServicePlatinaWealthPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     riskProfile<T extends UserPlatinaRecommendation$riskProfileArgs<ExtArgs> = {}>(args?: Subset<T, UserPlatinaRecommendation$riskProfileArgs<ExtArgs>>): Prisma__UserRiskProfileClient<$Result.GetResult<Prisma.$UserRiskProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -24233,6 +24437,30 @@ export namespace Prisma {
   }
 
   /**
+   * UserPlatinaRecommendation.stockHistory
+   */
+  export type UserPlatinaRecommendation$stockHistoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPlatinaStockHistory
+     */
+    select?: UserPlatinaStockHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPlatinaStockHistory
+     */
+    omit?: UserPlatinaStockHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPlatinaStockHistoryInclude<ExtArgs> | null
+    where?: UserPlatinaStockHistoryWhereInput
+    orderBy?: UserPlatinaStockHistoryOrderByWithRelationInput | UserPlatinaStockHistoryOrderByWithRelationInput[]
+    cursor?: UserPlatinaStockHistoryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserPlatinaStockHistoryScalarFieldEnum | UserPlatinaStockHistoryScalarFieldEnum[]
+  }
+
+  /**
    * UserPlatinaRecommendation.riskProfile
    */
   export type UserPlatinaRecommendation$riskProfileArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -24317,9 +24545,9 @@ export namespace Prisma {
     marketCapInCrore: number | null
     entryDate: string | null
     exitDate: string | null
-    recordDate: string | null
     isActive: boolean | null
-    changeType: $Enums.StockChangeType | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type UserPlatinaStockListMaxAggregateOutputType = {
@@ -24337,9 +24565,9 @@ export namespace Prisma {
     marketCapInCrore: number | null
     entryDate: string | null
     exitDate: string | null
-    recordDate: string | null
     isActive: boolean | null
-    changeType: $Enums.StockChangeType | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type UserPlatinaStockListCountAggregateOutputType = {
@@ -24357,9 +24585,9 @@ export namespace Prisma {
     marketCapInCrore: number
     entryDate: number
     exitDate: number
-    recordDate: number
     isActive: number
-    changeType: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -24399,9 +24627,9 @@ export namespace Prisma {
     marketCapInCrore?: true
     entryDate?: true
     exitDate?: true
-    recordDate?: true
     isActive?: true
-    changeType?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type UserPlatinaStockListMaxAggregateInputType = {
@@ -24419,9 +24647,9 @@ export namespace Prisma {
     marketCapInCrore?: true
     entryDate?: true
     exitDate?: true
-    recordDate?: true
     isActive?: true
-    changeType?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type UserPlatinaStockListCountAggregateInputType = {
@@ -24439,9 +24667,9 @@ export namespace Prisma {
     marketCapInCrore?: true
     entryDate?: true
     exitDate?: true
-    recordDate?: true
     isActive?: true
-    changeType?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -24546,9 +24774,9 @@ export namespace Prisma {
     marketCapInCrore: number
     entryDate: string
     exitDate: string | null
-    recordDate: string
     isActive: boolean
-    changeType: $Enums.StockChangeType | null
+    createdAt: Date
+    updatedAt: Date
     _count: UserPlatinaStockListCountAggregateOutputType | null
     _avg: UserPlatinaStockListAvgAggregateOutputType | null
     _sum: UserPlatinaStockListSumAggregateOutputType | null
@@ -24585,9 +24813,9 @@ export namespace Prisma {
     marketCapInCrore?: boolean
     entryDate?: boolean
     exitDate?: boolean
-    recordDate?: boolean
     isActive?: boolean
-    changeType?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     recommendation?: boolean | UserPlatinaRecommendationDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["userPlatinaStockList"]>
 
@@ -24606,9 +24834,9 @@ export namespace Prisma {
     marketCapInCrore?: boolean
     entryDate?: boolean
     exitDate?: boolean
-    recordDate?: boolean
     isActive?: boolean
-    changeType?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     recommendation?: boolean | UserPlatinaRecommendationDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["userPlatinaStockList"]>
 
@@ -24627,9 +24855,9 @@ export namespace Prisma {
     marketCapInCrore?: boolean
     entryDate?: boolean
     exitDate?: boolean
-    recordDate?: boolean
     isActive?: boolean
-    changeType?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     recommendation?: boolean | UserPlatinaRecommendationDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["userPlatinaStockList"]>
 
@@ -24648,12 +24876,12 @@ export namespace Prisma {
     marketCapInCrore?: boolean
     entryDate?: boolean
     exitDate?: boolean
-    recordDate?: boolean
     isActive?: boolean
-    changeType?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type UserPlatinaStockListOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "recommendationId" | "stockName" | "stockTicker" | "sector" | "portfolioWeight" | "totalShares" | "currentSharePrice" | "purchaseAmount" | "marketValue" | "PEratio" | "marketCapInCrore" | "entryDate" | "exitDate" | "recordDate" | "isActive" | "changeType", ExtArgs["result"]["userPlatinaStockList"]>
+  export type UserPlatinaStockListOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "recommendationId" | "stockName" | "stockTicker" | "sector" | "portfolioWeight" | "totalShares" | "currentSharePrice" | "purchaseAmount" | "marketValue" | "PEratio" | "marketCapInCrore" | "entryDate" | "exitDate" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["userPlatinaStockList"]>
   export type UserPlatinaStockListInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     recommendation?: boolean | UserPlatinaRecommendationDefaultArgs<ExtArgs>
   }
@@ -24684,9 +24912,9 @@ export namespace Prisma {
       marketCapInCrore: number
       entryDate: string
       exitDate: string | null
-      recordDate: string
       isActive: boolean
-      changeType: $Enums.StockChangeType | null
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["userPlatinaStockList"]>
     composites: {}
   }
@@ -25125,9 +25353,9 @@ export namespace Prisma {
     readonly marketCapInCrore: FieldRef<"UserPlatinaStockList", 'Float'>
     readonly entryDate: FieldRef<"UserPlatinaStockList", 'String'>
     readonly exitDate: FieldRef<"UserPlatinaStockList", 'String'>
-    readonly recordDate: FieldRef<"UserPlatinaStockList", 'String'>
     readonly isActive: FieldRef<"UserPlatinaStockList", 'Boolean'>
-    readonly changeType: FieldRef<"UserPlatinaStockList", 'StockChangeType'>
+    readonly createdAt: FieldRef<"UserPlatinaStockList", 'DateTime'>
+    readonly updatedAt: FieldRef<"UserPlatinaStockList", 'DateTime'>
   }
     
 
@@ -25543,6 +25771,1163 @@ export namespace Prisma {
 
 
   /**
+   * Model UserPlatinaStockHistory
+   */
+
+  export type AggregateUserPlatinaStockHistory = {
+    _count: UserPlatinaStockHistoryCountAggregateOutputType | null
+    _avg: UserPlatinaStockHistoryAvgAggregateOutputType | null
+    _sum: UserPlatinaStockHistorySumAggregateOutputType | null
+    _min: UserPlatinaStockHistoryMinAggregateOutputType | null
+    _max: UserPlatinaStockHistoryMaxAggregateOutputType | null
+  }
+
+  export type UserPlatinaStockHistoryAvgAggregateOutputType = {
+    previousWeight: number | null
+    newWeight: number | null
+  }
+
+  export type UserPlatinaStockHistorySumAggregateOutputType = {
+    previousWeight: number | null
+    newWeight: number | null
+  }
+
+  export type UserPlatinaStockHistoryMinAggregateOutputType = {
+    id: string | null
+    recommendationId: string | null
+    stockTicker: string | null
+    stockName: string | null
+    changeType: $Enums.StockChangeType | null
+    changeDate: Date | null
+    previousWeight: number | null
+    newWeight: number | null
+    changeDescription: string | null
+  }
+
+  export type UserPlatinaStockHistoryMaxAggregateOutputType = {
+    id: string | null
+    recommendationId: string | null
+    stockTicker: string | null
+    stockName: string | null
+    changeType: $Enums.StockChangeType | null
+    changeDate: Date | null
+    previousWeight: number | null
+    newWeight: number | null
+    changeDescription: string | null
+  }
+
+  export type UserPlatinaStockHistoryCountAggregateOutputType = {
+    id: number
+    recommendationId: number
+    stockTicker: number
+    stockName: number
+    changeType: number
+    changeDate: number
+    previousWeight: number
+    newWeight: number
+    changeDescription: number
+    metadata: number
+    _all: number
+  }
+
+
+  export type UserPlatinaStockHistoryAvgAggregateInputType = {
+    previousWeight?: true
+    newWeight?: true
+  }
+
+  export type UserPlatinaStockHistorySumAggregateInputType = {
+    previousWeight?: true
+    newWeight?: true
+  }
+
+  export type UserPlatinaStockHistoryMinAggregateInputType = {
+    id?: true
+    recommendationId?: true
+    stockTicker?: true
+    stockName?: true
+    changeType?: true
+    changeDate?: true
+    previousWeight?: true
+    newWeight?: true
+    changeDescription?: true
+  }
+
+  export type UserPlatinaStockHistoryMaxAggregateInputType = {
+    id?: true
+    recommendationId?: true
+    stockTicker?: true
+    stockName?: true
+    changeType?: true
+    changeDate?: true
+    previousWeight?: true
+    newWeight?: true
+    changeDescription?: true
+  }
+
+  export type UserPlatinaStockHistoryCountAggregateInputType = {
+    id?: true
+    recommendationId?: true
+    stockTicker?: true
+    stockName?: true
+    changeType?: true
+    changeDate?: true
+    previousWeight?: true
+    newWeight?: true
+    changeDescription?: true
+    metadata?: true
+    _all?: true
+  }
+
+  export type UserPlatinaStockHistoryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserPlatinaStockHistory to aggregate.
+     */
+    where?: UserPlatinaStockHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserPlatinaStockHistories to fetch.
+     */
+    orderBy?: UserPlatinaStockHistoryOrderByWithRelationInput | UserPlatinaStockHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserPlatinaStockHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserPlatinaStockHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserPlatinaStockHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserPlatinaStockHistories
+    **/
+    _count?: true | UserPlatinaStockHistoryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: UserPlatinaStockHistoryAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserPlatinaStockHistorySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserPlatinaStockHistoryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserPlatinaStockHistoryMaxAggregateInputType
+  }
+
+  export type GetUserPlatinaStockHistoryAggregateType<T extends UserPlatinaStockHistoryAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserPlatinaStockHistory]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserPlatinaStockHistory[P]>
+      : GetScalarType<T[P], AggregateUserPlatinaStockHistory[P]>
+  }
+
+
+
+
+  export type UserPlatinaStockHistoryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserPlatinaStockHistoryWhereInput
+    orderBy?: UserPlatinaStockHistoryOrderByWithAggregationInput | UserPlatinaStockHistoryOrderByWithAggregationInput[]
+    by: UserPlatinaStockHistoryScalarFieldEnum[] | UserPlatinaStockHistoryScalarFieldEnum
+    having?: UserPlatinaStockHistoryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserPlatinaStockHistoryCountAggregateInputType | true
+    _avg?: UserPlatinaStockHistoryAvgAggregateInputType
+    _sum?: UserPlatinaStockHistorySumAggregateInputType
+    _min?: UserPlatinaStockHistoryMinAggregateInputType
+    _max?: UserPlatinaStockHistoryMaxAggregateInputType
+  }
+
+  export type UserPlatinaStockHistoryGroupByOutputType = {
+    id: string
+    recommendationId: string
+    stockTicker: string
+    stockName: string
+    changeType: $Enums.StockChangeType
+    changeDate: Date
+    previousWeight: number | null
+    newWeight: number | null
+    changeDescription: string
+    metadata: JsonValue | null
+    _count: UserPlatinaStockHistoryCountAggregateOutputType | null
+    _avg: UserPlatinaStockHistoryAvgAggregateOutputType | null
+    _sum: UserPlatinaStockHistorySumAggregateOutputType | null
+    _min: UserPlatinaStockHistoryMinAggregateOutputType | null
+    _max: UserPlatinaStockHistoryMaxAggregateOutputType | null
+  }
+
+  type GetUserPlatinaStockHistoryGroupByPayload<T extends UserPlatinaStockHistoryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserPlatinaStockHistoryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserPlatinaStockHistoryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserPlatinaStockHistoryGroupByOutputType[P]>
+            : GetScalarType<T[P], UserPlatinaStockHistoryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserPlatinaStockHistorySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    recommendationId?: boolean
+    stockTicker?: boolean
+    stockName?: boolean
+    changeType?: boolean
+    changeDate?: boolean
+    previousWeight?: boolean
+    newWeight?: boolean
+    changeDescription?: boolean
+    metadata?: boolean
+    recommendation?: boolean | UserPlatinaRecommendationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userPlatinaStockHistory"]>
+
+  export type UserPlatinaStockHistorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    recommendationId?: boolean
+    stockTicker?: boolean
+    stockName?: boolean
+    changeType?: boolean
+    changeDate?: boolean
+    previousWeight?: boolean
+    newWeight?: boolean
+    changeDescription?: boolean
+    metadata?: boolean
+    recommendation?: boolean | UserPlatinaRecommendationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userPlatinaStockHistory"]>
+
+  export type UserPlatinaStockHistorySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    recommendationId?: boolean
+    stockTicker?: boolean
+    stockName?: boolean
+    changeType?: boolean
+    changeDate?: boolean
+    previousWeight?: boolean
+    newWeight?: boolean
+    changeDescription?: boolean
+    metadata?: boolean
+    recommendation?: boolean | UserPlatinaRecommendationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userPlatinaStockHistory"]>
+
+  export type UserPlatinaStockHistorySelectScalar = {
+    id?: boolean
+    recommendationId?: boolean
+    stockTicker?: boolean
+    stockName?: boolean
+    changeType?: boolean
+    changeDate?: boolean
+    previousWeight?: boolean
+    newWeight?: boolean
+    changeDescription?: boolean
+    metadata?: boolean
+  }
+
+  export type UserPlatinaStockHistoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "recommendationId" | "stockTicker" | "stockName" | "changeType" | "changeDate" | "previousWeight" | "newWeight" | "changeDescription" | "metadata", ExtArgs["result"]["userPlatinaStockHistory"]>
+  export type UserPlatinaStockHistoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    recommendation?: boolean | UserPlatinaRecommendationDefaultArgs<ExtArgs>
+  }
+  export type UserPlatinaStockHistoryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    recommendation?: boolean | UserPlatinaRecommendationDefaultArgs<ExtArgs>
+  }
+  export type UserPlatinaStockHistoryIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    recommendation?: boolean | UserPlatinaRecommendationDefaultArgs<ExtArgs>
+  }
+
+  export type $UserPlatinaStockHistoryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserPlatinaStockHistory"
+    objects: {
+      recommendation: Prisma.$UserPlatinaRecommendationPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      recommendationId: string
+      stockTicker: string
+      stockName: string
+      changeType: $Enums.StockChangeType
+      changeDate: Date
+      previousWeight: number | null
+      newWeight: number | null
+      changeDescription: string
+      metadata: Prisma.JsonValue | null
+    }, ExtArgs["result"]["userPlatinaStockHistory"]>
+    composites: {}
+  }
+
+  type UserPlatinaStockHistoryGetPayload<S extends boolean | null | undefined | UserPlatinaStockHistoryDefaultArgs> = $Result.GetResult<Prisma.$UserPlatinaStockHistoryPayload, S>
+
+  type UserPlatinaStockHistoryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserPlatinaStockHistoryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserPlatinaStockHistoryCountAggregateInputType | true
+    }
+
+  export interface UserPlatinaStockHistoryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserPlatinaStockHistory'], meta: { name: 'UserPlatinaStockHistory' } }
+    /**
+     * Find zero or one UserPlatinaStockHistory that matches the filter.
+     * @param {UserPlatinaStockHistoryFindUniqueArgs} args - Arguments to find a UserPlatinaStockHistory
+     * @example
+     * // Get one UserPlatinaStockHistory
+     * const userPlatinaStockHistory = await prisma.userPlatinaStockHistory.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserPlatinaStockHistoryFindUniqueArgs>(args: SelectSubset<T, UserPlatinaStockHistoryFindUniqueArgs<ExtArgs>>): Prisma__UserPlatinaStockHistoryClient<$Result.GetResult<Prisma.$UserPlatinaStockHistoryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserPlatinaStockHistory that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserPlatinaStockHistoryFindUniqueOrThrowArgs} args - Arguments to find a UserPlatinaStockHistory
+     * @example
+     * // Get one UserPlatinaStockHistory
+     * const userPlatinaStockHistory = await prisma.userPlatinaStockHistory.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserPlatinaStockHistoryFindUniqueOrThrowArgs>(args: SelectSubset<T, UserPlatinaStockHistoryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserPlatinaStockHistoryClient<$Result.GetResult<Prisma.$UserPlatinaStockHistoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserPlatinaStockHistory that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserPlatinaStockHistoryFindFirstArgs} args - Arguments to find a UserPlatinaStockHistory
+     * @example
+     * // Get one UserPlatinaStockHistory
+     * const userPlatinaStockHistory = await prisma.userPlatinaStockHistory.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserPlatinaStockHistoryFindFirstArgs>(args?: SelectSubset<T, UserPlatinaStockHistoryFindFirstArgs<ExtArgs>>): Prisma__UserPlatinaStockHistoryClient<$Result.GetResult<Prisma.$UserPlatinaStockHistoryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserPlatinaStockHistory that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserPlatinaStockHistoryFindFirstOrThrowArgs} args - Arguments to find a UserPlatinaStockHistory
+     * @example
+     * // Get one UserPlatinaStockHistory
+     * const userPlatinaStockHistory = await prisma.userPlatinaStockHistory.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserPlatinaStockHistoryFindFirstOrThrowArgs>(args?: SelectSubset<T, UserPlatinaStockHistoryFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserPlatinaStockHistoryClient<$Result.GetResult<Prisma.$UserPlatinaStockHistoryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserPlatinaStockHistories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserPlatinaStockHistoryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserPlatinaStockHistories
+     * const userPlatinaStockHistories = await prisma.userPlatinaStockHistory.findMany()
+     * 
+     * // Get first 10 UserPlatinaStockHistories
+     * const userPlatinaStockHistories = await prisma.userPlatinaStockHistory.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userPlatinaStockHistoryWithIdOnly = await prisma.userPlatinaStockHistory.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserPlatinaStockHistoryFindManyArgs>(args?: SelectSubset<T, UserPlatinaStockHistoryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPlatinaStockHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserPlatinaStockHistory.
+     * @param {UserPlatinaStockHistoryCreateArgs} args - Arguments to create a UserPlatinaStockHistory.
+     * @example
+     * // Create one UserPlatinaStockHistory
+     * const UserPlatinaStockHistory = await prisma.userPlatinaStockHistory.create({
+     *   data: {
+     *     // ... data to create a UserPlatinaStockHistory
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserPlatinaStockHistoryCreateArgs>(args: SelectSubset<T, UserPlatinaStockHistoryCreateArgs<ExtArgs>>): Prisma__UserPlatinaStockHistoryClient<$Result.GetResult<Prisma.$UserPlatinaStockHistoryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserPlatinaStockHistories.
+     * @param {UserPlatinaStockHistoryCreateManyArgs} args - Arguments to create many UserPlatinaStockHistories.
+     * @example
+     * // Create many UserPlatinaStockHistories
+     * const userPlatinaStockHistory = await prisma.userPlatinaStockHistory.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserPlatinaStockHistoryCreateManyArgs>(args?: SelectSubset<T, UserPlatinaStockHistoryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserPlatinaStockHistories and returns the data saved in the database.
+     * @param {UserPlatinaStockHistoryCreateManyAndReturnArgs} args - Arguments to create many UserPlatinaStockHistories.
+     * @example
+     * // Create many UserPlatinaStockHistories
+     * const userPlatinaStockHistory = await prisma.userPlatinaStockHistory.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserPlatinaStockHistories and only return the `id`
+     * const userPlatinaStockHistoryWithIdOnly = await prisma.userPlatinaStockHistory.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserPlatinaStockHistoryCreateManyAndReturnArgs>(args?: SelectSubset<T, UserPlatinaStockHistoryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPlatinaStockHistoryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UserPlatinaStockHistory.
+     * @param {UserPlatinaStockHistoryDeleteArgs} args - Arguments to delete one UserPlatinaStockHistory.
+     * @example
+     * // Delete one UserPlatinaStockHistory
+     * const UserPlatinaStockHistory = await prisma.userPlatinaStockHistory.delete({
+     *   where: {
+     *     // ... filter to delete one UserPlatinaStockHistory
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserPlatinaStockHistoryDeleteArgs>(args: SelectSubset<T, UserPlatinaStockHistoryDeleteArgs<ExtArgs>>): Prisma__UserPlatinaStockHistoryClient<$Result.GetResult<Prisma.$UserPlatinaStockHistoryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserPlatinaStockHistory.
+     * @param {UserPlatinaStockHistoryUpdateArgs} args - Arguments to update one UserPlatinaStockHistory.
+     * @example
+     * // Update one UserPlatinaStockHistory
+     * const userPlatinaStockHistory = await prisma.userPlatinaStockHistory.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserPlatinaStockHistoryUpdateArgs>(args: SelectSubset<T, UserPlatinaStockHistoryUpdateArgs<ExtArgs>>): Prisma__UserPlatinaStockHistoryClient<$Result.GetResult<Prisma.$UserPlatinaStockHistoryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserPlatinaStockHistories.
+     * @param {UserPlatinaStockHistoryDeleteManyArgs} args - Arguments to filter UserPlatinaStockHistories to delete.
+     * @example
+     * // Delete a few UserPlatinaStockHistories
+     * const { count } = await prisma.userPlatinaStockHistory.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserPlatinaStockHistoryDeleteManyArgs>(args?: SelectSubset<T, UserPlatinaStockHistoryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserPlatinaStockHistories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserPlatinaStockHistoryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserPlatinaStockHistories
+     * const userPlatinaStockHistory = await prisma.userPlatinaStockHistory.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserPlatinaStockHistoryUpdateManyArgs>(args: SelectSubset<T, UserPlatinaStockHistoryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserPlatinaStockHistories and returns the data updated in the database.
+     * @param {UserPlatinaStockHistoryUpdateManyAndReturnArgs} args - Arguments to update many UserPlatinaStockHistories.
+     * @example
+     * // Update many UserPlatinaStockHistories
+     * const userPlatinaStockHistory = await prisma.userPlatinaStockHistory.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserPlatinaStockHistories and only return the `id`
+     * const userPlatinaStockHistoryWithIdOnly = await prisma.userPlatinaStockHistory.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserPlatinaStockHistoryUpdateManyAndReturnArgs>(args: SelectSubset<T, UserPlatinaStockHistoryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPlatinaStockHistoryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UserPlatinaStockHistory.
+     * @param {UserPlatinaStockHistoryUpsertArgs} args - Arguments to update or create a UserPlatinaStockHistory.
+     * @example
+     * // Update or create a UserPlatinaStockHistory
+     * const userPlatinaStockHistory = await prisma.userPlatinaStockHistory.upsert({
+     *   create: {
+     *     // ... data to create a UserPlatinaStockHistory
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserPlatinaStockHistory we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserPlatinaStockHistoryUpsertArgs>(args: SelectSubset<T, UserPlatinaStockHistoryUpsertArgs<ExtArgs>>): Prisma__UserPlatinaStockHistoryClient<$Result.GetResult<Prisma.$UserPlatinaStockHistoryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserPlatinaStockHistories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserPlatinaStockHistoryCountArgs} args - Arguments to filter UserPlatinaStockHistories to count.
+     * @example
+     * // Count the number of UserPlatinaStockHistories
+     * const count = await prisma.userPlatinaStockHistory.count({
+     *   where: {
+     *     // ... the filter for the UserPlatinaStockHistories we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserPlatinaStockHistoryCountArgs>(
+      args?: Subset<T, UserPlatinaStockHistoryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserPlatinaStockHistoryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserPlatinaStockHistory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserPlatinaStockHistoryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserPlatinaStockHistoryAggregateArgs>(args: Subset<T, UserPlatinaStockHistoryAggregateArgs>): Prisma.PrismaPromise<GetUserPlatinaStockHistoryAggregateType<T>>
+
+    /**
+     * Group by UserPlatinaStockHistory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserPlatinaStockHistoryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserPlatinaStockHistoryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserPlatinaStockHistoryGroupByArgs['orderBy'] }
+        : { orderBy?: UserPlatinaStockHistoryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserPlatinaStockHistoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserPlatinaStockHistoryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserPlatinaStockHistory model
+   */
+  readonly fields: UserPlatinaStockHistoryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserPlatinaStockHistory.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserPlatinaStockHistoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    recommendation<T extends UserPlatinaRecommendationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserPlatinaRecommendationDefaultArgs<ExtArgs>>): Prisma__UserPlatinaRecommendationClient<$Result.GetResult<Prisma.$UserPlatinaRecommendationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserPlatinaStockHistory model
+   */
+  interface UserPlatinaStockHistoryFieldRefs {
+    readonly id: FieldRef<"UserPlatinaStockHistory", 'String'>
+    readonly recommendationId: FieldRef<"UserPlatinaStockHistory", 'String'>
+    readonly stockTicker: FieldRef<"UserPlatinaStockHistory", 'String'>
+    readonly stockName: FieldRef<"UserPlatinaStockHistory", 'String'>
+    readonly changeType: FieldRef<"UserPlatinaStockHistory", 'StockChangeType'>
+    readonly changeDate: FieldRef<"UserPlatinaStockHistory", 'DateTime'>
+    readonly previousWeight: FieldRef<"UserPlatinaStockHistory", 'Float'>
+    readonly newWeight: FieldRef<"UserPlatinaStockHistory", 'Float'>
+    readonly changeDescription: FieldRef<"UserPlatinaStockHistory", 'String'>
+    readonly metadata: FieldRef<"UserPlatinaStockHistory", 'Json'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserPlatinaStockHistory findUnique
+   */
+  export type UserPlatinaStockHistoryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPlatinaStockHistory
+     */
+    select?: UserPlatinaStockHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPlatinaStockHistory
+     */
+    omit?: UserPlatinaStockHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPlatinaStockHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which UserPlatinaStockHistory to fetch.
+     */
+    where: UserPlatinaStockHistoryWhereUniqueInput
+  }
+
+  /**
+   * UserPlatinaStockHistory findUniqueOrThrow
+   */
+  export type UserPlatinaStockHistoryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPlatinaStockHistory
+     */
+    select?: UserPlatinaStockHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPlatinaStockHistory
+     */
+    omit?: UserPlatinaStockHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPlatinaStockHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which UserPlatinaStockHistory to fetch.
+     */
+    where: UserPlatinaStockHistoryWhereUniqueInput
+  }
+
+  /**
+   * UserPlatinaStockHistory findFirst
+   */
+  export type UserPlatinaStockHistoryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPlatinaStockHistory
+     */
+    select?: UserPlatinaStockHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPlatinaStockHistory
+     */
+    omit?: UserPlatinaStockHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPlatinaStockHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which UserPlatinaStockHistory to fetch.
+     */
+    where?: UserPlatinaStockHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserPlatinaStockHistories to fetch.
+     */
+    orderBy?: UserPlatinaStockHistoryOrderByWithRelationInput | UserPlatinaStockHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserPlatinaStockHistories.
+     */
+    cursor?: UserPlatinaStockHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserPlatinaStockHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserPlatinaStockHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserPlatinaStockHistories.
+     */
+    distinct?: UserPlatinaStockHistoryScalarFieldEnum | UserPlatinaStockHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * UserPlatinaStockHistory findFirstOrThrow
+   */
+  export type UserPlatinaStockHistoryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPlatinaStockHistory
+     */
+    select?: UserPlatinaStockHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPlatinaStockHistory
+     */
+    omit?: UserPlatinaStockHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPlatinaStockHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which UserPlatinaStockHistory to fetch.
+     */
+    where?: UserPlatinaStockHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserPlatinaStockHistories to fetch.
+     */
+    orderBy?: UserPlatinaStockHistoryOrderByWithRelationInput | UserPlatinaStockHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserPlatinaStockHistories.
+     */
+    cursor?: UserPlatinaStockHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserPlatinaStockHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserPlatinaStockHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserPlatinaStockHistories.
+     */
+    distinct?: UserPlatinaStockHistoryScalarFieldEnum | UserPlatinaStockHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * UserPlatinaStockHistory findMany
+   */
+  export type UserPlatinaStockHistoryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPlatinaStockHistory
+     */
+    select?: UserPlatinaStockHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPlatinaStockHistory
+     */
+    omit?: UserPlatinaStockHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPlatinaStockHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which UserPlatinaStockHistories to fetch.
+     */
+    where?: UserPlatinaStockHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserPlatinaStockHistories to fetch.
+     */
+    orderBy?: UserPlatinaStockHistoryOrderByWithRelationInput | UserPlatinaStockHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserPlatinaStockHistories.
+     */
+    cursor?: UserPlatinaStockHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserPlatinaStockHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserPlatinaStockHistories.
+     */
+    skip?: number
+    distinct?: UserPlatinaStockHistoryScalarFieldEnum | UserPlatinaStockHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * UserPlatinaStockHistory create
+   */
+  export type UserPlatinaStockHistoryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPlatinaStockHistory
+     */
+    select?: UserPlatinaStockHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPlatinaStockHistory
+     */
+    omit?: UserPlatinaStockHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPlatinaStockHistoryInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserPlatinaStockHistory.
+     */
+    data: XOR<UserPlatinaStockHistoryCreateInput, UserPlatinaStockHistoryUncheckedCreateInput>
+  }
+
+  /**
+   * UserPlatinaStockHistory createMany
+   */
+  export type UserPlatinaStockHistoryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserPlatinaStockHistories.
+     */
+    data: UserPlatinaStockHistoryCreateManyInput | UserPlatinaStockHistoryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserPlatinaStockHistory createManyAndReturn
+   */
+  export type UserPlatinaStockHistoryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPlatinaStockHistory
+     */
+    select?: UserPlatinaStockHistorySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPlatinaStockHistory
+     */
+    omit?: UserPlatinaStockHistoryOmit<ExtArgs> | null
+    /**
+     * The data used to create many UserPlatinaStockHistories.
+     */
+    data: UserPlatinaStockHistoryCreateManyInput | UserPlatinaStockHistoryCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPlatinaStockHistoryIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserPlatinaStockHistory update
+   */
+  export type UserPlatinaStockHistoryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPlatinaStockHistory
+     */
+    select?: UserPlatinaStockHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPlatinaStockHistory
+     */
+    omit?: UserPlatinaStockHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPlatinaStockHistoryInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserPlatinaStockHistory.
+     */
+    data: XOR<UserPlatinaStockHistoryUpdateInput, UserPlatinaStockHistoryUncheckedUpdateInput>
+    /**
+     * Choose, which UserPlatinaStockHistory to update.
+     */
+    where: UserPlatinaStockHistoryWhereUniqueInput
+  }
+
+  /**
+   * UserPlatinaStockHistory updateMany
+   */
+  export type UserPlatinaStockHistoryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserPlatinaStockHistories.
+     */
+    data: XOR<UserPlatinaStockHistoryUpdateManyMutationInput, UserPlatinaStockHistoryUncheckedUpdateManyInput>
+    /**
+     * Filter which UserPlatinaStockHistories to update
+     */
+    where?: UserPlatinaStockHistoryWhereInput
+    /**
+     * Limit how many UserPlatinaStockHistories to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserPlatinaStockHistory updateManyAndReturn
+   */
+  export type UserPlatinaStockHistoryUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPlatinaStockHistory
+     */
+    select?: UserPlatinaStockHistorySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPlatinaStockHistory
+     */
+    omit?: UserPlatinaStockHistoryOmit<ExtArgs> | null
+    /**
+     * The data used to update UserPlatinaStockHistories.
+     */
+    data: XOR<UserPlatinaStockHistoryUpdateManyMutationInput, UserPlatinaStockHistoryUncheckedUpdateManyInput>
+    /**
+     * Filter which UserPlatinaStockHistories to update
+     */
+    where?: UserPlatinaStockHistoryWhereInput
+    /**
+     * Limit how many UserPlatinaStockHistories to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPlatinaStockHistoryIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserPlatinaStockHistory upsert
+   */
+  export type UserPlatinaStockHistoryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPlatinaStockHistory
+     */
+    select?: UserPlatinaStockHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPlatinaStockHistory
+     */
+    omit?: UserPlatinaStockHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPlatinaStockHistoryInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserPlatinaStockHistory to update in case it exists.
+     */
+    where: UserPlatinaStockHistoryWhereUniqueInput
+    /**
+     * In case the UserPlatinaStockHistory found by the `where` argument doesn't exist, create a new UserPlatinaStockHistory with this data.
+     */
+    create: XOR<UserPlatinaStockHistoryCreateInput, UserPlatinaStockHistoryUncheckedCreateInput>
+    /**
+     * In case the UserPlatinaStockHistory was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserPlatinaStockHistoryUpdateInput, UserPlatinaStockHistoryUncheckedUpdateInput>
+  }
+
+  /**
+   * UserPlatinaStockHistory delete
+   */
+  export type UserPlatinaStockHistoryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPlatinaStockHistory
+     */
+    select?: UserPlatinaStockHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPlatinaStockHistory
+     */
+    omit?: UserPlatinaStockHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPlatinaStockHistoryInclude<ExtArgs> | null
+    /**
+     * Filter which UserPlatinaStockHistory to delete.
+     */
+    where: UserPlatinaStockHistoryWhereUniqueInput
+  }
+
+  /**
+   * UserPlatinaStockHistory deleteMany
+   */
+  export type UserPlatinaStockHistoryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserPlatinaStockHistories to delete
+     */
+    where?: UserPlatinaStockHistoryWhereInput
+    /**
+     * Limit how many UserPlatinaStockHistories to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserPlatinaStockHistory without action
+   */
+  export type UserPlatinaStockHistoryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPlatinaStockHistory
+     */
+    select?: UserPlatinaStockHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPlatinaStockHistory
+     */
+    omit?: UserPlatinaStockHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPlatinaStockHistoryInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -25639,7 +27024,14 @@ export namespace Prisma {
     planDays: 'planDays',
     planDiscount: 'planDiscount',
     agreementAcceptedAt: 'agreementAcceptedAt',
-    agreementData: 'agreementData'
+    agreementData: 'agreementData',
+    grantType: 'grantType',
+    grantedBy: 'grantedBy',
+    grantReason: 'grantReason',
+    parentServiceId: 'parentServiceId',
+    transactionId: 'transactionId',
+    isActive: 'isActive',
+    grantMetadata: 'grantMetadata'
   };
 
   export type UserPurchasedServicesScalarFieldEnum = (typeof UserPurchasedServicesScalarFieldEnum)[keyof typeof UserPurchasedServicesScalarFieldEnum]
@@ -25865,12 +27257,28 @@ export namespace Prisma {
     marketCapInCrore: 'marketCapInCrore',
     entryDate: 'entryDate',
     exitDate: 'exitDate',
-    recordDate: 'recordDate',
     isActive: 'isActive',
-    changeType: 'changeType'
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type UserPlatinaStockListScalarFieldEnum = (typeof UserPlatinaStockListScalarFieldEnum)[keyof typeof UserPlatinaStockListScalarFieldEnum]
+
+
+  export const UserPlatinaStockHistoryScalarFieldEnum: {
+    id: 'id',
+    recommendationId: 'recommendationId',
+    stockTicker: 'stockTicker',
+    stockName: 'stockName',
+    changeType: 'changeType',
+    changeDate: 'changeDate',
+    previousWeight: 'previousWeight',
+    newWeight: 'newWeight',
+    changeDescription: 'changeDescription',
+    metadata: 'metadata'
+  };
+
+  export type UserPlatinaStockHistoryScalarFieldEnum = (typeof UserPlatinaStockHistoryScalarFieldEnum)[keyof typeof UserPlatinaStockHistoryScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -26042,6 +27450,20 @@ export namespace Prisma {
    * Reference to a field of type 'Float[]'
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'GrantType'
+   */
+  export type EnumGrantTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GrantType'>
+    
+
+
+  /**
+   * Reference to a field of type 'GrantType[]'
+   */
+  export type ListEnumGrantTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GrantType[]'>
     
 
 
@@ -26495,6 +27917,13 @@ export namespace Prisma {
     planDiscount?: FloatFilter<"UserPurchasedServices"> | number
     agreementAcceptedAt?: DateTimeNullableFilter<"UserPurchasedServices"> | Date | string | null
     agreementData?: JsonNullableFilter<"UserPurchasedServices">
+    grantType?: EnumGrantTypeFilter<"UserPurchasedServices"> | $Enums.GrantType
+    grantedBy?: StringNullableFilter<"UserPurchasedServices"> | string | null
+    grantReason?: StringNullableFilter<"UserPurchasedServices"> | string | null
+    parentServiceId?: StringNullableFilter<"UserPurchasedServices"> | string | null
+    transactionId?: StringNullableFilter<"UserPurchasedServices"> | string | null
+    isActive?: BoolFilter<"UserPurchasedServices"> | boolean
+    grantMetadata?: JsonNullableFilter<"UserPurchasedServices">
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     service?: XOR<ServiceNullableScalarRelationFilter, ServiceWhereInput> | null
   }
@@ -26509,6 +27938,13 @@ export namespace Prisma {
     planDiscount?: SortOrder
     agreementAcceptedAt?: SortOrderInput | SortOrder
     agreementData?: SortOrderInput | SortOrder
+    grantType?: SortOrder
+    grantedBy?: SortOrderInput | SortOrder
+    grantReason?: SortOrderInput | SortOrder
+    parentServiceId?: SortOrderInput | SortOrder
+    transactionId?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    grantMetadata?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
     service?: ServiceOrderByWithRelationInput
   }
@@ -26527,6 +27963,13 @@ export namespace Prisma {
     planDiscount?: FloatFilter<"UserPurchasedServices"> | number
     agreementAcceptedAt?: DateTimeNullableFilter<"UserPurchasedServices"> | Date | string | null
     agreementData?: JsonNullableFilter<"UserPurchasedServices">
+    grantType?: EnumGrantTypeFilter<"UserPurchasedServices"> | $Enums.GrantType
+    grantedBy?: StringNullableFilter<"UserPurchasedServices"> | string | null
+    grantReason?: StringNullableFilter<"UserPurchasedServices"> | string | null
+    parentServiceId?: StringNullableFilter<"UserPurchasedServices"> | string | null
+    transactionId?: StringNullableFilter<"UserPurchasedServices"> | string | null
+    isActive?: BoolFilter<"UserPurchasedServices"> | boolean
+    grantMetadata?: JsonNullableFilter<"UserPurchasedServices">
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     service?: XOR<ServiceNullableScalarRelationFilter, ServiceWhereInput> | null
   }, "id" | "userId_serviceId_expiryDate">
@@ -26541,6 +27984,13 @@ export namespace Prisma {
     planDiscount?: SortOrder
     agreementAcceptedAt?: SortOrderInput | SortOrder
     agreementData?: SortOrderInput | SortOrder
+    grantType?: SortOrder
+    grantedBy?: SortOrderInput | SortOrder
+    grantReason?: SortOrderInput | SortOrder
+    parentServiceId?: SortOrderInput | SortOrder
+    transactionId?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    grantMetadata?: SortOrderInput | SortOrder
     _count?: UserPurchasedServicesCountOrderByAggregateInput
     _avg?: UserPurchasedServicesAvgOrderByAggregateInput
     _max?: UserPurchasedServicesMaxOrderByAggregateInput
@@ -26561,6 +28011,13 @@ export namespace Prisma {
     planDiscount?: FloatWithAggregatesFilter<"UserPurchasedServices"> | number
     agreementAcceptedAt?: DateTimeNullableWithAggregatesFilter<"UserPurchasedServices"> | Date | string | null
     agreementData?: JsonNullableWithAggregatesFilter<"UserPurchasedServices">
+    grantType?: EnumGrantTypeWithAggregatesFilter<"UserPurchasedServices"> | $Enums.GrantType
+    grantedBy?: StringNullableWithAggregatesFilter<"UserPurchasedServices"> | string | null
+    grantReason?: StringNullableWithAggregatesFilter<"UserPurchasedServices"> | string | null
+    parentServiceId?: StringNullableWithAggregatesFilter<"UserPurchasedServices"> | string | null
+    transactionId?: StringNullableWithAggregatesFilter<"UserPurchasedServices"> | string | null
+    isActive?: BoolWithAggregatesFilter<"UserPurchasedServices"> | boolean
+    grantMetadata?: JsonNullableWithAggregatesFilter<"UserPurchasedServices">
   }
 
   export type CouponWhereInput = {
@@ -27572,6 +29029,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"UserPlatinaRecommendation"> | Date | string
     updatedAt?: DateTimeFilter<"UserPlatinaRecommendation"> | Date | string
     stocks?: UserPlatinaStockListListRelationFilter
+    stockHistory?: UserPlatinaStockHistoryListRelationFilter
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     platinaService?: XOR<ServicePlatinaWealthScalarRelationFilter, ServicePlatinaWealthWhereInput>
     riskProfile?: XOR<UserRiskProfileNullableScalarRelationFilter, UserRiskProfileWhereInput> | null
@@ -27594,6 +29052,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     stocks?: UserPlatinaStockListOrderByRelationAggregateInput
+    stockHistory?: UserPlatinaStockHistoryOrderByRelationAggregateInput
     user?: UserOrderByWithRelationInput
     platinaService?: ServicePlatinaWealthOrderByWithRelationInput
     riskProfile?: UserRiskProfileOrderByWithRelationInput
@@ -27620,6 +29079,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"UserPlatinaRecommendation"> | Date | string
     updatedAt?: DateTimeFilter<"UserPlatinaRecommendation"> | Date | string
     stocks?: UserPlatinaStockListListRelationFilter
+    stockHistory?: UserPlatinaStockHistoryListRelationFilter
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     platinaService?: XOR<ServicePlatinaWealthScalarRelationFilter, ServicePlatinaWealthWhereInput>
     riskProfile?: XOR<UserRiskProfileNullableScalarRelationFilter, UserRiskProfileWhereInput> | null
@@ -27687,9 +29147,9 @@ export namespace Prisma {
     marketCapInCrore?: FloatFilter<"UserPlatinaStockList"> | number
     entryDate?: StringFilter<"UserPlatinaStockList"> | string
     exitDate?: StringNullableFilter<"UserPlatinaStockList"> | string | null
-    recordDate?: StringFilter<"UserPlatinaStockList"> | string
     isActive?: BoolFilter<"UserPlatinaStockList"> | boolean
-    changeType?: EnumStockChangeTypeNullableFilter<"UserPlatinaStockList"> | $Enums.StockChangeType | null
+    createdAt?: DateTimeFilter<"UserPlatinaStockList"> | Date | string
+    updatedAt?: DateTimeFilter<"UserPlatinaStockList"> | Date | string
     recommendation?: XOR<UserPlatinaRecommendationScalarRelationFilter, UserPlatinaRecommendationWhereInput>
   }
 
@@ -27708,9 +29168,9 @@ export namespace Prisma {
     marketCapInCrore?: SortOrder
     entryDate?: SortOrder
     exitDate?: SortOrderInput | SortOrder
-    recordDate?: SortOrder
     isActive?: SortOrder
-    changeType?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     recommendation?: UserPlatinaRecommendationOrderByWithRelationInput
   }
 
@@ -27732,9 +29192,9 @@ export namespace Prisma {
     marketCapInCrore?: FloatFilter<"UserPlatinaStockList"> | number
     entryDate?: StringFilter<"UserPlatinaStockList"> | string
     exitDate?: StringNullableFilter<"UserPlatinaStockList"> | string | null
-    recordDate?: StringFilter<"UserPlatinaStockList"> | string
     isActive?: BoolFilter<"UserPlatinaStockList"> | boolean
-    changeType?: EnumStockChangeTypeNullableFilter<"UserPlatinaStockList"> | $Enums.StockChangeType | null
+    createdAt?: DateTimeFilter<"UserPlatinaStockList"> | Date | string
+    updatedAt?: DateTimeFilter<"UserPlatinaStockList"> | Date | string
     recommendation?: XOR<UserPlatinaRecommendationScalarRelationFilter, UserPlatinaRecommendationWhereInput>
   }, "id">
 
@@ -27753,9 +29213,9 @@ export namespace Prisma {
     marketCapInCrore?: SortOrder
     entryDate?: SortOrder
     exitDate?: SortOrderInput | SortOrder
-    recordDate?: SortOrder
     isActive?: SortOrder
-    changeType?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: UserPlatinaStockListCountOrderByAggregateInput
     _avg?: UserPlatinaStockListAvgOrderByAggregateInput
     _max?: UserPlatinaStockListMaxOrderByAggregateInput
@@ -27781,9 +29241,91 @@ export namespace Prisma {
     marketCapInCrore?: FloatWithAggregatesFilter<"UserPlatinaStockList"> | number
     entryDate?: StringWithAggregatesFilter<"UserPlatinaStockList"> | string
     exitDate?: StringNullableWithAggregatesFilter<"UserPlatinaStockList"> | string | null
-    recordDate?: StringWithAggregatesFilter<"UserPlatinaStockList"> | string
     isActive?: BoolWithAggregatesFilter<"UserPlatinaStockList"> | boolean
-    changeType?: EnumStockChangeTypeNullableWithAggregatesFilter<"UserPlatinaStockList"> | $Enums.StockChangeType | null
+    createdAt?: DateTimeWithAggregatesFilter<"UserPlatinaStockList"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"UserPlatinaStockList"> | Date | string
+  }
+
+  export type UserPlatinaStockHistoryWhereInput = {
+    AND?: UserPlatinaStockHistoryWhereInput | UserPlatinaStockHistoryWhereInput[]
+    OR?: UserPlatinaStockHistoryWhereInput[]
+    NOT?: UserPlatinaStockHistoryWhereInput | UserPlatinaStockHistoryWhereInput[]
+    id?: StringFilter<"UserPlatinaStockHistory"> | string
+    recommendationId?: StringFilter<"UserPlatinaStockHistory"> | string
+    stockTicker?: StringFilter<"UserPlatinaStockHistory"> | string
+    stockName?: StringFilter<"UserPlatinaStockHistory"> | string
+    changeType?: EnumStockChangeTypeFilter<"UserPlatinaStockHistory"> | $Enums.StockChangeType
+    changeDate?: DateTimeFilter<"UserPlatinaStockHistory"> | Date | string
+    previousWeight?: FloatNullableFilter<"UserPlatinaStockHistory"> | number | null
+    newWeight?: FloatNullableFilter<"UserPlatinaStockHistory"> | number | null
+    changeDescription?: StringFilter<"UserPlatinaStockHistory"> | string
+    metadata?: JsonNullableFilter<"UserPlatinaStockHistory">
+    recommendation?: XOR<UserPlatinaRecommendationScalarRelationFilter, UserPlatinaRecommendationWhereInput>
+  }
+
+  export type UserPlatinaStockHistoryOrderByWithRelationInput = {
+    id?: SortOrder
+    recommendationId?: SortOrder
+    stockTicker?: SortOrder
+    stockName?: SortOrder
+    changeType?: SortOrder
+    changeDate?: SortOrder
+    previousWeight?: SortOrderInput | SortOrder
+    newWeight?: SortOrderInput | SortOrder
+    changeDescription?: SortOrder
+    metadata?: SortOrderInput | SortOrder
+    recommendation?: UserPlatinaRecommendationOrderByWithRelationInput
+  }
+
+  export type UserPlatinaStockHistoryWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: UserPlatinaStockHistoryWhereInput | UserPlatinaStockHistoryWhereInput[]
+    OR?: UserPlatinaStockHistoryWhereInput[]
+    NOT?: UserPlatinaStockHistoryWhereInput | UserPlatinaStockHistoryWhereInput[]
+    recommendationId?: StringFilter<"UserPlatinaStockHistory"> | string
+    stockTicker?: StringFilter<"UserPlatinaStockHistory"> | string
+    stockName?: StringFilter<"UserPlatinaStockHistory"> | string
+    changeType?: EnumStockChangeTypeFilter<"UserPlatinaStockHistory"> | $Enums.StockChangeType
+    changeDate?: DateTimeFilter<"UserPlatinaStockHistory"> | Date | string
+    previousWeight?: FloatNullableFilter<"UserPlatinaStockHistory"> | number | null
+    newWeight?: FloatNullableFilter<"UserPlatinaStockHistory"> | number | null
+    changeDescription?: StringFilter<"UserPlatinaStockHistory"> | string
+    metadata?: JsonNullableFilter<"UserPlatinaStockHistory">
+    recommendation?: XOR<UserPlatinaRecommendationScalarRelationFilter, UserPlatinaRecommendationWhereInput>
+  }, "id">
+
+  export type UserPlatinaStockHistoryOrderByWithAggregationInput = {
+    id?: SortOrder
+    recommendationId?: SortOrder
+    stockTicker?: SortOrder
+    stockName?: SortOrder
+    changeType?: SortOrder
+    changeDate?: SortOrder
+    previousWeight?: SortOrderInput | SortOrder
+    newWeight?: SortOrderInput | SortOrder
+    changeDescription?: SortOrder
+    metadata?: SortOrderInput | SortOrder
+    _count?: UserPlatinaStockHistoryCountOrderByAggregateInput
+    _avg?: UserPlatinaStockHistoryAvgOrderByAggregateInput
+    _max?: UserPlatinaStockHistoryMaxOrderByAggregateInput
+    _min?: UserPlatinaStockHistoryMinOrderByAggregateInput
+    _sum?: UserPlatinaStockHistorySumOrderByAggregateInput
+  }
+
+  export type UserPlatinaStockHistoryScalarWhereWithAggregatesInput = {
+    AND?: UserPlatinaStockHistoryScalarWhereWithAggregatesInput | UserPlatinaStockHistoryScalarWhereWithAggregatesInput[]
+    OR?: UserPlatinaStockHistoryScalarWhereWithAggregatesInput[]
+    NOT?: UserPlatinaStockHistoryScalarWhereWithAggregatesInput | UserPlatinaStockHistoryScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UserPlatinaStockHistory"> | string
+    recommendationId?: StringWithAggregatesFilter<"UserPlatinaStockHistory"> | string
+    stockTicker?: StringWithAggregatesFilter<"UserPlatinaStockHistory"> | string
+    stockName?: StringWithAggregatesFilter<"UserPlatinaStockHistory"> | string
+    changeType?: EnumStockChangeTypeWithAggregatesFilter<"UserPlatinaStockHistory"> | $Enums.StockChangeType
+    changeDate?: DateTimeWithAggregatesFilter<"UserPlatinaStockHistory"> | Date | string
+    previousWeight?: FloatNullableWithAggregatesFilter<"UserPlatinaStockHistory"> | number | null
+    newWeight?: FloatNullableWithAggregatesFilter<"UserPlatinaStockHistory"> | number | null
+    changeDescription?: StringWithAggregatesFilter<"UserPlatinaStockHistory"> | string
+    metadata?: JsonNullableWithAggregatesFilter<"UserPlatinaStockHistory">
   }
 
   export type UserCreateInput = {
@@ -28258,6 +29800,13 @@ export namespace Prisma {
     planDiscount: number
     agreementAcceptedAt?: Date | string | null
     agreementData?: NullableJsonNullValueInput | InputJsonValue
+    grantType?: $Enums.GrantType
+    grantedBy?: string | null
+    grantReason?: string | null
+    parentServiceId?: string | null
+    transactionId?: string | null
+    isActive?: boolean
+    grantMetadata?: NullableJsonNullValueInput | InputJsonValue
     user: UserCreateNestedOneWithoutPurchasedServicesInput
     service?: ServiceCreateNestedOneWithoutPurchasedServicesInput
   }
@@ -28272,6 +29821,13 @@ export namespace Prisma {
     planDiscount: number
     agreementAcceptedAt?: Date | string | null
     agreementData?: NullableJsonNullValueInput | InputJsonValue
+    grantType?: $Enums.GrantType
+    grantedBy?: string | null
+    grantReason?: string | null
+    parentServiceId?: string | null
+    transactionId?: string | null
+    isActive?: boolean
+    grantMetadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserPurchasedServicesUpdateInput = {
@@ -28282,6 +29838,13 @@ export namespace Prisma {
     planDiscount?: FloatFieldUpdateOperationsInput | number
     agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     agreementData?: NullableJsonNullValueInput | InputJsonValue
+    grantType?: EnumGrantTypeFieldUpdateOperationsInput | $Enums.GrantType
+    grantedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    grantReason?: NullableStringFieldUpdateOperationsInput | string | null
+    parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    grantMetadata?: NullableJsonNullValueInput | InputJsonValue
     user?: UserUpdateOneRequiredWithoutPurchasedServicesNestedInput
     service?: ServiceUpdateOneWithoutPurchasedServicesNestedInput
   }
@@ -28296,6 +29859,13 @@ export namespace Prisma {
     planDiscount?: FloatFieldUpdateOperationsInput | number
     agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     agreementData?: NullableJsonNullValueInput | InputJsonValue
+    grantType?: EnumGrantTypeFieldUpdateOperationsInput | $Enums.GrantType
+    grantedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    grantReason?: NullableStringFieldUpdateOperationsInput | string | null
+    parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    grantMetadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserPurchasedServicesCreateManyInput = {
@@ -28308,6 +29878,13 @@ export namespace Prisma {
     planDiscount: number
     agreementAcceptedAt?: Date | string | null
     agreementData?: NullableJsonNullValueInput | InputJsonValue
+    grantType?: $Enums.GrantType
+    grantedBy?: string | null
+    grantReason?: string | null
+    parentServiceId?: string | null
+    transactionId?: string | null
+    isActive?: boolean
+    grantMetadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserPurchasedServicesUpdateManyMutationInput = {
@@ -28318,6 +29895,13 @@ export namespace Prisma {
     planDiscount?: FloatFieldUpdateOperationsInput | number
     agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     agreementData?: NullableJsonNullValueInput | InputJsonValue
+    grantType?: EnumGrantTypeFieldUpdateOperationsInput | $Enums.GrantType
+    grantedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    grantReason?: NullableStringFieldUpdateOperationsInput | string | null
+    parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    grantMetadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserPurchasedServicesUncheckedUpdateManyInput = {
@@ -28330,6 +29914,13 @@ export namespace Prisma {
     planDiscount?: FloatFieldUpdateOperationsInput | number
     agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     agreementData?: NullableJsonNullValueInput | InputJsonValue
+    grantType?: EnumGrantTypeFieldUpdateOperationsInput | $Enums.GrantType
+    grantedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    grantReason?: NullableStringFieldUpdateOperationsInput | string | null
+    parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    grantMetadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type CouponCreateInput = {
@@ -29423,6 +31014,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     stocks?: UserPlatinaStockListCreateNestedManyWithoutRecommendationInput
+    stockHistory?: UserPlatinaStockHistoryCreateNestedManyWithoutRecommendationInput
     user: UserCreateNestedOneWithoutPlatinaRecommendationsInput
     platinaService: ServicePlatinaWealthCreateNestedOneWithoutUserRecommendationInput
     riskProfile?: UserRiskProfileCreateNestedOneWithoutPlatinaRecommendationsInput
@@ -29445,6 +31037,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     stocks?: UserPlatinaStockListUncheckedCreateNestedManyWithoutRecommendationInput
+    stockHistory?: UserPlatinaStockHistoryUncheckedCreateNestedManyWithoutRecommendationInput
   }
 
   export type UserPlatinaRecommendationUpdateInput = {
@@ -29461,6 +31054,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     stocks?: UserPlatinaStockListUpdateManyWithoutRecommendationNestedInput
+    stockHistory?: UserPlatinaStockHistoryUpdateManyWithoutRecommendationNestedInput
     user?: UserUpdateOneRequiredWithoutPlatinaRecommendationsNestedInput
     platinaService?: ServicePlatinaWealthUpdateOneRequiredWithoutUserRecommendationNestedInput
     riskProfile?: UserRiskProfileUpdateOneWithoutPlatinaRecommendationsNestedInput
@@ -29483,6 +31077,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     stocks?: UserPlatinaStockListUncheckedUpdateManyWithoutRecommendationNestedInput
+    stockHistory?: UserPlatinaStockHistoryUncheckedUpdateManyWithoutRecommendationNestedInput
   }
 
   export type UserPlatinaRecommendationCreateManyInput = {
@@ -29550,9 +31145,9 @@ export namespace Prisma {
     marketCapInCrore: number
     entryDate: string
     exitDate?: string | null
-    recordDate: string
     isActive?: boolean
-    changeType?: $Enums.StockChangeType | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     recommendation: UserPlatinaRecommendationCreateNestedOneWithoutStocksInput
   }
 
@@ -29571,9 +31166,9 @@ export namespace Prisma {
     marketCapInCrore: number
     entryDate: string
     exitDate?: string | null
-    recordDate: string
     isActive?: boolean
-    changeType?: $Enums.StockChangeType | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type UserPlatinaStockListUpdateInput = {
@@ -29590,9 +31185,9 @@ export namespace Prisma {
     marketCapInCrore?: FloatFieldUpdateOperationsInput | number
     entryDate?: StringFieldUpdateOperationsInput | string
     exitDate?: NullableStringFieldUpdateOperationsInput | string | null
-    recordDate?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    changeType?: NullableEnumStockChangeTypeFieldUpdateOperationsInput | $Enums.StockChangeType | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     recommendation?: UserPlatinaRecommendationUpdateOneRequiredWithoutStocksNestedInput
   }
 
@@ -29611,9 +31206,9 @@ export namespace Prisma {
     marketCapInCrore?: FloatFieldUpdateOperationsInput | number
     entryDate?: StringFieldUpdateOperationsInput | string
     exitDate?: NullableStringFieldUpdateOperationsInput | string | null
-    recordDate?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    changeType?: NullableEnumStockChangeTypeFieldUpdateOperationsInput | $Enums.StockChangeType | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserPlatinaStockListCreateManyInput = {
@@ -29631,9 +31226,9 @@ export namespace Prisma {
     marketCapInCrore: number
     entryDate: string
     exitDate?: string | null
-    recordDate: string
     isActive?: boolean
-    changeType?: $Enums.StockChangeType | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type UserPlatinaStockListUpdateManyMutationInput = {
@@ -29650,9 +31245,9 @@ export namespace Prisma {
     marketCapInCrore?: FloatFieldUpdateOperationsInput | number
     entryDate?: StringFieldUpdateOperationsInput | string
     exitDate?: NullableStringFieldUpdateOperationsInput | string | null
-    recordDate?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    changeType?: NullableEnumStockChangeTypeFieldUpdateOperationsInput | $Enums.StockChangeType | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserPlatinaStockListUncheckedUpdateManyInput = {
@@ -29670,9 +31265,99 @@ export namespace Prisma {
     marketCapInCrore?: FloatFieldUpdateOperationsInput | number
     entryDate?: StringFieldUpdateOperationsInput | string
     exitDate?: NullableStringFieldUpdateOperationsInput | string | null
-    recordDate?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    changeType?: NullableEnumStockChangeTypeFieldUpdateOperationsInput | $Enums.StockChangeType | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserPlatinaStockHistoryCreateInput = {
+    id?: string
+    stockTicker: string
+    stockName: string
+    changeType: $Enums.StockChangeType
+    changeDate?: Date | string
+    previousWeight?: number | null
+    newWeight?: number | null
+    changeDescription: string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    recommendation: UserPlatinaRecommendationCreateNestedOneWithoutStockHistoryInput
+  }
+
+  export type UserPlatinaStockHistoryUncheckedCreateInput = {
+    id?: string
+    recommendationId: string
+    stockTicker: string
+    stockName: string
+    changeType: $Enums.StockChangeType
+    changeDate?: Date | string
+    previousWeight?: number | null
+    newWeight?: number | null
+    changeDescription: string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type UserPlatinaStockHistoryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stockTicker?: StringFieldUpdateOperationsInput | string
+    stockName?: StringFieldUpdateOperationsInput | string
+    changeType?: EnumStockChangeTypeFieldUpdateOperationsInput | $Enums.StockChangeType
+    changeDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    previousWeight?: NullableFloatFieldUpdateOperationsInput | number | null
+    newWeight?: NullableFloatFieldUpdateOperationsInput | number | null
+    changeDescription?: StringFieldUpdateOperationsInput | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    recommendation?: UserPlatinaRecommendationUpdateOneRequiredWithoutStockHistoryNestedInput
+  }
+
+  export type UserPlatinaStockHistoryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    recommendationId?: StringFieldUpdateOperationsInput | string
+    stockTicker?: StringFieldUpdateOperationsInput | string
+    stockName?: StringFieldUpdateOperationsInput | string
+    changeType?: EnumStockChangeTypeFieldUpdateOperationsInput | $Enums.StockChangeType
+    changeDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    previousWeight?: NullableFloatFieldUpdateOperationsInput | number | null
+    newWeight?: NullableFloatFieldUpdateOperationsInput | number | null
+    changeDescription?: StringFieldUpdateOperationsInput | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type UserPlatinaStockHistoryCreateManyInput = {
+    id?: string
+    recommendationId: string
+    stockTicker: string
+    stockName: string
+    changeType: $Enums.StockChangeType
+    changeDate?: Date | string
+    previousWeight?: number | null
+    newWeight?: number | null
+    changeDescription: string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type UserPlatinaStockHistoryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stockTicker?: StringFieldUpdateOperationsInput | string
+    stockName?: StringFieldUpdateOperationsInput | string
+    changeType?: EnumStockChangeTypeFieldUpdateOperationsInput | $Enums.StockChangeType
+    changeDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    previousWeight?: NullableFloatFieldUpdateOperationsInput | number | null
+    newWeight?: NullableFloatFieldUpdateOperationsInput | number | null
+    changeDescription?: StringFieldUpdateOperationsInput | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type UserPlatinaStockHistoryUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    recommendationId?: StringFieldUpdateOperationsInput | string
+    stockTicker?: StringFieldUpdateOperationsInput | string
+    stockName?: StringFieldUpdateOperationsInput | string
+    changeType?: EnumStockChangeTypeFieldUpdateOperationsInput | $Enums.StockChangeType
+    changeDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    previousWeight?: NullableFloatFieldUpdateOperationsInput | number | null
+    newWeight?: NullableFloatFieldUpdateOperationsInput | number | null
+    changeDescription?: StringFieldUpdateOperationsInput | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -30264,6 +31949,13 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type EnumGrantTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.GrantType | EnumGrantTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.GrantType[] | ListEnumGrantTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.GrantType[] | ListEnumGrantTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumGrantTypeFilter<$PrismaModel> | $Enums.GrantType
+  }
+
   export type ServiceNullableScalarRelationFilter = {
     is?: ServiceWhereInput | null
     isNot?: ServiceWhereInput | null
@@ -30285,6 +31977,13 @@ export namespace Prisma {
     planDiscount?: SortOrder
     agreementAcceptedAt?: SortOrder
     agreementData?: SortOrder
+    grantType?: SortOrder
+    grantedBy?: SortOrder
+    grantReason?: SortOrder
+    parentServiceId?: SortOrder
+    transactionId?: SortOrder
+    isActive?: SortOrder
+    grantMetadata?: SortOrder
   }
 
   export type UserPurchasedServicesAvgOrderByAggregateInput = {
@@ -30301,6 +32000,12 @@ export namespace Prisma {
     planDays?: SortOrder
     planDiscount?: SortOrder
     agreementAcceptedAt?: SortOrder
+    grantType?: SortOrder
+    grantedBy?: SortOrder
+    grantReason?: SortOrder
+    parentServiceId?: SortOrder
+    transactionId?: SortOrder
+    isActive?: SortOrder
   }
 
   export type UserPurchasedServicesMinOrderByAggregateInput = {
@@ -30312,6 +32017,12 @@ export namespace Prisma {
     planDays?: SortOrder
     planDiscount?: SortOrder
     agreementAcceptedAt?: SortOrder
+    grantType?: SortOrder
+    grantedBy?: SortOrder
+    grantReason?: SortOrder
+    parentServiceId?: SortOrder
+    transactionId?: SortOrder
+    isActive?: SortOrder
   }
 
   export type UserPurchasedServicesSumOrderByAggregateInput = {
@@ -30375,6 +32086,16 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedJsonNullableFilter<$PrismaModel>
     _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
+
+  export type EnumGrantTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.GrantType | EnumGrantTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.GrantType[] | ListEnumGrantTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.GrantType[] | ListEnumGrantTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumGrantTypeWithAggregatesFilter<$PrismaModel> | $Enums.GrantType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumGrantTypeFilter<$PrismaModel>
+    _max?: NestedEnumGrantTypeFilter<$PrismaModel>
   }
 
   export type FloatNullableFilter<$PrismaModel = never> = {
@@ -31010,12 +32731,22 @@ export namespace Prisma {
     none?: UserPlatinaStockListWhereInput
   }
 
+  export type UserPlatinaStockHistoryListRelationFilter = {
+    every?: UserPlatinaStockHistoryWhereInput
+    some?: UserPlatinaStockHistoryWhereInput
+    none?: UserPlatinaStockHistoryWhereInput
+  }
+
   export type ServicePlatinaWealthScalarRelationFilter = {
     is?: ServicePlatinaWealthWhereInput
     isNot?: ServicePlatinaWealthWhereInput
   }
 
   export type UserPlatinaStockListOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserPlatinaStockHistoryOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -31078,13 +32809,6 @@ export namespace Prisma {
     userInvestmentAmount?: SortOrder
   }
 
-  export type EnumStockChangeTypeNullableFilter<$PrismaModel = never> = {
-    equals?: $Enums.StockChangeType | EnumStockChangeTypeFieldRefInput<$PrismaModel> | null
-    in?: $Enums.StockChangeType[] | ListEnumStockChangeTypeFieldRefInput<$PrismaModel> | null
-    notIn?: $Enums.StockChangeType[] | ListEnumStockChangeTypeFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumStockChangeTypeNullableFilter<$PrismaModel> | $Enums.StockChangeType | null
-  }
-
   export type UserPlatinaRecommendationScalarRelationFilter = {
     is?: UserPlatinaRecommendationWhereInput
     isNot?: UserPlatinaRecommendationWhereInput
@@ -31105,9 +32829,9 @@ export namespace Prisma {
     marketCapInCrore?: SortOrder
     entryDate?: SortOrder
     exitDate?: SortOrder
-    recordDate?: SortOrder
     isActive?: SortOrder
-    changeType?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type UserPlatinaStockListAvgOrderByAggregateInput = {
@@ -31135,9 +32859,9 @@ export namespace Prisma {
     marketCapInCrore?: SortOrder
     entryDate?: SortOrder
     exitDate?: SortOrder
-    recordDate?: SortOrder
     isActive?: SortOrder
-    changeType?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type UserPlatinaStockListMinOrderByAggregateInput = {
@@ -31155,9 +32879,9 @@ export namespace Prisma {
     marketCapInCrore?: SortOrder
     entryDate?: SortOrder
     exitDate?: SortOrder
-    recordDate?: SortOrder
     isActive?: SortOrder
-    changeType?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type UserPlatinaStockListSumOrderByAggregateInput = {
@@ -31170,14 +32894,68 @@ export namespace Prisma {
     marketCapInCrore?: SortOrder
   }
 
-  export type EnumStockChangeTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.StockChangeType | EnumStockChangeTypeFieldRefInput<$PrismaModel> | null
-    in?: $Enums.StockChangeType[] | ListEnumStockChangeTypeFieldRefInput<$PrismaModel> | null
-    notIn?: $Enums.StockChangeType[] | ListEnumStockChangeTypeFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumStockChangeTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.StockChangeType | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedEnumStockChangeTypeNullableFilter<$PrismaModel>
-    _max?: NestedEnumStockChangeTypeNullableFilter<$PrismaModel>
+  export type EnumStockChangeTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.StockChangeType | EnumStockChangeTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.StockChangeType[] | ListEnumStockChangeTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StockChangeType[] | ListEnumStockChangeTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumStockChangeTypeFilter<$PrismaModel> | $Enums.StockChangeType
+  }
+
+  export type UserPlatinaStockHistoryCountOrderByAggregateInput = {
+    id?: SortOrder
+    recommendationId?: SortOrder
+    stockTicker?: SortOrder
+    stockName?: SortOrder
+    changeType?: SortOrder
+    changeDate?: SortOrder
+    previousWeight?: SortOrder
+    newWeight?: SortOrder
+    changeDescription?: SortOrder
+    metadata?: SortOrder
+  }
+
+  export type UserPlatinaStockHistoryAvgOrderByAggregateInput = {
+    previousWeight?: SortOrder
+    newWeight?: SortOrder
+  }
+
+  export type UserPlatinaStockHistoryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    recommendationId?: SortOrder
+    stockTicker?: SortOrder
+    stockName?: SortOrder
+    changeType?: SortOrder
+    changeDate?: SortOrder
+    previousWeight?: SortOrder
+    newWeight?: SortOrder
+    changeDescription?: SortOrder
+  }
+
+  export type UserPlatinaStockHistoryMinOrderByAggregateInput = {
+    id?: SortOrder
+    recommendationId?: SortOrder
+    stockTicker?: SortOrder
+    stockName?: SortOrder
+    changeType?: SortOrder
+    changeDate?: SortOrder
+    previousWeight?: SortOrder
+    newWeight?: SortOrder
+    changeDescription?: SortOrder
+  }
+
+  export type UserPlatinaStockHistorySumOrderByAggregateInput = {
+    previousWeight?: SortOrder
+    newWeight?: SortOrder
+  }
+
+  export type EnumStockChangeTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.StockChangeType | EnumStockChangeTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.StockChangeType[] | ListEnumStockChangeTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StockChangeType[] | ListEnumStockChangeTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumStockChangeTypeWithAggregatesFilter<$PrismaModel> | $Enums.StockChangeType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStockChangeTypeFilter<$PrismaModel>
+    _max?: NestedEnumStockChangeTypeFilter<$PrismaModel>
   }
 
   export type AccountCreateNestedManyWithoutUserInput = {
@@ -31600,6 +33378,10 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type EnumGrantTypeFieldUpdateOperationsInput = {
+    set?: $Enums.GrantType
   }
 
   export type UserUpdateOneRequiredWithoutPurchasedServicesNestedInput = {
@@ -32438,6 +34220,13 @@ export namespace Prisma {
     connect?: UserPlatinaStockListWhereUniqueInput | UserPlatinaStockListWhereUniqueInput[]
   }
 
+  export type UserPlatinaStockHistoryCreateNestedManyWithoutRecommendationInput = {
+    create?: XOR<UserPlatinaStockHistoryCreateWithoutRecommendationInput, UserPlatinaStockHistoryUncheckedCreateWithoutRecommendationInput> | UserPlatinaStockHistoryCreateWithoutRecommendationInput[] | UserPlatinaStockHistoryUncheckedCreateWithoutRecommendationInput[]
+    connectOrCreate?: UserPlatinaStockHistoryCreateOrConnectWithoutRecommendationInput | UserPlatinaStockHistoryCreateOrConnectWithoutRecommendationInput[]
+    createMany?: UserPlatinaStockHistoryCreateManyRecommendationInputEnvelope
+    connect?: UserPlatinaStockHistoryWhereUniqueInput | UserPlatinaStockHistoryWhereUniqueInput[]
+  }
+
   export type UserCreateNestedOneWithoutPlatinaRecommendationsInput = {
     create?: XOR<UserCreateWithoutPlatinaRecommendationsInput, UserUncheckedCreateWithoutPlatinaRecommendationsInput>
     connectOrCreate?: UserCreateOrConnectWithoutPlatinaRecommendationsInput
@@ -32463,6 +34252,13 @@ export namespace Prisma {
     connect?: UserPlatinaStockListWhereUniqueInput | UserPlatinaStockListWhereUniqueInput[]
   }
 
+  export type UserPlatinaStockHistoryUncheckedCreateNestedManyWithoutRecommendationInput = {
+    create?: XOR<UserPlatinaStockHistoryCreateWithoutRecommendationInput, UserPlatinaStockHistoryUncheckedCreateWithoutRecommendationInput> | UserPlatinaStockHistoryCreateWithoutRecommendationInput[] | UserPlatinaStockHistoryUncheckedCreateWithoutRecommendationInput[]
+    connectOrCreate?: UserPlatinaStockHistoryCreateOrConnectWithoutRecommendationInput | UserPlatinaStockHistoryCreateOrConnectWithoutRecommendationInput[]
+    createMany?: UserPlatinaStockHistoryCreateManyRecommendationInputEnvelope
+    connect?: UserPlatinaStockHistoryWhereUniqueInput | UserPlatinaStockHistoryWhereUniqueInput[]
+  }
+
   export type UserPlatinaStockListUpdateManyWithoutRecommendationNestedInput = {
     create?: XOR<UserPlatinaStockListCreateWithoutRecommendationInput, UserPlatinaStockListUncheckedCreateWithoutRecommendationInput> | UserPlatinaStockListCreateWithoutRecommendationInput[] | UserPlatinaStockListUncheckedCreateWithoutRecommendationInput[]
     connectOrCreate?: UserPlatinaStockListCreateOrConnectWithoutRecommendationInput | UserPlatinaStockListCreateOrConnectWithoutRecommendationInput[]
@@ -32475,6 +34271,20 @@ export namespace Prisma {
     update?: UserPlatinaStockListUpdateWithWhereUniqueWithoutRecommendationInput | UserPlatinaStockListUpdateWithWhereUniqueWithoutRecommendationInput[]
     updateMany?: UserPlatinaStockListUpdateManyWithWhereWithoutRecommendationInput | UserPlatinaStockListUpdateManyWithWhereWithoutRecommendationInput[]
     deleteMany?: UserPlatinaStockListScalarWhereInput | UserPlatinaStockListScalarWhereInput[]
+  }
+
+  export type UserPlatinaStockHistoryUpdateManyWithoutRecommendationNestedInput = {
+    create?: XOR<UserPlatinaStockHistoryCreateWithoutRecommendationInput, UserPlatinaStockHistoryUncheckedCreateWithoutRecommendationInput> | UserPlatinaStockHistoryCreateWithoutRecommendationInput[] | UserPlatinaStockHistoryUncheckedCreateWithoutRecommendationInput[]
+    connectOrCreate?: UserPlatinaStockHistoryCreateOrConnectWithoutRecommendationInput | UserPlatinaStockHistoryCreateOrConnectWithoutRecommendationInput[]
+    upsert?: UserPlatinaStockHistoryUpsertWithWhereUniqueWithoutRecommendationInput | UserPlatinaStockHistoryUpsertWithWhereUniqueWithoutRecommendationInput[]
+    createMany?: UserPlatinaStockHistoryCreateManyRecommendationInputEnvelope
+    set?: UserPlatinaStockHistoryWhereUniqueInput | UserPlatinaStockHistoryWhereUniqueInput[]
+    disconnect?: UserPlatinaStockHistoryWhereUniqueInput | UserPlatinaStockHistoryWhereUniqueInput[]
+    delete?: UserPlatinaStockHistoryWhereUniqueInput | UserPlatinaStockHistoryWhereUniqueInput[]
+    connect?: UserPlatinaStockHistoryWhereUniqueInput | UserPlatinaStockHistoryWhereUniqueInput[]
+    update?: UserPlatinaStockHistoryUpdateWithWhereUniqueWithoutRecommendationInput | UserPlatinaStockHistoryUpdateWithWhereUniqueWithoutRecommendationInput[]
+    updateMany?: UserPlatinaStockHistoryUpdateManyWithWhereWithoutRecommendationInput | UserPlatinaStockHistoryUpdateManyWithWhereWithoutRecommendationInput[]
+    deleteMany?: UserPlatinaStockHistoryScalarWhereInput | UserPlatinaStockHistoryScalarWhereInput[]
   }
 
   export type UserUpdateOneRequiredWithoutPlatinaRecommendationsNestedInput = {
@@ -32517,14 +34327,24 @@ export namespace Prisma {
     deleteMany?: UserPlatinaStockListScalarWhereInput | UserPlatinaStockListScalarWhereInput[]
   }
 
+  export type UserPlatinaStockHistoryUncheckedUpdateManyWithoutRecommendationNestedInput = {
+    create?: XOR<UserPlatinaStockHistoryCreateWithoutRecommendationInput, UserPlatinaStockHistoryUncheckedCreateWithoutRecommendationInput> | UserPlatinaStockHistoryCreateWithoutRecommendationInput[] | UserPlatinaStockHistoryUncheckedCreateWithoutRecommendationInput[]
+    connectOrCreate?: UserPlatinaStockHistoryCreateOrConnectWithoutRecommendationInput | UserPlatinaStockHistoryCreateOrConnectWithoutRecommendationInput[]
+    upsert?: UserPlatinaStockHistoryUpsertWithWhereUniqueWithoutRecommendationInput | UserPlatinaStockHistoryUpsertWithWhereUniqueWithoutRecommendationInput[]
+    createMany?: UserPlatinaStockHistoryCreateManyRecommendationInputEnvelope
+    set?: UserPlatinaStockHistoryWhereUniqueInput | UserPlatinaStockHistoryWhereUniqueInput[]
+    disconnect?: UserPlatinaStockHistoryWhereUniqueInput | UserPlatinaStockHistoryWhereUniqueInput[]
+    delete?: UserPlatinaStockHistoryWhereUniqueInput | UserPlatinaStockHistoryWhereUniqueInput[]
+    connect?: UserPlatinaStockHistoryWhereUniqueInput | UserPlatinaStockHistoryWhereUniqueInput[]
+    update?: UserPlatinaStockHistoryUpdateWithWhereUniqueWithoutRecommendationInput | UserPlatinaStockHistoryUpdateWithWhereUniqueWithoutRecommendationInput[]
+    updateMany?: UserPlatinaStockHistoryUpdateManyWithWhereWithoutRecommendationInput | UserPlatinaStockHistoryUpdateManyWithWhereWithoutRecommendationInput[]
+    deleteMany?: UserPlatinaStockHistoryScalarWhereInput | UserPlatinaStockHistoryScalarWhereInput[]
+  }
+
   export type UserPlatinaRecommendationCreateNestedOneWithoutStocksInput = {
     create?: XOR<UserPlatinaRecommendationCreateWithoutStocksInput, UserPlatinaRecommendationUncheckedCreateWithoutStocksInput>
     connectOrCreate?: UserPlatinaRecommendationCreateOrConnectWithoutStocksInput
     connect?: UserPlatinaRecommendationWhereUniqueInput
-  }
-
-  export type NullableEnumStockChangeTypeFieldUpdateOperationsInput = {
-    set?: $Enums.StockChangeType | null
   }
 
   export type UserPlatinaRecommendationUpdateOneRequiredWithoutStocksNestedInput = {
@@ -32533,6 +34353,24 @@ export namespace Prisma {
     upsert?: UserPlatinaRecommendationUpsertWithoutStocksInput
     connect?: UserPlatinaRecommendationWhereUniqueInput
     update?: XOR<XOR<UserPlatinaRecommendationUpdateToOneWithWhereWithoutStocksInput, UserPlatinaRecommendationUpdateWithoutStocksInput>, UserPlatinaRecommendationUncheckedUpdateWithoutStocksInput>
+  }
+
+  export type UserPlatinaRecommendationCreateNestedOneWithoutStockHistoryInput = {
+    create?: XOR<UserPlatinaRecommendationCreateWithoutStockHistoryInput, UserPlatinaRecommendationUncheckedCreateWithoutStockHistoryInput>
+    connectOrCreate?: UserPlatinaRecommendationCreateOrConnectWithoutStockHistoryInput
+    connect?: UserPlatinaRecommendationWhereUniqueInput
+  }
+
+  export type EnumStockChangeTypeFieldUpdateOperationsInput = {
+    set?: $Enums.StockChangeType
+  }
+
+  export type UserPlatinaRecommendationUpdateOneRequiredWithoutStockHistoryNestedInput = {
+    create?: XOR<UserPlatinaRecommendationCreateWithoutStockHistoryInput, UserPlatinaRecommendationUncheckedCreateWithoutStockHistoryInput>
+    connectOrCreate?: UserPlatinaRecommendationCreateOrConnectWithoutStockHistoryInput
+    upsert?: UserPlatinaRecommendationUpsertWithoutStockHistoryInput
+    connect?: UserPlatinaRecommendationWhereUniqueInput
+    update?: XOR<XOR<UserPlatinaRecommendationUpdateToOneWithWhereWithoutStockHistoryInput, UserPlatinaRecommendationUpdateWithoutStockHistoryInput>, UserPlatinaRecommendationUncheckedUpdateWithoutStockHistoryInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -32794,6 +34632,13 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type NestedEnumGrantTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.GrantType | EnumGrantTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.GrantType[] | ListEnumGrantTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.GrantType[] | ListEnumGrantTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumGrantTypeFilter<$PrismaModel> | $Enums.GrantType
+  }
+
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -32849,6 +34694,16 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type NestedEnumGrantTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.GrantType | EnumGrantTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.GrantType[] | ListEnumGrantTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.GrantType[] | ListEnumGrantTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumGrantTypeWithAggregatesFilter<$PrismaModel> | $Enums.GrantType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumGrantTypeFilter<$PrismaModel>
+    _max?: NestedEnumGrantTypeFilter<$PrismaModel>
+  }
+
   export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
     in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
@@ -32899,21 +34754,21 @@ export namespace Prisma {
     _max?: NestedEnumServiceTypeFilter<$PrismaModel>
   }
 
-  export type NestedEnumStockChangeTypeNullableFilter<$PrismaModel = never> = {
-    equals?: $Enums.StockChangeType | EnumStockChangeTypeFieldRefInput<$PrismaModel> | null
-    in?: $Enums.StockChangeType[] | ListEnumStockChangeTypeFieldRefInput<$PrismaModel> | null
-    notIn?: $Enums.StockChangeType[] | ListEnumStockChangeTypeFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumStockChangeTypeNullableFilter<$PrismaModel> | $Enums.StockChangeType | null
+  export type NestedEnumStockChangeTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.StockChangeType | EnumStockChangeTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.StockChangeType[] | ListEnumStockChangeTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StockChangeType[] | ListEnumStockChangeTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumStockChangeTypeFilter<$PrismaModel> | $Enums.StockChangeType
   }
 
-  export type NestedEnumStockChangeTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.StockChangeType | EnumStockChangeTypeFieldRefInput<$PrismaModel> | null
-    in?: $Enums.StockChangeType[] | ListEnumStockChangeTypeFieldRefInput<$PrismaModel> | null
-    notIn?: $Enums.StockChangeType[] | ListEnumStockChangeTypeFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumStockChangeTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.StockChangeType | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedEnumStockChangeTypeNullableFilter<$PrismaModel>
-    _max?: NestedEnumStockChangeTypeNullableFilter<$PrismaModel>
+  export type NestedEnumStockChangeTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.StockChangeType | EnumStockChangeTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.StockChangeType[] | ListEnumStockChangeTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StockChangeType[] | ListEnumStockChangeTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumStockChangeTypeWithAggregatesFilter<$PrismaModel> | $Enums.StockChangeType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStockChangeTypeFilter<$PrismaModel>
+    _max?: NestedEnumStockChangeTypeFilter<$PrismaModel>
   }
 
   export type AccountCreateWithoutUserInput = {
@@ -32996,6 +34851,13 @@ export namespace Prisma {
     planDiscount: number
     agreementAcceptedAt?: Date | string | null
     agreementData?: NullableJsonNullValueInput | InputJsonValue
+    grantType?: $Enums.GrantType
+    grantedBy?: string | null
+    grantReason?: string | null
+    parentServiceId?: string | null
+    transactionId?: string | null
+    isActive?: boolean
+    grantMetadata?: NullableJsonNullValueInput | InputJsonValue
     service?: ServiceCreateNestedOneWithoutPurchasedServicesInput
   }
 
@@ -33008,6 +34870,13 @@ export namespace Prisma {
     planDiscount: number
     agreementAcceptedAt?: Date | string | null
     agreementData?: NullableJsonNullValueInput | InputJsonValue
+    grantType?: $Enums.GrantType
+    grantedBy?: string | null
+    grantReason?: string | null
+    parentServiceId?: string | null
+    transactionId?: string | null
+    isActive?: boolean
+    grantMetadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserPurchasedServicesCreateOrConnectWithoutUserInput = {
@@ -33165,6 +35034,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     stocks?: UserPlatinaStockListCreateNestedManyWithoutRecommendationInput
+    stockHistory?: UserPlatinaStockHistoryCreateNestedManyWithoutRecommendationInput
     platinaService: ServicePlatinaWealthCreateNestedOneWithoutUserRecommendationInput
     riskProfile?: UserRiskProfileCreateNestedOneWithoutPlatinaRecommendationsInput
   }
@@ -33185,6 +35055,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     stocks?: UserPlatinaStockListUncheckedCreateNestedManyWithoutRecommendationInput
+    stockHistory?: UserPlatinaStockHistoryUncheckedCreateNestedManyWithoutRecommendationInput
   }
 
   export type UserPlatinaRecommendationCreateOrConnectWithoutUserInput = {
@@ -33292,6 +35163,13 @@ export namespace Prisma {
     planDiscount?: FloatFilter<"UserPurchasedServices"> | number
     agreementAcceptedAt?: DateTimeNullableFilter<"UserPurchasedServices"> | Date | string | null
     agreementData?: JsonNullableFilter<"UserPurchasedServices">
+    grantType?: EnumGrantTypeFilter<"UserPurchasedServices"> | $Enums.GrantType
+    grantedBy?: StringNullableFilter<"UserPurchasedServices"> | string | null
+    grantReason?: StringNullableFilter<"UserPurchasedServices"> | string | null
+    parentServiceId?: StringNullableFilter<"UserPurchasedServices"> | string | null
+    transactionId?: StringNullableFilter<"UserPurchasedServices"> | string | null
+    isActive?: BoolFilter<"UserPurchasedServices"> | boolean
+    grantMetadata?: JsonNullableFilter<"UserPurchasedServices">
   }
 
   export type panVerificationDataUpsertWithWhereUniqueWithoutUserInput = {
@@ -35532,6 +37410,13 @@ export namespace Prisma {
     planDiscount: number
     agreementAcceptedAt?: Date | string | null
     agreementData?: NullableJsonNullValueInput | InputJsonValue
+    grantType?: $Enums.GrantType
+    grantedBy?: string | null
+    grantReason?: string | null
+    parentServiceId?: string | null
+    transactionId?: string | null
+    isActive?: boolean
+    grantMetadata?: NullableJsonNullValueInput | InputJsonValue
     user: UserCreateNestedOneWithoutPurchasedServicesInput
   }
 
@@ -35544,6 +37429,13 @@ export namespace Prisma {
     planDiscount: number
     agreementAcceptedAt?: Date | string | null
     agreementData?: NullableJsonNullValueInput | InputJsonValue
+    grantType?: $Enums.GrantType
+    grantedBy?: string | null
+    grantReason?: string | null
+    parentServiceId?: string | null
+    transactionId?: string | null
+    isActive?: boolean
+    grantMetadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserPurchasedServicesCreateOrConnectWithoutServiceInput = {
@@ -36363,6 +38255,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     stocks?: UserPlatinaStockListCreateNestedManyWithoutRecommendationInput
+    stockHistory?: UserPlatinaStockHistoryCreateNestedManyWithoutRecommendationInput
     user: UserCreateNestedOneWithoutPlatinaRecommendationsInput
     platinaService: ServicePlatinaWealthCreateNestedOneWithoutUserRecommendationInput
   }
@@ -36383,6 +38276,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     stocks?: UserPlatinaStockListUncheckedCreateNestedManyWithoutRecommendationInput
+    stockHistory?: UserPlatinaStockHistoryUncheckedCreateNestedManyWithoutRecommendationInput
   }
 
   export type UserPlatinaRecommendationCreateOrConnectWithoutRiskProfileInput = {
@@ -36569,6 +38463,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     stocks?: UserPlatinaStockListCreateNestedManyWithoutRecommendationInput
+    stockHistory?: UserPlatinaStockHistoryCreateNestedManyWithoutRecommendationInput
     user: UserCreateNestedOneWithoutPlatinaRecommendationsInput
     riskProfile?: UserRiskProfileCreateNestedOneWithoutPlatinaRecommendationsInput
   }
@@ -36589,6 +38484,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     stocks?: UserPlatinaStockListUncheckedCreateNestedManyWithoutRecommendationInput
+    stockHistory?: UserPlatinaStockHistoryUncheckedCreateNestedManyWithoutRecommendationInput
   }
 
   export type UserPlatinaRecommendationCreateOrConnectWithoutPlatinaServiceInput = {
@@ -36702,9 +38598,9 @@ export namespace Prisma {
     marketCapInCrore: number
     entryDate: string
     exitDate?: string | null
-    recordDate: string
     isActive?: boolean
-    changeType?: $Enums.StockChangeType | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type UserPlatinaStockListUncheckedCreateWithoutRecommendationInput = {
@@ -36721,9 +38617,9 @@ export namespace Prisma {
     marketCapInCrore: number
     entryDate: string
     exitDate?: string | null
-    recordDate: string
     isActive?: boolean
-    changeType?: $Enums.StockChangeType | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type UserPlatinaStockListCreateOrConnectWithoutRecommendationInput = {
@@ -36733,6 +38629,40 @@ export namespace Prisma {
 
   export type UserPlatinaStockListCreateManyRecommendationInputEnvelope = {
     data: UserPlatinaStockListCreateManyRecommendationInput | UserPlatinaStockListCreateManyRecommendationInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserPlatinaStockHistoryCreateWithoutRecommendationInput = {
+    id?: string
+    stockTicker: string
+    stockName: string
+    changeType: $Enums.StockChangeType
+    changeDate?: Date | string
+    previousWeight?: number | null
+    newWeight?: number | null
+    changeDescription: string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type UserPlatinaStockHistoryUncheckedCreateWithoutRecommendationInput = {
+    id?: string
+    stockTicker: string
+    stockName: string
+    changeType: $Enums.StockChangeType
+    changeDate?: Date | string
+    previousWeight?: number | null
+    newWeight?: number | null
+    changeDescription: string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type UserPlatinaStockHistoryCreateOrConnectWithoutRecommendationInput = {
+    where: UserPlatinaStockHistoryWhereUniqueInput
+    create: XOR<UserPlatinaStockHistoryCreateWithoutRecommendationInput, UserPlatinaStockHistoryUncheckedCreateWithoutRecommendationInput>
+  }
+
+  export type UserPlatinaStockHistoryCreateManyRecommendationInputEnvelope = {
+    data: UserPlatinaStockHistoryCreateManyRecommendationInput | UserPlatinaStockHistoryCreateManyRecommendationInput[]
     skipDuplicates?: boolean
   }
 
@@ -36901,9 +38831,41 @@ export namespace Prisma {
     marketCapInCrore?: FloatFilter<"UserPlatinaStockList"> | number
     entryDate?: StringFilter<"UserPlatinaStockList"> | string
     exitDate?: StringNullableFilter<"UserPlatinaStockList"> | string | null
-    recordDate?: StringFilter<"UserPlatinaStockList"> | string
     isActive?: BoolFilter<"UserPlatinaStockList"> | boolean
-    changeType?: EnumStockChangeTypeNullableFilter<"UserPlatinaStockList"> | $Enums.StockChangeType | null
+    createdAt?: DateTimeFilter<"UserPlatinaStockList"> | Date | string
+    updatedAt?: DateTimeFilter<"UserPlatinaStockList"> | Date | string
+  }
+
+  export type UserPlatinaStockHistoryUpsertWithWhereUniqueWithoutRecommendationInput = {
+    where: UserPlatinaStockHistoryWhereUniqueInput
+    update: XOR<UserPlatinaStockHistoryUpdateWithoutRecommendationInput, UserPlatinaStockHistoryUncheckedUpdateWithoutRecommendationInput>
+    create: XOR<UserPlatinaStockHistoryCreateWithoutRecommendationInput, UserPlatinaStockHistoryUncheckedCreateWithoutRecommendationInput>
+  }
+
+  export type UserPlatinaStockHistoryUpdateWithWhereUniqueWithoutRecommendationInput = {
+    where: UserPlatinaStockHistoryWhereUniqueInput
+    data: XOR<UserPlatinaStockHistoryUpdateWithoutRecommendationInput, UserPlatinaStockHistoryUncheckedUpdateWithoutRecommendationInput>
+  }
+
+  export type UserPlatinaStockHistoryUpdateManyWithWhereWithoutRecommendationInput = {
+    where: UserPlatinaStockHistoryScalarWhereInput
+    data: XOR<UserPlatinaStockHistoryUpdateManyMutationInput, UserPlatinaStockHistoryUncheckedUpdateManyWithoutRecommendationInput>
+  }
+
+  export type UserPlatinaStockHistoryScalarWhereInput = {
+    AND?: UserPlatinaStockHistoryScalarWhereInput | UserPlatinaStockHistoryScalarWhereInput[]
+    OR?: UserPlatinaStockHistoryScalarWhereInput[]
+    NOT?: UserPlatinaStockHistoryScalarWhereInput | UserPlatinaStockHistoryScalarWhereInput[]
+    id?: StringFilter<"UserPlatinaStockHistory"> | string
+    recommendationId?: StringFilter<"UserPlatinaStockHistory"> | string
+    stockTicker?: StringFilter<"UserPlatinaStockHistory"> | string
+    stockName?: StringFilter<"UserPlatinaStockHistory"> | string
+    changeType?: EnumStockChangeTypeFilter<"UserPlatinaStockHistory"> | $Enums.StockChangeType
+    changeDate?: DateTimeFilter<"UserPlatinaStockHistory"> | Date | string
+    previousWeight?: FloatNullableFilter<"UserPlatinaStockHistory"> | number | null
+    newWeight?: FloatNullableFilter<"UserPlatinaStockHistory"> | number | null
+    changeDescription?: StringFilter<"UserPlatinaStockHistory"> | string
+    metadata?: JsonNullableFilter<"UserPlatinaStockHistory">
   }
 
   export type UserUpsertWithoutPlatinaRecommendationsInput = {
@@ -37068,6 +39030,7 @@ export namespace Prisma {
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    stockHistory?: UserPlatinaStockHistoryCreateNestedManyWithoutRecommendationInput
     user: UserCreateNestedOneWithoutPlatinaRecommendationsInput
     platinaService: ServicePlatinaWealthCreateNestedOneWithoutUserRecommendationInput
     riskProfile?: UserRiskProfileCreateNestedOneWithoutPlatinaRecommendationsInput
@@ -37089,6 +39052,7 @@ export namespace Prisma {
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    stockHistory?: UserPlatinaStockHistoryUncheckedCreateNestedManyWithoutRecommendationInput
   }
 
   export type UserPlatinaRecommendationCreateOrConnectWithoutStocksInput = {
@@ -37120,6 +39084,7 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stockHistory?: UserPlatinaStockHistoryUpdateManyWithoutRecommendationNestedInput
     user?: UserUpdateOneRequiredWithoutPlatinaRecommendationsNestedInput
     platinaService?: ServicePlatinaWealthUpdateOneRequiredWithoutUserRecommendationNestedInput
     riskProfile?: UserRiskProfileUpdateOneWithoutPlatinaRecommendationsNestedInput
@@ -37141,6 +39106,99 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stockHistory?: UserPlatinaStockHistoryUncheckedUpdateManyWithoutRecommendationNestedInput
+  }
+
+  export type UserPlatinaRecommendationCreateWithoutStockHistoryInput = {
+    id?: string
+    portfolioType?: string | null
+    assetAllocation?: NullableJsonNullValueInput | InputJsonValue
+    userInvestmentAmount?: number | null
+    recommendationDate?: Date | string
+    isActive?: boolean
+    rationale?: NullableJsonNullValueInput | InputJsonValue
+    peChart?: NullableJsonNullValueInput | InputJsonValue
+    epsChart?: NullableJsonNullValueInput | InputJsonValue
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    stocks?: UserPlatinaStockListCreateNestedManyWithoutRecommendationInput
+    user: UserCreateNestedOneWithoutPlatinaRecommendationsInput
+    platinaService: ServicePlatinaWealthCreateNestedOneWithoutUserRecommendationInput
+    riskProfile?: UserRiskProfileCreateNestedOneWithoutPlatinaRecommendationsInput
+  }
+
+  export type UserPlatinaRecommendationUncheckedCreateWithoutStockHistoryInput = {
+    id?: string
+    userId: string
+    platinaServiceId: string
+    riskProfileId?: string | null
+    portfolioType?: string | null
+    assetAllocation?: NullableJsonNullValueInput | InputJsonValue
+    userInvestmentAmount?: number | null
+    recommendationDate?: Date | string
+    isActive?: boolean
+    rationale?: NullableJsonNullValueInput | InputJsonValue
+    peChart?: NullableJsonNullValueInput | InputJsonValue
+    epsChart?: NullableJsonNullValueInput | InputJsonValue
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    stocks?: UserPlatinaStockListUncheckedCreateNestedManyWithoutRecommendationInput
+  }
+
+  export type UserPlatinaRecommendationCreateOrConnectWithoutStockHistoryInput = {
+    where: UserPlatinaRecommendationWhereUniqueInput
+    create: XOR<UserPlatinaRecommendationCreateWithoutStockHistoryInput, UserPlatinaRecommendationUncheckedCreateWithoutStockHistoryInput>
+  }
+
+  export type UserPlatinaRecommendationUpsertWithoutStockHistoryInput = {
+    update: XOR<UserPlatinaRecommendationUpdateWithoutStockHistoryInput, UserPlatinaRecommendationUncheckedUpdateWithoutStockHistoryInput>
+    create: XOR<UserPlatinaRecommendationCreateWithoutStockHistoryInput, UserPlatinaRecommendationUncheckedCreateWithoutStockHistoryInput>
+    where?: UserPlatinaRecommendationWhereInput
+  }
+
+  export type UserPlatinaRecommendationUpdateToOneWithWhereWithoutStockHistoryInput = {
+    where?: UserPlatinaRecommendationWhereInput
+    data: XOR<UserPlatinaRecommendationUpdateWithoutStockHistoryInput, UserPlatinaRecommendationUncheckedUpdateWithoutStockHistoryInput>
+  }
+
+  export type UserPlatinaRecommendationUpdateWithoutStockHistoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    portfolioType?: NullableStringFieldUpdateOperationsInput | string | null
+    assetAllocation?: NullableJsonNullValueInput | InputJsonValue
+    userInvestmentAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    recommendationDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    rationale?: NullableJsonNullValueInput | InputJsonValue
+    peChart?: NullableJsonNullValueInput | InputJsonValue
+    epsChart?: NullableJsonNullValueInput | InputJsonValue
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stocks?: UserPlatinaStockListUpdateManyWithoutRecommendationNestedInput
+    user?: UserUpdateOneRequiredWithoutPlatinaRecommendationsNestedInput
+    platinaService?: ServicePlatinaWealthUpdateOneRequiredWithoutUserRecommendationNestedInput
+    riskProfile?: UserRiskProfileUpdateOneWithoutPlatinaRecommendationsNestedInput
+  }
+
+  export type UserPlatinaRecommendationUncheckedUpdateWithoutStockHistoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    platinaServiceId?: StringFieldUpdateOperationsInput | string
+    riskProfileId?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioType?: NullableStringFieldUpdateOperationsInput | string | null
+    assetAllocation?: NullableJsonNullValueInput | InputJsonValue
+    userInvestmentAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    recommendationDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    rationale?: NullableJsonNullValueInput | InputJsonValue
+    peChart?: NullableJsonNullValueInput | InputJsonValue
+    epsChart?: NullableJsonNullValueInput | InputJsonValue
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stocks?: UserPlatinaStockListUncheckedUpdateManyWithoutRecommendationNestedInput
   }
 
   export type AccountCreateManyUserInput = {
@@ -37178,6 +39236,13 @@ export namespace Prisma {
     planDiscount: number
     agreementAcceptedAt?: Date | string | null
     agreementData?: NullableJsonNullValueInput | InputJsonValue
+    grantType?: $Enums.GrantType
+    grantedBy?: string | null
+    grantReason?: string | null
+    parentServiceId?: string | null
+    transactionId?: string | null
+    isActive?: boolean
+    grantMetadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type panVerificationDataCreateManyUserInput = {
@@ -37318,6 +39383,13 @@ export namespace Prisma {
     planDiscount?: FloatFieldUpdateOperationsInput | number
     agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     agreementData?: NullableJsonNullValueInput | InputJsonValue
+    grantType?: EnumGrantTypeFieldUpdateOperationsInput | $Enums.GrantType
+    grantedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    grantReason?: NullableStringFieldUpdateOperationsInput | string | null
+    parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    grantMetadata?: NullableJsonNullValueInput | InputJsonValue
     service?: ServiceUpdateOneWithoutPurchasedServicesNestedInput
   }
 
@@ -37330,6 +39402,13 @@ export namespace Prisma {
     planDiscount?: FloatFieldUpdateOperationsInput | number
     agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     agreementData?: NullableJsonNullValueInput | InputJsonValue
+    grantType?: EnumGrantTypeFieldUpdateOperationsInput | $Enums.GrantType
+    grantedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    grantReason?: NullableStringFieldUpdateOperationsInput | string | null
+    parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    grantMetadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserPurchasedServicesUncheckedUpdateManyWithoutUserInput = {
@@ -37341,6 +39420,13 @@ export namespace Prisma {
     planDiscount?: FloatFieldUpdateOperationsInput | number
     agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     agreementData?: NullableJsonNullValueInput | InputJsonValue
+    grantType?: EnumGrantTypeFieldUpdateOperationsInput | $Enums.GrantType
+    grantedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    grantReason?: NullableStringFieldUpdateOperationsInput | string | null
+    parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    grantMetadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type panVerificationDataUpdateWithoutUserInput = {
@@ -37462,6 +39548,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     stocks?: UserPlatinaStockListUpdateManyWithoutRecommendationNestedInput
+    stockHistory?: UserPlatinaStockHistoryUpdateManyWithoutRecommendationNestedInput
     platinaService?: ServicePlatinaWealthUpdateOneRequiredWithoutUserRecommendationNestedInput
     riskProfile?: UserRiskProfileUpdateOneWithoutPlatinaRecommendationsNestedInput
   }
@@ -37482,6 +39569,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     stocks?: UserPlatinaStockListUncheckedUpdateManyWithoutRecommendationNestedInput
+    stockHistory?: UserPlatinaStockHistoryUncheckedUpdateManyWithoutRecommendationNestedInput
   }
 
   export type UserPlatinaRecommendationUncheckedUpdateManyWithoutUserInput = {
@@ -37617,6 +39705,13 @@ export namespace Prisma {
     planDiscount: number
     agreementAcceptedAt?: Date | string | null
     agreementData?: NullableJsonNullValueInput | InputJsonValue
+    grantType?: $Enums.GrantType
+    grantedBy?: string | null
+    grantReason?: string | null
+    parentServiceId?: string | null
+    transactionId?: string | null
+    isActive?: boolean
+    grantMetadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserDocumentsCreateManyServiceInput = {
@@ -37714,6 +39809,13 @@ export namespace Prisma {
     planDiscount?: FloatFieldUpdateOperationsInput | number
     agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     agreementData?: NullableJsonNullValueInput | InputJsonValue
+    grantType?: EnumGrantTypeFieldUpdateOperationsInput | $Enums.GrantType
+    grantedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    grantReason?: NullableStringFieldUpdateOperationsInput | string | null
+    parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    grantMetadata?: NullableJsonNullValueInput | InputJsonValue
     user?: UserUpdateOneRequiredWithoutPurchasedServicesNestedInput
   }
 
@@ -37726,6 +39828,13 @@ export namespace Prisma {
     planDiscount?: FloatFieldUpdateOperationsInput | number
     agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     agreementData?: NullableJsonNullValueInput | InputJsonValue
+    grantType?: EnumGrantTypeFieldUpdateOperationsInput | $Enums.GrantType
+    grantedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    grantReason?: NullableStringFieldUpdateOperationsInput | string | null
+    parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    grantMetadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserPurchasedServicesUncheckedUpdateManyWithoutServiceInput = {
@@ -37737,6 +39846,13 @@ export namespace Prisma {
     planDiscount?: FloatFieldUpdateOperationsInput | number
     agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     agreementData?: NullableJsonNullValueInput | InputJsonValue
+    grantType?: EnumGrantTypeFieldUpdateOperationsInput | $Enums.GrantType
+    grantedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    grantReason?: NullableStringFieldUpdateOperationsInput | string | null
+    parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    grantMetadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserDocumentsUpdateWithoutServiceInput = {
@@ -37934,6 +40050,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     stocks?: UserPlatinaStockListUpdateManyWithoutRecommendationNestedInput
+    stockHistory?: UserPlatinaStockHistoryUpdateManyWithoutRecommendationNestedInput
     user?: UserUpdateOneRequiredWithoutPlatinaRecommendationsNestedInput
     platinaService?: ServicePlatinaWealthUpdateOneRequiredWithoutUserRecommendationNestedInput
   }
@@ -37954,6 +40071,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     stocks?: UserPlatinaStockListUncheckedUpdateManyWithoutRecommendationNestedInput
+    stockHistory?: UserPlatinaStockHistoryUncheckedUpdateManyWithoutRecommendationNestedInput
   }
 
   export type UserPlatinaRecommendationUncheckedUpdateManyWithoutRiskProfileInput = {
@@ -38004,6 +40122,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     stocks?: UserPlatinaStockListUpdateManyWithoutRecommendationNestedInput
+    stockHistory?: UserPlatinaStockHistoryUpdateManyWithoutRecommendationNestedInput
     user?: UserUpdateOneRequiredWithoutPlatinaRecommendationsNestedInput
     riskProfile?: UserRiskProfileUpdateOneWithoutPlatinaRecommendationsNestedInput
   }
@@ -38024,6 +40143,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     stocks?: UserPlatinaStockListUncheckedUpdateManyWithoutRecommendationNestedInput
+    stockHistory?: UserPlatinaStockHistoryUncheckedUpdateManyWithoutRecommendationNestedInput
   }
 
   export type UserPlatinaRecommendationUncheckedUpdateManyWithoutPlatinaServiceInput = {
@@ -38057,9 +40177,21 @@ export namespace Prisma {
     marketCapInCrore: number
     entryDate: string
     exitDate?: string | null
-    recordDate: string
     isActive?: boolean
-    changeType?: $Enums.StockChangeType | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserPlatinaStockHistoryCreateManyRecommendationInput = {
+    id?: string
+    stockTicker: string
+    stockName: string
+    changeType: $Enums.StockChangeType
+    changeDate?: Date | string
+    previousWeight?: number | null
+    newWeight?: number | null
+    changeDescription: string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserPlatinaStockListUpdateWithoutRecommendationInput = {
@@ -38076,9 +40208,9 @@ export namespace Prisma {
     marketCapInCrore?: FloatFieldUpdateOperationsInput | number
     entryDate?: StringFieldUpdateOperationsInput | string
     exitDate?: NullableStringFieldUpdateOperationsInput | string | null
-    recordDate?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    changeType?: NullableEnumStockChangeTypeFieldUpdateOperationsInput | $Enums.StockChangeType | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserPlatinaStockListUncheckedUpdateWithoutRecommendationInput = {
@@ -38095,9 +40227,9 @@ export namespace Prisma {
     marketCapInCrore?: FloatFieldUpdateOperationsInput | number
     entryDate?: StringFieldUpdateOperationsInput | string
     exitDate?: NullableStringFieldUpdateOperationsInput | string | null
-    recordDate?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    changeType?: NullableEnumStockChangeTypeFieldUpdateOperationsInput | $Enums.StockChangeType | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserPlatinaStockListUncheckedUpdateManyWithoutRecommendationInput = {
@@ -38114,9 +40246,45 @@ export namespace Prisma {
     marketCapInCrore?: FloatFieldUpdateOperationsInput | number
     entryDate?: StringFieldUpdateOperationsInput | string
     exitDate?: NullableStringFieldUpdateOperationsInput | string | null
-    recordDate?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    changeType?: NullableEnumStockChangeTypeFieldUpdateOperationsInput | $Enums.StockChangeType | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserPlatinaStockHistoryUpdateWithoutRecommendationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stockTicker?: StringFieldUpdateOperationsInput | string
+    stockName?: StringFieldUpdateOperationsInput | string
+    changeType?: EnumStockChangeTypeFieldUpdateOperationsInput | $Enums.StockChangeType
+    changeDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    previousWeight?: NullableFloatFieldUpdateOperationsInput | number | null
+    newWeight?: NullableFloatFieldUpdateOperationsInput | number | null
+    changeDescription?: StringFieldUpdateOperationsInput | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type UserPlatinaStockHistoryUncheckedUpdateWithoutRecommendationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stockTicker?: StringFieldUpdateOperationsInput | string
+    stockName?: StringFieldUpdateOperationsInput | string
+    changeType?: EnumStockChangeTypeFieldUpdateOperationsInput | $Enums.StockChangeType
+    changeDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    previousWeight?: NullableFloatFieldUpdateOperationsInput | number | null
+    newWeight?: NullableFloatFieldUpdateOperationsInput | number | null
+    changeDescription?: StringFieldUpdateOperationsInput | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type UserPlatinaStockHistoryUncheckedUpdateManyWithoutRecommendationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stockTicker?: StringFieldUpdateOperationsInput | string
+    stockName?: StringFieldUpdateOperationsInput | string
+    changeType?: EnumStockChangeTypeFieldUpdateOperationsInput | $Enums.StockChangeType
+    changeDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    previousWeight?: NullableFloatFieldUpdateOperationsInput | number | null
+    newWeight?: NullableFloatFieldUpdateOperationsInput | number | null
+    changeDescription?: StringFieldUpdateOperationsInput | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
 

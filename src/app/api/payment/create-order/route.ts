@@ -110,7 +110,6 @@ export const POST = auth(async (request : any)=> {
           userId: user.id,
           couponId : coupon?.id || null,
           serviceId,
-          comboPlanId,
           amount: order.data.order_amount || 0,
           tenure : {tenureDays, tenureDicount},
           status: "PENDING",

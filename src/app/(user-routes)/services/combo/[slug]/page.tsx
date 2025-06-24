@@ -10,7 +10,7 @@ import PurchasedServiceSection from "@/components/services/purchasedServiceSecti
 import { Session } from "@/actions/session"
 import { User } from "next-auth"
 import { formatHumanDate } from "@/lib/utils"
-import { findAgreementsByComboPlanServiceId, findAgreementsByServiceId } from "@/lib/data/agreement"
+import { findAgreementsByServiceId } from "@/lib/data/agreement"
 import { CheckoutForm } from "@/components/services/checkoutForm"
 import { findActivePurchasedComboPlanServiceByUserIdAndId, findComboPlanServiceBySlug } from "@/lib/data/comboServices"
 import Link from "next/link"
@@ -52,7 +52,7 @@ export default async function Page({params}: { params: Promise<{ slug: string }>
    // const latestData = chartData[chartData.length - 1];
 
 
-   const agreement = await findAgreementsByComboPlanServiceId(comboPlanservice?.id || '');
+   // const agreement = await findAgreementsByComboPlanServiceId(comboPlanservice?.id || '');
 
    return (
       <main className='w-full px-5 lg:px-10 xl:px-24 py-8'>

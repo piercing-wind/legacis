@@ -18,50 +18,68 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { cn, formatHumanDate } from "@/lib/utils";
-import { UserPlatinaStockList } from "@/prisma/generated/client";
-import STYLE from '@/app/platina-wealth/platina.module.css'
+import { UserPlatinaStockHistory, UserPlatinaStockList } from "@/prisma/generated/client";
+// import STYLE from '@/app/(user-routes)/platina-wealth/platina.module.css'
 import PlatinaPieChart from "./platinaPieChart";
 import PlatinaSimpleLineChart from "./platinaLineChart";
 import { Line } from "../icon";
 import { PDFDisplay } from "../pdfDisplay";
 import { QuillHtmlViewer } from "../richTextViewer";
+import PlatinaStockTimeline from "./platinaStockTimeline";
 
 
 function generateSectorColor(sectorName: string, index: number): string {
   const baseColors = [
-    "#7FF4D3", "#60A5FA", "#FCD34D", "#F87171", "#A78BFA", 
-    "#67E8F9", "#FB923C", "#A3E635", "#F472B6", "#6EE7B7"
+    "#4AEDB9", // legacisGreen
+    "#6104C0", // legacisPurple
+    "#8036F2", // legacisBlue
+    "#FA2EF3", // legacisPink
+    "#E2FFE9", // legacisLightGreen
+    "#F1FFFA", // legacisLight
+    // Additional colors that complement your palette
+    "#9D4EDD", // Purple variant
+    "#06FFA5", // Green variant
+    "#C77DFF", // Light purple
+    "#4CC9F0"  // Light blue
   ];
   
   if (index < baseColors.length) {
     return baseColors[index];
   }
   
-  // Create a simple hash from sector name for consistent colors
-  let hash = 0;
-  for (let i = 0; i < sectorName.length; i++) {
-    const char = sectorName.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
-    hash = hash & hash; // Convert to 32-bit integer
-  }
+  // For additional colors beyond the base palette, generate from your primary colors
+  const primaryColors = ["#4AEDB9", "#6104C0", "#8036F2", "#FA2EF3"];
+  const baseColor = primaryColors[index % primaryColors.length];
   
-  // Use hash to generate consistent colors
-  const hue = Math.abs(hash) % 360;
-  const saturation = 65 + (Math.abs(hash) % 20); // 65-85%
-  const lightness = 70 + (Math.abs(hash) % 15);  // 70-85%
+  // Generate variations of your primary colors
+  const variations = [
+    adjustColorBrightness(baseColor, 20),   // Lighter
+    adjustColorBrightness(baseColor, -15),  // Darker
+    adjustColorBrightness(baseColor, 40),   // Much lighter
+    adjustColorBrightness(baseColor, -30)   // Much darker
+  ];
   
-  return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+  return variations[(index - baseColors.length) % variations.length];
 }
 
+// Helper function to adjust color brightness
+function adjustColorBrightness(hex: string, percent: number): string {
+  const num = parseInt(hex.replace("#", ""), 16);
+  const amt = Math.round(2.55 * percent);
+  const R = (num >> 16) + amt;
+  const G = (num >> 8 & 0x00FF) + amt;
+  const B = (num & 0x0000FF) + amt;
+  return "#" + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 +
+    (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 +
+    (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
+}
 
 function getMarketCapCategory(marketCapInCrore: number): string {
-  if (marketCapInCrore >= 100000) {
-    return 'Mega Cap';
-  } else if (marketCapInCrore >= 20000) {
+   if (marketCapInCrore >= 20000) {
     return 'Large Cap';
-  } else if (marketCapInCrore >= 5000) {
+  } else if (marketCapInCrore >= 10000) {
     return 'Mid Cap';
-  } else if (marketCapInCrore >= 500) {
+  } else if (marketCapInCrore >= 2000) {
     return 'Small Cap';
   } else {
     return 'Micro Cap';
@@ -70,62 +88,26 @@ function getMarketCapCategory(marketCapInCrore: number): string {
 
 
 export const PlatinaServiceCard = ({userRecommendation}:{userRecommendation: UserPlatinaRecommendationWithDetails}) => {
-   const {riskProfile, platinaService, stocks, notes, recommendationDate, userInvestmentAmount, peChart, epsChart, rationale} = userRecommendation || {};
+   const {riskProfile, platinaService, stocks, stockHistory, notes, recommendationDate, userInvestmentAmount, peChart, epsChart, rationale} = userRecommendation || {};
    // const stockList = stockRecommendations as PlatinaStockList[];
-      
+   const activeTickers = (stocks || []).filter(s => s.isActive).map(s => s.stockTicker);
+
+   // Filter history to only include events for active stocks
+   const filteredStockHistory = (stockHistory || []).filter(
+      h => activeTickers.includes(h.stockTicker)
+   );  
    return (
       <> 
          <PlatinaPortfolioUpdates recomendationDate={recommendationDate|| null} userInvestmentAmount={userInvestmentAmount || null} rationale={rationale}/>
          <PlatinaStockListTable stockList ={stocks || []} notes={notes || ''}/>
+         <PlatinaStockTimeline stockHistory={stockHistory || []} />
          <PlatinaPieCharts stockList={stocks || []}/>
          <PlatinaLineCharts peChart={peChart} epsChart={epsChart}/>
       </>
    )
 }
 
-const PlatinaStockListTable = ({stockList, notes = ''}:{stockList: UserPlatinaStockList[], notes: string}) => {
-  return(
-      <div className={`w-full border border-platina/70 rounded-2xl p-4 flex flex-col mb-8`}>
-          <h6 className="mb-4"> Current Portfolio Recommendations </h6>
-          <Table containerClass={cn(STYLE.platina_scrollbar)} className="">
-            <TableCaption className="mb-4">
-               <p className="text-xs">Notes: {notes || "No additional notes"}</p>
-            </TableCaption>
-            <TableHeader>
-               <TableRow className="text-sm">
-                 <TableHead>&nbsp;</TableHead>
-                 <TableHead className="w-[100px]">Company Name</TableHead>
-                 <TableHead>Stock Ticker</TableHead>
-                 <TableHead>Sector</TableHead>
-                 <TableHead>Portfolio Weight</TableHead>
-                 <TableHead>Total Shares</TableHead>
-                 <TableHead>Current Share Price</TableHead>
-                 <TableHead>Purchase Amount</TableHead>
-                 <TableHead>PE Ratio</TableHead>
-                 <TableHead>Market Cap (in cr.)</TableHead>
-               </TableRow>
-            </TableHeader>
-            <TableBody>
-          {stockList.map((stock, index) => (
-            <TableRow key={index} className="text-xs">
-               <TableCell className="text-center">{index + 1}</TableCell>
-               <TableCell className="font-medium">{stock.stockName}</TableCell>
-               <TableCell>{stock.stockTicker}</TableCell>
-               <TableCell>{stock.sector}</TableCell>
-               <TableCell>{stock.portfolioWeight}%</TableCell>
-               <TableCell>{stock.totalShares}</TableCell>
-               <TableCell className="font-urbanist">₹{stock.currentSharePrice.toFixed(2)}</TableCell>
-               <TableCell className="font-urbanist">₹{stock.purchaseAmount.toFixed(2)}</TableCell>
-               <TableCell>{stock.PEratio}</TableCell>
-               <TableCell className="font-urbanist">₹{stock.marketCapInCrore} Cr</TableCell>
-            </TableRow>
-          ))}
 
-         </TableBody>
-       </Table>
-      </div>
-   )
-}
 
 const PlatinaPortfolioUpdates =({recomendationDate, userInvestmentAmount, rationale}:{recomendationDate : Date | null, userInvestmentAmount : number | null, rationale: any })=> {
    return (
@@ -134,7 +116,7 @@ const PlatinaPortfolioUpdates =({recomendationDate, userInvestmentAmount, ration
             <p className="text-sm">Next Review Date: <span className="text-base">{formatHumanDate(recomendationDate!)}</span></p>
             <p className="text-sm">Investment Amount: <span className="font-urbanist font-semibold text-lg">₹{userInvestmentAmount?.toLocaleString()}</span></p>
             <Dialog>
-              <DialogTrigger>View Rationale</DialogTrigger>
+              <DialogTrigger className="text-sm text-white rounded bg-platina/80 hover:bg-platina duration-300 transition-all px-4 py-2 cursor-pointer">View Rationale</DialogTrigger>
               <DialogContent className="max-h-[80vh] w-[calc(100%-14px)] max-w-3xl h-full overflow-y-auto overflow-x-hidden p-4">
                   <DialogTitle>&nbsp;</DialogTitle>
                   <QuillHtmlViewer delta={rationale} className="text-sm" />
@@ -145,11 +127,57 @@ const PlatinaPortfolioUpdates =({recomendationDate, userInvestmentAmount, ration
    )
 }
 
-const PlatinaPieCharts =({stockList}:{stockList: UserPlatinaStockList[]})=>{
-    const createPieData = (
+
+const PlatinaStockListTable = ({stockList, notes = ''}:{stockList: UserPlatinaStockList[], notes: string}) => {
+  return(
+      <div className={`w-full border border-platina/70 rounded-2xl p-4 flex flex-col mb-8`}>
+          <h6 className="mb-4"> Current Portfolio Recommendations </h6>
+          <Table containerClass={''} className="">
+            <TableCaption className="mb-4">
+               <p className="text-xs">Notes: {notes || "No additional notes"}</p>
+            </TableCaption>
+            <TableHeader>
+               <TableRow className="text-sm">
+                 <TableHead>#</TableHead>
+                 <TableHead className="w-[100px]">Company Name</TableHead>
+                 <TableHead>Stock Ticker</TableHead>
+                 <TableHead>Portfolio Weight</TableHead>
+                 <TableHead>Total Shares</TableHead>
+                 <TableHead>Current Share Price</TableHead>
+                 <TableHead>Purchase Amount</TableHead>
+                 <TableHead>PE Ratio</TableHead>
+                 <TableHead>Market Cap (in cr.)</TableHead>
+                 <TableHead>Sector</TableHead>
+               </TableRow>
+            </TableHeader>
+            <TableBody>
+          {stockList.map((stock, index) => (
+            <TableRow key={index} className="text-xs">
+               <TableCell className="text-center">{index + 1}</TableCell>
+               <TableCell className="font-medium">{stock.stockName}</TableCell>
+               <TableCell>{stock.stockTicker}</TableCell>
+               <TableCell>{stock.portfolioWeight}%</TableCell>
+               <TableCell>{stock.totalShares}</TableCell>
+               <TableCell className="font-urbanist">₹{stock.currentSharePrice.toFixed(2)}</TableCell>
+               <TableCell className="font-urbanist">₹{stock.purchaseAmount.toFixed(2)}</TableCell>
+               <TableCell>{stock.PEratio}</TableCell>
+               <TableCell className="font-urbanist">₹{stock.marketCapInCrore} Cr</TableCell>
+               <TableCell>{stock.sector}</TableCell>
+            </TableRow>
+          ))}
+
+         </TableBody>
+       </Table>
+      </div>
+   )
+};
+
+
+const PlatinaPieCharts =({stockList}:{stockList: UserPlatinaStockList[]})=> {
+   const createPieData = (
         keyExtractor: (stock: UserPlatinaStockList) => string,
         colorMap?: Record<string, string>
-    ) => {
+       ) => {
         const dataMap = stockList.reduce((acc, stock) => {
             const key = keyExtractor(stock);
             if (acc[key]) {
@@ -168,7 +196,7 @@ const PlatinaPieCharts =({stockList}:{stockList: UserPlatinaStockList[]})=>{
                 stocks: stockList.filter(s => keyExtractor(s) === name).length
             }))
             .sort((a, b) => b.value - a.value);
-    };
+   };
  
    
    
@@ -176,11 +204,10 @@ const PlatinaPieCharts =({stockList}:{stockList: UserPlatinaStockList[]})=>{
    const marketCapData = () => createPieData(
       stock => getMarketCapCategory(stock.marketCapInCrore),
       {
-        'Mega Cap': '#7FF4D3',
-        'Large Cap': '#60A5FA',
-        'Mid Cap': '#FCD34D',
-        'Small Cap': '#F87171',
-        'Micro Cap': '#A78BFA'
+        'Large Cap': '#4AEDB9',    // legacisGreen
+        'Mid Cap': '#6104C0',      // legacisPurple
+        'Small Cap': '#8036F2',    // legacisBlue
+        'Micro Cap': '#FA2EF3'     // legacisPink
       }
    );
 
@@ -190,7 +217,7 @@ const PlatinaPieCharts =({stockList}:{stockList: UserPlatinaStockList[]})=>{
 
 
    return(
-      <div className="w-full flex flex-col lg:flex-row gap-8 sm:border sm:border-platina/70 rounded-2xl sm:p-4 mb-8">
+      <div className="w-full flex flex-col lg:flex-row gap-8 rounded-2xl mb-8">
          <div className="w-full flex-1 p-4 border border-platina/80 rounded-2xl">
             <h6 className="mb-4">Sector Allocation</h6>
             <PlatinaPieChart data={sectorData()} chartConfig={chartConfig}/>
@@ -201,7 +228,7 @@ const PlatinaPieCharts =({stockList}:{stockList: UserPlatinaStockList[]})=>{
           </div>
       </div>
    )
-}
+};
 
 const PlatinaLineCharts=({peChart, epsChart}:{peChart : any, epsChart: any})=>{
    const chartConfig = {
@@ -212,7 +239,7 @@ const PlatinaLineCharts=({peChart, epsChart}:{peChart : any, epsChart: any})=>{
    }
 
    return (
-      <div className="w-full flex flex-col lg:flex-row gap-8 sm:border sm:border-platina/70 rounded-2xl sm:p-4 mb-8">
+      <div className="w-full flex flex-col lg:flex-row gap-8 rounded-2xl mb-8">
          <div className="w-full flex-1 p-4 border border-platina/80 rounded-2xl">
             <h6 className="mb-4">Price to Earnings (PE) Ratio</h6>
             <PlatinaSimpleLineChart data={peChart} color="#c080ff" title={'PE (Price to Earning) Average %'}/>
@@ -223,7 +250,7 @@ const PlatinaLineCharts=({peChart, epsChart}:{peChart : any, epsChart: any})=>{
          </div>
       </div>
    )
-}
+};
 
 export const PlatinaPendingStage = ({ 
    serviceName, 
@@ -285,7 +312,7 @@ export const PlatinaPendingStage = ({
          </div>
       </div>
    )
-}
+};
 
 
 // export const PlatinaDisplayRationale=({})=>{

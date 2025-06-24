@@ -77,6 +77,7 @@ export const isServicePurchased = async (userId: string, serviceId : string) => 
          expiryDate: {
             gt: new Date(),
          },
+         isActive: true,
       },
       include: {
          service: true,

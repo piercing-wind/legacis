@@ -191,7 +191,14 @@ exports.Prisma.UserPurchasedServicesScalarFieldEnum = {
   planDays: 'planDays',
   planDiscount: 'planDiscount',
   agreementAcceptedAt: 'agreementAcceptedAt',
-  agreementData: 'agreementData'
+  agreementData: 'agreementData',
+  grantType: 'grantType',
+  grantedBy: 'grantedBy',
+  grantReason: 'grantReason',
+  parentServiceId: 'parentServiceId',
+  transactionId: 'transactionId',
+  isActive: 'isActive',
+  grantMetadata: 'grantMetadata'
 };
 
 exports.Prisma.CouponScalarFieldEnum = {
@@ -375,9 +382,22 @@ exports.Prisma.UserPlatinaStockListScalarFieldEnum = {
   marketCapInCrore: 'marketCapInCrore',
   entryDate: 'entryDate',
   exitDate: 'exitDate',
-  recordDate: 'recordDate',
   isActive: 'isActive',
-  changeType: 'changeType'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.UserPlatinaStockHistoryScalarFieldEnum = {
+  id: 'id',
+  recommendationId: 'recommendationId',
+  stockTicker: 'stockTicker',
+  stockName: 'stockName',
+  changeType: 'changeType',
+  changeDate: 'changeDate',
+  previousWeight: 'previousWeight',
+  newWeight: 'newWeight',
+  changeDescription: 'changeDescription',
+  metadata: 'metadata'
 };
 
 exports.Prisma.SortOrder = {
@@ -429,6 +449,12 @@ exports.VerificationType = exports.$Enums.VerificationType = {
   AGREEMENT_ACCEPTANCE: 'AGREEMENT_ACCEPTANCE'
 };
 
+exports.GrantType = exports.$Enums.GrantType = {
+  PURCHASED: 'PURCHASED',
+  COMPLIMENTARY: 'COMPLIMENTARY',
+  ADMIN_GRANTED: 'ADMIN_GRANTED'
+};
+
 exports.DocumentStatus = exports.$Enums.DocumentStatus = {
   PENDING: 'PENDING',
   UNDER_REVIEW: 'UNDER_REVIEW',
@@ -475,7 +501,8 @@ exports.Prisma.ModelName = {
   UserRiskProfile: 'UserRiskProfile',
   ServicePlatinaWealth: 'ServicePlatinaWealth',
   UserPlatinaRecommendation: 'UserPlatinaRecommendation',
-  UserPlatinaStockList: 'UserPlatinaStockList'
+  UserPlatinaStockList: 'UserPlatinaStockList',
+  UserPlatinaStockHistory: 'UserPlatinaStockHistory'
 };
 
 /**

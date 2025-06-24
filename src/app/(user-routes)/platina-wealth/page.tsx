@@ -77,7 +77,7 @@ export default async function Page() {
        
        {purchasedService && service &&
          <>
-            <h5 className="mb-4">{service.name}</h5>
+            <h5 className="mb-4 text-xl font-medium">{service.name}</h5>
             {!userRecommendation ? 
             (
             <PlatinaPendingStage 
@@ -89,20 +89,35 @@ export default async function Page() {
             )}
          </>
        }
-       <section className="flex flex-col lg:flex-row items-stretch justify-center gap-4 lg:gap-8 w-full my-8">
-         <div className="w-full lg:min-w-2xl xl:min-w-3xl flex-1 relative border rounded-2xl p-2 mb-4 lg:mb-0 ">
-            <div className="w-full flex flex-col md:flex-row md:items-center gap-1 md:gap-8 justify-center">
-               <p className="text-sm">{(service?.name)?.slice(0, 20)}: <span className="text-green-500">{latestData?.main ?? ""}</span></p>
-               <p className="text-sm">{service?.comparisonTitle}: <span className="text-green-500">{latestData?.comparison ?? ""}</span></p>
+      <section className=" z-20 bg-background flex flex-col lg:flex-row items-stretch justify-center gap-4 lg:gap-8 w-full my-8">
+         <div className="w-full relative lg:min-w-2xl xl:min-w-3xl flex-1 border space-y-8 rounded-2xl p-2 mb-4 lg:mb-0 max-h-[64vh] overflow-y-auto">
+            <div className="sticky top-0 z-5 bg-background p-4 rounded-2xl mb-4 min-h-[60vh]">
+               <h3 className="text-lg font-semibold mb-2">Section 1</h3>
+               <p>Your content here - this will stick to top when scrolling within the left container</p>
             </div>
-            <Chart
-               chartData={chartData}
-               mainLabel={service?.name || "Main"}
-               comparisonLabel={service?.comparisonTitle || "Comparison"}
-            />
+            <div className="sticky top-0 z-6 bg-pink-100 p-4 rounded-2xl mb-4 min-h-[60vh]">
+               <h3 className="text-lg font-semibold mb-2">Section 2</h3>
+               <p>Your content here - this will stick after section 1</p>
+            </div>
+            <div className="sticky top-0 z-7 bg-amber-100 p-4 rounded-2xl mb-4 min-h-[60vh]">
+               <h3 className="text-lg font-semibold mb-2">Section 3</h3>
+               <p>Your content here - this will stick after section 2</p>
+            </div>
+            <div className="sticky top-0 z-8 bg-green-100 p-4 rounded-2xl mb-4 min-h-[60vh]">
+               <h3 className="text-lg font-semibold mb-2">Section 4</h3>
+               <p>Your content here - this will stick after section 3</p>
+            </div>
+            <div className="sticky top-0 z-9 bg-purple-100 p-4 rounded-2xl mb-4 min-h-[60vh]">
+               <h3 className="text-lg font-semibold mb-2">Section 5</h3>
+               <p>Your content here - this will stick after section 4</p>
+            </div>
+            <div className="sticky top-4 z-10 bg-red-100 p-4 rounded-2xl mb-4 min-h-[60vh]">
+               <h3 className="text-lg font-semibold mb-2">Section 6</h3>
+               <p>Your content here - this will stick after section 5</p>
+            </div>
          </div>
-         <div className={`max-w-xl w-full flex-1 border border-platina/70 rounded-2xl p-4 flex flex-col gap-2 shadow-[0_0_20px_var(--platina)]/50 `}>
-            <SparklesText className="text-xl !font-normal" sparklesCount={5}>{service?.name}</SparklesText>
+         <div className={`max-w-xl w-full flex-1 border border-platina/70 rounded-2xl p-4 flex flex-col gap-2 shadow-[0_0_20px_var(--platina)]/50 self-stretch`}>
+            <h6 className="text-xl font-medium">{service?.name}</h6>
             <p className="text-xs">{service?.tag}</p>
             <p className="text-xs my-2">{service?.description}</p>
             <Line color="var(--text-color)" height="2px" className="self-stretch opacity-20"/>
@@ -110,68 +125,68 @@ export default async function Page() {
                Array.from({ length: Math.ceil(highlights.length / 3) }).map((_, rowIdx) => {
                const rowItems = highlights.slice(rowIdx * 3, rowIdx * 3 + 3);
                return (
-                  <div
-                     key={rowIdx}
-                     className="w-full flex flex-row items-center justify-center text-nowrap gap-2 my-2 h-20"
-                  >
-                     {rowItems.map((item, idx) => (
-                     <React.Fragment key={item.name + idx}>
-                        <span className="relative flex flex-col gap-2 w-full h-full items-center justify-center">
-                           <p className="text-xs text-wrap text-center">{item.name}</p>
-                           <p className="font-medium">{item.value}</p>
-                        </span>
-                        {idx < rowItems.length - 1 && (
-                           <Line
-                           color="var(--text-color)"
-                           vertical
-                           height="100%"
-                           width="2px"
-                           className="self-stretch h-full opacity-20"
-                           />
-                        )}
-                     </React.Fragment>
-                     ))}
-                  </div>
-                );
+               <div
+                  key={rowIdx}
+                  className="w-full flex flex-row items-center justify-center text-nowrap gap-2 my-2 h-20"
+               >
+                  {rowItems.map((item, idx) => (
+                  <React.Fragment key={item.name + idx}>
+                     <span className="relative flex flex-col gap-2 w-full h-full items-center justify-center">
+                     <p className="text-xs text-wrap text-center">{item.name}</p>
+                     <p className="font-medium">{item.value}</p>
+                     </span>
+                     {idx < rowItems.length - 1 && (
+                     <Line
+                     color="var(--text-color)"
+                     vertical
+                     height="100%"
+                     width="2px"
+                     className="self-stretch h-full opacity-20"
+                     />
+                     )}
+                  </React.Fragment>
+                  ))}
+               </div>
+               );
                })}
             <Line color="var(--text-color)" height="2px" className="self-stretch opacity-20"/>
             {purchasedService ? (
                <Button variant={'outline'}  className="w-full border-2 mt-auto p-2 h-10 lg:h-14 uppercase rounded-full">
-                  <span className="text-green-500">Subscribed</span> | 
-                  <span className="text-xs">
-                     Expiring On: {formatHumanDate(purchasedService.expiryDate)}
-                  </span>
+               <span className="text-green-500">Subscribed</span> | 
+               <span className="text-xs">
+                  Expiring On: {formatHumanDate(purchasedService.expiryDate)}
+               </span>
                </Button>
             ):(
-             <Drawer >
+            <Drawer >
                <DrawerTrigger asChild>
                <ShinyButton  className={`w-full bg-platina/70 mt-auto p-2 h-10 lg:h-14 uppercase rounded-full flex items-center`}>
-                  Subscribe Now
+               Subscribe Now
                </ShinyButton>
                </DrawerTrigger>
                <DrawerContent>
-              <div className="mx-auto w-full max-w-7xl p-4 pb-24 overflow-x-hidden overflow-y-auto flex flex-col lg:flex-row items-stretch justify-between gap-4">
-                  <div className="rounded-2xl border flex-1 min-w-0 flex flex-col mb-4 lg:mb-0">
-                    <DrawerHeader>
-                      <DrawerTitle className="!text-2xl lg:!text-3xl">Subscription Plans</DrawerTitle>
-                    </DrawerHeader>
-                    <Plans
-                      price={Number(service?.price) || 0}
-                      tenureDiscounts={tenureArr}
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0 flex flex-col">
-                    <CheckoutForm
-                      service={service}
-                      agreement={agreement}   
-                    />
-                  </div>
+               <div className="mx-auto w-full max-w-7xl p-4 pb-24 overflow-x-hidden overflow-y-auto flex flex-col lg:flex-row items-stretch justify-between gap-4">
+               <div className="rounded-2xl border flex-1 min-w-0 flex flex-col mb-4 lg:mb-0">
+                  <DrawerHeader>
+                     <DrawerTitle className="!text-2xl lg:!text-3xl">Subscription Plans</DrawerTitle>
+                  </DrawerHeader>
+                  <Plans
+                     price={Number(service?.price) || 0}
+                     tenureDiscounts={tenureArr}
+                  />
+               </div>
+               <div className="flex-1 min-w-0 flex flex-col">
+                  <CheckoutForm
+                     service={service}
+                     agreement={agreement}   
+                  />
+               </div>
                </div>
                </DrawerContent>
             </Drawer>
             )}
          </div>
-         </section>
+      </section>
          
          <Faq className="mt-8" title={service?.name || ''}   
             faq={Array.isArray((service?.faq as any)?.faq)

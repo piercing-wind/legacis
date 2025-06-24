@@ -8,10 +8,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ComboPlan, Service, Transaction as UserTransaction } from "@/prisma/generated/client";
+import { Service, Transaction as UserTransaction } from "@/prisma/generated/client";
 import { formatHumanDate } from "@/lib/utils";
 
-type TransactionWithService = UserTransaction & { service: Service | null; comboPlan : ComboPlan | null };
+type TransactionWithService = UserTransaction & { service: Service | null };
 
 const Transaction = ({
   userTransactions,
@@ -33,7 +33,7 @@ const Transaction = ({
         {userTransactions.map((txn) => (
           <div key={txn.id} className="border rounded-xl p-4 flex flex-col gap-2 bg-white dark:bg-neutral-900">
             <div className="flex justify-between items-center">
-              <span className="font-semibold"> {txn.service?.name || txn.comboPlan?.name || "N/A"}</span>
+              <span className="font-semibold"> {txn.service?.name || "N/A"}</span>
               <span
                 className={
                   txn.status === "SUCCESS"

@@ -140,6 +140,12 @@ model panVerificationData {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+enum GrantType {
+  PURCHASED // User actually paid for it
+  COMPLIMENTARY // Granted as part of another service purchase
+  ADMIN_GRANTED // Manually granted by admin
+}
+
 model UserPurchasedServices {
   id                  String    @id @default(uuid())
   userId              String
@@ -150,6 +156,15 @@ model UserPurchasedServices {
   planDiscount        Float
   agreementAcceptedAt DateTime?
   agreementData       Json?
+
+  grantType       GrantType @default(PURCHASED)
+  grantedBy       String? // Admin user ID if manually granted
+  grantReason     String? // Reason for manual grant or promotion details
+  parentServiceId String? // If complimentary, which service purchase triggered this
+  transactionId   String? // Link to actual payment transaction
+  isActive        Boolean   @default(true)
+
+  grantMetadata Json? //For coupons 
 
   user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   service Service? @relation(fields: [serviceId], references: [id], onDelete: SetNull)
@@ -471,10 +486,11 @@ model UserPlatinaRecommendation {
   peChart              Json?
   epsChart             Json?
 
-  notes     String?
-  createdAt DateTime               @default(now())
-  updatedAt DateTime               @updatedAt
-  stocks    UserPlatinaStockList[]
+  notes        String?
+  createdAt    DateTime                  @default(now())
+  updatedAt    DateTime                  @updatedAt
+  stocks       UserPlatinaStockList[]
+  stockHistory UserPlatinaStockHistory[]
 
   user           User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
   platinaService ServicePlatinaWealth @relation(fields: [platinaServiceId], references: [id], onDelete: Cascade)
@@ -507,15 +523,38 @@ model UserPlatinaStockList {
   marketCapInCrore  Float
   entryDate         String
   exitDate          String?
+  isActive          Boolean @default(true)
 
-  // History tracking fields (from your PlatinaStockList)
-  recordDate String
-  isActive   Boolean          @default(true)
-  changeType StockChangeType? @default(INITIAL)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   recommendation UserPlatinaRecommendation @relation(fields: [recommendationId], references: [id], onDelete: Cascade)
 
   @@index([recommendationId])
   @@index([stockTicker])
   @@index([isActive])
+}
+
+model UserPlatinaStockHistory {
+  id               String          @id @default(uuid())
+  recommendationId String
+  stockTicker      String
+  stockName        String
+  changeType       StockChangeType
+  changeDate       DateTime        @default(now())
+
+  previousWeight Float?
+  newWeight      Float?
+
+  changeDescription String
+
+  // Additional metadata
+  metadata Json?
+
+  recommendation UserPlatinaRecommendation @relation(fields: [recommendationId], references: [id], onDelete: Cascade)
+
+  @@index([recommendationId])
+  @@index([changeDate])
+  @@index([stockTicker])
+  @@index([changeType])
 }

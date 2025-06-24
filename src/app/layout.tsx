@@ -4,7 +4,6 @@ import "./globals.css";
 import ReduxProvider from "@/components/reduxStateProvider";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner"
-import Nav from "@/components/nav";
 import { Authentication } from "@/components/auth/authentication";
 import { SessionProvider } from "next-auth/react";
 import Modal from "@/components/profile/modal";
@@ -48,7 +47,6 @@ export default function RootLayout({
             <ReduxProvider>
                <Authentication />
                <Modal />
-               <Nav />
                {children}
                <Toaster />
             </ReduxProvider>
