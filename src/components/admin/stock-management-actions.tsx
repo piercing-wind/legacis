@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -22,15 +22,18 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { MoreHorizontal, Edit, Trash2, Eye, Power, Save, Plus } from 'lucide-react';
-import { removeStockFromPortfolio, updateStockInPortfolio, createStockInPortfolio } from '@/actions/admin/platina-wealth';
+import { MoreHorizontal, Edit, Trash2, Eye, Power, Save, Plus, Pen } from 'lucide-react';
+import { removeStockFromPortfolio, updateStockInPortfolio, createStockInPortfolio, updateRecommendationDate } from '@/actions/admin/platina-wealth';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { DialogTrigger } from '@radix-ui/react-dialog';
+import QuillInput from '../quill';
 
 interface StockManagementActionsProps {
   stockId: string;
@@ -450,13 +453,13 @@ export function AddStockDialog({ recommendationId, userId }: { recommendationId:
   };
 
   return (
-    <>
-      <Button onClick={() => setOpen(true)} className="mb-4">
-        <Plus className="w-4 h-4 mr-2" />
-        Add Stock
-      </Button>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent>
+         <DialogTrigger asChild>
+            <Button className="">
+               Add Stock
+            </Button>
+         </DialogTrigger>
+        <DialogContent className='max-w-4xl w-full'>
           <DialogHeader>
             <DialogTitle>Add New Stock</DialogTitle>
             <DialogDescription>
@@ -534,6 +537,95 @@ export function AddStockDialog({ recommendationId, userId }: { recommendationId:
           </div>
         </DialogContent>
       </Dialog>
-    </>
   );
 }
+
+
+export function UpdateRecommendationDate({
+  recommendationDate,
+  recommendationId,
+  userId,
+}: {
+  recommendationDate: Date; // ISO date string, e.g. "2024-06-25"
+  recommendationId: string;
+  userId: string;
+}) {
+  const router = useRouter();
+
+  const initialDate =
+  recommendationDate instanceof Date && !isNaN(recommendationDate.getTime())
+    ? recommendationDate.toISOString().slice(0, 10)
+    : '';
+
+  const [open, setOpen] = useState(false);
+  const [date, setDate] = useState(initialDate || '');
+  const [isLoading, setIsLoading] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+
+  // Reset date and focus input when dialog opens
+  useEffect(() => {
+    if (open) {
+      setDate(initialDate);
+      setTimeout(() => inputRef.current?.focus(), 100);
+    }
+  }, [open, recommendationDate]);
+
+  const handleSave = async () => {
+   try {
+      if (!date) throw new Error('Please select a date');
+
+      setIsLoading(true);
+      const res = await updateRecommendationDate({
+        userId,
+        platinaServiceId: recommendationId,
+        recommendationDate: date,
+      });
+      setIsLoading(false);
+      if (!res.success) throw new Error(res.message || 'Failed to update date');
+      
+      toast.success(res.message);
+      setOpen(false);
+      router.refresh();
+      
+   }catch(error){
+      toast.error(`${(error as Error).message}`);
+   }
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button variant="ghost" className="flex items-center gap-2 p-0 h-auto">
+          {initialDate ? (
+            <span>{new Date(initialDate).toLocaleDateString()}</span>
+          ) : (
+            <span className="text-muted-foreground">Set Date</span>
+          )}
+          <Pen size={20} />
+        </Button>
+      </DialogTrigger>
+      <DialogContent className='max-w-2xl w-full'>
+        <DialogHeader>
+          <DialogTitle>Edit Next Review Date</DialogTitle>
+        </DialogHeader>
+        <Input
+          ref={inputRef}
+          type="date"
+          className="input input-bordered w-full"
+          value={date}
+          min={new Date().toISOString().slice(0, 10)}
+          onChange={e => setDate(e.target.value)}
+          disabled={isLoading}
+        />
+        <DialogFooter>
+          <Button disabled={isLoading || !date} onClick={handleSave}>
+            {isLoading ? 'Saving...' : 'Save'}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+

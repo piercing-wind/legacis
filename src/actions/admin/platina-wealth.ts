@@ -282,3 +282,24 @@ export async function createStockInPortfolio(
     return { success: false, message: 'Failed to add stock' };
   }
 }
+
+export async function updateRecommendationDate({ userId, platinaServiceId, recommendationDate }: { userId: string; platinaServiceId: string; recommendationDate: string }) {
+   try{
+      await db.userPlatinaRecommendation.update({
+         where:{
+            userId_platinaServiceId :{
+               userId,
+               platinaServiceId
+            }
+         },
+         data:{
+            recommendationDate : new Date(recommendationDate),
+            updatedAt: new Date()
+         }
+      })
+    revalidatePath('/admin/platina-wealth');
+    return { success: true, message: 'Recommendation date updated successfully' };
+  } catch (error) {
+   return { success: false, message: `${(error as Error).message}`};
+  }
+}

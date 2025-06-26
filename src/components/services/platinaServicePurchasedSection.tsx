@@ -96,9 +96,14 @@ export const PlatinaServiceCard = ({userRecommendation}:{userRecommendation: Use
    const filteredStockHistory = (stockHistory || []).filter(
       h => activeTickers.includes(h.stockTicker)
    );  
+
+   const totalInvestmentAmount = stocks?.reduce((total, stock) => {
+    return total + (stock.purchaseAmount || 0);
+  }, 0);
+
    return (
       <> 
-         <PlatinaPortfolioUpdates recomendationDate={recommendationDate|| null} userInvestmentAmount={userInvestmentAmount || null} rationale={rationale}/>
+         <PlatinaPortfolioUpdates recomendationDate={recommendationDate|| null} userInvestmentAmount={totalInvestmentAmount || 0} rationale={rationale}/>
          <PlatinaStockListTable stockList ={stocks || []} notes={notes || ''}/>
          <PlatinaStockTimeline stockHistory={stockHistory || []} />
          <PlatinaPieCharts stockList={stocks || []}/>

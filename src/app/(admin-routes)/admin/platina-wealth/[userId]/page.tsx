@@ -27,7 +27,8 @@ import {
 import Link from 'next/link';
 import { formatHumanDate } from '@/lib/utils';
 import { notFound } from 'next/navigation';
-import { AddStockDialog, StockManagementActions } from '@/components/admin/stock-management-actions';
+import { AddStockDialog, StockManagementActions, UpdateRecommendationDate } from '@/components/admin/stock-management-actions';
+import RationaleInput from "@/components/admin/platina-rationale";
 
 export default async function UserPlatinaDetailsPage({params}: { params: Promise<{ userId: string }>}) {
    const { userId } = await params
@@ -40,6 +41,10 @@ export default async function UserPlatinaDetailsPage({params}: { params: Promise
   const activeRecommendation = user.platinaRecommendations[0];
   const platinaService = user.purchasedServices.find(s => s.service?.type === 'PLATINA_WEALTH');
   const stockHistory = activeRecommendation?.stockHistory || [];
+
+  const totalInvestmentAmount = activeRecommendation.stocks.reduce((total, stock) => {
+    return total + (stock.purchaseAmount || 0);
+  }, 0);
 
   const getInitials = (name: string | null) => {
     if (!name) return 'U';
@@ -148,20 +153,23 @@ export default async function UserPlatinaDetailsPage({params}: { params: Promise
               <div>
                 <p className="text-sm text-muted-foreground">Investment Amount</p>
                 <p className="text-2xl font-bold">
-                  ₹{activeRecommendation.userInvestmentAmount?.toLocaleString() || 'N/A'}
+                  ₹{totalInvestmentAmount?.toLocaleString() || '0'}
                 </p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Portfolio Type</p>
-                <p className="text-xl font-semibold">{activeRecommendation.portfolioType || 'N/A'}</p>
+               <RationaleInput/>
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Total Stocks</p>
                 <p className="text-2xl font-bold">{activeRecommendation.stocks.length}</p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Last Updated</p>
-                <p className="text-sm font-medium">{formatHumanDate(activeRecommendation.updatedAt)}</p>
+                <p className="text-sm text-muted-foreground">Next Review Date</p>
+               <UpdateRecommendationDate
+                  recommendationId={activeRecommendation.platinaServiceId}
+                  userId={user.id}
+                  recommendationDate={activeRecommendation.recommendationDate}
+               />
               </div>
             </div>
           </CardContent>
@@ -195,7 +203,9 @@ export default async function UserPlatinaDetailsPage({params}: { params: Promise
                       <TableHead>Portfolio Weight</TableHead>
                       <TableHead>Total Shares</TableHead>
                       <TableHead>Current Share Price</TableHead>
+                      <TableHead>Purchase Amount</TableHead>
                       <TableHead>Market Value</TableHead>
+                      <TableHead>Market Cap (in cr.)</TableHead>
                       <TableHead>P/E Ratio</TableHead>
                       <TableHead>Status</TableHead>
                       <TableHead>Sector</TableHead>
@@ -227,7 +237,15 @@ export default async function UserPlatinaDetailsPage({params}: { params: Promise
                         </TableCell>
                         
                         <TableCell>
-                          <div className="font-semibold">₹{stock.marketValue.toLocaleString()}</div>
+                          <div className="font-semibold">₹{stock.purchaseAmount.toLocaleString()}</div>
+                        </TableCell>
+
+                        <TableCell>
+                          <div className="font-medium">₹{stock.marketValue.toLocaleString()}</div>
+                        </TableCell>
+                        
+                        <TableCell>
+                          <div className="font-medium">₹{stock.marketCapInCrore.toLocaleString()} Cr</div>
                         </TableCell>
                         
                         <TableCell>
