@@ -48,7 +48,6 @@ export async function createSubscription(input: CreateSubscriptionInput) {
       id: true, 
       name: true, 
       price: true, 
-      active: true, 
       type: true,
       taxPercent: true,
       tenureDiscounts: true 
@@ -57,10 +56,6 @@ export async function createSubscription(input: CreateSubscriptionInput) {
 
   if (!service) {
     throw new Error("Service not found")
-  }
-
-  if (!service.active) {
-    throw new Error("Service is not active")
   }
 
   // Check for existing active subscription
@@ -151,6 +146,16 @@ export async function createSubscription(input: CreateSubscriptionInput) {
       }
     }
   })
+  
+  if(service.type === 'PLATINA_WEALTH') {
+      await db.userPlatinaRecommendation.create({
+         data: {
+           userId: targetUser.id,
+           platinaServiceId: service.id,
+           isActive: false
+         }
+      })
+    }
 
   return {
     subscription,

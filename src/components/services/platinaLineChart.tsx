@@ -17,6 +17,7 @@ interface SimpleLineChartProps {
   title?: string;
 }
 
+
 export default function PlatinaSimpleLineChart({ 
   data, 
   color = "#4AEDB9", 
@@ -47,6 +48,13 @@ export default function PlatinaSimpleLineChart({
               dataKey="date" 
               tickLine={false}
               axisLine={false}
+              tickFormatter={dateStr => {
+                 // dateStr is "31-01-2023"
+                 const [day, month, year] = dateStr.split('-');
+                 // Format as "Jan 2023"
+                 const dateObj = new Date(Number(year), Number(month) - 1, Number(day));
+                 return dateObj.toLocaleString('default', { month: 'short', year: 'numeric' });
+               }}
               className="text-xs dark:text-neutral-100"
             />
             <YAxis 

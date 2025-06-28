@@ -16,22 +16,35 @@ import { useRef, useState } from 'react';
 const QuillRenderPage = dynamic(() => import('../quill'), { ssr: false });
 
 import { Button } from '../ui/button';
+import { updateUserPlatinaRationale } from '@/actions/admin/platina-wealth';
+import { toast } from 'sonner';
 
-function RationaleInput(){
+function RationaleInput({userId, platinaServiceId, prevRationale } : {userId: string, platinaServiceId: string, prevRationale?: any}) {
    const [open, setOpen] = useState(false);
-    const editorRef = useRef<HTMLDivElement>(null);
-
+   const [quillInstance, setQuillInstance] = useState<any>(null);
+   
    const [isLoading, setIsLoading] = useState(false);
-   const handleGetContents = () => {
-   if (editorRef.current) {
-      // Quill attaches itself to the DOM node via __quill property
-      const quillInstance = (editorRef.current as any).__quill;
-      if (quillInstance) {
+   
+   const handleGetContents = async () => {
+      try {
+         if (!quillInstance) throw new Error('Quill instance is not initialized');
+         
          console.log(quillInstance.getContents());
-      } else {
-         console.log("Quill instance not found yet.");
+
+         const delta = quillInstance.getContents();
+         const res = await updateUserPlatinaRationale({
+            userId,
+            platinaServiceId,
+            rationale: JSON.stringify(delta)
+         })
+         if(!res.success) throw new Error(res.message);
+         toast.success(res.message);
+      } catch (error) {
+         toast.error(`Error: ${(error as Error).message}`);
+      } finally {
+         setIsLoading(false);
+         setOpen(false);
       }
-   }
    };
    return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -45,7 +58,7 @@ function RationaleInput(){
         <DialogHeader>
           <DialogTitle>Rationale</DialogTitle>
         </DialogHeader>
-          <QuillRenderPage ref={editorRef}/>
+          <QuillRenderPage onQuillReady={setQuillInstance} defaultValue={prevRationale}/>
           <Button disabled={isLoading} onClick={handleGetContents}>
             {isLoading ? 'Log...' : 'Save'}
           </Button>

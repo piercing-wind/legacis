@@ -18,7 +18,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { cn, formatHumanDate } from "@/lib/utils";
-import { UserPlatinaStockHistory, UserPlatinaStockList } from "@/prisma/generated/client";
+import { UserPlatinaStockHistory, UserPlatinaStockList, UserRiskProfile } from "@/prisma/generated/client";
 // import STYLE from '@/app/(user-routes)/platina-wealth/platina.module.css'
 import PlatinaPieChart from "./platinaPieChart";
 import PlatinaSimpleLineChart from "./platinaLineChart";
@@ -26,6 +26,7 @@ import { Line } from "../icon";
 import { PDFDisplay } from "../pdfDisplay";
 import { QuillHtmlViewer } from "../richTextViewer";
 import PlatinaStockTimeline from "./platinaStockTimeline";
+import UserRiskProfileQuestions from "./userRiskProfileForm";
 
 
 function generateSectorColor(sectorName: string, index: number): string {
@@ -77,6 +78,7 @@ function adjustColorBrightness(hex: string, percent: number): string {
 function getMarketCapCategory(marketCapInCrore: number): string {
    if (marketCapInCrore >= 20000) {
     return 'Large Cap';
+    
   } else if (marketCapInCrore >= 10000) {
     return 'Mid Cap';
   } else if (marketCapInCrore >= 2000) {
@@ -87,31 +89,35 @@ function getMarketCapCategory(marketCapInCrore: number): string {
 }
 
 
-export const PlatinaServiceCard = ({userRecommendation}:{userRecommendation: UserPlatinaRecommendationWithDetails}) => {
-   const {riskProfile, platinaService, stocks, stockHistory, notes, recommendationDate, userInvestmentAmount, peChart, epsChart, rationale} = userRecommendation || {};
-   // const stockList = stockRecommendations as PlatinaStockList[];
-   const activeTickers = (stocks || []).filter(s => s.isActive).map(s => s.stockTicker);
-
-   // Filter history to only include events for active stocks
-   const filteredStockHistory = (stockHistory || []).filter(
-      h => activeTickers.includes(h.stockTicker)
-   );  
-
+export const PlatinaServiceCard = ({userRecommendation, riskProfile, expiryDate}:{userRecommendation: UserPlatinaRecommendationWithDetails, riskProfile : UserRiskProfile | null, expiryDate: Date}) => {
+   const { platinaService, stocks, stockHistory, notes, recommendationDate, userInvestmentAmount, peChart, epsChart, rationale} = userRecommendation || {};
+  
    const totalInvestmentAmount = stocks?.reduce((total, stock) => {
-    return total + (stock.purchaseAmount || 0);
-  }, 0);
+     return total + (stock.purchaseAmount || 0);
+   }, 0);
 
    return (
-      <> 
-         <PlatinaPortfolioUpdates recomendationDate={recommendationDate|| null} userInvestmentAmount={totalInvestmentAmount || 0} rationale={rationale}/>
-         <PlatinaStockListTable stockList ={stocks || []} notes={notes || ''}/>
-         <PlatinaStockTimeline stockHistory={stockHistory || []} />
-         <PlatinaPieCharts stockList={stocks || []}/>
-         <PlatinaLineCharts peChart={peChart} epsChart={epsChart}/>
+      <>
+         {!userRecommendation ? 
+         (         
+            <PlatinaPendingStage
+               serviceName={'Platina Wealth'}
+               expiryDate={expiryDate}
+               riskProfile={riskProfile || null}
+            />
+         ):(
+            <> 
+               <PlatinaPortfolioUpdates recomendationDate={recommendationDate|| null} userInvestmentAmount={totalInvestmentAmount || 0} rationale={rationale}/>
+               <PlatinaStockListTable stockList ={stocks || []} notes={notes || ''}/>
+               <PlatinaStockTimeline stockHistory={stockHistory || []} />
+               <PlatinaPieCharts stockList={stocks || []}/>
+               <PlatinaLineCharts peChart={peChart} epsChart={epsChart}/>
+            </>
+         )}
       </>
+   
    )
 }
-
 
 
 const PlatinaPortfolioUpdates =({recomendationDate, userInvestmentAmount, rationale}:{recomendationDate : Date | null, userInvestmentAmount : number | null, rationale: any })=> {
@@ -131,7 +137,6 @@ const PlatinaPortfolioUpdates =({recomendationDate, userInvestmentAmount, ration
       </div>
    )
 }
-
 
 const PlatinaStockListTable = ({stockList, notes = ''}:{stockList: UserPlatinaStockList[], notes: string}) => {
   return(
@@ -176,7 +181,6 @@ const PlatinaStockListTable = ({stockList, notes = ''}:{stockList: UserPlatinaSt
       </div>
    )
 };
-
 
 const PlatinaPieCharts =({stockList}:{stockList: UserPlatinaStockList[]})=> {
    const createPieData = (
@@ -259,10 +263,12 @@ const PlatinaLineCharts=({peChart, epsChart}:{peChart : any, epsChart: any})=>{
 
 export const PlatinaPendingStage = ({ 
    serviceName, 
-   expiryDate 
+   expiryDate,
+   riskProfile 
 }: { 
    serviceName: string; 
-   expiryDate: Date 
+   expiryDate: Date;
+   riskProfile?: UserRiskProfile | null;
 }) => {
    return (
       <div className="w-full rounded-2xl border border-platina/70 bg-gradient-to-br from-green-50/50 to-platina/10 dark:from-green-950/30 dark:to-platina/5 p-6 md:p-8 mb-8">
@@ -288,26 +294,58 @@ export const PlatinaPendingStage = ({
          </div>
 
          <Line color="var(--text-color)" height="1px" className="self-stretch opacity-20 mb-4"/>
+         
+         {!riskProfile || !riskProfile.isAnsweredPlatinaQues ? (
+         <div className="w-full flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 p-4 border rounded-2xl text-sm">
+            <p>Please complete your risk profile first in order to receive personalized recommendations.</p> 
 
-         {/* Status Message */}
-         <div className="space-y-3">
-            <div className="flex items-center gap-2">
-               <div className="flex space-x-1">
-               <div className="w-1.5 h-1.5 bg-blue-500 dark:bg-blue-400 rounded-full animate-pulse"></div>
-               <div className="w-1.5 h-1.5 bg-blue-500 dark:bg-blue-400 rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
-               <div className="w-1.5 h-1.5 bg-blue-500 dark:bg-blue-400 rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
-               </div>
-               <p className="text-sm font-medium text-blue-700 dark:text-blue-300">Preparing Your Recommendations</p>
-            </div>
-            
-            <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
-               Your personalized portfolio recommendations are being prepared by our research team and will be available shortly.
-            </p>
-            
-            <p className="text-sm text-gray-600 dark:text-gray-300">
-               We will notify you via email once your recommendations are ready.
-            </p>
+            <UserRiskProfileQuestions
+               platina_wealth
+            />
          </div>
+
+         ):(
+            // {/* Status Message */}
+            <div className="space-y-3">
+               <div className="w-full rounded-xl border p-4 mb-4 bg-white/70 dark:bg-gray-900/60 shadow-sm">
+                  <h6 className="font-semibold text-base mb-2">Risk Profile Summary</h6>
+                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-2">
+                     <div>
+                        <span className=" text-sm font-medium">Risk Level: </span>
+                        <span className="font-semibold text-legacisBlue dark:text-legacisLightGreen">{riskProfile.riskLevel}</span>
+                     </div>
+                     <div>
+                        <span className=" text-sm font-medium">Risk Score: </span>
+                        <span className="font-semibold text-green-700 dark:text-green-300">{riskProfile.riskPercentage.toFixed(2)}%</span>
+                     </div>
+                     <div>
+                        <span className=" text-sm font-medium">Completed At: </span>
+                        <span className="font-semibold">{formatHumanDate(riskProfile.completedAt)}</span>
+                     </div>
+                  </div>
+                  <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">
+                     Your risk profile has been successfully saved. We will use this information to tailor your investment recommendations.
+                  </p>
+               </div>
+               <div className="flex items-center gap-2">
+                  <div className="flex space-x-1">
+                  <div className="w-1.5 h-1.5 bg-blue-500 dark:bg-blue-400 rounded-full animate-pulse"></div>
+                  <div className="w-1.5 h-1.5 bg-blue-500 dark:bg-blue-400 rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
+                  <div className="w-1.5 h-1.5 bg-blue-500 dark:bg-blue-400 rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
+                  </div>
+                  <p className="text-sm font-medium text-blue-700 dark:text-blue-300">Preparing Your Recommendations</p>
+               </div>
+               
+               <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                  Your personalized portfolio recommendations are being prepared by our research team and will be available shortly.
+               </p>
+               
+               <p className="text-sm text-gray-600 dark:text-gray-300">
+                  We will notify you via email once your recommendations are ready.
+               </p>
+            </div>
+         )}
+         
 
          {/* Thank You Message */}
          <div className="mt-6 pt-4 border-t border-platina/20 dark:border-gray-700/50 text-center">

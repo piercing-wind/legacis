@@ -78,8 +78,8 @@ export default async function PlatinaWealthAdminPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {users.map((user) => (
-                  <TableRow key={user.id}>
+                {users.map((user, index) => (
+                  <TableRow key={user.id + index}>
                     <TableCell>
                       <div className="flex items-center gap-3">
                         <Avatar className="h-8 w-8">
@@ -131,7 +131,7 @@ export default async function PlatinaWealthAdminPage() {
                     </TableCell>
 
                     <TableCell>
-                      {user.recommendation ? (
+                      {user.recommendation && user.recommendation.isActive ? (
                         <div className="space-y-1">
                           <Badge className="bg-green-100 text-green-800 text-xs">
                             <CheckCircle className="w-3 h-3 mr-1" />
@@ -151,12 +151,6 @@ export default async function PlatinaWealthAdminPage() {
 
                     <TableCell>
                       <div className="space-y-1">
-                        <Badge 
-                          variant={user.isActive ? "default" : "secondary"}
-                          className="text-xs"
-                        >
-                          {user.isActive ? 'Active' : 'Inactive'}
-                        </Badge>
                         <div className="text-xs text-muted-foreground">
                           Expires {formatHumanDate(user.expiryDate)}
                         </div>
@@ -171,14 +165,6 @@ export default async function PlatinaWealthAdminPage() {
                             View
                           </Link>
                         </Button>
-                        {!user.recommendation && (
-                          <Button asChild variant="outline" size="sm">
-                            <Link href={`/admin/platina-wealth/${user.id}/create`}>
-                              <Plus className="w-3 h-3 mr-1" />
-                              Create
-                            </Link>
-                          </Button>
-                        )}
                       </div>
                     </TableCell>
                   </TableRow>

@@ -305,9 +305,6 @@ exports.Prisma.RiskProfileQuestionScalarFieldEnum = {
   question: 'question',
   type: 'type',
   options: 'options',
-  minScore: 'minScore',
-  maxScore: 'maxScore',
-  weight: 'weight',
   isActive: 'isActive',
   order: 'order',
   category: 'category',
@@ -333,6 +330,7 @@ exports.Prisma.UserRiskProfileScalarFieldEnum = {
   riskPercentage: 'riskPercentage',
   completedAt: 'completedAt',
   lastUpdated: 'lastUpdated',
+  isAnsweredPlatinaQues: 'isAnsweredPlatinaQues',
   isActive: 'isActive',
   categories: 'categories',
   recommendations: 'recommendations'
@@ -472,6 +470,18 @@ exports.ServiceType = exports.$Enums.ServiceType = {
   INVESTMENT_ADVISORY: 'INVESTMENT_ADVISORY',
   RESEARCH_ADVISORY_MUTUAL_FUNDS: 'RESEARCH_ADVISORY_MUTUAL_FUNDS',
   SMALLCASE: 'SMALLCASE',
+  PLATINA_WEALTH: 'PLATINA_WEALTH'
+};
+
+exports.QuestionType = exports.$Enums.QuestionType = {
+  MCQ: 'MCQ',
+  SCALE: 'SCALE',
+  YES_NO: 'YES_NO',
+  TEXT: 'TEXT'
+};
+
+exports.QuestionCategory = exports.$Enums.QuestionCategory = {
+  NORMAL: 'NORMAL',
   PLATINA_WEALTH: 'PLATINA_WEALTH'
 };
 

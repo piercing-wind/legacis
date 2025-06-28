@@ -20,6 +20,7 @@ export interface PlatinaWealthUser {
     assetAllocation: any;
     stockCount: number;
     lastUpdated: Date;
+    isActive: boolean;
   } | null;
 }
 
@@ -60,15 +61,18 @@ export const getPlatinaWealthUsers = async (): Promise<PlatinaWealthUser[]> => {
               }
             },
             platinaRecommendations: {
-              where: {
-                isActive: true
-              },
               select: {
                 id: true,
                 portfolioType: true,
                 userInvestmentAmount: true,
                 assetAllocation: true,
+                isActive: true,
                 updatedAt: true,
+                stocks:{
+                  select: {
+                     purchaseAmount: true,
+                  }
+                },
                 _count: {
                   select: {
                     stocks: {
@@ -92,6 +96,14 @@ export const getPlatinaWealthUsers = async (): Promise<PlatinaWealthUser[]> => {
       }
     });
 
+      const totalPurchaseAmount = users.reduce((sum, purchase) => {
+         const recommendation = purchase.user?.platinaRecommendations[0];
+         if (recommendation && recommendation.stocks) {
+            return sum + recommendation.stocks.reduce((stockSum, stock) => stockSum + (stock.purchaseAmount || 0), 0);
+         }
+         return sum;
+      }, 0);
+
     return users.map(purchase => ({
       id: purchase.user?.id || '',
       name: purchase.user?.name || null,
@@ -104,10 +116,11 @@ export const getPlatinaWealthUsers = async (): Promise<PlatinaWealthUser[]> => {
       recommendation: purchase.user?.platinaRecommendations[0] ? {
         id: purchase.user.platinaRecommendations[0].id,
         portfolioType: purchase.user.platinaRecommendations[0].portfolioType,
-        userInvestmentAmount: purchase.user.platinaRecommendations[0].userInvestmentAmount,
+        userInvestmentAmount: totalPurchaseAmount,
         assetAllocation: purchase.user.platinaRecommendations[0].assetAllocation,
         stockCount: purchase.user.platinaRecommendations[0]._count.stocks,
-        lastUpdated: purchase.user.platinaRecommendations[0].updatedAt
+        lastUpdated: purchase.user.platinaRecommendations[0].updatedAt,
+        isActive : purchase.user.platinaRecommendations[0].isActive
       } : null
     }));
 
@@ -236,9 +249,6 @@ export const getUserPlatinaDetails = async (userId: string) => {
       include: {
         riskProfile: true,
         platinaRecommendations: {
-          where: {
-            isActive: true
-          },
           include: {
             stocks: {
               orderBy: {

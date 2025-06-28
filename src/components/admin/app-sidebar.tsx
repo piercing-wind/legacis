@@ -25,6 +25,11 @@ const items = [
     url: "/admin/platina-wealth",
     icon: Inbox,
   },
+  {
+    title: "Risk Profile",
+    url: "/admin/risk-profile",
+    icon: Inbox,
+  },
 ]
 
 export function AppSidebar() {

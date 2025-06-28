@@ -303,3 +303,68 @@ export async function updateRecommendationDate({ userId, platinaServiceId, recom
    return { success: false, message: `${(error as Error).message}`};
   }
 }
+
+
+export async function updateUserPlatinaRationale({ userId, platinaServiceId, rationale}:{ userId :string, platinaServiceId: string, rationale: any}){
+  try {
+   const parsedRationale = typeof rationale === 'string' ? JSON.parse(rationale) : rationale;
+    await db.userPlatinaRecommendation.update({
+      where: {
+          userId_platinaServiceId : {
+            userId,
+            platinaServiceId,
+         }
+         },
+      data: { rationale : parsedRationale, updatedAt: new Date() }
+    });
+
+    revalidatePath('/admin/platina-wealth');
+    return { success: true, message: 'Rationale updated successfully' };
+  } catch (error) {
+    console.error('Error updating rationale:', error);
+    return { success: false, message: 'Failed to update rationale' };
+  }
+}  
+
+export const updateUserPlatinaActiveStatus = async ({platinaServiceId, userId, isActive}:{platinaServiceId : string, userId: string, isActive : boolean}) => {
+   try {
+      const result = await db.userPlatinaRecommendation.update({
+         where : {
+            userId_platinaServiceId: {
+               userId,
+               platinaServiceId,
+            },
+         },
+         data: {
+            isActive,
+            updatedAt: new Date(),
+         }
+      })
+      revalidatePath('/admin/platina-wealth');
+      return { success: true, message: 'Portfolio Activated successfully', data: result };
+   } catch (error) {
+      console.error('Error Activating Platina portfolio:', error);
+      return { success: false, message: 'Failed to Activate portfolio' };
+   }
+}
+
+export async function updateRecommendationChartData({
+  recommendationId,
+  chartType,
+  chartData,
+}: {
+  recommendationId: string;
+  chartType: 'peChart' | 'epsChart';
+  chartData: any;
+}) {
+  try {
+    const result = await db.userPlatinaRecommendation.update({
+      where: { id: recommendationId },
+      data: { [chartType]: chartData },
+    });
+    return { success: true, data: result };
+  } catch (error) {
+   console.error('Error updating chart data:', error);
+    return { success: false, message: 'Failed to update chart data' };
+  }
+}

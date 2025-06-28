@@ -145,7 +145,8 @@ function ChartTooltipContent({
     const dateStr = data?.date;
     if (dateStr) {
       const [day, month, year] = dateStr.split('-');
-      // Format as "31 Oct 2023"
+      // Format as "DD-MM-YYYY"
+      // Note: Months are 0-indexed in JavaScript Date, so we subtract
       const dateObj = new Date(Number(year), Number(month) - 1, Number(day));
       const formatted = dateObj.toLocaleString('default', { day: '2-digit', month: 'short', year: 'numeric' });
       return (

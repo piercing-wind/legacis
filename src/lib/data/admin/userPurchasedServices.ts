@@ -294,9 +294,6 @@ export const getUsersForGrantAccess = async () => {
 export const getServicesForGrantAccess = async () => {
   try {
     const services = await db.service.findMany({
-      where: {
-        active: true
-      },
       select: {
         id: true,
         name: true,

@@ -68,7 +68,7 @@ export const POST = auth(async (request: any) => {
     
     return new Response(
       JSON.stringify({ 
-        error: (error as Error).message 
+        message: (error as Error).message 
       }), 
       { status: 500 }
     );

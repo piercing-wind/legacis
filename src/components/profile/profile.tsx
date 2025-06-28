@@ -12,9 +12,11 @@ import { getFullUserData, setModalOpen } from "@/lib/slices/profile";
 import { toast } from "sonner";
 import Loading from "../loading";
 import { User } from "next-auth";
-import { User as FullUser} from "@/prisma/generated/client";
+import { User as FullUser, UserRiskProfile} from "@/prisma/generated/client";
+import UserRiskProfileQuestions from "../services/userRiskProfileForm";
+import { Badge } from "../ui/badge";
 
-const Profile = ({user, fullUserData}:{user: User, fullUserData: FullUser | null}) => {
+const Profile = ({user, fullUserData, riskProfile}:{user: User, fullUserData: FullUser | null, riskProfile : UserRiskProfile | null}) => {
    const dispatch = useAppDispatch();
 
    const signOut = async () => {
@@ -67,35 +69,54 @@ const Profile = ({user, fullUserData}:{user: User, fullUserData: FullUser | null
               </div>
             </div>
             {(user?.panVerified === null || user?.emailVerified === null || user?.phoneVerified === null) && 
-               <div className="flex items-center gap-2 md:gap-4 mt-2 md:mt-0">
-               <span className="inline-block px-3 py-1 rounded-full bg-yellow-100 text-yellow-800 text-xs font-semibold border border-yellow-300">
-                  Verification Pending
-               </span>
-               <span className="relative group">
-                  <Info className="h-4 w-4 text-neutral-400 cursor-pointer" />
-                  <span className="absolute left-1/2 -translate-x-1/2 mt-2 w-56 rounded bg-neutral-900 text-white text-xs px-3 py-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 shadow-lg">
-                     After completing KYC, you cannot change your Name and PAN address.
+               <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4 mt-2 md:mt-0">
+                  <span className="inline-block px-3 py-1 rounded-full bg-yellow-100 text-yellow-800 text-xs font-semibold border border-yellow-300">
+                     Verification Pending
                   </span>
-               </span>
+                  <span className="relative group">
+                     <Info className="h-4 w-4 text-neutral-400 cursor-pointer" />
+                     <span className="absolute left-1/2 -translate-x-1/2 mt-2 w-56 rounded bg-neutral-900 text-white text-xs px-3 py-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 shadow-lg">
+                        After completing KYC, you cannot change your Name and PAN address.
+                     </span>
+                  </span>
                </div>
             }
+            <div className="flex flex-col md:flex-row md:border md:p-4 rounded-xl gap-8">
+               {riskProfile && riskProfile?.riskPercentage !== null && riskProfile?.riskLevel &&                
+                  <div className="flex flex-col md:flex-row h-full gap-8 items-start w-full ">
+                     <p className="text-sm text-nowrap gap-4 font-medium flex md:flex-col text-center ">
+                        Score <span className="font-semibold">{riskProfile?.riskPercentage} %</span>
+                     </p>
+                     <p className="text-sm text-nowrap gap-4 font-medium flex md:flex-col text-center ">
+                        Risk Type: <Badge variant={'secondary'} className="font-semibold w-full h-10 px-6 md:px-4 py-2">{riskProfile?.riskLevel}</Badge >
+                     </p>
+                  </div>
+               }
+               <div className="flex flex-col gap-4">
+                  <p className="text-sm font-medium ">Check Your Risk Profile Now</p>
+                  <UserRiskProfileQuestions className="px-4 md:px-8 py-2 h-12 border-legacisPurple uppercase rounded-full" />
+               </div>
+            </div>
+
           </div>
-          <div className="flex flex-col md:grid md:grid-cols-3 items-stretch gap-2 md:gap-3 py-4 border-t border-b border-neutral-200 dark:border-neutral-700">
+
+
+          <div className="flex flex-col md:grid md:grid-cols-3 items-stretch gap-4 md:gap-3 py-4 border-t border-b border-neutral-200 dark:border-neutral-700">
             <Button
               variant="outline"
-              className="text-xs px-4 rounded-full flex-1"
+              className="text-xs px-4 rounded-full w-full h-12"
             >
               Sign Out
             </Button>
             <Button
               variant={"legacis"}
-              className="text-xs px-4 rounded-full flex-1"
+              className="text-xs px-4 rounded-full w-full h-12"
             >
               Change Password
             </Button>
             {(user?.panVerified === null || user?.emailVerified === null || user?.phoneVerified === null) &&
                <Button
-               className="text-xs px-4 rounded-full flex-1"
+               className="text-xs px-4 rounded-full w-full h-12"
                onClick={handleKycCompleteButton}
                >
                Complete KYC Now

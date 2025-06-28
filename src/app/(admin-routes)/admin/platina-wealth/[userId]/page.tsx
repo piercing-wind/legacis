@@ -27,22 +27,25 @@ import {
 import Link from 'next/link';
 import { formatHumanDate } from '@/lib/utils';
 import { notFound } from 'next/navigation';
-import { AddStockDialog, StockManagementActions, UpdateRecommendationDate } from '@/components/admin/stock-management-actions';
+import { ActivateRecommendation, AddChartDataDialog, AddStockDialog, StockManagementActions, UpdateRecommendationDate } from '@/components/admin/stock-management-actions';
 import RationaleInput from "@/components/admin/platina-rationale";
+import PlatinaSimpleLineChart from '@/components/services/platinaLineChart';
 
 export default async function UserPlatinaDetailsPage({params}: { params: Promise<{ userId: string }>}) {
    const { userId } = await params
    const user = await getUserPlatinaDetails(userId);
   
-  if (!user) {
-    notFound();
-  }
+   if (!user) {
+      notFound();
+   }
+  
+  
 
   const activeRecommendation = user.platinaRecommendations[0];
-  const platinaService = user.purchasedServices.find(s => s.service?.type === 'PLATINA_WEALTH');
+  const userPurchasedServicePlatina = user.purchasedServices.find(s => s.service?.type === 'PLATINA_WEALTH');
   const stockHistory = activeRecommendation?.stockHistory || [];
 
-  const totalInvestmentAmount = activeRecommendation.stocks.reduce((total, stock) => {
+  const totalInvestmentAmount = activeRecommendation?.stocks.reduce((total, stock) => {
     return total + (stock.purchaseAmount || 0);
   }, 0);
 
@@ -101,9 +104,11 @@ export default async function UserPlatinaDetailsPage({params}: { params: Promise
               {user.phone && <p className="text-sm text-muted-foreground">{user.phone}</p>}
             </div>
             <div className="ml-auto">
-              <Badge variant={platinaService?.isActive ? "default" : "secondary"}>
-                {platinaService?.isActive ? 'Active Subscription' : 'Inactive'}
-              </Badge>
+              <ActivateRecommendation
+                  userId={user.id}
+                  platinaServiceId={activeRecommendation?.platinaServiceId || ''}
+                  isActive={activeRecommendation?.isActive || false}
+              />
             </div>
           </div>
         </CardContent>
@@ -127,8 +132,8 @@ export default async function UserPlatinaDetailsPage({params}: { params: Promise
                 </Badge>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Risk Score</p>
-                <p className="font-semibold">{user.riskProfile.totalScore}/100</p>
+                <p className="text-sm text-muted-foreground">Last Update</p>
+                <p className="font-semibold">{formatHumanDate(user.riskProfile.lastUpdated)}</p>
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Risk Percentage</p>
@@ -137,7 +142,7 @@ export default async function UserPlatinaDetailsPage({params}: { params: Promise
             </div>
           </CardContent>
         </Card>
-      )}
+      )} 
 
       {/* Portfolio Overview */}
       {activeRecommendation && (
@@ -157,7 +162,11 @@ export default async function UserPlatinaDetailsPage({params}: { params: Promise
                 </p>
               </div>
               <div>
-               <RationaleInput/>
+               <RationaleInput
+                  userId={user.id}
+                  platinaServiceId={activeRecommendation.platinaServiceId}
+                  prevRationale={activeRecommendation.rationale}
+               />
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Total Stocks</p>
@@ -307,12 +316,10 @@ export default async function UserPlatinaDetailsPage({params}: { params: Promise
                 <p className="text-muted-foreground mb-4">
                   Start building the portfolio by adding stocks for this user.
                 </p>
-                <Button asChild>
-                  <Link href={`/admin/platina-wealth/${user.id}/add-stock`}>
-                    <Plus className="w-4 h-4 mr-2" />
-                    Add First Stock
-                  </Link>
-                </Button>
+               <AddStockDialog
+                  userId={user.id}
+                  recommendationId={activeRecommendation.id}
+                />
               </div>
             )}
           </CardContent>
@@ -340,11 +347,6 @@ export default async function UserPlatinaDetailsPage({params}: { params: Promise
               <p className="text-muted-foreground mb-4">
                 This user doesn't have a portfolio recommendation yet. Create one to start managing their stocks.
               </p>
-              <Button asChild>
-                <Link href={`/admin/platina-wealth/${user.id}/create`}>
-                  Create Portfolio Recommendation
-                </Link>
-              </Button>
             </div>
           </CardContent>
         </Card>
@@ -423,6 +425,76 @@ export default async function UserPlatinaDetailsPage({params}: { params: Promise
          </CardContent>
       </Card>
       )}
+      {/* PE Chart */}
+      <div className='flex flex-col md:flex-row gap-4'>
+         <Card>
+            <CardHeader>
+               <CardTitle className="flex items-center justify-between">
+               <div className="flex items-center gap-2">
+                  <PieChart className="w-5 h-5" />
+                  PE Chart
+               </div>
+
+               </CardTitle>
+            </CardHeader>
+            <CardContent>
+               
+               {activeRecommendation.peChart ? (
+                  <div>
+                     <PlatinaSimpleLineChart
+                        data={activeRecommendation.peChart as { date: string; value: number }[]}
+                     />
+                     <AddChartDataDialog
+                        recommendationId={activeRecommendation?.id || ''}
+                        userId={user.id}
+                        chartType="peChart"
+                        defaultValue={activeRecommendation.peChart ? JSON.stringify(activeRecommendation.peChart, null, 2) : ''}
+                     />
+                  </div>
+               ):(
+                  <AddChartDataDialog
+                     recommendationId={activeRecommendation?.id || ''}
+                     userId={user.id}
+                     chartType="peChart"
+                  />
+               )}
+            </CardContent>
+         </Card>
+         <Card>
+            <CardHeader>
+               <CardTitle className="flex items-center justify-between">
+               <div className="flex items-center gap-2">
+                  <PieChart className="w-5 h-5" />
+                  EPS Chart
+               </div>
+
+               </CardTitle>
+            </CardHeader>
+            <CardContent>
+               
+               {activeRecommendation.epsChart ? (
+                  <div>
+                     <PlatinaSimpleLineChart
+                        data={activeRecommendation.epsChart as { date: string; value: number }[]}
+                     />
+                     <AddChartDataDialog
+                        recommendationId={activeRecommendation?.id || ''}
+                        userId={user.id}
+                        chartType="epsChart"
+                        defaultValue={activeRecommendation.epsChart ? JSON.stringify(activeRecommendation.epsChart, null, 2) : ''}
+                     />
+                  </div>
+               ):(
+                  <AddChartDataDialog
+                     recommendationId={activeRecommendation?.id || ''}
+                     userId={user.id}
+                     chartType="epsChart"
+                  />
+               )}
+            </CardContent>
+         </Card>
+      </div>
+
     </div>
   );
 }

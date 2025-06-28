@@ -333,7 +333,7 @@ export function GrantAccessDialog({ users, services }: GrantAccessDialogProps) {
                   <div><strong>User:</strong> {selectedUser.name} ({selectedUser.email})</div>
                   <div><strong>Service:</strong> {selectedService.name}</div>
                   <div><strong>Duration:</strong> {getPlanName(form.watch("planDays"))}</div>
-                  <div><strong>Value:</strong> ₹{Math.round(selectedService.price * form.watch("planDays") / 30).toLocaleString()} (FREE for user)</div>
+                  <div><strong>Value:</strong> ₹{Math.round(selectedService.price * form.watch("planDays") / 30).toLocaleString()}</div>
                 </div>
               </div>
             )}

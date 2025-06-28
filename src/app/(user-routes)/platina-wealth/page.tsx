@@ -19,6 +19,7 @@ import { SparklesText } from "@/components/magicui/sparkles-text";
 import { ShinyButton } from "@/components/magicui/shiny-button";
 import { PlatinaPendingStage, PlatinaServiceCard } from "@/components/services/platinaServicePurchasedSection"
 import { findUserPlatinaRecommendation } from "@/lib/data/platina"
+import { getUserRiskProfileById } from "@/lib/data/admin/risk-profile"
 
 
 export default async function Page() {
@@ -33,6 +34,7 @@ export default async function Page() {
      purchasedService = await isServicePurchased(user.id, service.id);
    }
 
+   // To show premium user 
    let data = null;
    if (service?.id && service?.type) {
       data = await getServiceDataById(service.id, service.type);
@@ -53,40 +55,23 @@ export default async function Page() {
     { name: "Subscription Starting", value: `₹${displayPrice}/mo` }
    ];
 
-
-   const chartData = Array.isArray(service?.chart) ? (service.chart as ChartDataPoint[]) : [];
-   chartData.sort((a, b) => {
-     const [dayA, monthA, yearA] = a.date.split('-').map(Number);
-     const [dayB, monthB, yearB] = b.date.split('-').map(Number);
-     const dateA = new Date(yearA, monthA - 1, dayA);
-     const dateB = new Date(yearB, monthB - 1, dayB);
-     return dateA.getTime() - dateB.getTime();
-   });
-
-   const latestData = chartData[chartData.length - 1];
-
    let agreement = null;
    if(!purchasedService){
       agreement = await findAgreementsByServiceId(service?.id || '');
    }
    
-   const userRecommendation = await findUserPlatinaRecommendation(user?.id);
-   
+   const [userRecommendation, riskProfile ] = await Promise.all([
+      findUserPlatinaRecommendation(user?.id),
+      getUserRiskProfileById(user?.id)
+   ]);
+
    return (
       <main className='wfull px-5 lg:px-10 xl:px-24 py-8'>
        
        {purchasedService && service &&
          <>
             <h5 className="mb-4 text-xl font-medium">{service.name}</h5>
-            {!userRecommendation ? 
-            (
-            <PlatinaPendingStage 
-              serviceName={service.name} 
-              expiryDate={purchasedService.expiryDate} 
-            />
-            ) : (
-               <PlatinaServiceCard userRecommendation={userRecommendation}/>
-            )}
+            <PlatinaServiceCard userRecommendation={userRecommendation} riskProfile={riskProfile} expiryDate={purchasedService.expiryDate}/>
          </>
        }
       <section className=" z-20 bg-background flex flex-col lg:flex-row items-stretch justify-center gap-4 lg:gap-8 w-full my-8">
@@ -116,8 +101,8 @@ export default async function Page() {
                <p>Your content here - this will stick after section 5</p>
             </div>
          </div>
-         <div className={`max-w-xl w-full flex-1 border border-platina/70 rounded-2xl p-4 flex flex-col gap-2 shadow-[0_0_20px_var(--platina)]/50 self-stretch`}>
-            <h6 className="text-xl font-medium">{service?.name}</h6>
+         <div className={`max-w-xl w-full flex-1 border rounded-2xl p-4 flex flex-col gap-2 shadow-[0_0_20px_var(--platina)]/30 self-stretch`}>
+            <h6 className="text-xl font-medium text-legacisPurple">{service?.name}</h6>
             <p className="text-xs">{service?.tag}</p>
             <p className="text-xs my-2">{service?.description}</p>
             <Line color="var(--text-color)" height="2px" className="self-stretch opacity-20"/>
@@ -160,8 +145,8 @@ export default async function Page() {
             ):(
             <Drawer >
                <DrawerTrigger asChild>
-               <ShinyButton  className={`w-full bg-platina/70 mt-auto p-2 h-10 lg:h-14 uppercase rounded-full flex items-center`}>
-               Subscribe Now
+               <ShinyButton  className={`w-full border border-legacisPurple/50 mt-auto p-2 h-10 lg:h-14 uppercase rounded-full flex items-center`}>
+                 Subscribe Now
                </ShinyButton>
                </DrawerTrigger>
                <DrawerContent>

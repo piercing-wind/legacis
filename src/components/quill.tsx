@@ -1,31 +1,41 @@
 "use client"
 
-import { forwardRef, memo, useEffect, useRef } from "react";
+import { memo, useEffect, useRef, useMemo } from "react";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
 
-const QuillRenderPage = forwardRef<HTMLDivElement>((props, ref) => {
+const QuillRenderPage = memo(
+   ({ onQuillReady, 
+      defaultValue 
+   }: { 
+    onQuillReady?: (quill: Quill) => void } & {
+    defaultValue?: any
+   }) => {
   const quill = useRef<Quill | null>(null);
- 
-  const toolbarOptions = [
-    ["bold", "italic", "underline", "strike"],
-    ["blockquote", "code-block"],
-    [{ header: 1 }, { header: 2 }],
-    [{ list: "ordered" }, { list: "bullet" }],
-    [{ script: "sub" }, { script: "super" }],
-    [{ indent: "-1" }, { indent: "+1" }],
-    [{ direction: "rtl" }],
-    [{ size: ["small", false, "large", "huge"] }],
-    [{ header: [1, 2, 3, 4, 5, 6, false] }],
-    [{ color: [] }, { background: [] }],
-    [{ font: [] }],
-    [{ align: [] }],
-    ["clean"],
-  ];
+  const editorRef = useRef<HTMLDivElement>(null);
+
+  const toolbarOptions = useMemo(
+    () => [
+      ["bold", "italic", "underline", "strike"],
+      ["blockquote", "code-block"],
+      [{ header: 1 }, { header: 2 }],
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ script: "sub" }, { script: "super" }],
+      [{ indent: "-1" }, { indent: "+1" }],
+      [{ direction: "rtl" }],
+      [{ size: ["small", false, "large", "huge"] }],
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+      [{ color: [] }, { background: [] }],
+      [{ font: [] }],
+      [{ align: [] }],
+      ["clean"],
+    ],
+    []
+  );
 
   useEffect(() => {
-    if (ref && typeof ref !== "function" && ref.current && !quill.current) {
-      quill.current = new Quill(ref.current, {
+    if (editorRef.current && !quill.current) {
+      quill.current = new Quill(editorRef.current, {
         modules: {
           toolbar: toolbarOptions,
           history: {
@@ -36,25 +46,42 @@ const QuillRenderPage = forwardRef<HTMLDivElement>((props, ref) => {
         placeholder: "请输入...",
         theme: "snow",
       });
+      if (onQuillReady) {
+        onQuillReady(quill.current);
+      }
     }
-  }, [ref]);
+  }, [onQuillReady, toolbarOptions]);
 
+   
+  useEffect(() => {
+      if (quill.current && defaultValue) {
+        try {
+          const delta =
+            typeof defaultValue === "string"
+              ? JSON.parse(defaultValue)
+              : defaultValue;
+          quill.current.setContents(delta);
+        } catch {
+          // fallback: do nothing
+        }
+      }
+    }, [defaultValue]);
+    
   return (
     <div className="flex flex-col w-full h-full">
       <div
-         ref={ref}
-         style={{
-           minHeight: "100%", 
-           background: "#fff",
-           borderRadius: "0.5rem",
-           border: "1px solid #e5e7eb",
-         }}
-         className="w-full"
-       />
+        ref={editorRef}
+        style={{
+          minHeight: "100%",
+          background: "#fff",
+          borderRadius: "0.5rem",
+          border: "1px solid #e5e7eb",
+        }}
+        className="w-full"
+      />
     </div>
-  )  ;
+  );
 });
 
 QuillRenderPage.displayName = "QuillRenderPage";
-
 export default QuillRenderPage;

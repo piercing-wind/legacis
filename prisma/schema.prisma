@@ -409,23 +409,39 @@ model ServiceTrading {
 
 
 
+enum QuestionType {
+   MCQ
+   SCALE
+   YES_NO
+   TEXT
+}
+
+enum QuestionCategory {
+   NORMAL
+   PLATINA_WEALTH
+}
+
+/// - For MCQ and YES_NO, `options` is an array of objects:
+///   [{ "value": 1, "text": "Low risk", "weight": 1 }]
+///   For YES_NO, example:
+///   [{ "value": "yes", "text": "Yes", "weight": 5 }, { "value": "no", "text": "No", "score": 0 }]
+/// - For SCALE, use `minScore` and `maxScore` for the range; `options` is usually null.
+/// - For TEXT, `options` is null and `weight` is usually 0 or not used.
 
 model RiskProfileQuestion {
   id              String   @id @default(uuid())
   question        String   // The question text
-  type            String   // "MULTIPLE_CHOICE", "SCALE", "YES_NO"
-  options         Json?    // For multiple choice: [{"value": 1, "text": "Low risk", "score": 1}]
-  minScore        Int      @default(0)
-  maxScore        Int      @default(10)
-  weight          Float    @default(1.0)  // Weight for this question in overall calculation
+  type            QuestionType
+  options         Json?   
   isActive        Boolean  @default(true)
   order           Int      // Display order
-  category        String?  // Group questions: "INVESTMENT_EXPERIENCE", "RISK_TOLERANCE", etc.
+  category        QuestionCategory @default(NORMAL)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
   userResponses   UserRiskProfileResponse[]
 }
+
 
 model UserRiskProfileResponse {
   id         String   @id @default(uuid())
@@ -450,6 +466,7 @@ model UserRiskProfile {
   riskPercentage  Float    // Risk score as percentage
   completedAt     DateTime @default(now())
   lastUpdated     DateTime @updatedAt
+  isAnsweredPlatinaQues Boolean @default(false)
   isActive        Boolean  @default(true)
   
   // Additional calculated fields

@@ -29,11 +29,15 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { MoreHorizontal, Edit, Trash2, Eye, Power, Save, Plus, Pen } from 'lucide-react';
-import { removeStockFromPortfolio, updateStockInPortfolio, createStockInPortfolio, updateRecommendationDate } from '@/actions/admin/platina-wealth';
+import { removeStockFromPortfolio, updateStockInPortfolio, createStockInPortfolio, updateRecommendationDate, updateUserPlatinaActiveStatus, updateRecommendationChartData } from '@/actions/admin/platina-wealth';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { DialogTrigger } from '@radix-ui/react-dialog';
 import QuillInput from '../quill';
+import { Switch } from "@/components/ui/switch"
+import { Badge } from '../ui/badge';
+import { formatHumanDate } from '@/lib/utils';
+import { Textarea } from '../ui/textarea';
 
 interface StockManagementActionsProps {
   stockId: string;
@@ -593,12 +597,13 @@ export function UpdateRecommendationDate({
    }
   };
 
+  
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="ghost" className="flex items-center gap-2 p-0 h-auto">
           {initialDate ? (
-            <span>{new Date(initialDate).toLocaleDateString()}</span>
+            <span>{formatHumanDate(initialDate)}</span>
           ) : (
             <span className="text-muted-foreground">Set Date</span>
           )}
@@ -629,3 +634,140 @@ export function UpdateRecommendationDate({
 }
 
 
+export function ActivateRecommendation({
+  userId,
+  platinaServiceId,
+  isActive,
+}: {
+  userId: string;
+  platinaServiceId: string;
+  isActive: boolean;
+}) {
+  const router = useRouter();
+  const [isActiveState, setIsActiveState] = useState(isActive);
+  const [loading, setLoading] = useState(false);
+
+  const handleToggle = async (v: boolean) => {
+    setLoading(true);
+    try {
+      const res = await updateUserPlatinaActiveStatus({
+        userId,
+        platinaServiceId,
+        isActive: v,
+      });
+      if (res?.success) {
+        setIsActiveState(v);
+        toast.success('Status updated');
+        router.refresh();
+      } else {
+        toast.error(res?.message || 'Failed to update status');
+      }
+    } catch (error) {
+      toast.error(`Failed to update recommendation: ${(error as Error).message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+      <div className='flex flex-col space-y-2'>
+         <Label htmlFor="isActive">Recommedation Status</Label>
+         <div className="flex items-center space-x-2">
+            <Switch
+            id="isActive"
+            checked={isActiveState}
+            disabled={loading}
+            onCheckedChange={handleToggle}
+            />
+            {/* <Label htmlFor="isActive">{isActiveState ? 'Active' : 'Inactive'}</Label> */}
+            <Badge variant={isActiveState ? "default" : "secondary"}>
+               {isActiveState ? 'Active' : 'Inactive'}
+            </Badge>
+         </div>
+      </div>
+  );
+}
+
+export function AddChartDataDialog({
+  recommendationId,
+  userId,
+  chartType, // "peChart" | "epsChart"
+  defaultValue = ''
+}: {
+  recommendationId: string;
+  userId: string;
+  chartType: 'peChart' | 'epsChart';
+  defaultValue?: string; 
+}) {
+  const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [chartData, setChartData] = useState(defaultValue);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (open) setChartData(defaultValue);
+  }, [open, defaultValue]);
+  
+  
+  const handleAddChartData = async () => {
+    setIsLoading(true);
+    try {
+      const result = await updateRecommendationChartData({
+        recommendationId,
+        chartType,
+        chartData: chartData ? JSON.parse(chartData) : null,
+      });
+      if (result.success) {
+        toast.success('Chart data added successfully');
+        setOpen(false);
+        router.refresh();
+      } else {
+        toast.error(result.message || 'Failed to add chart data');
+      }
+    } catch (error) {
+      toast.error('Failed to add chart data');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button className="flex items-center gap-2 h-auto">
+          Add {chartType === 'peChart' ? 'P/E Chart' : 'EPS Chart'} Data
+        </Button>
+      </DialogTrigger>
+      <DialogContent className='max-w-2xl w-full'>
+        <DialogHeader>
+          <DialogTitle>Add {chartType === 'peChart' ? 'P/E Chart' : 'EPS Chart'} Data</DialogTitle>
+        <DialogDescription>
+          Enter the chart data in JSON format.<br />
+          <span className="block mt-2 mb-1 font-semibold">Sample:</span>
+         </DialogDescription>
+          <pre className="bg-muted p-2 rounded text-xs overflow-x-auto">
+            {`
+               [
+                  { "date": "31-01-2023", "value": 20.76 },
+                  { "date": "30-04-2023", "value": 30.28 },
+                  { "date": "31-07-2023", "value": 19.53 },
+                  { "date": "31-12-2023", "value": 101.97 }
+               ]
+            `}
+          </pre>
+        </DialogHeader>
+        <Textarea
+          className="min-h-40"
+          value={chartData}
+          onChange={e => setChartData(e.target.value)}
+          placeholder={`[{ "date": "31 Jan '23", "value": 20.76 }]`}
+        />
+        <DialogFooter>
+          <Button disabled={isLoading} onClick={handleAddChartData}>
+            {isLoading ? 'Saving...' : 'Add Chart Data'}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}

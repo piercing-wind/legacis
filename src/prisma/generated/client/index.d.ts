@@ -190,6 +190,24 @@ export const GrantType: {
 export type GrantType = (typeof GrantType)[keyof typeof GrantType]
 
 
+export const QuestionType: {
+  MCQ: 'MCQ',
+  SCALE: 'SCALE',
+  YES_NO: 'YES_NO',
+  TEXT: 'TEXT'
+};
+
+export type QuestionType = (typeof QuestionType)[keyof typeof QuestionType]
+
+
+export const QuestionCategory: {
+  NORMAL: 'NORMAL',
+  PLATINA_WEALTH: 'PLATINA_WEALTH'
+};
+
+export type QuestionCategory = (typeof QuestionCategory)[keyof typeof QuestionCategory]
+
+
 export const StockChangeType: {
   ADDED: 'ADDED',
   UPDATED: 'UPDATED',
@@ -228,6 +246,14 @@ export const VerificationType: typeof $Enums.VerificationType
 export type GrantType = $Enums.GrantType
 
 export const GrantType: typeof $Enums.GrantType
+
+export type QuestionType = $Enums.QuestionType
+
+export const QuestionType: typeof $Enums.QuestionType
+
+export type QuestionCategory = $Enums.QuestionCategory
+
+export const QuestionCategory: typeof $Enums.QuestionCategory
 
 export type StockChangeType = $Enums.StockChangeType
 
@@ -18555,29 +18581,20 @@ export namespace Prisma {
   }
 
   export type RiskProfileQuestionAvgAggregateOutputType = {
-    minScore: number | null
-    maxScore: number | null
-    weight: number | null
     order: number | null
   }
 
   export type RiskProfileQuestionSumAggregateOutputType = {
-    minScore: number | null
-    maxScore: number | null
-    weight: number | null
     order: number | null
   }
 
   export type RiskProfileQuestionMinAggregateOutputType = {
     id: string | null
     question: string | null
-    type: string | null
-    minScore: number | null
-    maxScore: number | null
-    weight: number | null
+    type: $Enums.QuestionType | null
     isActive: boolean | null
     order: number | null
-    category: string | null
+    category: $Enums.QuestionCategory | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -18585,13 +18602,10 @@ export namespace Prisma {
   export type RiskProfileQuestionMaxAggregateOutputType = {
     id: string | null
     question: string | null
-    type: string | null
-    minScore: number | null
-    maxScore: number | null
-    weight: number | null
+    type: $Enums.QuestionType | null
     isActive: boolean | null
     order: number | null
-    category: string | null
+    category: $Enums.QuestionCategory | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -18601,9 +18615,6 @@ export namespace Prisma {
     question: number
     type: number
     options: number
-    minScore: number
-    maxScore: number
-    weight: number
     isActive: number
     order: number
     category: number
@@ -18614,16 +18625,10 @@ export namespace Prisma {
 
 
   export type RiskProfileQuestionAvgAggregateInputType = {
-    minScore?: true
-    maxScore?: true
-    weight?: true
     order?: true
   }
 
   export type RiskProfileQuestionSumAggregateInputType = {
-    minScore?: true
-    maxScore?: true
-    weight?: true
     order?: true
   }
 
@@ -18631,9 +18636,6 @@ export namespace Prisma {
     id?: true
     question?: true
     type?: true
-    minScore?: true
-    maxScore?: true
-    weight?: true
     isActive?: true
     order?: true
     category?: true
@@ -18645,9 +18647,6 @@ export namespace Prisma {
     id?: true
     question?: true
     type?: true
-    minScore?: true
-    maxScore?: true
-    weight?: true
     isActive?: true
     order?: true
     category?: true
@@ -18660,9 +18659,6 @@ export namespace Prisma {
     question?: true
     type?: true
     options?: true
-    minScore?: true
-    maxScore?: true
-    weight?: true
     isActive?: true
     order?: true
     category?: true
@@ -18760,14 +18756,11 @@ export namespace Prisma {
   export type RiskProfileQuestionGroupByOutputType = {
     id: string
     question: string
-    type: string
+    type: $Enums.QuestionType
     options: JsonValue | null
-    minScore: number
-    maxScore: number
-    weight: number
     isActive: boolean
     order: number
-    category: string | null
+    category: $Enums.QuestionCategory
     createdAt: Date
     updatedAt: Date
     _count: RiskProfileQuestionCountAggregateOutputType | null
@@ -18796,9 +18789,6 @@ export namespace Prisma {
     question?: boolean
     type?: boolean
     options?: boolean
-    minScore?: boolean
-    maxScore?: boolean
-    weight?: boolean
     isActive?: boolean
     order?: boolean
     category?: boolean
@@ -18813,9 +18803,6 @@ export namespace Prisma {
     question?: boolean
     type?: boolean
     options?: boolean
-    minScore?: boolean
-    maxScore?: boolean
-    weight?: boolean
     isActive?: boolean
     order?: boolean
     category?: boolean
@@ -18828,9 +18815,6 @@ export namespace Prisma {
     question?: boolean
     type?: boolean
     options?: boolean
-    minScore?: boolean
-    maxScore?: boolean
-    weight?: boolean
     isActive?: boolean
     order?: boolean
     category?: boolean
@@ -18843,9 +18827,6 @@ export namespace Prisma {
     question?: boolean
     type?: boolean
     options?: boolean
-    minScore?: boolean
-    maxScore?: boolean
-    weight?: boolean
     isActive?: boolean
     order?: boolean
     category?: boolean
@@ -18853,7 +18834,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type RiskProfileQuestionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "question" | "type" | "options" | "minScore" | "maxScore" | "weight" | "isActive" | "order" | "category" | "createdAt" | "updatedAt", ExtArgs["result"]["riskProfileQuestion"]>
+  export type RiskProfileQuestionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "question" | "type" | "options" | "isActive" | "order" | "category" | "createdAt" | "updatedAt", ExtArgs["result"]["riskProfileQuestion"]>
   export type RiskProfileQuestionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     userResponses?: boolean | RiskProfileQuestion$userResponsesArgs<ExtArgs>
     _count?: boolean | RiskProfileQuestionCountOutputTypeDefaultArgs<ExtArgs>
@@ -18869,14 +18850,11 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       question: string
-      type: string
+      type: $Enums.QuestionType
       options: Prisma.JsonValue | null
-      minScore: number
-      maxScore: number
-      weight: number
       isActive: boolean
       order: number
-      category: string | null
+      category: $Enums.QuestionCategory
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["riskProfileQuestion"]>
@@ -19305,14 +19283,11 @@ export namespace Prisma {
   interface RiskProfileQuestionFieldRefs {
     readonly id: FieldRef<"RiskProfileQuestion", 'String'>
     readonly question: FieldRef<"RiskProfileQuestion", 'String'>
-    readonly type: FieldRef<"RiskProfileQuestion", 'String'>
+    readonly type: FieldRef<"RiskProfileQuestion", 'QuestionType'>
     readonly options: FieldRef<"RiskProfileQuestion", 'Json'>
-    readonly minScore: FieldRef<"RiskProfileQuestion", 'Int'>
-    readonly maxScore: FieldRef<"RiskProfileQuestion", 'Int'>
-    readonly weight: FieldRef<"RiskProfileQuestion", 'Float'>
     readonly isActive: FieldRef<"RiskProfileQuestion", 'Boolean'>
     readonly order: FieldRef<"RiskProfileQuestion", 'Int'>
-    readonly category: FieldRef<"RiskProfileQuestion", 'String'>
+    readonly category: FieldRef<"RiskProfileQuestion", 'QuestionCategory'>
     readonly createdAt: FieldRef<"RiskProfileQuestion", 'DateTime'>
     readonly updatedAt: FieldRef<"RiskProfileQuestion", 'DateTime'>
   }
@@ -20897,6 +20872,7 @@ export namespace Prisma {
     riskPercentage: number | null
     completedAt: Date | null
     lastUpdated: Date | null
+    isAnsweredPlatinaQues: boolean | null
     isActive: boolean | null
   }
 
@@ -20908,6 +20884,7 @@ export namespace Prisma {
     riskPercentage: number | null
     completedAt: Date | null
     lastUpdated: Date | null
+    isAnsweredPlatinaQues: boolean | null
     isActive: boolean | null
   }
 
@@ -20919,6 +20896,7 @@ export namespace Prisma {
     riskPercentage: number
     completedAt: number
     lastUpdated: number
+    isAnsweredPlatinaQues: number
     isActive: number
     categories: number
     recommendations: number
@@ -20944,6 +20922,7 @@ export namespace Prisma {
     riskPercentage?: true
     completedAt?: true
     lastUpdated?: true
+    isAnsweredPlatinaQues?: true
     isActive?: true
   }
 
@@ -20955,6 +20934,7 @@ export namespace Prisma {
     riskPercentage?: true
     completedAt?: true
     lastUpdated?: true
+    isAnsweredPlatinaQues?: true
     isActive?: true
   }
 
@@ -20966,6 +20946,7 @@ export namespace Prisma {
     riskPercentage?: true
     completedAt?: true
     lastUpdated?: true
+    isAnsweredPlatinaQues?: true
     isActive?: true
     categories?: true
     recommendations?: true
@@ -21066,6 +21047,7 @@ export namespace Prisma {
     riskPercentage: number
     completedAt: Date
     lastUpdated: Date
+    isAnsweredPlatinaQues: boolean
     isActive: boolean
     categories: JsonValue | null
     recommendations: JsonValue | null
@@ -21098,6 +21080,7 @@ export namespace Prisma {
     riskPercentage?: boolean
     completedAt?: boolean
     lastUpdated?: boolean
+    isAnsweredPlatinaQues?: boolean
     isActive?: boolean
     categories?: boolean
     recommendations?: boolean
@@ -21114,6 +21097,7 @@ export namespace Prisma {
     riskPercentage?: boolean
     completedAt?: boolean
     lastUpdated?: boolean
+    isAnsweredPlatinaQues?: boolean
     isActive?: boolean
     categories?: boolean
     recommendations?: boolean
@@ -21128,6 +21112,7 @@ export namespace Prisma {
     riskPercentage?: boolean
     completedAt?: boolean
     lastUpdated?: boolean
+    isAnsweredPlatinaQues?: boolean
     isActive?: boolean
     categories?: boolean
     recommendations?: boolean
@@ -21142,12 +21127,13 @@ export namespace Prisma {
     riskPercentage?: boolean
     completedAt?: boolean
     lastUpdated?: boolean
+    isAnsweredPlatinaQues?: boolean
     isActive?: boolean
     categories?: boolean
     recommendations?: boolean
   }
 
-  export type UserRiskProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "totalScore" | "riskLevel" | "riskPercentage" | "completedAt" | "lastUpdated" | "isActive" | "categories" | "recommendations", ExtArgs["result"]["userRiskProfile"]>
+  export type UserRiskProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "totalScore" | "riskLevel" | "riskPercentage" | "completedAt" | "lastUpdated" | "isAnsweredPlatinaQues" | "isActive" | "categories" | "recommendations", ExtArgs["result"]["userRiskProfile"]>
   export type UserRiskProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     platinaRecommendations?: boolean | UserRiskProfile$platinaRecommendationsArgs<ExtArgs>
@@ -21174,6 +21160,7 @@ export namespace Prisma {
       riskPercentage: number
       completedAt: Date
       lastUpdated: Date
+      isAnsweredPlatinaQues: boolean
       isActive: boolean
       categories: Prisma.JsonValue | null
       recommendations: Prisma.JsonValue | null
@@ -21609,6 +21596,7 @@ export namespace Prisma {
     readonly riskPercentage: FieldRef<"UserRiskProfile", 'Float'>
     readonly completedAt: FieldRef<"UserRiskProfile", 'DateTime'>
     readonly lastUpdated: FieldRef<"UserRiskProfile", 'DateTime'>
+    readonly isAnsweredPlatinaQues: FieldRef<"UserRiskProfile", 'Boolean'>
     readonly isActive: FieldRef<"UserRiskProfile", 'Boolean'>
     readonly categories: FieldRef<"UserRiskProfile", 'Json'>
     readonly recommendations: FieldRef<"UserRiskProfile", 'Json'>
@@ -27165,9 +27153,6 @@ export namespace Prisma {
     question: 'question',
     type: 'type',
     options: 'options',
-    minScore: 'minScore',
-    maxScore: 'maxScore',
-    weight: 'weight',
     isActive: 'isActive',
     order: 'order',
     category: 'category',
@@ -27199,6 +27184,7 @@ export namespace Prisma {
     riskPercentage: 'riskPercentage',
     completedAt: 'completedAt',
     lastUpdated: 'lastUpdated',
+    isAnsweredPlatinaQues: 'isAnsweredPlatinaQues',
     isActive: 'isActive',
     categories: 'categories',
     recommendations: 'recommendations'
@@ -27492,6 +27478,34 @@ export namespace Prisma {
    * Reference to a field of type 'ServiceType[]'
    */
   export type ListEnumServiceTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ServiceType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'QuestionType'
+   */
+  export type EnumQuestionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QuestionType'>
+    
+
+
+  /**
+   * Reference to a field of type 'QuestionType[]'
+   */
+  export type ListEnumQuestionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QuestionType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'QuestionCategory'
+   */
+  export type EnumQuestionCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QuestionCategory'>
+    
+
+
+  /**
+   * Reference to a field of type 'QuestionCategory[]'
+   */
+  export type ListEnumQuestionCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QuestionCategory[]'>
     
 
 
@@ -28692,14 +28706,11 @@ export namespace Prisma {
     NOT?: RiskProfileQuestionWhereInput | RiskProfileQuestionWhereInput[]
     id?: StringFilter<"RiskProfileQuestion"> | string
     question?: StringFilter<"RiskProfileQuestion"> | string
-    type?: StringFilter<"RiskProfileQuestion"> | string
+    type?: EnumQuestionTypeFilter<"RiskProfileQuestion"> | $Enums.QuestionType
     options?: JsonNullableFilter<"RiskProfileQuestion">
-    minScore?: IntFilter<"RiskProfileQuestion"> | number
-    maxScore?: IntFilter<"RiskProfileQuestion"> | number
-    weight?: FloatFilter<"RiskProfileQuestion"> | number
     isActive?: BoolFilter<"RiskProfileQuestion"> | boolean
     order?: IntFilter<"RiskProfileQuestion"> | number
-    category?: StringNullableFilter<"RiskProfileQuestion"> | string | null
+    category?: EnumQuestionCategoryFilter<"RiskProfileQuestion"> | $Enums.QuestionCategory
     createdAt?: DateTimeFilter<"RiskProfileQuestion"> | Date | string
     updatedAt?: DateTimeFilter<"RiskProfileQuestion"> | Date | string
     userResponses?: UserRiskProfileResponseListRelationFilter
@@ -28710,12 +28721,9 @@ export namespace Prisma {
     question?: SortOrder
     type?: SortOrder
     options?: SortOrderInput | SortOrder
-    minScore?: SortOrder
-    maxScore?: SortOrder
-    weight?: SortOrder
     isActive?: SortOrder
     order?: SortOrder
-    category?: SortOrderInput | SortOrder
+    category?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userResponses?: UserRiskProfileResponseOrderByRelationAggregateInput
@@ -28727,14 +28735,11 @@ export namespace Prisma {
     OR?: RiskProfileQuestionWhereInput[]
     NOT?: RiskProfileQuestionWhereInput | RiskProfileQuestionWhereInput[]
     question?: StringFilter<"RiskProfileQuestion"> | string
-    type?: StringFilter<"RiskProfileQuestion"> | string
+    type?: EnumQuestionTypeFilter<"RiskProfileQuestion"> | $Enums.QuestionType
     options?: JsonNullableFilter<"RiskProfileQuestion">
-    minScore?: IntFilter<"RiskProfileQuestion"> | number
-    maxScore?: IntFilter<"RiskProfileQuestion"> | number
-    weight?: FloatFilter<"RiskProfileQuestion"> | number
     isActive?: BoolFilter<"RiskProfileQuestion"> | boolean
     order?: IntFilter<"RiskProfileQuestion"> | number
-    category?: StringNullableFilter<"RiskProfileQuestion"> | string | null
+    category?: EnumQuestionCategoryFilter<"RiskProfileQuestion"> | $Enums.QuestionCategory
     createdAt?: DateTimeFilter<"RiskProfileQuestion"> | Date | string
     updatedAt?: DateTimeFilter<"RiskProfileQuestion"> | Date | string
     userResponses?: UserRiskProfileResponseListRelationFilter
@@ -28745,12 +28750,9 @@ export namespace Prisma {
     question?: SortOrder
     type?: SortOrder
     options?: SortOrderInput | SortOrder
-    minScore?: SortOrder
-    maxScore?: SortOrder
-    weight?: SortOrder
     isActive?: SortOrder
     order?: SortOrder
-    category?: SortOrderInput | SortOrder
+    category?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: RiskProfileQuestionCountOrderByAggregateInput
@@ -28766,14 +28768,11 @@ export namespace Prisma {
     NOT?: RiskProfileQuestionScalarWhereWithAggregatesInput | RiskProfileQuestionScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"RiskProfileQuestion"> | string
     question?: StringWithAggregatesFilter<"RiskProfileQuestion"> | string
-    type?: StringWithAggregatesFilter<"RiskProfileQuestion"> | string
+    type?: EnumQuestionTypeWithAggregatesFilter<"RiskProfileQuestion"> | $Enums.QuestionType
     options?: JsonNullableWithAggregatesFilter<"RiskProfileQuestion">
-    minScore?: IntWithAggregatesFilter<"RiskProfileQuestion"> | number
-    maxScore?: IntWithAggregatesFilter<"RiskProfileQuestion"> | number
-    weight?: FloatWithAggregatesFilter<"RiskProfileQuestion"> | number
     isActive?: BoolWithAggregatesFilter<"RiskProfileQuestion"> | boolean
     order?: IntWithAggregatesFilter<"RiskProfileQuestion"> | number
-    category?: StringNullableWithAggregatesFilter<"RiskProfileQuestion"> | string | null
+    category?: EnumQuestionCategoryWithAggregatesFilter<"RiskProfileQuestion"> | $Enums.QuestionCategory
     createdAt?: DateTimeWithAggregatesFilter<"RiskProfileQuestion"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"RiskProfileQuestion"> | Date | string
   }
@@ -28860,6 +28859,7 @@ export namespace Prisma {
     riskPercentage?: FloatFilter<"UserRiskProfile"> | number
     completedAt?: DateTimeFilter<"UserRiskProfile"> | Date | string
     lastUpdated?: DateTimeFilter<"UserRiskProfile"> | Date | string
+    isAnsweredPlatinaQues?: BoolFilter<"UserRiskProfile"> | boolean
     isActive?: BoolFilter<"UserRiskProfile"> | boolean
     categories?: JsonNullableFilter<"UserRiskProfile">
     recommendations?: JsonNullableFilter<"UserRiskProfile">
@@ -28875,6 +28875,7 @@ export namespace Prisma {
     riskPercentage?: SortOrder
     completedAt?: SortOrder
     lastUpdated?: SortOrder
+    isAnsweredPlatinaQues?: SortOrder
     isActive?: SortOrder
     categories?: SortOrderInput | SortOrder
     recommendations?: SortOrderInput | SortOrder
@@ -28893,6 +28894,7 @@ export namespace Prisma {
     riskPercentage?: FloatFilter<"UserRiskProfile"> | number
     completedAt?: DateTimeFilter<"UserRiskProfile"> | Date | string
     lastUpdated?: DateTimeFilter<"UserRiskProfile"> | Date | string
+    isAnsweredPlatinaQues?: BoolFilter<"UserRiskProfile"> | boolean
     isActive?: BoolFilter<"UserRiskProfile"> | boolean
     categories?: JsonNullableFilter<"UserRiskProfile">
     recommendations?: JsonNullableFilter<"UserRiskProfile">
@@ -28908,6 +28910,7 @@ export namespace Prisma {
     riskPercentage?: SortOrder
     completedAt?: SortOrder
     lastUpdated?: SortOrder
+    isAnsweredPlatinaQues?: SortOrder
     isActive?: SortOrder
     categories?: SortOrderInput | SortOrder
     recommendations?: SortOrderInput | SortOrder
@@ -28929,6 +28932,7 @@ export namespace Prisma {
     riskPercentage?: FloatWithAggregatesFilter<"UserRiskProfile"> | number
     completedAt?: DateTimeWithAggregatesFilter<"UserRiskProfile"> | Date | string
     lastUpdated?: DateTimeWithAggregatesFilter<"UserRiskProfile"> | Date | string
+    isAnsweredPlatinaQues?: BoolWithAggregatesFilter<"UserRiskProfile"> | boolean
     isActive?: BoolWithAggregatesFilter<"UserRiskProfile"> | boolean
     categories?: JsonNullableWithAggregatesFilter<"UserRiskProfile">
     recommendations?: JsonNullableWithAggregatesFilter<"UserRiskProfile">
@@ -30652,14 +30656,11 @@ export namespace Prisma {
   export type RiskProfileQuestionCreateInput = {
     id?: string
     question: string
-    type: string
+    type: $Enums.QuestionType
     options?: NullableJsonNullValueInput | InputJsonValue
-    minScore?: number
-    maxScore?: number
-    weight?: number
     isActive?: boolean
     order: number
-    category?: string | null
+    category?: $Enums.QuestionCategory
     createdAt?: Date | string
     updatedAt?: Date | string
     userResponses?: UserRiskProfileResponseCreateNestedManyWithoutQuestionInput
@@ -30668,14 +30669,11 @@ export namespace Prisma {
   export type RiskProfileQuestionUncheckedCreateInput = {
     id?: string
     question: string
-    type: string
+    type: $Enums.QuestionType
     options?: NullableJsonNullValueInput | InputJsonValue
-    minScore?: number
-    maxScore?: number
-    weight?: number
     isActive?: boolean
     order: number
-    category?: string | null
+    category?: $Enums.QuestionCategory
     createdAt?: Date | string
     updatedAt?: Date | string
     userResponses?: UserRiskProfileResponseUncheckedCreateNestedManyWithoutQuestionInput
@@ -30684,14 +30682,11 @@ export namespace Prisma {
   export type RiskProfileQuestionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     question?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
     options?: NullableJsonNullValueInput | InputJsonValue
-    minScore?: IntFieldUpdateOperationsInput | number
-    maxScore?: IntFieldUpdateOperationsInput | number
-    weight?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
-    category?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: EnumQuestionCategoryFieldUpdateOperationsInput | $Enums.QuestionCategory
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userResponses?: UserRiskProfileResponseUpdateManyWithoutQuestionNestedInput
@@ -30700,14 +30695,11 @@ export namespace Prisma {
   export type RiskProfileQuestionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     question?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
     options?: NullableJsonNullValueInput | InputJsonValue
-    minScore?: IntFieldUpdateOperationsInput | number
-    maxScore?: IntFieldUpdateOperationsInput | number
-    weight?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
-    category?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: EnumQuestionCategoryFieldUpdateOperationsInput | $Enums.QuestionCategory
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userResponses?: UserRiskProfileResponseUncheckedUpdateManyWithoutQuestionNestedInput
@@ -30716,14 +30708,11 @@ export namespace Prisma {
   export type RiskProfileQuestionCreateManyInput = {
     id?: string
     question: string
-    type: string
+    type: $Enums.QuestionType
     options?: NullableJsonNullValueInput | InputJsonValue
-    minScore?: number
-    maxScore?: number
-    weight?: number
     isActive?: boolean
     order: number
-    category?: string | null
+    category?: $Enums.QuestionCategory
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -30731,14 +30720,11 @@ export namespace Prisma {
   export type RiskProfileQuestionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     question?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
     options?: NullableJsonNullValueInput | InputJsonValue
-    minScore?: IntFieldUpdateOperationsInput | number
-    maxScore?: IntFieldUpdateOperationsInput | number
-    weight?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
-    category?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: EnumQuestionCategoryFieldUpdateOperationsInput | $Enums.QuestionCategory
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -30746,14 +30732,11 @@ export namespace Prisma {
   export type RiskProfileQuestionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     question?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
     options?: NullableJsonNullValueInput | InputJsonValue
-    minScore?: IntFieldUpdateOperationsInput | number
-    maxScore?: IntFieldUpdateOperationsInput | number
-    weight?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
-    category?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: EnumQuestionCategoryFieldUpdateOperationsInput | $Enums.QuestionCategory
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -30833,6 +30816,7 @@ export namespace Prisma {
     riskPercentage: number
     completedAt?: Date | string
     lastUpdated?: Date | string
+    isAnsweredPlatinaQues?: boolean
     isActive?: boolean
     categories?: NullableJsonNullValueInput | InputJsonValue
     recommendations?: NullableJsonNullValueInput | InputJsonValue
@@ -30848,6 +30832,7 @@ export namespace Prisma {
     riskPercentage: number
     completedAt?: Date | string
     lastUpdated?: Date | string
+    isAnsweredPlatinaQues?: boolean
     isActive?: boolean
     categories?: NullableJsonNullValueInput | InputJsonValue
     recommendations?: NullableJsonNullValueInput | InputJsonValue
@@ -30861,6 +30846,7 @@ export namespace Prisma {
     riskPercentage?: FloatFieldUpdateOperationsInput | number
     completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
+    isAnsweredPlatinaQues?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     categories?: NullableJsonNullValueInput | InputJsonValue
     recommendations?: NullableJsonNullValueInput | InputJsonValue
@@ -30876,6 +30862,7 @@ export namespace Prisma {
     riskPercentage?: FloatFieldUpdateOperationsInput | number
     completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
+    isAnsweredPlatinaQues?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     categories?: NullableJsonNullValueInput | InputJsonValue
     recommendations?: NullableJsonNullValueInput | InputJsonValue
@@ -30890,6 +30877,7 @@ export namespace Prisma {
     riskPercentage: number
     completedAt?: Date | string
     lastUpdated?: Date | string
+    isAnsweredPlatinaQues?: boolean
     isActive?: boolean
     categories?: NullableJsonNullValueInput | InputJsonValue
     recommendations?: NullableJsonNullValueInput | InputJsonValue
@@ -30902,6 +30890,7 @@ export namespace Prisma {
     riskPercentage?: FloatFieldUpdateOperationsInput | number
     completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
+    isAnsweredPlatinaQues?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     categories?: NullableJsonNullValueInput | InputJsonValue
     recommendations?: NullableJsonNullValueInput | InputJsonValue
@@ -30915,6 +30904,7 @@ export namespace Prisma {
     riskPercentage?: FloatFieldUpdateOperationsInput | number
     completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
+    isAnsweredPlatinaQues?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     categories?: NullableJsonNullValueInput | InputJsonValue
     recommendations?: NullableJsonNullValueInput | InputJsonValue
@@ -32542,14 +32532,25 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type EnumQuestionTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.QuestionType | EnumQuestionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.QuestionType[] | ListEnumQuestionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QuestionType[] | ListEnumQuestionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumQuestionTypeFilter<$PrismaModel> | $Enums.QuestionType
+  }
+
+  export type EnumQuestionCategoryFilter<$PrismaModel = never> = {
+    equals?: $Enums.QuestionCategory | EnumQuestionCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.QuestionCategory[] | ListEnumQuestionCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QuestionCategory[] | ListEnumQuestionCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumQuestionCategoryFilter<$PrismaModel> | $Enums.QuestionCategory
+  }
+
   export type RiskProfileQuestionCountOrderByAggregateInput = {
     id?: SortOrder
     question?: SortOrder
     type?: SortOrder
     options?: SortOrder
-    minScore?: SortOrder
-    maxScore?: SortOrder
-    weight?: SortOrder
     isActive?: SortOrder
     order?: SortOrder
     category?: SortOrder
@@ -32558,9 +32559,6 @@ export namespace Prisma {
   }
 
   export type RiskProfileQuestionAvgOrderByAggregateInput = {
-    minScore?: SortOrder
-    maxScore?: SortOrder
-    weight?: SortOrder
     order?: SortOrder
   }
 
@@ -32568,9 +32566,6 @@ export namespace Prisma {
     id?: SortOrder
     question?: SortOrder
     type?: SortOrder
-    minScore?: SortOrder
-    maxScore?: SortOrder
-    weight?: SortOrder
     isActive?: SortOrder
     order?: SortOrder
     category?: SortOrder
@@ -32582,9 +32577,6 @@ export namespace Prisma {
     id?: SortOrder
     question?: SortOrder
     type?: SortOrder
-    minScore?: SortOrder
-    maxScore?: SortOrder
-    weight?: SortOrder
     isActive?: SortOrder
     order?: SortOrder
     category?: SortOrder
@@ -32593,10 +32585,27 @@ export namespace Prisma {
   }
 
   export type RiskProfileQuestionSumOrderByAggregateInput = {
-    minScore?: SortOrder
-    maxScore?: SortOrder
-    weight?: SortOrder
     order?: SortOrder
+  }
+
+  export type EnumQuestionTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.QuestionType | EnumQuestionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.QuestionType[] | ListEnumQuestionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QuestionType[] | ListEnumQuestionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumQuestionTypeWithAggregatesFilter<$PrismaModel> | $Enums.QuestionType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumQuestionTypeFilter<$PrismaModel>
+    _max?: NestedEnumQuestionTypeFilter<$PrismaModel>
+  }
+
+  export type EnumQuestionCategoryWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.QuestionCategory | EnumQuestionCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.QuestionCategory[] | ListEnumQuestionCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QuestionCategory[] | ListEnumQuestionCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumQuestionCategoryWithAggregatesFilter<$PrismaModel> | $Enums.QuestionCategory
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumQuestionCategoryFilter<$PrismaModel>
+    _max?: NestedEnumQuestionCategoryFilter<$PrismaModel>
   }
 
   export type RiskProfileQuestionScalarRelationFilter = {
@@ -32653,6 +32662,7 @@ export namespace Prisma {
     riskPercentage?: SortOrder
     completedAt?: SortOrder
     lastUpdated?: SortOrder
+    isAnsweredPlatinaQues?: SortOrder
     isActive?: SortOrder
     categories?: SortOrder
     recommendations?: SortOrder
@@ -32671,6 +32681,7 @@ export namespace Prisma {
     riskPercentage?: SortOrder
     completedAt?: SortOrder
     lastUpdated?: SortOrder
+    isAnsweredPlatinaQues?: SortOrder
     isActive?: SortOrder
   }
 
@@ -32682,6 +32693,7 @@ export namespace Prisma {
     riskPercentage?: SortOrder
     completedAt?: SortOrder
     lastUpdated?: SortOrder
+    isAnsweredPlatinaQues?: SortOrder
     isActive?: SortOrder
   }
 
@@ -34045,6 +34057,14 @@ export namespace Prisma {
     connect?: UserRiskProfileResponseWhereUniqueInput | UserRiskProfileResponseWhereUniqueInput[]
   }
 
+  export type EnumQuestionTypeFieldUpdateOperationsInput = {
+    set?: $Enums.QuestionType
+  }
+
+  export type EnumQuestionCategoryFieldUpdateOperationsInput = {
+    set?: $Enums.QuestionCategory
+  }
+
   export type UserRiskProfileResponseUpdateManyWithoutQuestionNestedInput = {
     create?: XOR<UserRiskProfileResponseCreateWithoutQuestionInput, UserRiskProfileResponseUncheckedCreateWithoutQuestionInput> | UserRiskProfileResponseCreateWithoutQuestionInput[] | UserRiskProfileResponseUncheckedCreateWithoutQuestionInput[]
     connectOrCreate?: UserRiskProfileResponseCreateOrConnectWithoutQuestionInput | UserRiskProfileResponseCreateOrConnectWithoutQuestionInput[]
@@ -34754,6 +34774,40 @@ export namespace Prisma {
     _max?: NestedEnumServiceTypeFilter<$PrismaModel>
   }
 
+  export type NestedEnumQuestionTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.QuestionType | EnumQuestionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.QuestionType[] | ListEnumQuestionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QuestionType[] | ListEnumQuestionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumQuestionTypeFilter<$PrismaModel> | $Enums.QuestionType
+  }
+
+  export type NestedEnumQuestionCategoryFilter<$PrismaModel = never> = {
+    equals?: $Enums.QuestionCategory | EnumQuestionCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.QuestionCategory[] | ListEnumQuestionCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QuestionCategory[] | ListEnumQuestionCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumQuestionCategoryFilter<$PrismaModel> | $Enums.QuestionCategory
+  }
+
+  export type NestedEnumQuestionTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.QuestionType | EnumQuestionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.QuestionType[] | ListEnumQuestionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QuestionType[] | ListEnumQuestionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumQuestionTypeWithAggregatesFilter<$PrismaModel> | $Enums.QuestionType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumQuestionTypeFilter<$PrismaModel>
+    _max?: NestedEnumQuestionTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumQuestionCategoryWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.QuestionCategory | EnumQuestionCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.QuestionCategory[] | ListEnumQuestionCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QuestionCategory[] | ListEnumQuestionCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumQuestionCategoryWithAggregatesFilter<$PrismaModel> | $Enums.QuestionCategory
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumQuestionCategoryFilter<$PrismaModel>
+    _max?: NestedEnumQuestionCategoryFilter<$PrismaModel>
+  }
+
   export type NestedEnumStockChangeTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.StockChangeType | EnumStockChangeTypeFieldRefInput<$PrismaModel>
     in?: $Enums.StockChangeType[] | ListEnumStockChangeTypeFieldRefInput<$PrismaModel>
@@ -34968,6 +35022,7 @@ export namespace Prisma {
     riskPercentage: number
     completedAt?: Date | string
     lastUpdated?: Date | string
+    isAnsweredPlatinaQues?: boolean
     isActive?: boolean
     categories?: NullableJsonNullValueInput | InputJsonValue
     recommendations?: NullableJsonNullValueInput | InputJsonValue
@@ -34981,6 +35036,7 @@ export namespace Prisma {
     riskPercentage: number
     completedAt?: Date | string
     lastUpdated?: Date | string
+    isAnsweredPlatinaQues?: boolean
     isActive?: boolean
     categories?: NullableJsonNullValueInput | InputJsonValue
     recommendations?: NullableJsonNullValueInput | InputJsonValue
@@ -35256,6 +35312,7 @@ export namespace Prisma {
     riskPercentage?: FloatFieldUpdateOperationsInput | number
     completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
+    isAnsweredPlatinaQues?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     categories?: NullableJsonNullValueInput | InputJsonValue
     recommendations?: NullableJsonNullValueInput | InputJsonValue
@@ -35269,6 +35326,7 @@ export namespace Prisma {
     riskPercentage?: FloatFieldUpdateOperationsInput | number
     completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
+    isAnsweredPlatinaQues?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     categories?: NullableJsonNullValueInput | InputJsonValue
     recommendations?: NullableJsonNullValueInput | InputJsonValue
@@ -38016,14 +38074,11 @@ export namespace Prisma {
   export type RiskProfileQuestionCreateWithoutUserResponsesInput = {
     id?: string
     question: string
-    type: string
+    type: $Enums.QuestionType
     options?: NullableJsonNullValueInput | InputJsonValue
-    minScore?: number
-    maxScore?: number
-    weight?: number
     isActive?: boolean
     order: number
-    category?: string | null
+    category?: $Enums.QuestionCategory
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -38031,14 +38086,11 @@ export namespace Prisma {
   export type RiskProfileQuestionUncheckedCreateWithoutUserResponsesInput = {
     id?: string
     question: string
-    type: string
+    type: $Enums.QuestionType
     options?: NullableJsonNullValueInput | InputJsonValue
-    minScore?: number
-    maxScore?: number
-    weight?: number
     isActive?: boolean
     order: number
-    category?: string | null
+    category?: $Enums.QuestionCategory
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -38141,14 +38193,11 @@ export namespace Prisma {
   export type RiskProfileQuestionUpdateWithoutUserResponsesInput = {
     id?: StringFieldUpdateOperationsInput | string
     question?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
     options?: NullableJsonNullValueInput | InputJsonValue
-    minScore?: IntFieldUpdateOperationsInput | number
-    maxScore?: IntFieldUpdateOperationsInput | number
-    weight?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
-    category?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: EnumQuestionCategoryFieldUpdateOperationsInput | $Enums.QuestionCategory
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -38156,14 +38205,11 @@ export namespace Prisma {
   export type RiskProfileQuestionUncheckedUpdateWithoutUserResponsesInput = {
     id?: StringFieldUpdateOperationsInput | string
     question?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
     options?: NullableJsonNullValueInput | InputJsonValue
-    minScore?: IntFieldUpdateOperationsInput | number
-    maxScore?: IntFieldUpdateOperationsInput | number
-    weight?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
-    category?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: EnumQuestionCategoryFieldUpdateOperationsInput | $Enums.QuestionCategory
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -38773,6 +38819,7 @@ export namespace Prisma {
     riskPercentage: number
     completedAt?: Date | string
     lastUpdated?: Date | string
+    isAnsweredPlatinaQues?: boolean
     isActive?: boolean
     categories?: NullableJsonNullValueInput | InputJsonValue
     recommendations?: NullableJsonNullValueInput | InputJsonValue
@@ -38787,6 +38834,7 @@ export namespace Prisma {
     riskPercentage: number
     completedAt?: Date | string
     lastUpdated?: Date | string
+    isAnsweredPlatinaQues?: boolean
     isActive?: boolean
     categories?: NullableJsonNullValueInput | InputJsonValue
     recommendations?: NullableJsonNullValueInput | InputJsonValue
@@ -38998,6 +39046,7 @@ export namespace Prisma {
     riskPercentage?: FloatFieldUpdateOperationsInput | number
     completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
+    isAnsweredPlatinaQues?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     categories?: NullableJsonNullValueInput | InputJsonValue
     recommendations?: NullableJsonNullValueInput | InputJsonValue
@@ -39012,6 +39061,7 @@ export namespace Prisma {
     riskPercentage?: FloatFieldUpdateOperationsInput | number
     completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
+    isAnsweredPlatinaQues?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     categories?: NullableJsonNullValueInput | InputJsonValue
     recommendations?: NullableJsonNullValueInput | InputJsonValue
