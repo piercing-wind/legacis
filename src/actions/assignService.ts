@@ -1,11 +1,16 @@
 'use server';
 import { db } from "@/lib/db";
-import { Service } from "@/prisma/generated/client";
 import { Session } from "./session";
 import { User } from "next-auth";
-import { TenureDiscount } from "@/types/service";
 
-export const assignServiceToUser = async (serviceId: string, plan : TenureDiscount) => {
+
+
+// This function is no longer used in codebase. 
+// Actuall assigning service to user is done with this function.
+// function createSubscription from @/src/lib/utils/subscription-service.ts
+
+
+export const assignServiceToUser = async (serviceId: string) => {
   try {
    const session = await Session();
    const user = session?.user as User;
@@ -21,10 +26,7 @@ export const assignServiceToUser = async (serviceId: string, plan : TenureDiscou
           userId,
           serviceId,
           purchaseDate: new Date(),
-          expiryDate : new Date(Date.now() + plan.days * 24 * 60 * 60 * 1000),
-          status: "ACTIVE",
-          planDays : plan.days,
-          planDiscount : plan.discount,
+          expiryDate : new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
         },
       });
 
@@ -38,7 +40,6 @@ export const assignServiceToUser = async (serviceId: string, plan : TenureDiscou
           paymentGateway: "razorpay",
           paymentId: "payment_123456",
           orderId: "123456",
-          userPurchasedServicesId: purchase.id, 
         },
       });
     });
@@ -46,7 +47,6 @@ export const assignServiceToUser = async (serviceId: string, plan : TenureDiscou
 
     return { success: true, message: "Service assigned successfully." };
   } catch (error) {
-    console.error("Error assigning service:", error);
     return { success: false, message: "Failed to assign service." };
   }
 }

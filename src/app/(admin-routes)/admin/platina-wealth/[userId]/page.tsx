@@ -2,7 +2,7 @@ import { getUserPlatinaDetails } from '@/lib/data/admin/platina-wealth';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { 
   Table, 
   TableBody, 
@@ -94,6 +94,7 @@ export default async function UserPlatinaDetailsPage({params}: { params: Promise
         <CardContent>
           <div className="flex items-center gap-4">
             <Avatar className="h-16 w-16">
+              <AvatarImage src={user.image || "/profile/user-1.png"} />
               <AvatarFallback className="text-lg">
                 {getInitials(user.name)}
               </AvatarFallback>
@@ -177,7 +178,7 @@ export default async function UserPlatinaDetailsPage({params}: { params: Promise
                <UpdateRecommendationDate
                   recommendationId={activeRecommendation.platinaServiceId}
                   userId={user.id}
-                  recommendationDate={activeRecommendation.recommendationDate}
+                  nextRecommendationDate={activeRecommendation.nextRecommendationDate}
                />
               </div>
             </div>

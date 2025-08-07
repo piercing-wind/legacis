@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/emails/sendmail.ts", "legacis_dashboard/tsconfig.json"],
-  "exclude": ["node_modules"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/emails/sendmail.ts", "legacis_dashboard/tsconfig.json", "src/components/quill.tsx", "changes.tst"],
+  "exclude": ["node_modules", ".next"]
 }

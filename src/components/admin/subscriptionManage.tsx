@@ -20,10 +20,11 @@ import { toast } from 'sonner'
 import { Separator } from '../ui/separator'
 import { Switch } from '../ui/switch'
 import { useRouter } from 'next/navigation'
+import { formatHumanDate } from '@/lib/utils'
 
 interface SubscriptionActionsProps {
   subscriptionId: string
-  currentExpiry: Date
+  currentExpiry: Date | null
   userName: string
   serviceName: string
   isActive : boolean
@@ -137,7 +138,7 @@ export function SubscriptionActions({
 
         <div className="space-y-4">
           <div className="text-sm text-muted-foreground">
-            Current expiry: {new Date(currentExpiry).toLocaleDateString()}
+            Current expiry: {currentExpiry ? formatHumanDate(currentExpiry) : 'Not Applicable'}
           </div>
 
           <div className="flex items-center justify-between p-3 border rounded-lg">

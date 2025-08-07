@@ -9,7 +9,7 @@ import { SignOut } from "@/actions/session";
 import { useAppDispatch } from "@/lib/hooks";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-
+import { ShimmerButton } from "@/components/magicui/shimmer-button"
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -31,6 +31,9 @@ import {
   RotateCcwSquare,
   ChevronUp,
   ChevronDown,
+  LayoutDashboard,
+  Menu,
+  Phone,
 } from "lucide-react";
 
 import {
@@ -51,6 +54,20 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { User } from "next-auth";
 import { resetGlobalState } from "@/lib/store";
 
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
+import { set } from "zod";
+import { Badge } from "./ui/badge";
+
+
+
+
 function getGreeting() {
   const hour = new Date().getHours();
   if (hour < 12) return "Good morning";
@@ -58,48 +75,11 @@ function getGreeting() {
   return "Good evening";
 }
 
-const components: { title: string; href: string; description: string }[] = [
-  {
-    title: "Alert Dialog",
-    href: "/docs/primitives/alert-dialog",
-    description:
-      "A modal dialog that interrupts the user with important content and expects a response.",
-  },
-  {
-    title: "Hover Card",
-    href: "/docs/primitives/hover-card",
-    description:
-      "For sighted users to preview content available behind a link.",
-  },
-  {
-    title: "Progress",
-    href: "/docs/primitives/progress",
-    description:
-      "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
-  },
-  {
-    title: "Scroll-area",
-    href: "/docs/primitives/scroll-area",
-    description: "Visually or semantically separates content.",
-  },
-  {
-    title: "Tabs",
-    href: "/docs/primitives/tabs",
-    description:
-      "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
-  },
-  {
-    title: "Tooltip",
-    href: "/docs/primitives/tooltip",
-    description:
-      "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
-  },
-];
 
-export default function Nav() {
+export default function Nav({className}: { className?: string }) {
   const { status } = useSession();
   return (
-    <nav className="sticky top-0 z-40 backdrop-blur-xs px-4 lg:px-10 xl:px-24 py-2">
+    <nav className={cn("sticky top-0 z-40 backdrop-blur-xs px-4 lg:px-10 xl:px-24 py-2 w-full", className)}>
       {status === "authenticated" ? (
         <DesktopNavForLoggedIn />
       ) : (
@@ -119,7 +99,7 @@ const ListItem = React.forwardRef<
         <a
           ref={ref}
           className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline hover:no-underline outline-none transition-colors hover:bg-legacisLightGreen/50 hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline hover:no-underline outline-none transition-colors hover:bg-indigo-50 hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
             className
           )}
           {...props}
@@ -169,6 +149,15 @@ export function UserMenu() {
           </h6>
         </div>
         <DropdownMenuGroup>
+          <Link href="/dashboard" className="w-full">
+            <DropdownMenuItem>
+              <LayoutDashboard />
+              <span>Dashboard</span>
+              <DropdownMenuShortcut>
+                <ArrowUpRight />
+              </DropdownMenuShortcut>
+            </DropdownMenuItem>
+          </Link>
           <Link href="/profile" className="w-full">
             <DropdownMenuItem>
               <UserIcon />
@@ -182,15 +171,6 @@ export function UserMenu() {
             <DropdownMenuItem>
               <CreditCard />
               <span>Billings</span>
-              <DropdownMenuShortcut>
-                <ArrowUpRight />
-              </DropdownMenuShortcut>
-            </DropdownMenuItem>
-          </Link>
-          <Link href="/dashboard?display=subscriptions" className="w-full">
-            <DropdownMenuItem>
-              <RotateCcwSquare />
-              <span>Subscriptions</span>
               <DropdownMenuShortcut>
                 <ArrowUpRight />
               </DropdownMenuShortcut>
@@ -221,7 +201,7 @@ export function UserMenu() {
             </DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Link href="/blog">Resources</Link>
+            <Link href="/blog">Blog</Link>
             <DropdownMenuShortcut>
               <ArrowUpRight />
             </DropdownMenuShortcut>
@@ -283,40 +263,41 @@ export function ServicesSubMenu({
         <ul className="flex flex-col text-sm">
           <li>
             <Link
-              href="/services?filter=mutual-funds"
+              href="/services?type=RESEARCH_ADVISORY"
               className="px-4 py-2 flex items-center justify-between hover:bg-gray-100/20 "
             >
-              <span>Mutual Funds</span>
+              <span>Equity Research Advisory</span>
               <ArrowUpRight size={14} className="opacity-60" />
             </Link>
           </li>
           <li>
             <Link
-              href="/services?filter=equity-smallcase"
+              href="/services?type=RESEARCH_ADVISORY_MUTUAL_FUNDS"
               className="px-4 py-2 flex items-center justify-between hover:bg-gray-100/20 "
             >
-              <span>Equity Smallcase</span>
+              <span>Mutual Funds Portfolios</span>
               <ArrowUpRight size={14} className="opacity-60" />
             </Link>
           </li>
           <li>
             <Link
-              href="/services?filter=equity-direct"
+              href="/services?type=SMALLCASE"
               className="px-4 py-2 flex items-center justify-between hover:bg-gray-100/20 "
             >
-              <span>Equity Direct Service</span>
+              <span>Smallcase by Legacis</span>
               <ArrowUpRight size={14} className="opacity-60" />
             </Link>
           </li>
           <li>
             <Link
-              href="/services?filter=portfolio-review"
+              href="/services?type=PORTFOLIO_REVIEW"
               className="px-4 py-2 flex items-center justify-between hover:bg-gray-100/20 "
             >
               <span>Portfolio Review</span>
               <ArrowUpRight size={14} className="opacity-60" />
             </Link>
           </li>
+ 
         </ul>
       </div>
     </li>
@@ -374,15 +355,6 @@ export function SupportSubMenu({
           </li>
           <li>
             <Link
-              href="/ploicies"
-              className="px-4 py-2 flex items-center hover:bg-gray-100/20 "
-            >
-                 <FileText size={14} className="opacity-60" /> &nbsp;&nbsp;
-                 <span>Policies</span>
-            </Link>
-          </li>
-          <li>
-            <Link
               href="mailto:help@legaciscapital.com"
               className="px-4 py-2 flex items-center hover:bg-gray-100/20 "
             >
@@ -392,11 +364,11 @@ export function SupportSubMenu({
           </li>
           <li>
             <Link
-              href="mailto:help@legaciscapital.com"
+              href="tel:+919779774529"
               className="px-4 py-2 flex items-center hover:bg-gray-100/20 "
             >
-                  <MessageSquare size={14} className="opacity-60" /> &nbsp;&nbsp;
-                  <span>+91 88787 87878</span>
+                  <Phone size={14} className="opacity-60" /> &nbsp;&nbsp;
+                  <span>+91 97797 74529</span>
             </Link>
           </li>
         </ul>
@@ -407,13 +379,16 @@ export function SupportSubMenu({
 
 const DesktopNavForNotLoggedIn = () => {
   const dispatch = useAppDispatch();
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleSignIn = () => {
+    setMobileOpen(false);
     dispatch(setAuthOpen(true));
     dispatch(setAuthModel("login"));
   };
+
   return (
-    <div className="flex items-center justify-between rounded-lg py-2 backdrop-blur-sm">
+    <div className="flex items-center justify-between rounded-lg py-2 backdrop-blur-sm relative">
       <Link href="/" className="text-lg font-bold relative h-16 w-38">
         <Image
           src="/legacis-logo-black.png"
@@ -430,67 +405,155 @@ const DesktopNavForNotLoggedIn = () => {
           style={{ objectFit: "contain" }}
         />
       </Link>
-      <div className="hidden md:flex flex-1 items-center justify-center">
+
+      {/* Desktop Menu */}
+      <div className="hidden md:flex items-center justify-center">
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <NavigationMenuLink href="/docs">About us</NavigationMenuLink>
+              <NavigationMenuLink href="/about">About us</NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <NavigationMenuLink href="/docs">Tools</NavigationMenuLink>
+              <NavigationMenuLink href="/tools">Tools</NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <NavigationMenuLink href="/docs">Contact</NavigationMenuLink>
+              <NavigationMenuLink href="/contact">Contact</NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <NavigationMenuTrigger className="px-4 border border-legacisBlue rounded-full font-normal">
-                Begin Your Investment
+              <NavigationMenuLink href="/blog">Blogs</NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger  className="px-4 bg-legacisBlue/5 dark:bg-neutral-700 data-[state=open]:text-legacisPurple dark:data-[state=open]:text-[#cd9bff] rounded-full font-normal">
+                Start Investing
               </NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid gap-3 p-1 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                  <li className="row-span-3">
-                    <NavigationMenuLink asChild>
-                      <a
-                        className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                        href="/"
+                  <li className="row-span-4 relative">
+                    <NavigationMenuLink asChild className="relative bg-transparent overflow-hidden">
+                      <Link
+                        className="flex h-full w-full select-none flex-col pb-16 justify-end rounded-md p-2 no-underline outline-none focus:shadow-md
+                        !text-white hover:!text-legacisGreen"
+                        href="/services?q=momentum"
                       >
-                        <div className="mb-2 mt-4 text-lg font-medium">
-                          shadcn/ui
-                        </div>
-                        <p className="text-sm leading-tight text-muted-foreground">
-                          Beautifully designed components that you can copy and
-                          paste into your apps. Accessible. Customizable. Open
-                          Source.
-                        </p>
-                      </a>
+                        <div className="h-full w-full absolute top-0 left-0 z-1 bg-gradient-to-t from-neutral-700/80 to-transparent" />
+                       <Image
+                          src={'/momentum.jpg'}
+                          alt="Momentum Thrust"
+                          fill
+                          style={{objectFit: 'cover'}}
+                          className="opacity-80  h-full w-full rounded-md absolute top-0 left-0"
+                       />
+                        <h5 className="mb-2 mt-4 text-2xl font-medium z-5 leading-8 backdrop-blur-xs">
+                          Momentum Thrust
+                        </h5>
+                        <Badge className="z-5" variant={'secondary'}>Research Advisory</Badge>
+                      </Link>
                     </NavigationMenuLink>
                   </li>
-                  <ListItem href="/docs" title="Mutual Funds">
-                    Invest in a diversified portfolio of stocks, bonds, or other
+                  <ListItem href="/services?type=RESEARCH_ADVISORY" title="Legacis - Equity Research Advisory" className="">
+                    <span className="text-xs">
+                      Momentum Thrust, ValueVest, Alpha Micros — and more
+                    </span>
                   </ListItem>
-                  <ListItem href="/docs/installation" title="Installation">
-                    How to install dependencies and structure your app.
+                  <ListItem href="/services?type=RESEARCH_ADVISORY_MUTUAL_FUNDS" title="Legacis - Mutual Fund Portfolios">
+                    <span className="text-xs">
+                      Curated baskets by risk profile.
+                    </span>
                   </ListItem>
                   <ListItem
-                    href="/docs/primitives/typography"
-                    title="Typography"
+                    href="/services?type=SMALLCASE"
+                    title="Smallcase by Legacis"
                   >
-                    Styles for headings, paragraphs, lists...etc
+
+                    <span className="text-xs">
+                      Themed portfolios hosted on Smallcase.
+                    </span>
                   </ListItem>
+
+                  <Link href={'/platina-wealth'} className="w-full text-neutral-800 ">
+                     <div
+                     className="!rounded-sm p-4 py-3 bg-transparent w-full shadow-lg shadow-neutral-200 dark:shadow-neutral-800 bg-gradient-to-br from-indigo-50 to-purple-50
+                     hover:bg-gradient-to-br hover:from-indigo-100 hover:to-purple-100 dark:hover:from-neutral-50 dark:hover:to-neutral-100 transform-3d transition-colors duration-500
+                     cursor-pointer shine-effect
+                     "
+                     >
+                        <h6 className="text-sm font-medium text-inherit">Legacis - HNI</h6>
+                        <span className="text-xs mt-2 text-neutral-600 dark:text-neutral-800">Platina Wealth</span>
+                     </div>
+                  </Link>
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
       </div>
-      <div className="flex items-center gap-4">
-        <ModeToggle />
-        <Button
-          className="text-neutral-900 rounded-full bg-legacisLightGreen hover:bg-legacisLightGreen/50 font-normal px-10 "
-          onClick={handleSignIn}
-        >
-          Sign in
-        </Button>
+
+      {/* Mobile Hamburger */}
+      <div className="flex md:hidden items-center gap-2">
+         <ModeToggle />
+         <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+            <SheetTrigger>
+            <Menu size={28} />
+            </SheetTrigger>
+            <SheetContent className="px-2">
+               <SheetHeader>
+                  <SheetTitle className="text-lg font-bold mb-4">
+                  <Link href="/" onClick={() => setMobileOpen(false)}>
+                     <Image
+                        src="/legacis-logo-black.png"
+                        alt="Legacis Logo"
+                        width={140}
+                        height={40}
+                        className="dark:hidden"
+                     />
+                     <Image
+                        src="/legacis-logo-white.png"
+                        alt="Legacis Logo"
+                        width={120}
+                        height={40}
+                        className="hidden dark:block"
+                     />
+                  </Link>
+                  </SheetTitle>
+               </SheetHeader>
+               <div className="flex flex-col gap-2 px-4">
+                  <Link href="/" className="py-2" onClick={() => setMobileOpen(false)}>
+                     Home
+                  </Link>
+                  <Link href="/about" className="py-2" onClick={() => setMobileOpen(false)}>
+                     About us
+                  </Link>
+                  <Link href="/tools" className="py-2" onClick={() => setMobileOpen(false)}>
+                     Tools
+                  </Link>
+                  <Link href="/services" className="py-2" onClick={() => setMobileOpen(false)}>
+                     Services
+                  </Link>
+                  <Link href="/contact" className="py-2" onClick={() => setMobileOpen(false)}>
+                     Contact
+                  </Link>
+                  <Link href="/blog" className="py-2" onClick={() => setMobileOpen(false)}>
+                     Blogs
+                  </Link>
+               </div>
+
+               <Button
+                  className="w-full text-neutral-900 rounded-full bg-legacisLightGreen hover:bg-legacisLightGreen/50 font-normal px-10"
+                  onClick={handleSignIn}
+               >
+                  Sign in
+               </Button>
+            </SheetContent>
+         </Sheet>
+      </div>
+      <div className="gap-4 md:flex items-center hidden">
+         <ModeToggle />
+         <Button
+            className="text-neutral-900 rounded-full bg-legacisLightGreen hover:bg-legacisLightGreen/50 font-normal px-10"
+            onClick={handleSignIn}
+            >
+            Sign in
+         </Button>
       </div>
     </div>
   );
@@ -499,7 +562,7 @@ const DesktopNavForNotLoggedIn = () => {
 const DesktopNavForLoggedIn = () => {
   return (
     <div className="flex items-center justify-between rounded-lg px-2 py-2 bg-gradient-to-br from-green-50 to-blue-50 dark:bg-gradient-to-br dark:from-neutral-800 dark:to-neutral-800">
-      <Link href="/" className="text-lg font-bold relative h-16 w-38">
+      <Link href="/" className="text-lg font-bold relative h-16 w-36 md:h-20 md:w-44">
         <Image
           src="/legacis-logo-black.png"
           alt="Legacis Logo"
@@ -525,43 +588,70 @@ const DesktopNavForLoggedIn = () => {
               </NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <NavigationMenuLink href="/docs">Tools</NavigationMenuLink>
+              <NavigationMenuLink href="/tools">Tools</NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <NavigationMenuTrigger className="px-4 bg-legacisBlue/5 dark:bg-neutral-700 data-[state=open]:text-legacisPurple dark:data-[state=open]:text-[#cd9bff] rounded-full font-normal">
-                Start Investing Now
+              <NavigationMenuLink href="/services">Services</NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger  className="px-4 bg-legacisBlue/5 dark:bg-neutral-700 data-[state=open]:text-legacisPurple dark:data-[state=open]:text-[#cd9bff] rounded-full font-normal">
+                Start Investing
               </NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid gap-3 p-1 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                  <li className="row-span-3">
-                    <NavigationMenuLink asChild>
-                      <a
-                        className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                        href="/"
+                  <li className="row-span-4 relative">
+                    <NavigationMenuLink asChild className="relative bg-transparent overflow-hidden">
+                      <Link
+                        className="flex h-full w-full select-none flex-col pb-16 justify-end rounded-md p-2 no-underline outline-none focus:shadow-md
+                        !text-white hover:!text-legacisGreen"
+                        href="/services?q=momentum"
                       >
-                        <div className="mb-2 mt-4 text-lg font-medium">
-                          shadcn/ui
-                        </div>
-                        <p className="text-sm leading-tight text-muted-foreground">
-                          Beautifully designed components that you can copy and
-                          paste into your apps. Accessible. Customizable. Open
-                          Source.
-                        </p>
-                      </a>
+                        <div className="h-full w-full absolute top-0 left-0 z-1 bg-gradient-to-t from-neutral-700/80 to-transparent" />
+                       <Image
+                          src={'/momentum.jpg'}
+                          alt="Momentum Thrust"
+                          fill
+                          style={{objectFit: 'cover'}}
+                          className="opacity-80  h-full w-full rounded-md absolute top-0 left-0"
+                       />
+                        <h5 className="mb-2 mt-4 text-2xl font-medium z-5 leading-8 backdrop-blur-xs">
+                          Momentum Thrust
+                        </h5>
+                        <Badge className="z-5" variant={'secondary'}>Research Advisory</Badge>
+                      </Link>
                     </NavigationMenuLink>
                   </li>
-                  <ListItem href="/docs" title="Mutual Funds">
-                    Invest in a diversified portfolio of stocks, bonds, or other
+                  <ListItem href="/services?type=RESEARCH_ADVISORY" title="Legacis - Equity Research Advisory" className="">
+                    <span className="text-xs">
+                      Momentum Thrust, ValueVest, Alpha Micros — and more
+                    </span>
                   </ListItem>
-                  <ListItem href="/docs/installation" title="Installation">
-                    How to install dependencies and structure your app.
+                  <ListItem href="/services?type=RESEARCH_ADVISORY_MUTUAL_FUNDS" title="Legacis - Mutual Fund Portfolios">
+                    <span className="text-xs">
+                      Curated baskets by risk profile.
+                    </span>
                   </ListItem>
                   <ListItem
-                    href="/docs/primitives/typography"
-                    title="Typography"
+                    href="/services?type=SMALLCASE"
+                    title="Smallcase by Legacis"
                   >
-                    Styles for headings, paragraphs, lists...etc
+
+                    <span className="text-xs">
+                      Themed portfolios hosted on Smallcase.
+                    </span>
                   </ListItem>
+
+                  <Link href={'/platina-wealth'} className="w-full text-neutral-800 ">
+                     <div
+                     className="!rounded-sm p-4 py-3 bg-transparent w-full shadow-lg shadow-neutral-200 dark:shadow-neutral-800 bg-gradient-to-br from-indigo-50 to-purple-50
+                     hover:bg-gradient-to-br hover:from-indigo-100 hover:to-purple-100 dark:hover:from-neutral-50 dark:hover:to-neutral-100 transform-3d transition-colors duration-500
+                     cursor-pointer shine-effect
+                     "
+                     >
+                        <h6 className="text-sm font-medium text-inherit">Legacis - HNI</h6>
+                        <span className="text-xs mt-2 text-neutral-600 dark:text-neutral-800">Platina Wealth</span>
+                     </div>
+                  </Link>
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>

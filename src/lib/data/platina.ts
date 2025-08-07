@@ -1,6 +1,6 @@
 import { db } from '@/lib/db';
 import { ServicePlatinaWealth, UserPlatinaRecommendation, UserPlatinaStockHistory, UserPlatinaStockList, UserRiskProfile } from '@/prisma/generated/client';
-
+// Stock Recommendation
 export const findUserPlatinaRecommendation = async (userId: string) => {
    const result = await db.userPlatinaRecommendation.findFirst({
       where: {

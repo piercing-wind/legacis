@@ -1,24 +1,20 @@
 'use client';
-import { Agreement, ComboPlan, Coupon, Service } from "@/prisma/generated/client";
-import { OrderEntity } from "cashfree-pg";
+import { Agreement, Service } from "@/prisma/generated/client";
 import { useEffect, useRef, useState } from "react";
-import { ClipLoader } from 'react-spinners';
 import { DrawerClose } from "../ui/drawer";
 import { User } from "next-auth";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setModalOpen } from "@/lib/slices/profile";
-import { TenureDiscount } from "@/types/service";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
-import { Line } from "../icon";
 import { findCouponByCode } from "@/lib/data/coupon";
 import { Input } from "../ui/input";
 import { SerializableAgreement, ServiceAgreement } from "@/types/global";
 import { formatHumanDate } from "@/lib/utils";
-import { selectTenure, setAgreement, setAgreementSummary, setCoupon } from "@/lib/slices/checkoutSlice";
+import { selectPlan, setAgreement, setAgreementSummary, setCoupon } from "@/lib/slices/checkoutSlice";
 import { useSession } from "next-auth/react";
 
-export const CheckoutForm=({ service, agreement} :{service: Service | ComboPlan | null, agreement: Agreement[] | null})=>{
+export const CheckoutForm=({ service, agreement} :{service: Service | null, agreement: Agreement[] | null})=>{
    const drawerCloseRef = useRef<HTMLButtonElement>(null);
    const [loading, setLoading] = useState(false);
    const [couponCode, setCouponCode] = useState("");
@@ -26,41 +22,42 @@ export const CheckoutForm=({ service, agreement} :{service: Service | ComboPlan 
    const {data} = useSession()
    const user = data?.user as User;
 
-   const selectedTenure = useAppSelector((state) => state.checkout.service.tenureDiscount);
+   const selectedPlan = useAppSelector((state) => state.checkout.service.selectedPlan);
    const appliedCoupon = useAppSelector((state) => state.checkout.coupon);
+   
    const dispatch = useAppDispatch();
-
-
-   let serviceId = null;
-   let comboPlanId = null;
-
-   if (service && 'services' in service) {
-      comboPlanId = service.id;
-   }
-   else if (service && 'type' in service) {
-      serviceId = service.id;
-   }
-
    useEffect(() => {
       setCouponCode("");
-   },[selectedTenure]);
+   },[selectedPlan]);
 
-   const months = Math.round(selectedTenure.days / 30)
-   const tenureDiscount = selectedTenure.discount;
+   const serviceId = service?.id;
 
-   const basePrice = Number(service?.price) * months ; 
-   
-   const subtotal = Math.round(basePrice * (1 - tenureDiscount / 100));
+   const isPortfolioReview = service?.type === 'PORTFOLIO_REVIEW';
 
+
+   if (!selectedPlan) {
+      return (
+         <div className="w-full max-w-2xl h-full border dark:bg-neutral-800 rounded-2xl p-4 flex items-center justify-center">
+            <span className="text-lg text-center">Please select a plan to continue.</span>
+         </div>
+      );
+   }
+
+
+   const months = Math.round(selectedPlan.durationInDays / 30) || 1;
+   const basePrice = selectedPlan.price;
+   const planLabel = isPortfolioReview
+      ? `${selectedPlan.stockLimit || ""} Stocks Portfolio Review`
+      : `${months} ${months === 1 ? 'Month' : 'Months'}`;
+
+   const planDiscount = selectedPlan.discount ?? 0; // discount as fraction (e.g. 0.1 for 10%)
+   const subtotal = Math.round(basePrice * (1 - planDiscount));
    const taxPercent = service?.taxPercent ?? 0;
-
-   const couponDiscount = appliedCoupon ? Math.round(subtotal * (appliedCoupon.percentOff / 100)) : 0;
-
+   const couponDiscount = appliedCoupon ? Math.round(subtotal * appliedCoupon.percentOff) : 0;
    const taxableAmount = subtotal - couponDiscount;
-
    const taxAmount = Math.round(taxableAmount * (taxPercent / 100));
-
    const total = taxableAmount + taxAmount;
+
 
    const agreementSummary : ServiceAgreement = {
       clientName: user?.name || user?.email || "Unknown User",
@@ -68,14 +65,17 @@ export const CheckoutForm=({ service, agreement} :{service: Service | ComboPlan 
       clientpanNumber: user?.pan || "Unknown PAN",
       serviceName: service?.name || "Unknown Service",
       subscriptionStartDate: formatHumanDate(new Date()),
-      subscriptionFrequency: `${months} ${months === 1 ? 'Month' : 'Months'}`,
+      subscriptionFrequency: isPortfolioReview ? "One-time Service" : `${months} ${months === 1 ? 'Month' : 'Months'}`,
       subscriptionPrice: `₹${String(total)} /-`,
    }
 
    const handlePlanSelect = async () => {
          try {
+            if (!serviceId) {
+              toast.error("Service ID is required");
+              return;
+            }
             drawerCloseRef.current?.click();
-
             if (user.panVerified === null) {
                dispatch(setModalOpen({open : true, modelType :'panVerification'}));
                toast.info(
@@ -93,13 +93,14 @@ export const CheckoutForm=({ service, agreement} :{service: Service | ComboPlan 
                return;
             }
    
+            // We are passing the agreement because we want it to instantly load when the model opens.
             const serializableAgreement: SerializableAgreement[] = (agreement ?? []).map(a => ({
               ...a,
               createdAt: a.createdAt instanceof Date ? a.createdAt.toISOString() : a.createdAt,
               updatedAt: a.updatedAt instanceof Date ? a.updatedAt.toISOString() : a.updatedAt,
             }));
             
-            dispatch(selectTenure({...selectedTenure, serviceId, comboPlanId}));
+            dispatch(selectPlan({...selectedPlan, serviceId: serviceId}));
             dispatch(setAgreement(serializableAgreement ?? null));
             dispatch(setAgreementSummary(agreementSummary));
             dispatch(setModalOpen({open : true, modelType : 'agreement'}));
@@ -116,12 +117,14 @@ export const CheckoutForm=({ service, agreement} :{service: Service | ComboPlan 
    const handleApplyCoupon = async () => {
       try{
          setCouponLoading(true);
-         const coupon = await findCouponByCode({code : couponCode, comboPlanId, serviceId, planDays : selectedTenure.days });
-         
+         const coupon = await findCouponByCode({
+            code : couponCode, 
+            serviceId: serviceId ?? null, 
+            planId: selectedPlan.id ?? null
+         });
+
          if(!coupon) throw new Error("Invalid or expired coupon code.");
 
-         if(taxableAmount < (coupon.minAmount ?? 0)) throw new Error(`This coupon can only be applied on orders above ₹${coupon.minAmount?.toLocaleString() || 0}.`);
-         if(coupon.maxAmount != null && taxableAmount > coupon.maxAmount) throw new Error(`Coupon can only be applied on orders below ₹${coupon.maxAmount.toLocaleString()}.`);
          const serializableCoupon = {
            ...coupon,
            expiryDate: coupon.expiryDate instanceof Date ? coupon.expiryDate.toISOString() : coupon.expiryDate,
@@ -141,28 +144,28 @@ export const CheckoutForm=({ service, agreement} :{service: Service | ComboPlan 
        <h4 className="!text-lg !font-medium mb-4">Checkout - {service?.name}</h4>
          <div className="mb-4">
            <div className="flex justify-between">
-             <p>Plan Duration</p>
-             <span className=" font-normal">{months} {months === 1 ? 'Month' : 'Months'}</span>
+             <span>Plan</span>
+             <span className=" font-normal">{planLabel}</span>
            </div>
            <div className="flex justify-between">
-             <p>Price</p>
+             <span className="text-neutral-500">Price</span>
              <span className="font-urbanist">₹{basePrice.toLocaleString()}</span>
            </div>
            <div className="flex justify-between">
-             <p>Discount {tenureDiscount}%</p>
+             <span className="text-neutral-500">Discount {(Number(selectedPlan.discount) * 100)}%</span>
              <span className="font-urbanist text-green-500">- ₹{(basePrice - subtotal).toLocaleString()}</span>
            </div>
            <div className="flex justify-between mt-2 pt-1 border-t">
-             <p>SubTotal</p>
+             <span>SubTotal</span>
              <span className="font-urbanist">₹{(subtotal).toLocaleString()}</span>
            </div>
 
             { appliedCoupon &&
-              <div className="flex justify-between">
-                <p>Coupon {appliedCoupon.percentOff}%</p>
-                <span className="font-urbanist text-green-500">
+            <div className="flex justify-between">
+               <p>Coupon {Math.round(appliedCoupon.percentOff * 100)}%</p>
+               <span className="font-urbanist text-green-500">
                   - ₹{couponDiscount.toLocaleString()} 
-                </span>
+               </span>
                </div>
             }
             { appliedCoupon &&
@@ -174,11 +177,11 @@ export const CheckoutForm=({ service, agreement} :{service: Service | ComboPlan 
                </div>
             }
            <div className="flex justify-between mt-1">
-             <span>Tax ({taxPercent}%)</span>
+             <span className="text-neutral-500">Tax ({taxPercent}%)</span>
              <span className="font-urbanist">₹{taxAmount.toLocaleString()}</span>
            </div>
            <div className="border-t my-2"></div>
-           <div className="flex justify-between font-bold text-lg">
+           <div className="flex justify-between font-semibold text-xl">
              <span>Total</span>
              <span className="font-urbanist">₹{total.toLocaleString()}</span>
            </div>
@@ -205,7 +208,7 @@ export const CheckoutForm=({ service, agreement} :{service: Service | ComboPlan 
          disabled={loading || !service}
          variant={'legacis'}
       >
-         Subscribe Now 
+          {isPortfolioReview ? "Purchase Now" : "Subscribe Now"}
       </Button>
 
          <DrawerClose ref={drawerCloseRef}/>

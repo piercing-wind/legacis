@@ -546,19 +546,19 @@ export function AddStockDialog({ recommendationId, userId }: { recommendationId:
 
 
 export function UpdateRecommendationDate({
-  recommendationDate,
+  nextRecommendationDate,
   recommendationId,
   userId,
 }: {
-  recommendationDate: Date; // ISO date string, e.g. "2024-06-25"
+  nextRecommendationDate: Date; // ISO date string, e.g. "2024-06-25"
   recommendationId: string;
   userId: string;
 }) {
   const router = useRouter();
 
   const initialDate =
-  recommendationDate instanceof Date && !isNaN(recommendationDate.getTime())
-    ? recommendationDate.toISOString().slice(0, 10)
+  nextRecommendationDate instanceof Date && !isNaN(nextRecommendationDate.getTime())
+    ? nextRecommendationDate.toISOString().slice(0, 10)
     : '';
 
   const [open, setOpen] = useState(false);
@@ -573,7 +573,7 @@ export function UpdateRecommendationDate({
       setDate(initialDate);
       setTimeout(() => inputRef.current?.focus(), 100);
     }
-  }, [open, recommendationDate]);
+  }, [open, nextRecommendationDate]);
 
   const handleSave = async () => {
    try {
@@ -583,7 +583,7 @@ export function UpdateRecommendationDate({
       const res = await updateRecommendationDate({
         userId,
         platinaServiceId: recommendationId,
-        recommendationDate: date,
+        nextRecommendationDate: date,
       });
       setIsLoading(false);
       if (!res.success) throw new Error(res.message || 'Failed to update date');

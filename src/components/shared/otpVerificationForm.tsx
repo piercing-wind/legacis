@@ -161,7 +161,7 @@ export default function OTPVerificationForm({className}:{className ?:string}) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className={cn("space-y-4 rounded-xl bg-white border max-w-xl w-full shadow-legacisPurple/20 px-8 p-8 flex flex-col", className)}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className={cn("space-y-4 rounded-xl border max-w-xl w-full shadow-legacisPurple/20 px-8 p-8 flex flex-col", className)}>
         <div className="space-y-4 gap-x-8 w-full">
          <div className="flex items-center justify-between">
            <h5 className="pb-4">OTP</h5>

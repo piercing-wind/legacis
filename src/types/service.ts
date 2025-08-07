@@ -1,3 +1,5 @@
+import { number } from "zod";
+
 export type ServiceFeature = {
   highlights: {
     name: string;
@@ -6,16 +8,16 @@ export type ServiceFeature = {
 }
 
 
-export type TenureDiscount = {
-  days: number;
-  discount: number;
-};
-
 export type ChartDataPoint = {
   main: number;
   date: string;
   comparison: number;
 };
+
+export type Philosophy = {
+   title: string;
+   description: string;
+}
 
 export type FaqItem = {
   q: string;
@@ -38,6 +40,19 @@ export type StockList = {
 };
 
 
+export type AlphaMicroStockList = {
+  companyName        : string
+  stockTicker        : string
+  sector             : string
+  portfolioWeighting : number
+  totalShares        : number
+  currentSharePrice  : number
+  purchaseAmount     : number
+  marketValue        : number
+  peRatio            : number
+  marketCap          : number
+}
+
 export type PlatinaStockList = {
   stockName: string;
   stockTicker: string;
@@ -55,4 +70,10 @@ export type PlatinaStockList = {
   recordDate: string;        // When this record was created
   isActive: boolean;         // Current active record vs historical
   changeType?: "ADDED" | "UPDATED" | "REMOVED" | "INITIAL";
+};
+
+
+
+export type ServiceUpdateRequest = {
+  serviceId: string;
 };

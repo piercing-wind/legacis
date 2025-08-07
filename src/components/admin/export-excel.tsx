@@ -98,11 +98,45 @@ export function ExportSubscriptionsToExcel({ data }: ExportSubscriptionToExcelPr
     // Save file
     XLSX.writeFile(wb, filename);
   };
+  
+
+    const handleExportAll = async () => {
+      const res = await fetch("/api/admin/all-subscriptions", {
+         method: "POST",
+         headers: {
+            "Content-Type": "application/json",
+         },
+         body: JSON.stringify({}), // You can send filters here if needed
+      });
+
+      if (!res.ok) {
+         alert("Failed to export users.");
+         return;
+      }
+
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "Legacis_Users_Subscription_All.xlsx";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+  };
+
 
   return (
-    <Button onClick={exportToExcel} variant="outline" className="flex items-center gap-2">
-      <Download className="w-4 h-4" />
-      Export to Excel
-    </Button>
+   <div className="flex flex-col md:flex-row items-start gap-4">
+      <Button onClick={exportToExcel} variant="outline" className="flex items-center gap-2">
+         <Download className="w-4 h-4" />
+         Export to Excel
+      </Button>
+      <Button onClick={handleExportAll} variant="outline" className="flex items-center gap-2">
+         <Download className="w-4 h-4" />
+         Export All to Excel
+      </Button>
+
+   </div>
   );
 }

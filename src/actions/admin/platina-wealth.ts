@@ -138,7 +138,7 @@ export async function createPlatinaRecommendation(data: CreateRecommendationData
     return { success: true, message: 'Recommendation created successfully', data: result };
 
   } catch (error) {
-    console.error('Error creating Platina recommendation:', error);
+    console.log('Error creating Platina recommendation:', error);
     return { success: false, message: 'Failed to create recommendation' };
   }
 }
@@ -192,7 +192,7 @@ export async function updateStockInPortfolio(
     return { success: true, message: 'Stock updated successfully' };
 
   } catch (error) {
-    console.error('Error updating stock:', error);
+    console.log('Error updating stock:', error);
     return { success: false, message: 'Failed to update stock' };
   }
 }
@@ -230,7 +230,7 @@ export async function removeStockFromPortfolio(recommendationId: string, stockId
     return { success: true, message: 'Stock removed successfully' };
 
   } catch (error) {
-    console.error('Error removing stock:', error);
+    console.log('Error removing stock:', error);
     return { success: false, message: 'Failed to remove stock' };
   }
 }
@@ -278,12 +278,12 @@ export async function createStockInPortfolio(
     revalidatePath('/admin/platina-wealth');
     return { success: true, message: 'Stock added successfully', data: newStock };
   } catch (error) {
-    console.error('Error adding stock:', error);
+    console.log('Error adding stock:', error);
     return { success: false, message: 'Failed to add stock' };
   }
 }
 
-export async function updateRecommendationDate({ userId, platinaServiceId, recommendationDate }: { userId: string; platinaServiceId: string; recommendationDate: string }) {
+export async function updateRecommendationDate({ userId, platinaServiceId, nextRecommendationDate }: { userId: string; platinaServiceId: string; nextRecommendationDate: string }) {
    try{
       await db.userPlatinaRecommendation.update({
          where:{
@@ -293,7 +293,7 @@ export async function updateRecommendationDate({ userId, platinaServiceId, recom
             }
          },
          data:{
-            recommendationDate : new Date(recommendationDate),
+            nextRecommendationDate : new Date(nextRecommendationDate),
             updatedAt: new Date()
          }
       })
@@ -321,7 +321,7 @@ export async function updateUserPlatinaRationale({ userId, platinaServiceId, rat
     revalidatePath('/admin/platina-wealth');
     return { success: true, message: 'Rationale updated successfully' };
   } catch (error) {
-    console.error('Error updating rationale:', error);
+    console.log('Error updating rationale:', error);
     return { success: false, message: 'Failed to update rationale' };
   }
 }  
@@ -343,7 +343,7 @@ export const updateUserPlatinaActiveStatus = async ({platinaServiceId, userId, i
       revalidatePath('/admin/platina-wealth');
       return { success: true, message: 'Portfolio Activated successfully', data: result };
    } catch (error) {
-      console.error('Error Activating Platina portfolio:', error);
+      console.log('Error Activating Platina portfolio:', error);
       return { success: false, message: 'Failed to Activate portfolio' };
    }
 }
@@ -364,7 +364,7 @@ export async function updateRecommendationChartData({
     });
     return { success: true, data: result };
   } catch (error) {
-   console.error('Error updating chart data:', error);
+   console.log('Error updating chart data:', error);
     return { success: false, message: 'Failed to update chart data' };
   }
 }

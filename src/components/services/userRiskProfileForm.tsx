@@ -163,7 +163,7 @@ const renderOptions = (
   return null
 }
 
-const UserRiskProfileQuestions = ({platina_wealth = false, className}: {platina_wealth ?:boolean, className? :string}) => {
+const UserRiskProfileQuestions = ({platina_wealth = false, className, text="Risk Profiling"}: {platina_wealth ?:boolean, className? :string, text?: string}) => {
   const [questions, setQuestions] = useState<RiskProfileQuestionWithResponses[]>([]);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -206,7 +206,7 @@ const UserRiskProfileQuestions = ({platina_wealth = false, className}: {platina_
             createRiskProfile({
                userId: user.id,
                totalScore: totalScore,
-               riskLevel: percentageScore < 30 ? 'Conservative' : percentageScore < 60 ? 'Moderate' : 'Aggressive',
+               riskLevel: percentageScore < 30 ? 'CONSERVATIVE' : percentageScore < 60 ? 'MODERATE' : 'AGGRESSIVE',
                riskPercentage: percentageScore,
                platina_wealth: platina_wealth,
             }),
@@ -227,7 +227,7 @@ const UserRiskProfileQuestions = ({platina_wealth = false, className}: {platina_
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant='outline' className={cn("flex items-center gap-2 h-auto", className)}>
-          Risk Profiling
+          {text}
         </Button>
       </DialogTrigger>
       <DialogContent className='max-w-2xl w-full max-h-[80vh] overflow-y-auto'>
@@ -275,8 +275,8 @@ const UserRiskProfileQuestions = ({platina_wealth = false, className}: {platina_
                   control={form.control}
                   defaultValue={scaleDefault}
                   render={({ field }) => (
-                    <FormItem className="p-4 border rounded-lg mb-2 bg-white shadow-sm">
-                      <FormLabel className="font-medium text-gray-900">{index + 1}. {q.question}</FormLabel>
+                    <FormItem className="p-4 border rounded-lg dark:bg-neutral-800 mb-2 shadow-sm">
+                      <FormLabel className="font-medium">{index + 1}. {q.question}</FormLabel>
                       <FormControl>
                         {renderOptions(q, field)}
                       </FormControl>
@@ -290,8 +290,8 @@ const UserRiskProfileQuestions = ({platina_wealth = false, className}: {platina_
                   name={q.id}
                   defaultValue={safePrevAnswer}
                   render={({ field }) => (
-                    <FormItem className="p-4 border rounded-lg mb-2 bg-white shadow-sm">
-                      <FormLabel className="font-medium text-gray-900">{index + 1}. {q.question}</FormLabel>
+                    <FormItem className="p-4 border rounded-lg dark:bg-neutral-800 mb-2 shadow-sm">
+                      <FormLabel className="font-medium">{index + 1}. {q.question}</FormLabel>
                       <FormControl>
                         {renderOptions(q, field)}
                       </FormControl>

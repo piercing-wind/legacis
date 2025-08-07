@@ -2,11 +2,18 @@
 export const publicRoutes = [
    "/",
    "/blog",
+   "/about",
+   "/tools",
+   "/contact",
+   "/services",
+   "/privacy-policy",
+   "/terms-and-conditions",
+   "/disclosure-ia",
+   "/disclosure-ra",
+   "/grievance-redressal",
+   "/investor-charter",
    "/blog/:path*",
-   "/services",
-   "/services",
    "/api/payment/notify",
-   "thankyou",
 
 ]
 

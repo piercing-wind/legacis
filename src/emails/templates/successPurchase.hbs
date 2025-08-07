@@ -81,16 +81,12 @@
           <td>{{planDuration}}</td>
         </tr>
         <tr>
-          <th>Plan Type</th>
-          <td>{{planType}}</td>
-        </tr>
-        <tr>
           <th>Order ID</th>
           <td>{{orderId}}</td>
         </tr>
         <tr>
-          <th>Transaction ID</th>
-          <td>{{transactionId}}</td>
+          <th>Payment ID</th>
+          <td>{{paymentId}}</td>
         </tr>
         <tr>
           <th>Amount Paid</th>
@@ -104,6 +100,12 @@
           <th>Purchase Date</th>
           <td>{{purchaseDate}}</td>
         </tr>
+         {{#if expiryDate}}
+         <tr>
+            <th>Expiry Date</th>
+            <td>{{expiryDate}}</td>
+         </tr>
+        {{/if}}
       </table>
       <p style="margin: 16px 0; width: 100%;">
        To view more detail about your transaction, visit your profile: <a href="{{profileUrl}}" class="text-link">View Profile</a>

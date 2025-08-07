@@ -31,7 +31,7 @@ export const getFullUserData = createAsyncThunk<SerializableUser | null, string>
 
 type ProfileState = {
    modalOpen : boolean;
-   modalType : 'emailVerification' | 'emailUpdate' | 'phoneVerification' | 'phoneUpdate' | 'consent' | 'avatar' | 'otpVerification' | 'panVerification' | 'agreement' | null;
+   modalType : 'emailVerification' | 'emailUpdate' | 'phoneVerification' | 'phoneUpdate' | 'consent' | 'avatar' | 'otpVerification' | 'panVerification' | 'agreement' | 'changePassword' | null;
    fullUserData : SerializableUser | null;
    status : 'pending' | 'fulfilled' | 'rejected';
    error : string | null;

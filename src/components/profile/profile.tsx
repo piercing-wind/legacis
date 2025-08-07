@@ -1,44 +1,125 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import { getSession, resetAuthSlice } from "@/lib/slices/authSlice";
 import { Button } from "../ui/button";
 import { SignOut } from "@/actions/session";
 import Image from "next/image";
-import { Info, Pencil } from "lucide-react";
+import { Info, Pencil, PenIcon } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { useSession } from "next-auth/react";
-import { getFullUserData, setModalOpen } from "@/lib/slices/profile";
+import { setModalOpen } from "@/lib/slices/profile";
 import { toast } from "sonner";
-import Loading from "../loading";
 import { User } from "next-auth";
 import { User as FullUser, UserRiskProfile} from "@/prisma/generated/client";
 import UserRiskProfileQuestions from "../services/userRiskProfileForm";
 import { Badge } from "../ui/badge";
+import { resetGlobalState } from "@/lib/store";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "../ui/input";
+import { updateUserName } from "@/actions/profile";
+import { useSession } from "next-auth/react";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useRouter } from "next/navigation";
+
+const usernameSchema = z.object({
+  username: z.string().min(3, "Username must be at least 3 characters long").max(40, "Username cannot exceed 40 characters "),
+});
 
 const Profile = ({user, fullUserData, riskProfile}:{user: User, fullUserData: FullUser | null, riskProfile : UserRiskProfile | null}) => {
    const dispatch = useAppDispatch();
+   const [isPending, startTransition] = useTransition();
+   const [dialogOpen, setDialogOpen] = useState(false);
+   const { update, data } = useSession();
+   const router = useRouter();
+
+   const form = useForm<z.infer<typeof usernameSchema>>({
+     resolver: zodResolver(usernameSchema),
+     defaultValues: {
+       username: user?.username || "",
+     },
+   });
 
    const signOut = async () => {
-     dispatch({ type: 'RESET_APP' });
-     await SignOut();
+      resetGlobalState(dispatch);
+      await SignOut();
    };
 
    const handleKycCompleteButton = () => {
-   if (user.panVerified === null) {
-      dispatch(setModalOpen({open: true, modelType : 'panVerification'}));
-      toast.info(
-         "After Completing KYC your Name, Date of Birth (DOB), PAN, Address, Account Type Cannot be Changed.",
-         {
-         duration: 30000,
-         }
-      );
-   } else if (user.emailVerified === null) {
-      dispatch(setModalOpen({open: true, modelType :"emailVerification"}));
-   } else if (user.phoneVerified === null) {
-      dispatch(setModalOpen({open: true, modelType :'phoneVerification'}));
-   }
+      if (user.panVerified === null) {
+         dispatch(setModalOpen({open: true, modelType : 'panVerification'}));
+         toast.info(
+            "After Completing KYC your Name, Date of Birth (DOB), PAN, Address, Account Type Cannot be Changed.",
+            {
+            duration: 30000,
+            }
+         );
+      } else if (user.emailVerified === null) {
+         dispatch(setModalOpen({open: true, modelType :"emailVerification"}));
+      } else if (user.phoneVerified === null) {
+         dispatch(setModalOpen({open: true, modelType :'phoneVerification'}));
+      }
    };
+
+   const handleChangePassword = () => {
+      dispatch(setModalOpen({open: true, modelType : 'changePassword'}));
+   };
+
+   const handleUsernameChange = async ( values : z.infer<typeof usernameSchema>) => {
+      try {
+         const newUsername = values.username;
+         if(user.username === newUsername) {
+            toast.message("Username is already same!")
+            setDialogOpen(false)   
+            return
+         }
+         startTransition(() => {
+            updateUserName(user.id, newUsername)
+            .then((res) => {
+               if (!res.success) throw new Error(res.message);
+               toast.success(<h6>Username Changed Successfully!</h6>,{
+                  duration: 10000,
+                  action: {   
+                     label: "Close",
+                     onClick: () => toast.dismiss(),
+                  },
+               });
+               user.username = newUsername;
+               update({
+                  ...data,
+                  user: {
+                     ...data?.user,
+                     username: newUsername,
+                  }
+               });
+               setDialogOpen(false)   
+            })
+            .catch((error) => {
+               toast.error(<h6 style={{color:"red"}}>Failed to change username!</h6>,{
+                  duration: 10000,
+                  action: {
+                     label: "Close",
+                     onClick: () => toast.dismiss(),
+                  },
+                  description: `${(error as Error).message}`,
+               });
+            })
+         });
+       
+      } catch (error) {
+         toast.error("Failed to change username. Please try again later.");
+      }
+   }
+
 
   return (
     <div className="w-full max-w-full mx-auto py-6 md:py-12 px-2 md:px-6 rounded-xl md:rounded-2xl shadowA4 bg-white dark:bg-neutral-900">
@@ -53,6 +134,7 @@ const Profile = ({user, fullUserData, riskProfile}:{user: User, fullUserData: Fu
                   fill
                   style={{ objectFit: "cover" }}
                   sizes="96px"
+                  className="rounded-full overflow-clip"
                 />
                 <Button
                   variant="ghost"
@@ -64,7 +146,39 @@ const Profile = ({user, fullUserData, riskProfile}:{user: User, fullUserData: Fu
               </div>
               <div>
                 <h4 className="!text-lg md:!text-xl font-semibold">{user?.name}</h4>
-                <h6 className="!text-sm text-neutral-500">@{user?.username}</h6>
+               
+                <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                  <DialogTrigger asChild className="hover:cursor-pointer"><h6 className="!text-sm text-neutral-500 flex items-center gap-4">@{user?.username} <PenIcon size={16}/></h6></DialogTrigger>
+                     <DialogContent className="max-w-lg">
+                        <DialogHeader>
+                           <DialogTitle>Change Username</DialogTitle>
+                           <DialogDescription>
+                              Current username: <span className="font-semibold">@{user?.username}</span>
+                              <br />
+                              <br />
+                              Please enter a new username below. Usernames must be unique and can only contain alphanumeric characters, underscores, and hyphens.
+                           </DialogDescription>
+                           <Form {...form}>
+                              <form onSubmit={form.handleSubmit(handleUsernameChange)} className="z-10 my-8">
+                                 <FormField
+                                    control={form.control}
+                                    name="username"
+                                    render={({ field }) => (
+                                    <FormItem className="mb-4">
+                                       <FormLabel>Username</FormLabel>
+                                       <FormControl>
+                                          <Input placeholder="" {...field} />
+                                       </FormControl>
+                                       <FormMessage />
+                                    </FormItem>
+                                    )}
+                                 />
+                                 <Button disabled={isPending} type="submit" variant={'secondary'} className="w-full">Change Username</Button>
+                              </form>
+                           </Form>
+                        </DialogHeader>
+                  </DialogContent>
+               </Dialog>
                 <h6 className="!text-sm text-neutral-500">Account Type: {user?.userType}</h6>
               </div>
             </div>
@@ -88,7 +202,7 @@ const Profile = ({user, fullUserData, riskProfile}:{user: User, fullUserData: Fu
                         Score <span className="font-semibold">{riskProfile?.riskPercentage} %</span>
                      </p>
                      <p className="text-sm text-nowrap gap-4 font-medium flex md:flex-col text-center ">
-                        Risk Type: <Badge variant={'secondary'} className="font-semibold w-full h-10 px-6 md:px-4 py-2">{riskProfile?.riskLevel}</Badge >
+                        Risk Level: <Badge variant={'secondary'} className="font-semibold w-full h-10 px-6 md:px-4 py-2">{riskProfile?.riskLevel}</Badge >
                      </p>
                   </div>
                }
@@ -103,12 +217,14 @@ const Profile = ({user, fullUserData, riskProfile}:{user: User, fullUserData: Fu
 
           <div className="flex flex-col md:grid md:grid-cols-3 items-stretch gap-4 md:gap-3 py-4 border-t border-b border-neutral-200 dark:border-neutral-700">
             <Button
+              onClick={signOut}
               variant="outline"
               className="text-xs px-4 rounded-full w-full h-12"
             >
               Sign Out
             </Button>
             <Button
+              onClick={handleChangePassword}
               variant={"legacis"}
               className="text-xs px-4 rounded-full w-full h-12"
             >

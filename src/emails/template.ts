@@ -43,8 +43,7 @@ export {
 };
 
 
-// ZeptoMail Template
-
+// ZeptoMail Template not in use currently
 export const templateId = {
   otp: {
      id: "2518b.71ae238b58705b69.k1.7149c3a0-3889-11f0-b421-8e9a6c33ddc2.19701d3b4da",

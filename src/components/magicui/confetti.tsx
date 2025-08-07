@@ -68,7 +68,7 @@ const ConfettiComponent = forwardRef<ConfettiRef, Props>((props, ref) => {
       try {
         await instanceRef.current?.({ ...options, ...opts });
       } catch (error) {
-        console.error("Confetti error:", error);
+        console.log("Confetti error:", error);
       }
     },
     [options],
@@ -89,7 +89,7 @@ const ConfettiComponent = forwardRef<ConfettiRef, Props>((props, ref) => {
         try {
           await fire();
         } catch (error) {
-          console.error("Confetti effect error:", error);
+          console.log("Confetti effect error:", error);
         }
       })();
     }
@@ -133,7 +133,7 @@ const ConfettiButtonComponent = ({
         },
       });
     } catch (error) {
-      console.error("Confetti button error:", error);
+      console.log("Confetti button error:", error);
     }
   };
 

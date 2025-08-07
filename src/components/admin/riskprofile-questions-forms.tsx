@@ -100,9 +100,9 @@ export function RiskProfileQuestionsAdmin({
 
 
   return (
-    <div className="max-w-5xl mx-auto p-4 bg-white rounded-lg shadow-md mb-8">
+    <div className="w-full mx-auto overflow-x-auto py-8 px-4">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold">Questions</h2>
+        <h2 className="text-xl font-medium">Questions</h2>
         <Button onClick={() => { setEditing(null); setShowForm(true); }}>Add New</Button>
       </div>
       <Table>

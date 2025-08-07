@@ -6,6 +6,14 @@ const nextConfig: NextConfig = {
        canvas: './empty-module.ts',
      },
    },
+   images : {
+      remotePatterns : [
+         {
+            protocol : 'https',
+            hostname : 'legacis-capital.s3.ap-south-1.amazonaws.com'
+         }
+      ]
+   }
 };
 
 export default nextConfig;

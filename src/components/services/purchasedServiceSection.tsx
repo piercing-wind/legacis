@@ -1,17 +1,92 @@
 'use client'
-import { ServiceData } from '@/lib/data/services'
-import { ServiceType } from '@/prisma/generated/client'
-import React, { useState } from 'react'
+import { ComplimentaryServiceWithService, ServiceData } from '@/lib/data/services'
+import { ResearchAdvisoryModelPortfolioStockList, ResearchAdvisoryMutualFundStockList, ResearchAdvisoryStockList, Service, ServiceType, UserPurchasedServices } from '@/prisma/generated/client'
+import React, { useEffect, useState } from 'react'
 import { Button } from '../ui/button'
-import { cn, formatHumanDate } from '@/lib/utils'
+import { cn, formatHumanDate, normalizeRationale } from '@/lib/utils'
 import { Line } from '../icon'
-import { StockList } from '@/types/service'
 import { X } from 'lucide-react'
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import PieChart from './PieChart'
+import { ChartConfig } from '../ui/chart'
+import { Input } from '../ui/input'
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
+import { PDFDisplay } from '../pdfDisplay'
+import { generateSectorColor } from '@/lib/utils/generate-sector-color'
+import Link from 'next/link'
+import Image from 'next/image'
 
-const PurchasedServiceSection = ({serviceType, data}:{serviceType : ServiceType, data : ServiceData}) => {
+type PurchasedMFServiceData = {
+   service : Service;
+   purchasedService : UserPurchasedServices | null;
+   data : ServiceData;
+}
+
+// MF stands for Mutual Fund
+
+
+const PurchasedServiceSection = ({serviceType, data, mfServiceData}:{serviceType : ServiceType, data?: ServiceData, mfServiceData?: PurchasedMFServiceData[] }) => {
    switch (serviceType) {
-      case ServiceType.TRADING:
-         return <ServiceTradingSection data={data} />
+      case ServiceType.RESEARCH_ADVISORY:
+         return <ServiceResearchAdviosrySection data={data as ResearchAdvisoryStockList[]} />
+      case ServiceType.RESEARCH_ADVISORY_MODEL_PORTFOLIO:
+         return <ServiceModelPortfolioSection data={data as ResearchAdvisoryModelPortfolioStockList[]} />
+      case ServiceType.RESEARCH_ADVISORY_MUTUAL_FUNDS:
+         return <ServiceMutualFundSection data={mfServiceData as PurchasedMFServiceData[]} />
+      case ServiceType.PORTFOLIO_REVIEW:  
+         return(
+            <div className='border rounded-2xl p-4 w-full'>
+               To get started with your portfolio review. Visit in your &nbsp;
+               <Link href={'/dashboard'}>Dashboard</Link>&nbsp;
+               and upload your stocks file.
+            </div>
+         )
+      case ServiceType.COMBO:
+         return (
+            <div className='border rounded-2xl p-4 w-full'>
+               <h5 className='text-lg font-medium mb-4'>Services</h5>
+               {data && data.length > 0 ? (
+                  <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'>
+                     {(data as ComplimentaryServiceWithService[]).map((service) => (
+                        <div key={service.id} className='border rounded-lg p-4 min-h-44 flex flex-col'>
+                           <div className="flex items-start gap-3 mb-auto">
+                              <Image
+                                 src='/icons/favicon.ico'
+                                 alt={service.complimentaryService.name || "Service Icon"}
+                                 width={40}
+                                 height={40}
+                                 className="rounded-full mt-1"
+                              />
+                              <div>
+                                 <h3 className="text-lg font-semibold">{service.complimentaryService.name}</h3>
+                                 <span className="text-xs text-muted-foreground uppercase tracking-wide">{service.complimentaryService?.tag}</span>
+                              </div>
+                           </div>
+                           <Button 
+                              asChild
+                              variant={'secondary'}
+                              className='mt-auto'
+                           >
+                              <Link href={`/services/${service.complimentaryService.slug}`} className=''>
+                                 View Service
+                              </Link>
+                           </Button>
+                        </div>
+                     ))}
+                  </div>
+               ) : (
+                  <p className='text-gray-500'>No complimentary services available.</p>
+               )}
+            </div>
+         )
       default:
          return <div className="text-center text-gray-500">Service type not supported</div>
       
@@ -22,76 +97,22 @@ export default PurchasedServiceSection
 
 
 
-const ServiceTradingSection = ({data} : {data : ServiceData}) => {
-   const [activeTab, setActiveTab] = useState<"OPEN" | "CLOSED">("OPEN");
-   const exampleStock: StockList[] = [
-  {
-    name: "Tatatech",
-    symbol: "TATH",
-    status: "OPEN",
-    side: "BUY", 
-    entryDate: "2025-06-06T14:30:00Z",
-    entryPrice: 1000,
-    targetPrice: 1200,
-    stopLoss: 900,
-    rationale: "Strong fundamentals and positive earnings outlook.Use this API to verify if a given PAN exists. You will receive the name registered with the PAN and the PAN type (Individual or Business) in the response for a valid PAN. View the test data and use the information to trigger the validations. The test data are usable only in the test environment sandbox.",
-    exitRationale: "Target achieved, booking profits." 
-   },
-  {
-    name: "Reliance",
-    symbol: "RELI",
-    status: "OPEN",
-    side: "SELL",
-    entryDate: "2025-06-05T10:00:00Z",
-    entryPrice: 2800,
-    targetPrice: 2500,
-    stopLoss: 2900,
-    rationale: "Diversified business and robust growth in retail segment.",
-    exitRationale: "Target achieved, booking profits."
-  },
-  {
-    name: "HDFC Bank",
-    symbol: "HDFCBANK",
-    status: "CLOSED",
-    side: "BUY", 
-    entryDate: "2025-05-28T09:15:00Z",
-    entryPrice: 1600,
-    targetPrice: 1750,
-    stopLoss: 1550,
-    rationale: "Closed after hitting target. Consistent performer in banking sector.",
-    exitDate: "2025-06-01T15:00:00Z",
-    exitRationale: "Strong fundamentals and positive earnings outlook.Use this API to verify if a given PAN exists. You will receive the name registered with the PAN and the PAN type (Individual or Business) in the response for a valid PAN. View the test data and use the information to trigger the validations. The test data are usable only in the test environment sandbox."
-  },
-  {
-    name: "Infosys",
-    symbol: "INFY",
-    status: "OPEN",
-    entryDate: "2025-06-03T13:00:00Z",
-    side: "BUY", 
-    entryPrice: 1400,
-    targetPrice: 1550,
-    stopLoss: 1350,
-    rationale: "Strong order book and digital transformation tailwinds.",
-    exitRationale: "Target achieved, booking profits."
-  },
-  {
-    name: "Maruti Suzuki",
-    symbol: "MARUTI",
-    status: "CLOSED",
-    side: "BUY", 
-    entryDate: "2025-05-20T11:45:00Z",
-    entryPrice: 9000,
-    targetPrice: 9500,
-    stopLoss: 8800,
-    rationale: "Closed after stop loss triggered. Monitor for re-entry.",
-    exitDate: "2025-05-25T10:00:00Z",
-    exitRationale: "Stop loss hit, exited position."
-  }
-];
 
-   const filteredStocks = exampleStock.filter(stock => stock.status === activeTab);
+const ServiceResearchAdviosrySection = ({data} : {data : ResearchAdvisoryStockList[]}) => {
+   const [activeTab, setActiveTab] = useState<"OPEN" | "CLOSED">("OPEN");
+
+   
+   if (!data) {
+      return (
+         <section className="w-full p-4 border rounded-2xl">
+            <div className="text-center text-gray-400 py-8">No calls found.</div>
+         </section>
+      );
+   }
+   
+   const filteredStocks = data.filter(stock => stock.status === activeTab);
    return (
-      <section className="w-full p-4 border rounded-2xl">
+      <section className="w-full p-4 border rounded-2xl max-h-screen overflow-y-auto">
          <div className="flex items-center gap-4 mb-4">
            <Button
              variant={activeTab === "OPEN" ? "default" : "link"}
@@ -106,12 +127,12 @@ const ServiceTradingSection = ({data} : {data : ServiceData}) => {
              Closed Calls
            </Button>
          </div>
-         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 min-h-96">
            {filteredStocks.length === 0 ? (
-             <div className="col-span-3 text-center text-gray-400 py-8">No calls found.</div>
+             <div className="col-span-3 text-center text-gray-400 py-8 h-full flex items-center justify-center">No calls found.</div>
            ) : (
              filteredStocks.map((stock) => (
-               <StockCard key={stock.symbol + stock.entryDate} stock={stock} />
+               <StockCard key={stock.stockTicker + stock.entryDate} stock={stock} />
              ))
            )}
          </div>
@@ -119,15 +140,25 @@ const ServiceTradingSection = ({data} : {data : ServiceData}) => {
    )
 }
 
-const StockCard = ({ stock }: { stock: StockList }) => {
+const StockCard = ({ stock }: { stock: ResearchAdvisoryStockList }) => {
    const [showPopover, setShowPopover] = useState(false);
    const truncate = (text: string, n: number) =>
     text.length > n ? text.slice(0, n) + "..." : text;
-   const potential = stock.side === "SELL"
-  ? ((stock.entryPrice - stock.targetPrice) / stock.entryPrice) * 100
-  : ((stock.targetPrice - stock.entryPrice) / stock.entryPrice) * 100;
-  return (
-    <div className={`w-full relative flex flex-col items-center justify-between rounded-xl ${stock.status === 'OPEN' ? 'bg-green-50/50  dark:bg-neutral-800' : 'bg-neutral-50 dark:bg-neutral-500/5' } border`}>
+
+      let potential = 0;
+      if (stock.entryPrice !== null && stock.targetPrice !== null) {
+      potential =
+         stock.callType === "SELL"
+            ? ((stock.entryPrice - stock.targetPrice) / stock.entryPrice) * 100
+            : ((stock.targetPrice - stock.entryPrice) / stock.entryPrice) * 100;
+      }
+   
+   const rationaleText = normalizeRationale(stock.rationale);
+   const exitRationaleText = normalizeRationale(stock.exitRationale);
+
+   return (
+    <div className={`w-full relative flex flex-col items-center justify-between rounded-xl 
+    ${stock.status === 'OPEN' ? 'bg-green-50/10  dark:bg-neutral-800/50' : 'bg-neutral-50 dark:bg-neutral-500/5' } border`}>
       <div className="w-full p-4 ">
          <div className="flex items-center justify-between mb-2">
          <h6 className='!text-xl'>{stock.name}</h6>
@@ -144,14 +175,17 @@ const StockCard = ({ stock }: { stock: StockList }) => {
          <div className="flex items-center justify-between mb-4">
          <span className="text-[10px] text-neutral-600 dark:text-neutral-300 bg-neutral-100 dark:bg-neutral-700 p-1 px-2 rounded-md">
             <span className='font-semibold'>Entry:</span>{" "}
-            {new Date(stock.entryDate).toLocaleString("en-IN", {
+            {stock.entryDate ?
+               new Date(stock.entryDate).toLocaleString("en-IN", {
                year: "numeric",
                month: "short",
                day: "2-digit",
                hour: "2-digit",
                minute: "2-digit",
                hour12: false,
-            })}
+            }) 
+            : "N/A"
+         }
          </span>
          {stock.exitDate && (
             <span className="text-[10px] text-neutral-600 dark:text-neutral-300 bg-neutral-100 dark:bg-neutral-700 ml-4 p-1 px-2 rounded-md">
@@ -185,8 +219,8 @@ const StockCard = ({ stock }: { stock: StockList }) => {
                <span className="text-xs text-neutral-500 dark:text-neutral-300">Potential</span>
                <span
                  className={`text-sm font-urbanist font-medium ${
-                   (stock.side === "SELL" && potential > 0) ||
-                   (stock.side !== "SELL" && potential > 0)
+                   (stock.callType === "SELL" && potential > 0) ||
+                   (stock.callType !== "SELL" && potential > 0)
                      ? "text-green-600 dark:text-green-300"
                      : potential < 0
                      ? "text-red-600"
@@ -203,8 +237,8 @@ const StockCard = ({ stock }: { stock: StockList }) => {
             <div className="flex-1 w-full h-10">
                <span className="text-sm font-medium">Exit Rationale</span>
                <div className="text-xs text-neutral-500 dark:text-neutral-300">
-                  {truncate(stock.exitRationale  ?? "", 80)}
-                  {(stock.exitRationale ?? "").length > 80 && (
+                  {truncate(rationaleText.text, 80)}
+                  {(exitRationaleText.text).length > 80 && (
                   <>
                      <Button
                      variant={'link'}
@@ -230,7 +264,7 @@ const StockCard = ({ stock }: { stock: StockList }) => {
                            <X size={14}/>
                            </Button>
                         </div>
-                        <p>{stock.exitRationale}</p>
+                        <p>{exitRationaleText.text}</p>
                      </div>
                      )}
                   </>
@@ -241,8 +275,8 @@ const StockCard = ({ stock }: { stock: StockList }) => {
             <div className="flex-1 w-full h-10">
                <span className="text-sm font-medium">Rationale</span>
                <div className="text-xs text-neutral-500 dark:text-neutral-300">
-                  {truncate(stock.rationale, 80)}
-                  {stock.rationale.length > 80 && (
+                  {truncate(rationaleText.text, 80)}
+                  {(rationaleText.text).length > 80 && (
                   <>
                      <Button
                      variant={'link'}
@@ -268,7 +302,7 @@ const StockCard = ({ stock }: { stock: StockList }) => {
                            <X size={14}/>
                            </Button>
                         </div>
-                        <p>{stock.rationale}</p>
+                        <p>{rationaleText.text}</p>
                      </div>
                      )}
                   </>
@@ -280,13 +314,13 @@ const StockCard = ({ stock }: { stock: StockList }) => {
       </div>
          <Line color='var(--text-color)' className='opacity-40' height="1px" width="100%" />
       {stock.status !== "CLOSED" && (
-         stock.side === "BUY" ? (
+         stock.callType === "BUY" ? (
            <div className='w-full mt-2 bg-legacisGreen/10 p-4 flex items-center justify-center rounded-b-xl'>
-               <span className="text-green-600 dark:text-green-300 uppercase tracking-widest text-lg font-medium">{stock.side}</span>
+               <span className="text-green-600 dark:text-green-300 uppercase tracking-widest text-lg font-medium">{stock.callType}</span>
            </div>
          ):(
            <div className='w-full mt-2 bg-legacisPink/10 p-4 flex items-center justify-center rounded-b-xl'>
-               <span className="text-red-600 dark:text-red-400 uppercase tracking-widest text-lg font-medium">{stock.side}</span>
+               <span className="text-red-600 dark:text-red-400 uppercase tracking-widest text-lg font-medium">{stock.callType}</span>
            </div>
          )
       )}
@@ -295,6 +329,345 @@ const StockCard = ({ stock }: { stock: StockList }) => {
 };
 
 
-//const Platina Card
+//Serive Model Portfolio Section
+const ServiceModelPortfolioSection = ({data} : {data : ResearchAdvisoryModelPortfolioStockList[]}) => {
+   const AMOUNT_STORAGE_KEY = "model_portfolio_amount";
+
+   const [amount, setAmount] = useState<number>(()=>{
+      if (typeof window !== "undefined") {
+         const stored = localStorage.getItem(AMOUNT_STORAGE_KEY);
+         if (stored) return Number(stored);
+      }
+      return 0;
+   });
+
+   useEffect(() => {
+      if (typeof window !== "undefined") {
+         localStorage.setItem(AMOUNT_STORAGE_KEY, String(amount));
+      }
+   }, [amount]);
+
+   const sectorCounts: Record<string, number> = {};
+   data.forEach(stock => {
+     const sector = stock.sector || "Unknown";
+     sectorCounts[sector] = (sectorCounts[sector] || 0) + 1;
+   });
+
+   // 2. Calculate total and percentages
+   const total = data.length;
+   const pieData = Object.entries(sectorCounts).map(([sector, count], i) => ({
+     name: sector,
+     value: (count / total) * 100,
+     fill: generateSectorColor(sector, i),
+     stocks: count,
+   }));
+
+   const chartConfig = {
+     title: "Stocks by Sector",
+     // ...other config if needed
+   } as ChartConfig;
+
+   if (!data) {
+      return (
+         <section className="w-full p-4 border rounded-2xl">
+            <div className="text-center text-gray-400 py-8">No model portfolio stocks found.</div>
+         </section>
+      );
+   }
+
+  const totalWeight = data.reduce((sum, stock) => sum + (stock.portfolioWeight || 0), 0);
+  const unknownWeight = Math.max(0, 100 - totalWeight);
+
+   // Only show table if amount is entered and > 0
+   const showTable = amount > 0;
+
+   return (
+      <section className="w-full">
+         <div className="flex flex-col lg:flex-row p-4 gap-8 border rounded-2xl">
+            <div className='max-w-xl w-full flex-1 '>
+                <h6 className='font-medium'>Sector</h6>
+               <PieChart data={pieData} chartConfig={chartConfig} />
+            </div>
+            <div className='p-4 rounded-xl border w-full flex-1'>
+               <div className='flex items-end gap-4 mb-4'>
+                  <Input
+                     type='number'
+                     placeholder='Enter your amount!'
+                     className='border-b border-legacisPurple dark:border-legacisGreen w-52'
+                     min={0}
+                     onChange={(e) => setAmount(Number(e.target.value))}
+                     value={amount}
+                  />
+                  <span className='text-sm'>
+                     Enter your amount to see the allocation
+                  </span>
+               </div>
+
+               {showTable ? (
+                     <Table >
+                        <TableHeader>
+                           <TableRow>
+                              <TableHead>#</TableHead>
+                              <TableHead>Name</TableHead>
+                              <TableHead>StockTicker</TableHead>
+                              <TableHead>Weight (%)</TableHead>
+                              <TableHead>Amount</TableHead>
+                              <TableHead>Research Report</TableHead>
+                           </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                           {data.map((stock, idx) => (
+                              <TableRow  key={stock.stockTicker + idx}>
+                                 <TableCell>{idx + 1}</TableCell>
+                                 <TableCell className="font-medium">{stock.name}</TableCell>
+                                 <TableCell>{stock.stockTicker}</TableCell>
+                                 <TableCell>{stock.portfolioWeight}</TableCell>
+                                 <TableCell>
+                                    ₹{((amount * stock.portfolioWeight) / 100).toLocaleString("en-IN", {maximumFractionDigits: 2})}
+                                 </TableCell>
+                                 <TableCell>
+                                    <Dialog>
+                                       <DialogTrigger asChild>
+                                          <Button variant="outline">
+                                             View
+                                          </Button>
+                                       </DialogTrigger>
+                                       <DialogContent className="sm:max-w-5xl">
+                                          <DialogHeader>
+                                             <DialogTitle>{stock.name} Research Report</DialogTitle>
+                                             <DialogDescription>
+                                                You cannot download the uploaded PDF report.
+                                             </DialogDescription>
+                                          </DialogHeader>
+                                          <PDFDisplay fileUrl={stock.researchReport!}/>
+                                       </DialogContent>
+                                    </Dialog>
+                                 </TableCell>
+                              </TableRow>
+                           ))}
+
+                           {unknownWeight > 0 && (
+                           <TableRow>
+                              <TableCell>-</TableCell>
+                              <TableCell className="font-medium text-gray-500">Cash</TableCell>
+                              <TableCell className="font-medium text-gray-500">-</TableCell>
+                              <TableCell>{unknownWeight.toFixed(2)}%</TableCell>
+                              <TableCell>
+                                ₹{((amount * unknownWeight) / 100).toLocaleString("en-IN", {maximumFractionDigits: 2})}
+                              </TableCell>
+                              <TableCell>-</TableCell>
+                           </TableRow>
+                        )}
+                        </TableBody>
+                     </Table>
+                     ) : (
+                  <div className="col-span-3 text-center text-gray-400 py-8">Enter an amount to see allocation.</div>
+               )}
+            </div>
+         </div>
+      </section>
+   )
+}
+
+// Service Mutual Fund Section
+function isMutualFundStockListArray(
+  arr: unknown
+): arr is ResearchAdvisoryMutualFundStockList[] {
+  return (
+    Array.isArray(arr) &&
+    arr.every(
+      (item) =>
+        typeof item === "object" &&
+        item !== null &&
+        "category" in item &&
+        "weight" in item
+    )
+  );
+}
 
 
+const ServiceMutualFundSection = ({data} : {data : PurchasedMFServiceData[]}) => {
+   const AMOUNTS_STORAGE_KEY = "mf_amounts";
+
+   const [amounts, setAmounts] = useState<{ [key: string]: number }>(() => {
+      if (typeof window !== "undefined") {
+         const stored = localStorage.getItem(AMOUNTS_STORAGE_KEY);
+         if (stored) return JSON.parse(stored);
+      }
+      return {};
+   });
+
+   useEffect(() => {
+      if (typeof window !== "undefined") {
+         localStorage.setItem(AMOUNTS_STORAGE_KEY, JSON.stringify(amounts));
+      }
+   }, [amounts]);
+
+   const handleAmountChange = (key: string, value: number) => {
+      setAmounts((prev) => ({ ...prev, [key]: value }));
+   };
+   const totalAmount = Object.values(amounts).reduce((sum, val) => sum + (val || 0), 0);
+   
+   const categoryTotals: Record<string, number> = {};
+
+   data.forEach((mfData) => {
+   const amount = amounts[mfData.service.id] || 0;
+   if (amount > 0 && isMutualFundStockListArray(mfData.data)) {
+      mfData.data.forEach((stock : ResearchAdvisoryMutualFundStockList) => {
+         if (!stock.category) return;
+         const allocation = (amount * stock.weight) / 100;
+         categoryTotals[stock.category] = (categoryTotals[stock.category] || 0) + allocation;
+      });
+   }
+   });
+
+   const totalInvested = Object.values(categoryTotals).reduce((sum, val) => sum + val, 0);
+
+   const pieData = Object.entries(categoryTotals).map(([category, value], i) => ({
+      name: category,
+      value: totalInvested > 0 ? (value / totalInvested) * 100 : 0,
+      fill: generateSectorColor(category, i),
+      amount: value,
+   }));
+
+   const chartConfig = {
+     title: "Stocks by Category",
+   } as ChartConfig;
+
+
+   return (
+      <section className='w-full flex flex-col xl:flex-row items-start gap-8 relative'>
+         {totalAmount > 0 ? (   
+            <div className='xl:max-w-lg 2xl:max-w-xl w-full flex-1 xl:sticky top-24 z-10 p-4 rounded-xl border border-pink-100 dark:border-pink-100/50'>
+               <div className="mb-4 text-right font-medium">
+                  Total Amount: ₹{totalAmount.toLocaleString("en-IN", { maximumFractionDigits: 2 })}
+               </div>
+               <PieChart 
+                  data={pieData} 
+                  containerClassName='flex flex-col sm:flex-row xl:flex-col w-full' 
+                  className='sm:max-w-sm md:max-w-md lg:max-w-xl' 
+                  height={250} 
+                  chartConfig={chartConfig} 
+               />
+            </div>
+         ):(
+         <div className='xl:max-w-lg 2xl:max-w-xl w-full min-h-96 flex-1 xl:sticky top-24 z-10 p-4 rounded-xl border flex items-center justify-center'>
+         <span className='text-xs'>No Graph to show</span>
+         </div>
+         )
+         }
+         {data.length > 0 ? (
+           <div className='w-full max-w-7xl overflow-x-auto flex-1'>
+               {data.map((mfData, idx) => (
+                  <div key={mfData.service.id + idx} className="w-full mb-8 last:mb-0 rounded-2xl">
+                     <h5 className='text-lg font-medium mb-4'>{mfData.service.name} Stock List</h5>
+                     <MFCardList 
+                        data={mfData.data as ResearchAdvisoryMutualFundStockList[]}
+                        amount={amounts[mfData.service.id] || 0}
+                        setAmount={(val: number) => handleAmountChange(mfData.service.id, val)}
+                     />
+                  </div>
+               ))}
+           </div>
+
+         ) :(
+            <div className="w-full p-4 border rounded-2xl">
+               <div className="text-center text-gray-400 py-8">No mutual fund stocks found.</div>
+            </div>
+         )}
+      </section>
+   )
+}
+
+
+const MFCardList = ({data, amount, setAmount} : {data : ResearchAdvisoryMutualFundStockList[]; amount: number; setAmount: (val:number)=> void}) => {
+   const [showPopover, setShowPopover] = useState(false);
+   
+   const totalWeight = data.reduce((sum, stock) => sum + (stock.weight || 0), 0);
+   const unknownWeight = Math.max(0, 100 - totalWeight);
+   const showTable = amount > 0;
+   return (
+     <div className='p-4 rounded-xl border border-pink-100 dark:border-pink-100/50 w-full flex-1'>
+         <div className='flex items-end gap-4 mb-4'>
+            <Input
+               type='number'
+               placeholder='Enter your amount!'
+               className='border-b border-legacisPurple dark:border-legacisGreen w-52'
+               min={0}
+               onChange={(e) => setAmount(Number(e.target.value))}
+               value={amount}
+            />
+            <span className='text-xs sm:text-sm'>
+               Enter your amount to see the allocation
+            </span>
+         </div>
+      
+         {showTable ? (
+          <Table >
+             <TableHeader>
+                <TableRow>
+                   <TableHead>#</TableHead>
+                   <TableHead>Stock Name</TableHead>
+                   <TableHead>Category</TableHead>
+                   <TableHead>Weight (%)</TableHead>
+                   <TableHead>Amount</TableHead>
+                   <TableHead>Rationale</TableHead>
+                </TableRow>
+             </TableHeader>
+             <TableBody>
+                {data.map((stock, idx) => {
+                  const rationaleText = normalizeRationale(stock.rationale);
+                  return (
+                   <TableRow  key={stock.id + idx} className='text-xs sm:text-sm'>
+                      <TableCell>{idx + 1}</TableCell>
+                      <TableCell className="font-medium">{stock.name}</TableCell>
+                      <TableCell>{stock.category}</TableCell>
+                      <TableCell>{stock.weight} %</TableCell>
+                      <TableCell>
+                         ₹{((amount * stock.weight) / 100).toLocaleString("en-IN", {maximumFractionDigits: 2})}
+                      </TableCell>
+                      <TableCell>
+                       {(rationaleText.text).length > 80 && (
+                           <Dialog>
+                              <DialogTrigger asChild>
+                                 <Button
+                                 variant={'outline'}
+                                 onClick={() => setShowPopover(true)}
+                                 type="button"
+                                 >
+                                    View Rationale
+                                 </Button>
+                              </DialogTrigger>
+                              <DialogContent className="sm:max-w-2xl">
+                                 <DialogHeader>
+                                    <DialogTitle>{stock.name} rationale</DialogTitle>
+                                    <DialogDescription>
+                                       {rationaleText.text}
+                                    </DialogDescription>
+                                 </DialogHeader>
+                              </DialogContent>
+                           </Dialog>
+                        )}
+                          
+                      </TableCell>
+                   </TableRow>
+                )})}
+                {unknownWeight > 0 && (
+                <TableRow>
+                   <TableCell>-</TableCell>
+                   <TableCell className="font-medium text-gray-500">Cash</TableCell>
+                   <TableCell>{unknownWeight.toFixed(2)}%</TableCell>
+                   <TableCell>
+                     ₹{((amount * unknownWeight) / 100).toLocaleString("en-IN", {maximumFractionDigits: 2})}
+                   </TableCell>
+                   <TableCell>-</TableCell>
+                </TableRow>
+             )}
+             </TableBody>
+          </Table>
+          ) : (
+         <div className="col-span-3 text-center text-gray-400 py-8">Enter an amount to see allocation.</div>
+        )}
+      </div>
+   )
+}

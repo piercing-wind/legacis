@@ -4,22 +4,33 @@ import { formatHumanDate } from "@/lib/utils";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { RiskProfileQuestionsAdmin } from "@/components/admin/riskprofile-questions-forms";
+import { RiskLevelServiceRecommendationForm } from "@/components/admin/riskLevelRecommendation";
+import { findRiskRecommendations } from "@/lib/data/riskLevelServiceRecommendation";
+import { findServices } from "@/lib/data/admin/services";
 
 export default async function Page() {
-   const [riskProfiles, questions] = await Promise.all([
+   const [riskProfiles, questions, riskLevelServiceRecommendation, services] = await Promise.all([
       getUsersRiskProfile(),
-      getRiskProfileQuestions()
+      getRiskProfileQuestions(),
+      findRiskRecommendations(),
+      findServices()
    ]);
    
   return (
 
-    <div className="flex flex-col items-center py-8 justify-center h-full max-w-5xl w-full mx-auto">
+    <div className="w-full mx-auto overflow-x-auto py-8 px-4">
+
+      <RiskLevelServiceRecommendationForm
+         recommendations={riskLevelServiceRecommendation}
+         allServices={services.map(service => ({ id: service.id, name: service.name }))}
+      />
+      
       <RiskProfileQuestionsAdmin
          questions={questions}
       />
       {/* Risk Profiles */}
       <div className="w-full">
-         <h1 className="text-2xl font-bold mb-4 w-full">Risk Profiles</h1>
+         <h1 className="text-2xl font-medium mb-4 w-full">Risk Profiles</h1>
          <div className="rounded-md border w-full ">
          <Table>
             <TableHeader>

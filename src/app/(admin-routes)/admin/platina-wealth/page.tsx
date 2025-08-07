@@ -45,7 +45,7 @@ export default async function PlatinaWealthAdminPage() {
   };
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <div className="w-full mx-auto overflow-x-auto py-8 px-4">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Platina Wealth Management</h1>

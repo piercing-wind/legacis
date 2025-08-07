@@ -21,24 +21,69 @@ const items = [
     icon: Home,
   },
   {
+    title: "Users",
+    url: "/admin/users",
+    icon: Home,
+  },
+  {
     title: "Platina Weatlh",
     url: "/admin/platina-wealth",
     icon: Inbox,
   },
   {
-    title: "Risk Profile",
+    title: "Risk Profile & Recommendation",
     url: "/admin/risk-profile",
     icon: Inbox,
   },
+  {
+    title: "Portfolio Review",
+    url: "/admin/portfolio-review",
+    icon: Inbox,
+  },
+  {
+    title: "Services",
+    url: "/admin/services",
+    icon: Inbox,
+  },
+  {
+    title: "Combo Services",
+    url: "/admin/combo",
+    icon: Inbox,
+  },
+  {
+    title: "Coupons",
+    url: "/admin/coupons",
+    icon: Inbox,
+  },
+  {
+    title: "Agreements & Policies",
+    url: "/admin/agreements",
+    icon: Inbox,
+  },
+  {
+    title: "Blogs",
+    url: "/admin/blog",
+    icon: Inbox,
+  },
+  {
+    title: "Contact Messages",
+    url: "/admin/contact",
+    icon: Inbox,
+  },
+  {
+    title: "Banner",
+    url: "/admin/banner",
+    icon: Inbox,
+  }
 ]
 
 export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarContent>
-        <SidebarGroup>
+        <SidebarGroup className="mt-4">
           <SidebarGroupLabel>
-            <Link href="/" className="text-lg font-bold relative h-16 w-38">
+            <Link href="/" className   ="text-lg font-bold relative h-16 w-38">
               <Image
                 src="/legacis-logo-black.png"
                 alt="Legacis Logo"

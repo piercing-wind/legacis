@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {  KYCSchema } from "@/lib/schema";
-import { EyeIcon, EyeOffIcon, X } from "lucide-react";
 import { useState, useTransition } from "react";
 import { toast } from "sonner"
 import { cn } from "@/lib/utils";

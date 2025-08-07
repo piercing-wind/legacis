@@ -3,32 +3,30 @@
 import { motion } from "framer-motion";
 import React from "react";
 
-interface ZoomProps {
-  children: React.ReactNode;
+interface ZoomProps extends React.ComponentProps<typeof motion.div> {
   delay?: number;
-  className?: string;
 }
 
-export const ZoomIn: React.FC<ZoomProps> = ({ children, delay = 0, className }) => {
+export const ZoomIn: React.FC<ZoomProps> = ({ children, delay = 0, ...rest }) => {
   return (
     <motion.div
-      initial={{ scale: 0 }}
+      initial={{ scale: 0.5 }}
       animate={{ scale: 1 }}
       transition={{
-        type: "spring",
+        type: 'tween',
         stiffness: 100,
         damping: 10,
         delay,
       }}
-      style={{ overflow: "hidden" }}
-      className={className}
+      style={{ overflow: "hidden", ...rest.style }}
+      {...rest}
     >
       {children}
     </motion.div>
   );
 };
 
-export const ZoomOut: React.FC<ZoomProps> = ({ children, delay = 0, className }) => {
+export const ZoomOut: React.FC<ZoomProps> = ({ children, delay = 0, ...rest }) => {
   return (
     <motion.div
       initial={{ scale: 1.5 }}
@@ -39,8 +37,8 @@ export const ZoomOut: React.FC<ZoomProps> = ({ children, delay = 0, className })
         damping: 10,
         delay,
       }}
-      style={{ overflow: "hidden" }}
-      className={className} 
+      style={{ overflow: "hidden", ...rest.style }}
+      {...rest}
     >
       {children}
     </motion.div>

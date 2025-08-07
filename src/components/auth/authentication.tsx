@@ -14,7 +14,7 @@ import OTPVerificationForm from "../shared/otpVerificationForm";
 export const Authentication = () => {
   const { model, isAuthOpen } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
-
+  
   // All hooks must be called before any return
   useEffect(() => {
     if (isAuthOpen) {
@@ -107,8 +107,8 @@ export const Authentication = () => {
               style={{ objectFit: "contain" }}
             />
           </div>
-          <h5 className="mt-14 text-center leading-8 mb-4 dark:text-neutral-900">Welcome to smarter finances!</h5>
-          <p className="text-center font-normal dark:text-neutral-900">Build your wealth with clarity, confidence, and expert support</p>
+          <h5 className="mt-14 text-center leading-8 mb-4 dark:text-neutral-700">Welcome to smarter finances!</h5>
+          <p className="text-center font-normal dark:!text-neutral-700">Build your wealth with clarity, confidence, and expert support</p>
         </div>
       </div>
     </div>

@@ -1,8 +1,6 @@
 import { auth } from "@/auth"
 import { db } from '@/lib/db'
-import { calculateFinalPriceSafe } from "@/lib/utils/calculateFinalPrice";
 import { createSubscription } from "@/lib/utils/subscription-service";
-import { TenureDiscount } from "@/types/service";
 
 export const GET = (request: Request) => {
   return new Response(JSON.stringify({ message: "Restricted Access" }), { status: 200 });
@@ -20,16 +18,26 @@ export const POST = auth(async (request: any) => {
       throw new Error("Admin access required");
     }
 
-    const { userId, serviceId, planDays, grantReason } = await request.json();
+    const { userId, serviceId, selectedPlan, customPlanDays, customStocks, grantReason } = await request.json();
 
     // Validate required fields
-    if (!userId || !serviceId || !planDays || !grantReason) {
-      throw new Error("Missing required fields: userId, serviceId, planDays, and grantReason are required");
+    if (!userId || !serviceId || !selectedPlan || !grantReason) {
+      throw new Error("Missing required fields: userId, serviceId, selectedPlan, and grantReason are required");
     }
 
-    // Validate planDays is a positive number
-    if (typeof planDays !== 'number' || planDays < 1) {
-      throw new Error("Plan days must be a positive number");
+    // Validate selectedPlan object
+    if (!selectedPlan.id || !selectedPlan.durationInDays || typeof selectedPlan.durationInDays !== 'number') {
+      throw new Error("selectedPlan must have valid id and durationInDays");
+    }
+
+    // Validate customPlanDays if provided
+    if (customPlanDays && (typeof customPlanDays !== 'number' || customPlanDays < 1)) {
+      throw new Error("Custom plan days must be a positive number");
+    }
+
+    // Validate customStocks if provided
+    if (customStocks && (typeof customStocks !== 'number' || customStocks < 1)) {
+      throw new Error("Custom stocks must be a positive number");
     }
 
     // Validate grantReason length
@@ -37,16 +45,38 @@ export const POST = auth(async (request: any) => {
       throw new Error("Grant reason must be at least 3 characters long");
     }
 
+    // Verify the plan exists and belongs to the service
+    const planExists = await db.servicePlan.findFirst({
+      where: {
+        id: selectedPlan.id,
+        serviceId: serviceId,
+        isActive: true
+      }
+    });
+
+    if (!planExists) {
+      throw new Error("Invalid service plan selected");
+    }
+
     const result = await createSubscription({
       userId,
       serviceId,
-      planDays,
+      selectedPlan,
       grantType: 'ADMIN_GRANTED',
       grantedBy: user.id,
-      grantReason: grantReason.trim()
-    })
+      grantReason: grantReason.trim(),
+      customPlanDays: customPlanDays || undefined,
+      customStocks: customStocks || undefined
+    });
+
+    // Determine what days were actually used
+    const actualDays = customPlanDays || selectedPlan.durationInDays;
+    
+    // Determine what stocks were actually used (for Portfolio Review)
+    const actualStocks = customStocks || selectedPlan.stockLimit;
+
     // Log the admin action for audit trail
-    console.log(`Admin Grant Access - Admin: ${user.email} granted ${result.service.name} to ${result.user.email} for ${planDays} days. Value: ₹${result.pricing.finalPrice}. Reason: ${grantReason}`)
+    console.log(`Admin Grant Access - Admin: ${user.email} granted ${result.service.name} to ${result.user.email} for ${actualDays} days${actualStocks ? ` with ${actualStocks} stocks` : ''}. Value: ₹${result.pricing.finalPrice}. Reason: ${grantReason}`);
 
     return new Response(JSON.stringify({
       message: 'Access granted successfully',
@@ -55,16 +85,18 @@ export const POST = auth(async (request: any) => {
         summary: {
           grantedTo: result.user.name || result.user.email,
           service: result.service.name,
-          duration: `${planDays} days`,
+          plan: selectedPlan.label,
+          actualDuration: `${actualDays} days`,
+          actualStocks: actualStocks || null,
           value: `₹${result.pricing.finalPrice.toLocaleString()}`,
-          expiryDate:result.subscription.expiryDate.toISOString(),
+          expiryDate: result.subscription?.expiryDate?.toISOString() || null,
           grantedBy: user.name || user.email,
         }
       }
     }), { status: 200 });
 
   } catch (error) {
-    console.error('Error granting access:', error);
+    console.log('Error granting access:', error);
     
     return new Response(
       JSON.stringify({ 

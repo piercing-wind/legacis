@@ -1,6 +1,6 @@
 'use client'
 
-import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { useAppDispatch } from '@/lib/hooks';
 import React, { useRef, useState } from 'react'
 import { Button } from '../ui/button';
 import Image from 'next/image';
@@ -8,8 +8,9 @@ import { ZoomIn } from '../animation/zoom';
 import { toast } from 'sonner';
 import { updateUserProfilePicture } from '@/actions/profile';
 import { useSession } from 'next-auth/react';
-import { getSession } from '@/lib/slices/authSlice';
 import { setModalOpen } from '@/lib/slices/profile';
+import { deleteS3File, getS3UploadUrl } from '@/actions/aws-s3';
+import { extractFileKeyFromUrl, generateUniqueS3FileKey } from '@/lib/utils';
 
 const AvatarChange = () => {
   const [preview, setPreview] = useState<string | null>(null);
@@ -17,25 +18,33 @@ const AvatarChange = () => {
   const [uploadFile, setUploadFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const {update, data} = useSession();
+  const { update, data } = useSession();
   const user = data?.user;
   const dispatch = useAppDispatch();
+  const MAX_FILE_SIZE = 1024 * 1024; // 1MB
   
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setPreview(URL.createObjectURL(file));
-      setSelectedAvatar(null);
-      setUploadFile(file);
-    }
-  };
+  // Handle file upload and preview
+   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (file) {
+         if (file.size > MAX_FILE_SIZE) {
+            toast.error('File size should be less than 1MB');
+            return;
+         }
+         setPreview(URL.createObjectURL(file));
+         setSelectedAvatar(null);
+         setUploadFile(file);
+      }
+   };
 
+  // Handle avatar selection from default avatars
   const handleAvatarSelect = (avatar: string) => {
     setSelectedAvatar(avatar);
     setPreview(null);
     setUploadFile(null);
   };
 
+  // Get current profile image
   const currentProfile =
     preview ||
     selectedAvatar ||
@@ -44,31 +53,50 @@ const AvatarChange = () => {
       : `/profile/user-1.png`) ||
     `/profile/user-1.png`;
 
-  // Simulated update handler (replace with your actual API call)
-  const handleUpdateProfile = async () => {
-    setLoading(true);
-    try {
+   // Handle profile update (upload or select)
+   const handleUpdateProfile = async () => {
+   setLoading(true);
+   try {
+      let imageUrl = selectedAvatar;
       if (uploadFile) {
-        // Upload the file to your backend here
-        // Example: await uploadProfileImage(uploadFile)
-      } else if (selectedAvatar) {
-         await updateUserProfilePicture(user?.id!, selectedAvatar);
+         if (user?.image && user.image.startsWith(process.env.NEXT_PUBLIC_AWS_BUCKET_URL || "")) {
+         const oldKey = extractFileKeyFromUrl(user.image);
+         if (oldKey) {
+            await deleteS3File(oldKey);
+         }
+         }
+         // Upload new image
+         const fileKey = generateUniqueS3FileKey(uploadFile.name, "profile");
+         const uploadUrl = await getS3UploadUrl(fileKey, uploadFile.type, 300, uploadFile.name);
+         const res = await fetch(uploadUrl, {
+         method: "PUT",
+         body: uploadFile,
+         headers: {
+            "Content-Type": uploadFile.type,
+            "Content-Disposition": `attachment; filename="${uploadFile.name}"`,
+         },
+         });
+         if (!res.ok) throw new Error(`Failed to upload`);
+         imageUrl = `${process.env.NEXT_PUBLIC_AWS_BUCKET_URL}/${fileKey}`;
+      }
+      if (imageUrl) {
+         await updateUserProfilePicture(user?.id!, imageUrl);
          await update({
-            ...data,
-            user: {
-               ...data?.user,
-               image: selectedAvatar,
-            }
+         ...data,
+         user: {
+            ...data?.user,
+            image: imageUrl,
+         }
          });
       }
       toast.success('Profile picture updated successfully');
-      dispatch(setModalOpen({open : false}));
-    } catch (err) {
+      dispatch(setModalOpen({ open: false }));
+   } catch (err) {
       toast.error(`${(err as Error).message}`);
-    } finally {
+   } finally {
       setLoading(false);
-    }
-  };
+   }
+   };
 
   return (
     <div className="max-w-2xl w-full dark:bg-neutral-800 bg-white shadow rounded-md flex flex-col gap-4 p-4 mx-auto">

@@ -50,3 +50,6 @@ export const getRiskProfileQuestions = async () => {
    });
    return result;
 };
+
+
+

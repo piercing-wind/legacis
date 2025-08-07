@@ -1,19 +1,25 @@
 import React from "react"
-import { Line } from "@/components/icon"
+import { GradientLine, Line } from "@/components/icon"
 import Chart from "@/components/services/chart"
-import { isServicePurchased, findServiceBySlug, getServiceDataById } from "@/lib/data/services"
-import { ChartDataPoint, FaqItem, ServiceFeature, TenureDiscount } from "@/types/service"
+import { isServicePurchased, findServiceBySlug, getServiceDataById, findServicesByIds } from "@/lib/data/services"
+import { ChartDataPoint, FaqItem, Philosophy, ServiceFeature } from "@/types/service"
 import { Button } from "@/components/ui/button"
 import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer"
 import Plans from "@/components/services/plans"
 import Faq from "@/components/services/faq"
-import RecomendedServices from "@/components/services/recomendedServices"
 import PurchasedServiceSection from "@/components/services/purchasedServiceSection"
 import { Session } from "@/actions/session"
 import { User } from "next-auth"
 import { formatHumanDate } from "@/lib/utils"
 import { findAgreementsByServiceId } from "@/lib/data/agreement"
 import { CheckoutForm } from "@/components/services/checkoutForm"
+import { notFound, redirect } from "next/navigation"
+import { ZoomIn } from "@/components/animation/zoom"
+import Image from "next/image"
+import { getServiceDisplayPrice } from "@/lib/utils/servicePricingDisplay"
+import { Service } from "@/prisma/generated/client"
+import { QuillHtmlViewer } from "@/components/richTextViewer"
+import { ServiceCard } from "@/components/services/serviceCard"
 
 export default async function Page({params}: { params: Promise<{ slug: string }>}) {
    const session = await Session();
@@ -22,7 +28,10 @@ export default async function Page({params}: { params: Promise<{ slug: string }>
    const { slug } = await params
    const service = await findServiceBySlug(slug);
    
+   if(!service || service.type === 'PLATINA_WEALTH' || service.type === 'RESEARCH_ADVISORY_MUTUAL_FUNDS') notFound(); 
+   if(!user) redirect('/authenticate?callbackurl=/services/' + slug);
    let purchasedService = null;
+
    if (user?.id && service?.id) {
      purchasedService = await isServicePurchased(user.id, service.id);
    }
@@ -32,15 +41,11 @@ export default async function Page({params}: { params: Promise<{ slug: string }>
       data = await getServiceDataById(service.id, service.type);
    }
 
-
    const features: ServiceFeature | undefined = service?.features ? (service?.features as ServiceFeature) : undefined;
    
-   const tenureArr: TenureDiscount[] = Array.isArray(service?.tenureDiscounts) ? service?.tenureDiscounts as TenureDiscount[] : [];
-   const maxTenure = tenureArr.reduce((max, curr) => curr.days > max.days ? curr : max, tenureArr[0]);
+   const { displayPrice } = getServiceDisplayPrice(service.plans);
 
-   const basePrice = Number(service?.price || 0) * (maxTenure?.days ?? 0) / 30;
-   const discountPercent = maxTenure?.discount ?? 0;
-   const displayPrice = Math.round((basePrice * (1 - discountPercent / 100))/ 12) ;
+   
 
    const highlights = [
     ...(features?.highlights ?? []),
@@ -59,19 +64,65 @@ export default async function Page({params}: { params: Promise<{ slug: string }>
 
    const latestData = chartData[chartData.length - 1];
 
-
    const agreement = await findAgreementsByServiceId(service?.id || '');
 
+   const philosophyColor = [
+      "#F0F7FF", "#F1FFFA", "#E2FFE9", "#F6F0FF", "#E6F7FF", "#F0F7FF"
+   ];
+
+   let recommendedServices;
+   const recommendedServicesIds: string[] = Array.isArray(service?.recommendedService) ? (service.recommendedService as string[]) : [];
+   
+   if(recommendedServicesIds.length > 0) {
+      recommendedServices = await findServicesByIds(recommendedServicesIds);
+   }
+
+   let delta: any = service.afterPurchaseFeaturesDelta || { ops: [{ insert: "Thank you for your purchase!" }] }
+   if (typeof delta === "string") {
+      try {
+         delta = JSON.parse(delta);
+      } catch {
+         delta = { ops: [{ insert: service.afterPurchaseFeaturesDelta }] };
+      }
+   }
    return (
       <main className='w-full px-5 lg:px-10 xl:px-24 py-8'>
        
        {purchasedService && service &&
          <>
-            <h5 className="mb-4">{service.name}</h5>
+            <h5 className="mb-4 text-xl font-medium">{service.name}</h5>
             <PurchasedServiceSection serviceType={service?.type} data={data}/>
          </>
        }
-       <section className="flex flex-col lg:flex-row items-stretch justify-center gap-4 lg:gap-8 w-full my-8">
+       <section className="flex flex-col-reverse xl:flex-row items-stretch justify-center gap-8 w-full my-8">
+         {!service.chart ? (
+            <div className="w-full lg:min-w-3xl xl:min-w-4xl flex-1 relative rounded-2xl lg:mb-0">
+               <h2 className="text-xl font-medium mb-4">Our Philosphy</h2>
+               <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                  {Array.isArray(service?.philosophy) &&
+                     (service.philosophy as Philosophy[]).map((item, index) => (
+                        <ZoomIn
+                           key={index}
+                           delay={index * 0.1}
+                           className={`w-full p-8 overflow-clip rounded-xl text-neutral-800 min-h-52 flex gap-6 flex-col items-start justify-center hover:shadow-lg transition-all duration-500 relative`}
+                           style={{ background: `var(--philosophy-bg-${index % 6})` }}
+                        >
+                           <Image
+                              src={`/icons/philosophy/${(index % philosophyColor.length) + 1 }.png`}
+                              alt={`Philosophy ${index + 1}`}
+                              width={100}
+                              height={100}
+                              className="absolute top-0 right-0 w-14 h-14 opacity-60"
+                           />
+                           <h3 className="font-medium text-lg">{item.title}</h3>
+                           <p className="text-sm !text-neutral-600">{item.description}</p>
+                        </ZoomIn>
+                     ))
+                  }
+               </div>
+              
+            </div>
+         ):(
          <div className="w-full lg:min-w-3xl xl:min-w-4xl flex-1 relative border rounded-2xl p-2 mb-4 lg:mb-0 ">
             <div className="w-full flex flex-col md:flex-row md:items-center gap-1 md:gap-8 justify-center">
                <p className="text-sm">{(service?.name)?.slice(0, 20)}: <span className="text-green-500">{latestData?.main ?? ""}</span></p>
@@ -83,41 +134,80 @@ export default async function Page({params}: { params: Promise<{ slug: string }>
                comparisonLabel={service?.comparisonTitle || "Comparison"}
             />
          </div>
-         <div className="max-w-xl w-full flex-1 border rounded-2xl p-4 flex flex-col gap-2">
-            <h6 className="!text-xl">{service?.name}</h6>
+         )}
+
+         <div className="xl:max-w-xl w-full flex-1 rounded-2xl p-4 flex flex-col gap-2 border">
+            <h1 className="!text-xl font-medium">{service?.name}</h1>
             <p className="text-xs">{service?.tag}</p>
             <p className="text-xs my-2">{service?.description}</p>
-            <Line color="var(--text-color)" height="2px" className="self-stretch opacity-20"/>
-            {highlights &&
-               Array.from({ length: Math.ceil(highlights.length / 3) }).map((_, rowIdx) => {
-               const rowItems = highlights.slice(rowIdx * 3, rowIdx * 3 + 3);
-               return (
-                  <div
-                     key={rowIdx}
-                     className="w-full flex flex-row items-center justify-center text-nowrap gap-2 my-2 h-20"
-                  >
-                     {rowItems.map((item, idx) => (
-                     <React.Fragment key={item.name + idx}>
-                        <span className="relative flex flex-col gap-2 w-full h-full items-center justify-center">
-                           <p className="text-xs text-wrap text-center">{item.name}</p>
-                           <p className="font-medium">{item.value}</p>
-                        </span>
-                        {idx < rowItems.length - 1 && (
-                           <Line
-                           color="var(--text-color)"
-                           vertical
-                           height="100%"
-                           width="2px"
-                           className="self-stretch h-full opacity-20"
+            <GradientLine color="var(--text-color)" height="2px" className="self-stretch opacity-20"/>
+            
+            {purchasedService && service.type !== 'PORTFOLIO_REVIEW'? (
+               <div className="max-h-96 overflow-y-auto h-full">
+                  <QuillHtmlViewer delta={delta} className="text-xs"/>   
+               </div>
+            ):(
+            <>         
+               {service.complimentaryService.length > 0 && (
+                  <div>
+                     <h5 className="font-medium mb-2">Get Access to:</h5>
+                     <div className="w-full grid grid-cols-3 gap-4">
+                        {service.complimentaryService.map(({complimentaryService}, index) => (
+                           <div  key={index} className="flex items-start gap-1 sm:gap-3 p-2 border rounded-lg">
+                           <Image
+                              src="/icons/favicon.ico"  
+                              alt={complimentaryService.name || "Service Icon"}
+                              width={20}
+                              height={20}
+                              className="rounded-full sm:mt-1"
                            />
-                        )}
-                     </React.Fragment>
-                     ))}
+         
+                           <div>
+                              <h3 className="text-xs font-semibold">
+                                 {complimentaryService.name.substring(0, 44)}
+                              </h3>
+                              <p className="text-[10px] text-muted-foreground uppercase mt-1 sm:leading-[14px] tracking-wide">
+                                 {(complimentaryService.tag || "").substring(0, 75)}
+                              </p>
+                           </div>
+                           </div>
+                        ))}
+                     </div>
                   </div>
-                );
+               )}
+               {highlights &&
+                  Array.from({ length: Math.ceil(highlights.length / 3) }).map((_, rowIdx) => {
+                  const rowItems = highlights.slice(rowIdx * 3, rowIdx * 3 + 3);
+                  return (
+                     <div
+                        key={rowIdx}
+                        className="w-full flex flex-row items-center justify-center text-nowrap gap-2 my-2 h-20"
+                     >
+                        {rowItems.map((item, idx) => (
+                           <React.Fragment key={item.name + idx}>
+                              <span className="relative flex flex-col gap-2 w-full h-full items-center justify-center">
+                                 <p className="text-xs text-wrap text-center">{item.name}</p>
+                                 <p className="font-medium">{item.value}</p>
+                              </span>
+                              {idx < rowItems.length - 1 && (
+                                 <Line
+                                 color="var(--text-color)"
+                                 vertical
+                                 height="100%"
+                                 width="2px"
+                                 className="self-stretch h-full opacity-20"
+                                 />
+                              )}
+                           </React.Fragment>
+                        ))}
+                     </div>
+                  );
                })}
+            </>
+         )}
+           
             <Line color="var(--text-color)" height="2px" className="self-stretch opacity-20"/>
-            {purchasedService ? (
+            {purchasedService && service.type !== 'PORTFOLIO_REVIEW' && purchasedService.expiryDate ? (
                <Button variant={'outline'}  className="w-full border-2 mt-auto p-2 h-10 lg:h-14 uppercase rounded-full">
                   <span className="text-green-500">Subscribed</span> | 
                   <span className="text-xs">
@@ -127,19 +217,19 @@ export default async function Page({params}: { params: Promise<{ slug: string }>
             ):(
              <Drawer >
                <DrawerTrigger asChild>
-               <Button  className="w-full mt-auto p-2 h-10 lg:h-14 uppercase rounded-full">
-                  Subscribe Now
-               </Button>
+                  <Button  className="w-full mt-auto p-2 h-10 lg:h-14 uppercase rounded-full">
+                     Subscribe Now
+                  </Button>
                </DrawerTrigger>
                <DrawerContent>
               <div className="mx-auto w-full max-w-7xl p-4 pb-24 overflow-x-hidden overflow-y-auto flex flex-col lg:flex-row items-stretch justify-between gap-4">
                   <div className="rounded-2xl border flex-1 min-w-0 flex flex-col mb-4 lg:mb-0">
                     <DrawerHeader>
-                      <DrawerTitle className="!text-2xl lg:!text-3xl">Subscription Plans</DrawerTitle>
+                      <DrawerTitle className="!text-2xl lg:!text-3xl">{service.type === 'PORTFOLIO_REVIEW' ? `${service.name}` : 'Subscription Plans'}</DrawerTitle>
                     </DrawerHeader>
                     <Plans
-                      price={Number(service?.price) || 0}
-                      tenureDiscounts={tenureArr}
+                      plans={service.plans}
+                      service={service}
                     />
                   </div>
                   <div className="flex-1 min-w-0 flex flex-col">
@@ -160,8 +250,20 @@ export default async function Page({params}: { params: Promise<{ slug: string }>
                 ? ((service?.faq as any).faq as FaqItem[])
                 : []
           }/>   
-          
-         <RecomendedServices/>
+         { recommendedServices && recommendedServices.length > 0 && (
+            <section className="w-full p-4 border rounded-2xl mt-8 dark:bg-neutral-800">
+               <h6 className="text-xl font-medium mb-4">Recommended Services</h6>
+               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                  {recommendedServices.map((service, idx) => (
+                     <ServiceCard 
+                        key={idx} 
+                        service={service} 
+                     />
+                  ))}
+               </div>
+            </section>
+         )}
       </main>
   )
 }

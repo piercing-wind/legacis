@@ -1,44 +1,35 @@
-'use server'
+'use server';
 import { db } from '@/lib/db';
 
 export const findCouponByCode = async ({
   code,
   serviceId,
-  planDays,
-  comboPlanId
+  planId,
 }: {
   code: string,
-  serviceId?: string | null,
-  planDays?: number,
-  comboPlanId?: string | null
+  serviceId: string | null,
+  planId: string | null,
 }) => {
-  const where: any = {
-    code,
-    expiryDate: { gt: new Date() },
-    AND: [
-      // planDays match or is null (global)
-      {
-        OR: [
-          { planDays: planDays ?? undefined },
-          { planDays: null }
-        ]
-      },
-      // serviceId match or is null (global)
-      {
-        OR: [
-          { serviceId: serviceId ?? undefined },
-          { serviceId: null }
-        ]
-      },
-      // comboPlanId match or is null (global)
-      {
-        OR: [
-          { comboPlanId: comboPlanId ?? undefined },
-          { comboPlanId: null }
-        ]
-      }
-    ]
-  };
-
-  return await db.coupon.findFirst({ where });
+  console.log("Finding coupon with code:", code, "for serviceId:", serviceId, "and planId:", planId);
+  
+  return await db.coupon.findFirst({
+    where: {
+      code,
+      expiryDate: { gt: new Date() },
+      OR: [
+        // Global coupon (both null)
+        { serviceId: null, servicePlanId: null },
+        
+        // Service-specific, plan-global
+        ...(serviceId !== null ? [{ serviceId, servicePlanId: null }] : []),
+        
+        // Plan-specific (service can be derived from plan)
+        ...(planId !== null ? [{ servicePlanId: planId }] : []),
+        
+        // Both service and plan specific
+        ...(serviceId !== null && planId !== null 
+          ? [{ serviceId, servicePlanId: planId }] : [])
+      ]
+    }
+  });
 };

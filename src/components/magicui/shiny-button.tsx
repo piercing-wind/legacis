@@ -5,24 +5,17 @@ import { motion, MotionProps } from "motion/react";
 import React from "react";
 
 const animationProps = {
-  initial: { "--x": "100%", scale: 0.8 },
-  animate: { "--x": "-100%", scale: 1 },
+  animate: { "--x": "120%" },
+  initial: { "--x": "-40%" },
   whileTap: { scale: 0.95 },
   transition: {
-    repeat: Infinity,
-    repeatType: "loop" as const,
-    repeatDelay: 1,
-    type: "spring" as const,
-    stiffness: 20,
-    damping: 15,
-    mass: 2,
-    scale: {
-      type: "spring" as const,
-      stiffness: 200,
-      damping: 5,
-      mass: 0.5,
-    },
-  },
+    "--x": {
+      repeat: Infinity,
+      repeatType: "loop" as const,
+      duration: 5,
+      ease: "linear" as const,
+    }
+  }
 };
 
 interface ShinyButtonProps
@@ -40,37 +33,27 @@ export const ShinyButton = React.forwardRef<
     <motion.button
       ref={ref}
       className={cn(
-        "relative cursor-pointer rounded-lg px-6 py-2 font-medium backdrop-blur-xl border transition-shadow duration-300 ease-in-out hover:shadow dark:bg-[radial-gradient(circle_at_50%_0%,var(--primary)/10%_0%,transparent_60%)] dark:hover:shadow-[0_0_20px_var(--primary)/10%]",
-        // Add flex centering classes
-        "flex items-center justify-center",
+        "relative cursor-pointer rounded-lg px-6 py-2 font-semibold backdrop-blur-xl border transition-shadow duration-300 ease-in-out hover:shadow flex items-center justify-center overflow-hidden",
         className,
       )}
+      style={{
+        position: "relative",
+        zIndex: 0,
+      }}
       {...animationProps}
       {...props}
     >
-      <span
-        className={cn(
-          "relative text-sm uppercase tracking-wide text-[rgb(0,0,0,65%)] dark:font-light dark:text-[rgb(255,255,255,90%)]",
-          // Center the text content
-          "flex items-center justify-center w-full h-full"
-        )}
+      {/* Shimmer overlay */}
+      <motion.span
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-0 rounded-[inherit]"
         style={{
-          maskImage:
-            "linear-gradient(-75deg,var(--primary) calc(var(--x) + 20%),transparent calc(var(--x) + 30%),var(--primary) calc(var(--x) + 100%))",
+          background: "linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.5) 50%, transparent 70%)",
+          transform: "translateX(var(--x))",
         }}
-      >
-        {children}
-      </span>
-      <span
-        style={{
-          mask: "linear-gradient(rgb(0,0,0), rgb(0,0,0)) content-box exclude,linear-gradient(rgb(0,0,0), rgb(0,0,0))",
-          WebkitMask:
-            "linear-gradient(rgb(0,0,0), rgb(0,0,0)) content-box exclude,linear-gradient(rgb(0,0,0), rgb(0,0,0))",
-          backgroundImage:
-            "linear-gradient(-75deg,var(--primary)/10% calc(var(--x)+20%),var(--primary)/50% calc(var(--x)+25%),var(--primary)/10% calc(var(--x)+100%))",
-        }}
-        className="absolute inset-0 z-10 block rounded-[inherit] p-px"
       />
+      {/* Button content */}
+      <span className="relative z-10">{children}</span>
     </motion.button>
   );
 });

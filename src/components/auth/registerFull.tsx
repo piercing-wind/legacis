@@ -1,4 +1,5 @@
 "use client";
+"this component is no longer in use as of 2025 aug 8"
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -20,6 +21,7 @@ import { Checkbox } from "../ui/checkbox";
 import { CheckCircle2, CheckIcon, EyeIcon, EyeOffIcon, X } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner"
+import Link from "next/link";
 
 export default function RegisterFull() {
   const [showPassword, setShowPassword] = useState(false);
@@ -59,6 +61,7 @@ export default function RegisterFull() {
          });
          return;
       }
+
       toast.success(`Welcome ${values.name}!`,{
          duration: 5000,
          action: {
@@ -244,7 +247,7 @@ export default function RegisterFull() {
                 Accept terms and conditions
               </label>
               <p className="!text-xs text-muted-foreground">
-                You agree to our Terms of Service and Privacy Policy.
+                You agree to our <Link href={'/terms-and-conditions'}>Terms of Service</Link> and <Link href={'/privacy-policy'}>Privacy Policy</Link>.
               </p>
             </div>
           </div>

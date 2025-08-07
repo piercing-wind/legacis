@@ -31,7 +31,7 @@ transporter.use(
 
 type MailContext =
   | { template: 'otp'; context: OtpMailContext }
-  | { template: 'update'; context: UpdateMailContext }
+  | { template: 'serviceUpdate'; context: UpdateMailContext }
   | { template: 'subscription'; context: SubscriptionMailContext }
   | { template: 'successPurchase'; context : SuccessPurchaseMailContext };
 

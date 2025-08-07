@@ -20,60 +20,15 @@ import {
 import { cn, formatHumanDate } from "@/lib/utils";
 import { UserPlatinaStockHistory, UserPlatinaStockList, UserRiskProfile } from "@/prisma/generated/client";
 // import STYLE from '@/app/(user-routes)/platina-wealth/platina.module.css'
-import PlatinaPieChart from "./platinaPieChart";
+import PieChart from "./PieChart";
 import PlatinaSimpleLineChart from "./platinaLineChart";
 import { Line } from "../icon";
 import { PDFDisplay } from "../pdfDisplay";
 import { QuillHtmlViewer } from "../richTextViewer";
 import PlatinaStockTimeline from "./platinaStockTimeline";
 import UserRiskProfileQuestions from "./userRiskProfileForm";
+import { generateSectorColor } from "@/lib/utils/generate-sector-color";
 
-
-function generateSectorColor(sectorName: string, index: number): string {
-  const baseColors = [
-    "#4AEDB9", // legacisGreen
-    "#6104C0", // legacisPurple
-    "#8036F2", // legacisBlue
-    "#FA2EF3", // legacisPink
-    "#E2FFE9", // legacisLightGreen
-    "#F1FFFA", // legacisLight
-    // Additional colors that complement your palette
-    "#9D4EDD", // Purple variant
-    "#06FFA5", // Green variant
-    "#C77DFF", // Light purple
-    "#4CC9F0"  // Light blue
-  ];
-  
-  if (index < baseColors.length) {
-    return baseColors[index];
-  }
-  
-  // For additional colors beyond the base palette, generate from your primary colors
-  const primaryColors = ["#4AEDB9", "#6104C0", "#8036F2", "#FA2EF3"];
-  const baseColor = primaryColors[index % primaryColors.length];
-  
-  // Generate variations of your primary colors
-  const variations = [
-    adjustColorBrightness(baseColor, 20),   // Lighter
-    adjustColorBrightness(baseColor, -15),  // Darker
-    adjustColorBrightness(baseColor, 40),   // Much lighter
-    adjustColorBrightness(baseColor, -30)   // Much darker
-  ];
-  
-  return variations[(index - baseColors.length) % variations.length];
-}
-
-// Helper function to adjust color brightness
-function adjustColorBrightness(hex: string, percent: number): string {
-  const num = parseInt(hex.replace("#", ""), 16);
-  const amt = Math.round(2.55 * percent);
-  const R = (num >> 16) + amt;
-  const G = (num >> 8 & 0x00FF) + amt;
-  const B = (num & 0x0000FF) + amt;
-  return "#" + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 +
-    (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 +
-    (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
-}
 
 function getMarketCapCategory(marketCapInCrore: number): string {
    if (marketCapInCrore >= 20000) {
@@ -89,8 +44,8 @@ function getMarketCapCategory(marketCapInCrore: number): string {
 }
 
 
-export const PlatinaServiceCard = ({userRecommendation, riskProfile, expiryDate}:{userRecommendation: UserPlatinaRecommendationWithDetails, riskProfile : UserRiskProfile | null, expiryDate: Date}) => {
-   const { platinaService, stocks, stockHistory, notes, recommendationDate, userInvestmentAmount, peChart, epsChart, rationale} = userRecommendation || {};
+export const PlatinaServiceCard = ({userRecommendation, riskProfile, expiryDate}:{userRecommendation: UserPlatinaRecommendationWithDetails, riskProfile : UserRiskProfile | null, expiryDate: Date | null}) => {
+   const { platinaService, stocks, stockHistory, notes, nextRecommendationDate, userInvestmentAmount, peChart, epsChart, rationale} = userRecommendation || {};
   
    const totalInvestmentAmount = stocks?.reduce((total, stock) => {
      return total + (stock.purchaseAmount || 0);
@@ -107,7 +62,7 @@ export const PlatinaServiceCard = ({userRecommendation, riskProfile, expiryDate}
             />
          ):(
             <> 
-               <PlatinaPortfolioUpdates recomendationDate={recommendationDate|| null} userInvestmentAmount={totalInvestmentAmount || 0} rationale={rationale}/>
+               <PlatinaPortfolioUpdates recomendationDate={nextRecommendationDate|| null} userInvestmentAmount={totalInvestmentAmount || 0} rationale={rationale}/>
                <PlatinaStockListTable stockList ={stocks || []} notes={notes || ''}/>
                <PlatinaStockTimeline stockHistory={stockHistory || []} />
                <PlatinaPieCharts stockList={stocks || []}/>
@@ -229,11 +184,11 @@ const PlatinaPieCharts =({stockList}:{stockList: UserPlatinaStockList[]})=> {
       <div className="w-full flex flex-col lg:flex-row gap-8 rounded-2xl mb-8">
          <div className="w-full flex-1 p-4 border border-platina/80 rounded-2xl">
             <h6 className="mb-4">Sector Allocation</h6>
-            <PlatinaPieChart data={sectorData()} chartConfig={chartConfig}/>
+            <PieChart data={sectorData()} chartConfig={chartConfig}/>
          </div>
           <div className="w-full flex-1 p-4 border border-platina/80 rounded-2xl">
             <h6 className="mb-4">Market Capital Allocation</h6>
-            <PlatinaPieChart data={marketCapData()} chartConfig={chartConfig}/>
+            <PieChart data={marketCapData()} chartConfig={chartConfig}/>
           </div>
       </div>
    )
@@ -267,7 +222,7 @@ export const PlatinaPendingStage = ({
    riskProfile 
 }: { 
    serviceName: string; 
-   expiryDate: Date;
+   expiryDate: Date | null;
    riskProfile?: UserRiskProfile | null;
 }) => {
    return (
@@ -289,7 +244,7 @@ export const PlatinaPendingStage = ({
          <div className="bg-white/60 dark:bg-gray-800/60 rounded-lg p-4 mb-4 border border-platina/30 dark:border-gray-700/50">
             <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Subscription Valid Until</p>
             <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">
-               {formatHumanDate(expiryDate)}
+               {expiryDate ? formatHumanDate(expiryDate) : "N/A"}
             </p>
          </div>
 

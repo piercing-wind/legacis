@@ -17,8 +17,8 @@ export const verifyPan = async (
    };
    const Cashfree = getCashfree();
    //  PAN 360 Cashfree
-   const data = panAdvance;
-   //  const { data } = await Cashfree.VrsPanAdvanceVerification(panRequest);
+   // const data = panAdvance;
+    const { data } = await Cashfree.VrsPanAdvanceVerification(panRequest);
    if(data.status !== "VALID") throw new Error(data.message);
 
    const res = await db.$transaction([
@@ -82,6 +82,9 @@ export const verifyPan = async (
   }
 };
 
+
+// Mock data for testing purposes
+// It is used here to simulate the response from Cashfree for testing purposes
 const data = {
   verification_id: "75df185f-0cbf-4ecf-9cc8-56445b3f609b",
   reference_id: 108633318,

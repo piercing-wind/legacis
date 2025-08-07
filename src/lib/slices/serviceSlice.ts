@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import { findServicesBySlugs } from '../data/services';
+import { findServicesByIds } from '../data/services';
 import { Service } from '@/prisma/generated/client';
 
 export type SerializedService = Omit<Service, 'createdAt' | 'updatedAt'> & {
@@ -7,9 +7,9 @@ export type SerializedService = Omit<Service, 'createdAt' | 'updatedAt'> & {
   updatedAt: string;
 };
 
-export const getRecomendedServices = createAsyncThunk<SerializedService[], string[]>('services/getRecomendedServices', async (ServiceSlugList : string[], { rejectWithValue }) => {
+export const getRecommendedServices = createAsyncThunk<SerializedService[], string[]>('services/getRecommendedServices', async (ServiceIdList : string[], { rejectWithValue }) => {
    try {
-      const response = await findServicesBySlugs(ServiceSlugList)
+      const response = await findServicesByIds(ServiceIdList)
       const serialized = response.map(service => ({
         ...service,
         createdAt: service.createdAt instanceof Date ? service.createdAt.toISOString() : service.createdAt,
@@ -35,15 +35,15 @@ const serviceSlice = createSlice({
    reducers: {},
    extraReducers: (builder) => {
       builder
-      .addCase(getRecomendedServices.pending, (state) => {
+      .addCase(getRecommendedServices.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(getRecomendedServices.fulfilled, (state, action: PayloadAction<SerializedService[]>) => {
+      .addCase(getRecommendedServices.fulfilled, (state, action: PayloadAction<SerializedService[]>) => {
         state.loading = false;
         state.services = action.payload;
       })
-      .addCase(getRecomendedServices.rejected, (state, action: PayloadAction<any>) => {
+      .addCase(getRecommendedServices.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
         state.error = action.payload;
       });

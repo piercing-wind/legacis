@@ -12,6 +12,7 @@ import PhoneVerificationForm from "./phoneVerificationForm";
 import EmailUpdateForm from "./emailUpdateForm";
 import ConsentForm from "./consent";
 import { AgreementViewer } from "../richTextViewer";
+import ChangePasswordForm from "./changePassword";
 
 const Modal = () => {
    const isOpen = useAppSelector((state) => state.profile.modalOpen);
@@ -44,6 +45,8 @@ const Modal = () => {
          return <ConsentForm/>
        case 'agreement':
          return <AgreementViewer />;
+       case 'changePassword':
+         return <ChangePasswordForm />;
 
        default:
          return null;

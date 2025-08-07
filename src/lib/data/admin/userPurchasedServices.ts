@@ -1,5 +1,5 @@
 import { db } from '@/lib/db';
-import { GrantType, ServiceType } from '@/prisma/generated/client';
+import { GrantType, ServicePlan, ServiceType } from '@/prisma/generated/client';
 
 
 // Define and export types
@@ -17,8 +17,9 @@ export interface Service {
   id: string;
   name: string;
   slug?: string;
-  price: number;
   type: ServiceType;
+  taxPercent: number | null;
+  plans?: ServicePlan[];
 }
 
 export interface Coupon {
@@ -46,16 +47,16 @@ export interface UserPurchasedService {
   id: string;
   userId: string;
   serviceId: string;
+  servicePlanId?: string | null;
   grantType: GrantType;
-  planDays: number;
-  planDiscount: number;
   purchaseDate: Date;
-  expiryDate: Date;
+  expiryDate: Date | null;
   isActive: boolean;
   grantReason?: string | null;
   grantMetadata?: GrantMetadata | null;
   user: User | null;
   service: Service | null;
+  servicePlan?: ServicePlan | null; 
   actualAmountPaid?: number | null;
   couponUsed?: Coupon | null;
   transactionId?: string | null;
@@ -105,14 +106,42 @@ const parseGrantMetadata = (metadata: any): GrantMetadata | null => {
     
     return null;
   } catch (error) {
-    console.error('Error parsing grantMetadata:', error);
+    console.log('Error parsing grantMetadata:', error);
     return null;
   }
 };
 
-export const findAllUserPurchasedServices = async (): Promise<UserPurchasedServicesData> => {
+export const findAllUserPurchasedServices = async ({
+  search = "",
+  serviceType = "ALL",
+  skip = 0,
+  take = 20,
+}: {
+  search?: string;
+  serviceType?: string;
+  skip?: number;
+  take?: number;
+} = {}): Promise<UserPurchasedServicesData> => {
   try {
+    const where: any = {};
+
+    if (search) {
+      where.OR = [
+        { user: { name: { contains: search, mode: "insensitive" } } },
+        { user: { email: { contains: search, mode: "insensitive" } } },
+        { service: { name: { contains: search, mode: "insensitive" } } },
+      ];
+    }
+    if (serviceType && serviceType !== "ALL") {
+      // Correct: filter by related service.type
+      where.service = { ...(where.service || {}), type: serviceType };
+    }
+    
+    // 1. Get total count of matching records (without pagination)
+    const total = await db.userPurchasedServices.count({ where });
+
     const services = await db.userPurchasedServices.findMany({
+      where,
       include: {
         user: {
           select: {
@@ -122,22 +151,26 @@ export const findAllUserPurchasedServices = async (): Promise<UserPurchasedServi
             phone: true,
             createdAt: true,
             emailVerified: true,
-            phoneVerified: true
-          }
+            phoneVerified: true,
+          },
         },
         service: {
           select: {
             id: true,
             name: true,
             slug: true,
-            price: true,
-            type: true
-          }
-        }
+            type: true,
+            taxPercent: true,
+            plans: true
+          },
+        },
+        servicePlan: true
       },
       orderBy: {
-        purchaseDate: 'desc'
-      }
+        purchaseDate: "desc",
+      },
+      skip,
+      take,
     });
 
     // For PURCHASED services, get transaction data
@@ -147,7 +180,7 @@ export const findAllUserPurchasedServices = async (): Promise<UserPurchasedServi
       where: {
         userId: { in: purchasedServices.map(s => s.userId) },
         serviceId: { in: purchasedServices.map(s => s.serviceId) },
-        status: 'completed'
+        status: { in: ['completed', 'SUCCESS'] }
       },
       include: {
         coupon: {
@@ -165,6 +198,7 @@ export const findAllUserPurchasedServices = async (): Promise<UserPurchasedServi
     const transactionMap = new Map();
     transactions.forEach(transaction => {
       const key = `${transaction.userId}-${transaction.serviceId}`;
+
       if (!transactionMap.has(key) || 
           new Date(transaction.createdAt) > new Date(transactionMap.get(key).createdAt)) {
         transactionMap.set(key, transaction);
@@ -172,14 +206,13 @@ export const findAllUserPurchasedServices = async (): Promise<UserPurchasedServi
     });
 
     // Enrich services with appropriate data based on grant type
-const enrichedServices: UserPurchasedService[] = services.map(service => {
+      const enrichedServices: UserPurchasedService[] = services.map(service => {
       const baseData: UserPurchasedService = {
         id: service.id,
         userId: service.userId,
         serviceId: service.serviceId,
+        servicePlanId: service.servicePlanId,
         grantType: service.grantType,
-        planDays: service.planDays,
-        planDiscount: service.planDiscount,
         purchaseDate: service.purchaseDate,
         expiryDate: service.expiryDate,
         isActive: service.isActive,
@@ -187,10 +220,11 @@ const enrichedServices: UserPurchasedService[] = services.map(service => {
         grantMetadata: parseGrantMetadata(service.grantMetadata),
         user: service.user,
         service: service.service,
+        servicePlan: service.servicePlan,
         actualAmountPaid: null,
         couponUsed: null,
         transactionId: null,
-        displayInfo: getGrantTypeDisplay(service)
+        displayInfo: getGrantTypeDisplay(service),
       };
 
       // Only add transaction data for PURCHASED services
@@ -202,7 +236,7 @@ const enrichedServices: UserPurchasedService[] = services.map(service => {
           ...baseData,
           actualAmountPaid: transaction?.amount || null,
           couponUsed: transaction?.coupon || null,
-          transactionId: transaction?.id || null
+          transactionId: transaction?.id || null,
         };
       }
 
@@ -210,22 +244,33 @@ const enrichedServices: UserPurchasedService[] = services.map(service => {
     });
 
     const now = new Date();
-    const active = enrichedServices.filter(s => s.isActive && new Date(s.expiryDate) > now);
-    const expired = enrichedServices.filter(s => !s.isActive || new Date(s.expiryDate) <= now);
-
+    // Active: isActive AND (no expiry date OR expiry date in future)
+    const active = enrichedServices.filter(s => {
+      if (!s.isActive) return false;
+      if (!s.expiryDate) return true; // Null = lifetime access = always active
+      return new Date(s.expiryDate) > now;
+    });
+    
+    // Expired: NOT active OR (has expiry date AND expired)
+    const expired = enrichedServices.filter(s => {
+      if (!s.isActive) return true;
+      if (!s.expiryDate) return false; // Null = lifetime access = never expired
+      return new Date(s.expiryDate) <= now;
+    });
+    
     return {
       all: enrichedServices,
       active,
       expired,
       stats: {
-        total: enrichedServices.length,
+        total,
         activeCount: active.length,
         expiredCount: expired.length
       }
     };
 
   } catch (error) {
-    console.error('Error fetching user purchased services:', error);
+    console.log('Error fetching user purchased services:', error);
     throw error;
   }
 };
@@ -286,7 +331,7 @@ export const getUsersForGrantAccess = async () => {
 
     return users
   } catch (error) {
-    console.error('Error fetching users for grant access:', error)
+    console.log('Error fetching users for grant access:', error)
     throw error
   }
 }
@@ -297,9 +342,9 @@ export const getServicesForGrantAccess = async () => {
       select: {
         id: true,
         name: true,
-        price: true,
         type: true,
-        slug: true
+        slug: true,
+        plans: true,
       },
       orderBy: {
         name: 'asc'
@@ -308,7 +353,7 @@ export const getServicesForGrantAccess = async () => {
 
     return services
   } catch (error) {
-    console.error('Error fetching services for grant access:', error)
+    console.log('Error fetching services for grant access:', error)
     throw error
   }
 }

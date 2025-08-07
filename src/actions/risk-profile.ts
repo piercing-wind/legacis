@@ -1,5 +1,6 @@
 'use server';
 import { db } from "@/lib/db";
+import { RiskLevel } from "@/prisma/generated/client";
 
 
 export const saveRiskProfileAnswers = async (data: Record<string, { answer: any; weight: number }>, userId: string) => {
@@ -21,14 +22,14 @@ export const saveRiskProfileAnswers = async (data: Record<string, { answer: any;
 export const createRiskProfile = async ({
   userId,
   totalScore = 0,
-  riskLevel = "Unknown",
+  riskLevel,
   riskPercentage = 0,
   completedAt = new Date(),
   platina_wealth = false,
 }: {
   userId: string,
   totalScore?: number,
-  riskLevel?: string,
+  riskLevel?: RiskLevel,
   riskPercentage?: number,
   completedAt?: Date,
    platina_wealth?: boolean,
@@ -56,7 +57,7 @@ export const createRiskProfile = async ({
 
     return { success: true };
   } catch (error) {
-    console.error('Error creating/updating risk profile:', error); 
+    console.log('Error creating/updating risk profile:', error); 
     return { success: false, message: (error as Error).message };
   }
 };

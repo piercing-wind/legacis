@@ -1,17 +1,53 @@
 'use server'
-import { ServiceTrading, ServiceType } from "@/prisma/generated/client";
+import { ComplimentaryService, ResearchAdvisoryModelPortfolioStockList, ResearchAdvisoryMutualFundStockList, ResearchAdvisoryStockList, Service, ServicePlan, ServiceType } from "@/prisma/generated/client";
 import { db } from "../db";
 
 
+export type ServiceWithComplimentary  = Service & {
+   plans: ServicePlan[];
+   complimentaryService?: {
+      id: string;
+      slug: string;
+      name: string;
+      tag: string | null;
+      type: ServiceType;
+   }[]
+} 
+
+
 export const findServices = async () => {
-   return await db.service.findMany({
+   const rawServices = await db.service.findMany({
       where: {
          active: true,
       },
-      orderBy: {
-         createdAt: "desc",
-      },
+      orderBy:[
+         { order: "asc" }, 
+         {createdAt: "desc"},
+      ],
+      include: {
+         plans: true,
+         complimentaryService: {
+            include: {
+               complimentaryService: {
+                  select: {
+                     id: true,
+                     slug: true,
+                     name: true,
+                     tag: true,
+                     type: true,
+                  }  
+               }
+            }
+         },
+      }
    });
+
+     // Map complimentaryService to expected shape
+  return rawServices.map(service => ({
+    ...service,
+    complimentaryService: service.complimentaryService?.map(cs => cs.complimentaryService)
+  }));
+
 }
 
 /**
@@ -21,7 +57,10 @@ export const findServices = async () => {
  *  
  */
 export const findServiceById = async(id : string)=>{
-   return await db.service.findFirst({
+   return await db.service.findUnique({
+      include: {
+         plans: true
+      },
       where: {
          id,
       },
@@ -39,28 +78,50 @@ export const findServiceBySlug = async (slug: string) => {
          slug,
       },
       include: {
+         plans: true,
          complimentaryService : {
             include: {
-               service: true,
+               complimentaryService: true,
             },
          }
-      }
+      },
    });
 }
 
 /**
- * This function finds mutliple services by their slugs.
- * @param slugs - Array of service slugs to find example ['service-1', 'service-2'] 
+ * This function finds mutliple services by their IDs.
+ * @param ids - Array of service IDs to find example ['service-1', 'service-2'] 
  * @returns 
  */
-export const findServicesBySlugs = async (slugs: string[]) => {
-  return await db.service.findMany({
+export const findServicesByIds = async (ids: string[]) => {
+  const rawServices = await db.service.findMany({
     where: {
-      slug: {
-        in: slugs,
-      },
+      id: { in: ids },
+      active: true,
     },
+    include: {
+      plans: true,
+      complimentaryService: {
+        include: {
+          complimentaryService: {
+            select: {
+              id: true,
+              slug: true,
+              name: true,
+              tag: true,
+              type: true,
+            }
+          }
+        }
+      }
+    }
   });
+
+  // Flatten to expected shape
+  return rawServices.map(service => ({
+    ...service,
+    complimentaryService: service.complimentaryService?.map(cs => cs.complimentaryService)
+  }));
 };
 
 /**
@@ -88,21 +149,107 @@ export const isServicePurchased = async (userId: string, serviceId : string) => 
    });
 }
 
+export type ComplimentaryServiceWithService =  ComplimentaryService & {
+   complimentaryService: {
+      id: string;
+      slug: string;
+      name: string;
+      tag: string | null;
+      type: ServiceType;
+   }
+}
 
 export type ServiceData =
-  | ServiceTrading
+  | ResearchAdvisoryStockList[]
+  | ResearchAdvisoryModelPortfolioStockList[]
+  | ResearchAdvisoryMutualFundStockList[]
+  | ComplimentaryServiceWithService[]
   | null;
 
 export const getServiceDataById = async ( serviceId: string, serviceType : ServiceType ): Promise<ServiceData>=>{
    switch (serviceType) {
-      case 'TRADING':
-         return db.serviceTrading.findFirst({
+      case 'RESEARCH_ADVISORY':
+         const data = await db.researchAdvisoryStockList.findMany({
             where: {
-              id: serviceId,
+              serviceId,
             },
+         })
+         return data;
+      case 'RESEARCH_ADVISORY_MODEL_PORTFOLIO':
+         return await db.researchAdvisoryModelPortfolioStockList.findMany({
+            where: {
+               serviceId,
+            },
+         });
+      case 'RESEARCH_ADVISORY_MUTUAL_FUNDS':
+         return await db.researchAdvisoryMutualFundStockList.findMany({
+            where: {
+               serviceId,
+            },
+         });
+      case 'COMBO':
+         return await db.complimentaryService.findMany({
+            where: {
+               serviceId,
+            },
+            include:{
+               complimentaryService: {
+                  select: {
+                     id: true,
+                     slug: true,
+                     name: true,
+                     tag: true,
+                     type: true,
+                  }
+               }
+            }
          })
 
       default:
          return Promise.resolve(null);
    }
+}
+
+
+export const getUserPurchasedServiceById = async (userId: string) => {
+   return await db.userPurchasedServices.findMany({
+      where: {
+         userId,
+         expiryDate: {
+            gt: new Date(),
+         },
+         isActive: true,
+      },
+      include: {
+         service: {
+            select:{
+               id : true,
+               slug: true,
+               name: true,
+               tag: true,
+               type: true,
+            }
+         }
+      },
+      orderBy: {
+         purchaseDate: "desc",
+      },
+   });
+}
+
+
+// Mutual Funds
+export const findServiceByCategory = async (category: ServiceType) => {
+   return await db.service.findMany({
+      where: {
+         active: true,
+         type: category,
+      },
+      include: {
+         plans: true
+      },
+      orderBy: {
+         createdAt: "desc",
+      },
+   });
 }

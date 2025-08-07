@@ -38,8 +38,7 @@ export default function PhoneVerificationForm({className}:{className ?:string}) 
     },
   });
 
-  console.log("Phone Verification Form Rendered", user?.phone);
-async function onSubmit(values: z.infer<typeof PhoneVerificationSchema>) {
+   async function onSubmit(values: z.infer<typeof PhoneVerificationSchema>) {
       const identifier = values.phone;
       
       startTransition(() => {

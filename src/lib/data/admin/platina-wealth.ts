@@ -96,151 +96,48 @@ export const getPlatinaWealthUsers = async (): Promise<PlatinaWealthUser[]> => {
       }
     });
 
-      const totalPurchaseAmount = users.reduce((sum, purchase) => {
-         const recommendation = purchase.user?.platinaRecommendations[0];
-         if (recommendation && recommendation.stocks) {
-            return sum + recommendation.stocks.reduce((stockSum, stock) => stockSum + (stock.purchaseAmount || 0), 0);
-         }
-         return sum;
-      }, 0);
+  
+   // Map each user's data and ensure riskLevel is always a string
+    return users.map(purchase => {
+      const recommendation = purchase.user?.platinaRecommendations[0];
+      const userInvestmentAmount = recommendation?.stocks
+        ? recommendation.stocks.reduce((sum, stock) => sum + (stock.purchaseAmount || 0), 0)
+        : 0;
 
-    return users.map(purchase => ({
-      id: purchase.user?.id || '',
-      name: purchase.user?.name || null,
-      email: purchase.user?.email || null,
-      phone: purchase.user?.phone || null,
-      purchaseDate: purchase.purchaseDate,
-      expiryDate: purchase.expiryDate,
-      isActive: purchase.isActive,
-      riskProfile: purchase.user?.riskProfile || null,
-      recommendation: purchase.user?.platinaRecommendations[0] ? {
-        id: purchase.user.platinaRecommendations[0].id,
-        portfolioType: purchase.user.platinaRecommendations[0].portfolioType,
-        userInvestmentAmount: totalPurchaseAmount,
-        assetAllocation: purchase.user.platinaRecommendations[0].assetAllocation,
-        stockCount: purchase.user.platinaRecommendations[0]._count.stocks,
-        lastUpdated: purchase.user.platinaRecommendations[0].updatedAt,
-        isActive : purchase.user.platinaRecommendations[0].isActive
-      } : null
-    }));
-
+      return {
+        id: purchase.user?.id || '',
+        name: purchase.user?.name || null,
+        email: purchase.user?.email || null,
+        phone: purchase.user?.phone || null,
+        purchaseDate: purchase.purchaseDate,
+        expiryDate: purchase.expiryDate || purchase.purchaseDate,
+        isActive: purchase.isActive,
+        riskProfile: purchase.user?.riskProfile
+          ? {
+              riskLevel: purchase.user.riskProfile.riskLevel || 'UNKNOWN', // Handle null case
+              riskPercentage: purchase.user.riskProfile.riskPercentage,
+              totalScore: purchase.user.riskProfile.totalScore,
+            }
+          : null,
+        recommendation: recommendation
+          ? {
+              id: recommendation.id,
+              portfolioType: recommendation.portfolioType,
+              userInvestmentAmount, // Assign the calculated investment amount
+              assetAllocation: recommendation.assetAllocation,
+              stockCount: recommendation._count.stocks,
+              lastUpdated: recommendation.updatedAt,
+              isActive: recommendation.isActive
+            }
+          : null
+      };
+    });
   } catch (error) {
-    console.error('Error fetching Platina Wealth users:', error);
+    console.log('Error fetching Platina Wealth users:', error);
     throw error;
   }
 };
 
-export const getPlatinaWealthStats = async (): Promise<PlatinaWealthStats> => {
-  try {
-    const [totalUsers, activeUsers, usersWithRecommendations, riskProfiles] = await Promise.all([
-      // Total users with Platina Wealth
-      db.userPurchasedServices.count({
-        where: {
-          service: {
-            type: 'PLATINA_WEALTH'
-          }
-        }
-      }),
-
-      // Active users
-      db.userPurchasedServices.count({
-        where: {
-          service: {
-            type: 'PLATINA_WEALTH'
-          },
-          isActive: true,
-          expiryDate: {
-            gt: new Date()
-          }
-        }
-      }),
-
-      // Users with recommendations
-      db.userPlatinaRecommendation.count({
-        where: {
-          isActive: true,
-          user: {
-            purchasedServices: {
-              some: {
-                service: {
-                  type: 'PLATINA_WEALTH'
-                }
-              }
-            }
-          }
-        }
-      }),
-
-      // Risk profiles distribution
-      db.userRiskProfile.groupBy({
-        by: ['riskLevel'],
-        _count: {
-          riskLevel: true
-        },
-        where: {
-          user: {
-            purchasedServices: {
-              some: {
-                service: {
-                  type: 'PLATINA_WEALTH'
-                }
-              }
-            }
-          }
-        }
-      })
-    ]);
-
-    // Calculate average investment amount
-    const investmentAmounts = await db.userPlatinaRecommendation.aggregate({
-      _avg: {
-        userInvestmentAmount: true
-      },
-      where: {
-        isActive: true,
-        userInvestmentAmount: {
-          not: null
-        },
-        user: {
-          purchasedServices: {
-            some: {
-              service: {
-                type: 'PLATINA_WEALTH'
-              }
-            }
-          }
-        }
-      }
-    });
-
-    // Build risk level distribution
-    const riskLevelDistribution = {
-      CONSERVATIVE: 0,
-      MODERATE: 0,
-      AGGRESSIVE: 0,
-      VERY_AGGRESSIVE: 0
-    };
-
-    riskProfiles.forEach(profile => {
-      if (profile.riskLevel in riskLevelDistribution) {
-        riskLevelDistribution[profile.riskLevel as keyof typeof riskLevelDistribution] = profile._count.riskLevel;
-      }
-    });
-
-    return {
-      totalUsers,
-      activeUsers,
-      usersWithRecommendations,
-      usersWithoutRecommendations: totalUsers - usersWithRecommendations,
-      averageInvestmentAmount: investmentAmounts._avg.userInvestmentAmount || 0,
-      riskLevelDistribution
-    };
-
-  } catch (error) {
-    console.error('Error fetching Platina Wealth stats:', error);
-    throw error;
-  }
-};
 
 export const getUserPlatinaDetails = async (userId: string) => {
   try {
@@ -278,7 +175,7 @@ export const getUserPlatinaDetails = async (userId: string) => {
 
     return user;
   } catch (error) {
-    console.error('Error fetching user Platina details:', error);
+    console.log('Error fetching user Platina details:', error);
     throw error;
   }
 };

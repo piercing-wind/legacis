@@ -24,6 +24,7 @@ import { cn } from "@/lib/utils";
 import { registerUser } from "@/actions/register";
 import { setAuthModel, setAuthOpen } from "@/lib/slices/authSlice";
 import { useAppDispatch } from "@/lib/hooks";
+import Link from "next/link";
 
 export default function Register({className}:{className ?:string}) {
   const [showPassword, setShowPassword] = useState(false);
@@ -182,7 +183,7 @@ async function onSubmit(values: z.infer<typeof RegisterSchema>) {
                 Accept terms and conditions
               </label>
               <p className="!text-xs text-muted-foreground">
-                You agree to our Terms of Service and Privacy Policy.
+                You agree to our <Link href={'/terms-and-conditions'}>Terms of Service</Link> and <Link href={'/privacy-policy'}>Privacy Policy</Link>.
               </p>
             </div>
           </div>

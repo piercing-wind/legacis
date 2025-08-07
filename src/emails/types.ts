@@ -6,9 +6,10 @@ export type OtpMailContext = {
 
 export type UpdateMailContext = {
   name: string;
-  year: number;
+  serviceName: string;
+  dashboardUrl: string;
   title: string;
-  // add more fields as needed
+  year: number;
 };
 
 export type SubscriptionMailContext = {
@@ -22,13 +23,13 @@ export type SuccessPurchaseMailContext = {
   customerName: string;
   serviceName: string;
   planDuration: string;
-  planType: string;
   orderId: string;
-  transactionId: string;
+  paymentId: string;
   amount: string;
   currency: string;
   paymentMethod: string;
   purchaseDate: string;
+  expiryDate?: string | null; // Optional, can be added if needed
   profileUrl: string;
   dashboardUrl: string;
   year: string;

@@ -17,7 +17,7 @@ export async function updateSubscriptionExpiry(subscriptionId: string, newExpiry
     revalidatePath('/admin')
     return { success: true, message: 'Subscription expiry updated successfully' }
   } catch (error) {
-    console.error('Error updating subscription expiry:', error)
+    console.log('Error updating subscription expiry:', error)
     return { success: false, message: 'Failed to update subscription expiry' }
   }
 }
@@ -31,7 +31,7 @@ export async function extendSubscriptionByDays(subscriptionId: string, days: num
     if (!subscription) {
       return { success: false, message: 'Subscription not found' }
     }
-
+    if(!subscription.expiryDate) return { success: false, message: 'Subscription has no expiry date' }
     const currentExpiry = new Date(subscription.expiryDate)
     const newExpiry = new Date(currentExpiry.getTime() + (days * 24 * 60 * 60 * 1000))
 
@@ -43,7 +43,7 @@ export async function extendSubscriptionByDays(subscriptionId: string, days: num
     revalidatePath('/admin')
     return { success: true, message: `Subscription extended by ${days} days` }
   } catch (error) {
-    console.error('Error extending subscription:', error)
+    console.log('Error extending subscription:', error)
     return { success: false, message: 'Failed to extend subscription' }
   }
 }
@@ -73,7 +73,7 @@ export async function toggleSubscriptionStatus(subscriptionId: string, isActive:
       message: `Subscription ${isActive ? 'activated' : 'deactivated'} successfully` 
     }
   } catch (error) {
-    console.error('Error toggling subscription status:', error)
+    console.log('Error toggling subscription status:', error)
     return { success: false, message: 'Failed to update subscription status' }
   }
 }

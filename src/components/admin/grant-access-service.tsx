@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -33,14 +33,24 @@ import { Badge } from "@/components/ui/badge"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
-import { Crown, Loader2, Plus, Search, User } from "lucide-react"
+import { Crown, Loader2, Search, User } from "lucide-react"
 import { toast } from "sonner"
 import { useRouter } from 'next/navigation'
+import { ServicePlan } from '@/prisma/generated/client'
 
 const formSchema = z.object({
   userId: z.string().min(1, "Please select a user"),
   serviceId: z.string().min(1, "Please select a service"),
-  planDays: z.number().min(1, "Plan days must be at least 1"),
+  selectedPlan: z.object({
+    id: z.string(),
+    label: z.string(),
+    durationInDays: z.number().min(1, "Duration must be at least 1 day"),
+    price: z.number().min(0, "Price cannot be negative"),
+    discount: z.number().nullable().optional(),
+    stockLimit: z.number().nullable().optional(),
+  }),
+  customPlanDays: z.number().optional().nullable(),
+  customStocks: z.number().optional().nullable(),
   grantReason: z.string().min(3, "Please provide a reason for granting access"),
 })
 
@@ -54,9 +64,9 @@ interface User {
 interface Service {
   id: string
   name: string
-  price: number
   type: string
-   slug: string
+  slug: string
+  plans: ServicePlan[]
 }
 
 interface GrantAccessDialogProps {
@@ -64,19 +74,32 @@ interface GrantAccessDialogProps {
   services: Service[]
 }
 
+type FormData = z.infer<typeof formSchema>
+
 export function GrantAccessDialog({ users, services }: GrantAccessDialogProps) {
   const [open, setOpen] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [userSearch, setUserSearch] = useState("")
   const [serviceSearch, setServiceSearch] = useState("")
+  const [availablePlans, setAvailablePlans] = useState<ServicePlan[]>([])
+
   const router = useRouter()
   
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       userId: "",
       serviceId: "",
-      planDays: 30,
+      selectedPlan: {
+        id: "",
+        label: "",
+        durationInDays: 30,
+        price: 0,
+        discount: null,
+        stockLimit: null,
+      },
+      customPlanDays: null,
+      customStocks: null,
       grantReason: "",
     },
   })
@@ -92,16 +115,68 @@ export function GrantAccessDialog({ users, services }: GrantAccessDialogProps) {
 
   const selectedUser = users.find(u => u.id === form.watch("userId"))
   const selectedService = services.find(s => s.id === form.watch("serviceId"))
+  const selectedPlan = form.watch("selectedPlan")
+  const customPlanDays = form.watch("customPlanDays")
+  const customStocks = form.watch("customStocks")
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  // Check if selected service is Portfolio Review
+  const isPortfolioReview = selectedService?.type === 'PORTFOLIO_REVIEW'
+
+  // Update available plans when service changes
+  useEffect(() => {
+    if (selectedService && selectedService.plans) {
+      const activePlans = selectedService.plans.filter(plan => plan.isActive)
+      setAvailablePlans(activePlans)
+      
+      if (activePlans.length > 0) {
+        const firstPlan = activePlans[0]
+        form.setValue("selectedPlan", {
+          id: firstPlan.id,
+          label: firstPlan.label,
+          durationInDays: firstPlan.durationInDays,
+          price: firstPlan.price,
+          discount: firstPlan.discount,
+          stockLimit: firstPlan.stockLimit,
+        })
+      }
+    } else {
+      setAvailablePlans([])
+    }
+  }, [selectedService, form])
+
+  const onSubmit = async (values: FormData) => {
     setIsSubmitting(true)
     try {
+      let finalValues = { ...values }
+      
+      // Override values for Portfolio Review
+      if (isPortfolioReview && customStocks) {
+        finalValues = {
+          ...values,
+          selectedPlan: {
+            ...values.selectedPlan,
+            stockLimit: customStocks,
+          }
+        }
+      }
+
+      // Override duration for regular services
+      if (!isPortfolioReview && customPlanDays) {
+        finalValues = {
+          ...values,
+          selectedPlan: {
+            ...values.selectedPlan,
+            durationInDays: customPlanDays,
+          }
+        }
+      }
+
       const response = await fetch('/api/admin/grant-access', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(values),
+        body: JSON.stringify(finalValues),
       })
 
       if (!response.ok) {
@@ -112,7 +187,7 @@ export function GrantAccessDialog({ users, services }: GrantAccessDialogProps) {
       const result = await response.json()
       
       toast.success(`Successfully granted ${selectedService?.name} access to ${selectedUser?.name}`, {
-        description: `Valid for ${values.planDays} days`
+        description: `${result.data.summary.actualDuration} • Value: ${result.data.summary.value}`
       })
       
       setOpen(false)
@@ -128,12 +203,18 @@ export function GrantAccessDialog({ users, services }: GrantAccessDialogProps) {
     }
   }
 
-  const getPlanName = (days: number) => {
-    if (days === 30) return "Monthly Plan"
-    if (days === 90) return "Quarterly Plan (3 months)"
-    if (days === 180) return "Half-Yearly Plan (6 months)"
-    if (days === 365) return "Yearly Plan (12 months)"
-    return `${days} Days Plan`
+  const calculateValue = () => {
+    if (!selectedService || !selectedPlan) return 0
+    
+    if (isPortfolioReview) {
+      const actualStocks = customStocks || selectedPlan.stockLimit || 0
+      return actualStocks * 100 // Nominal value for display
+    }
+    
+    const actualDays = customPlanDays || selectedPlan.durationInDays
+    const basePrice = selectedPlan.price
+    const discountAmount = selectedPlan.discount ? basePrice * selectedPlan.discount : 0
+    return Math.round(basePrice - discountAmount)
   }
 
   return (
@@ -235,7 +316,7 @@ export function GrantAccessDialog({ users, services }: GrantAccessDialogProps) {
                                 <div>
                                   <div className="font-medium">{service.name}</div>
                                   <div className="text-xs text-muted-foreground">
-                                    {service.type.replace(/_/g, ' ')} • ₹{service.price}/month
+                                    {service.type.replace(/_/g, ' ')} • {service.plans.length} plans
                                   </div>
                                 </div>
                               </div>
@@ -254,7 +335,7 @@ export function GrantAccessDialog({ users, services }: GrantAccessDialogProps) {
                             {selectedService.type.replace(/_/g, ' ')}
                           </div>
                         </div>
-                        <Badge variant="outline">₹{selectedService.price}/month</Badge>
+                        <Badge variant="outline">{selectedService.plans.length} plans</Badge>
                       </div>
                     </div>
                   )}
@@ -263,45 +344,115 @@ export function GrantAccessDialog({ users, services }: GrantAccessDialogProps) {
               )}
             />
 
-            {/* Plan Duration */}
-            <FormField
-              control={form.control}
-              name="planDays"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Plan Duration</FormLabel>
-                  <FormControl>
-                    <div className="space-y-2">
+            {/* Plan Selection */}
+            {selectedService && availablePlans.length > 0 && (
+              <FormField
+                control={form.control}
+                name="selectedPlan"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Select Plan</FormLabel>
+                    <FormControl>
                       <Select 
-                        onValueChange={(value) => field.onChange(parseInt(value))} 
-                        value={field.value.toString()}
+                        onValueChange={(value) => {
+                          const plan = availablePlans.find(p => p.id === value)
+                          if (plan) {
+                            field.onChange({
+                              id: plan.id,
+                              label: plan.label,
+                              durationInDays: plan.durationInDays,
+                              price: plan.price,
+                              discount: plan.discount,
+                              stockLimit: plan.stockLimit,
+                            })
+                          }
+                        }}
+                        value={field.value.id}
                       >
                         <SelectTrigger>
-                          <SelectValue />
+                          <SelectValue placeholder="Choose a plan" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="30">{getPlanName(30)}</SelectItem>
-                          <SelectItem value="90">{getPlanName(90)}</SelectItem>
-                          <SelectItem value="180">{getPlanName(180)}</SelectItem>
-                          <SelectItem value="365">{getPlanName(365)}</SelectItem>
+                          {availablePlans.map((plan) => {
+                           return(
+                            <SelectItem key={plan.id} value={plan.id}>
+                              <div className="flex items-center justify-between w-full">
+                                <span>
+                                  {plan.label} - {plan.durationInDays} days
+                                  {isPortfolioReview && plan.stockLimit && ` (${plan.stockLimit} stocks)`}
+                                  {` - ₹${plan.price.toLocaleString()}`}
+                                  {plan.discount != null && plan.discount > 0 && ` (${Math.round(plan.discount * 100)}% off)`}
+                                </span>
+                                {plan.discount != null && plan.discount > 0 && (
+                                  <Badge variant="secondary" className="ml-2">
+                                    {Math.round(plan.discount * 100)}% off
+                                  </Badge>
+                                )}
+                              </div>
+                            </SelectItem>
+                          )})}
                         </SelectContent>
                       </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
+
+            {/* Custom Plan Days - Hide for Portfolio Review */}
+            {!isPortfolioReview && selectedPlan.id && (
+              <FormField
+                control={form.control}
+                name="customPlanDays"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Custom Duration (Optional)</FormLabel>
+                    <FormControl>
                       <Input
                         type="number"
-                        placeholder="Or enter custom days..."
+                        placeholder="Override with custom days..."
                         min={1}
                         max={3650}
-                        onChange={(e) => field.onChange(parseInt(e.target.value) || 1)}
+                        value={field.value || ''}
+                        onChange={(e) => field.onChange(e.target.value ? parseInt(e.target.value) : undefined)}
                       />
-                    </div>
-                  </FormControl>
-                  <FormDescription>
-                    Service will be valid for {field.value} days from today
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                    </FormControl>
+                    <FormDescription>
+                      Leave empty to use selected plan duration ({selectedPlan.durationInDays} days). Custom days will override the selected plan.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
+
+            {/* Custom Stocks - Show for Portfolio Review */}
+            {isPortfolioReview && selectedPlan.id && (
+              <FormField
+                control={form.control}
+                name="customStocks"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Custom Stocks (Optional)</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="Override with custom stocks..."
+                        min={1}
+                        max={1000}
+                        value={field.value || ''}
+                        onChange={(e) => field.onChange(e.target.value ? parseInt(e.target.value) : undefined)}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Leave empty to use selected plan stocks ({selectedPlan.stockLimit || 'unlimited'} stocks). Custom stocks will override the selected plan.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
 
             {/* Grant Reason */}
             <FormField
@@ -326,14 +477,35 @@ export function GrantAccessDialog({ users, services }: GrantAccessDialogProps) {
             />
 
             {/* Summary */}
-            {selectedUser && selectedService && (
+            {selectedUser && selectedService && selectedPlan.id && (
               <div className="p-4 bg-purple-50 border border-purple-200 rounded-lg">
                 <h4 className="font-medium text-purple-900 mb-2">Grant Summary</h4>
                 <div className="space-y-1 text-sm text-purple-800">
                   <div><strong>User:</strong> {selectedUser.name} ({selectedUser.email})</div>
                   <div><strong>Service:</strong> {selectedService.name}</div>
-                  <div><strong>Duration:</strong> {getPlanName(form.watch("planDays"))}</div>
-                  <div><strong>Value:</strong> ₹{Math.round(selectedService.price * form.watch("planDays") / 30).toLocaleString()}</div>
+                  <div><strong>Plan:</strong> {selectedPlan.label}</div>
+                  {isPortfolioReview ? (
+                    <>
+                      <div><strong>Duration:</strong> {selectedPlan.durationInDays} days</div>
+                      <div><strong>Base Plan:</strong> Up to {selectedPlan.stockLimit} stocks</div>
+                      {customStocks && (
+                        <div><strong>Custom Stocks:</strong> {customStocks} stocks (overrides plan)</div>
+                      )}
+                      <div><strong>Final Stocks:</strong> {customStocks || selectedPlan.stockLimit} stocks</div>
+                    </>
+                  ) : (
+                    <>
+                      <div><strong>Base Duration:</strong> {selectedPlan.durationInDays} days</div>
+                      {customPlanDays && (
+                        <div><strong>Custom Duration:</strong> {customPlanDays} days (overrides plan)</div>
+                      )}
+                      <div><strong>Final Duration:</strong> {customPlanDays || selectedPlan.durationInDays} days</div>
+                    </>
+                  )}
+                  <div><strong>Plan Price:</strong> ₹{selectedPlan.price.toLocaleString()}</div>
+                  {selectedPlan.discount && (
+                    <div><strong>Discount:</strong> {Math.round(selectedPlan.discount * 100)}%</div>
+                  )}
                 </div>
               </div>
             )}

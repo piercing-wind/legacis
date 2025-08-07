@@ -112,18 +112,14 @@ export const verifyOTP = async ({identifier, otp}:{identifier : string, otp: str
           where: { identifier, otp },
           orderBy: { createdAt: 'desc' }
         });
-      console.error("Error verifying OTP:")
-      if (!otpRecord) {
-         throw new Error("Invalid or expired OTP, please request a new one.");
-      }
 
+      if (!otpRecord) {
+         throw new Error("Invalid OTP, please try again.");
+      }
+      
       if (otpRecord.expires_at < new Date()) {
          await db.otp.delete({ where: { id: otpRecord.id } });
          throw new Error("OTP has expired, please request a new one.");
-      }
-
-      if (otpRecord.otp !== otp) {
-         throw new Error("Invalid OTP, please try again.");
       }
 
       let res;

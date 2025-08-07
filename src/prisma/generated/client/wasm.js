@@ -188,8 +188,7 @@ exports.Prisma.UserPurchasedServicesScalarFieldEnum = {
   serviceId: 'serviceId',
   purchaseDate: 'purchaseDate',
   expiryDate: 'expiryDate',
-  planDays: 'planDays',
-  planDiscount: 'planDiscount',
+  servicePlanId: 'servicePlanId',
   agreementAcceptedAt: 'agreementAcceptedAt',
   agreementData: 'agreementData',
   grantType: 'grantType',
@@ -207,10 +206,8 @@ exports.Prisma.CouponScalarFieldEnum = {
   description: 'description',
   percentOff: 'percentOff',
   expiryDate: 'expiryDate',
-  minAmount: 'minAmount',
-  maxAmount: 'maxAmount',
   serviceId: 'serviceId',
-  planDays: 'planDays',
+  servicePlanId: 'servicePlanId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -223,7 +220,7 @@ exports.Prisma.TransactionScalarFieldEnum = {
   userId: 'userId',
   serviceId: 'serviceId',
   amount: 'amount',
-  tenure: 'tenure',
+  servicePlanId: 'servicePlanId',
   currency: 'currency',
   status: 'status',
   paymentGateway: 'paymentGateway',
@@ -234,24 +231,14 @@ exports.Prisma.TransactionScalarFieldEnum = {
   extraData: 'extraData'
 };
 
-exports.Prisma.UserDocumentsScalarFieldEnum = {
-  id: 'id',
-  serviceId: 'serviceId',
-  userId: 'userId',
-  documentUrl: 'documentUrl',
-  reviewedDocumentUrl: 'reviewedDocumentUrl',
-  status: 'status',
-  reviewedBy: 'reviewedBy',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
 exports.Prisma.AgreementScalarFieldEnum = {
   id: 'id',
   name: 'name',
   content: 'content',
   version: 'version',
   hash: 'hash',
+  type: 'type',
+  policyType: 'policyType',
   signatoryPerson: 'signatoryPerson',
   companyName: 'companyName',
   updatedAt: 'updatedAt',
@@ -267,35 +254,98 @@ exports.Prisma.ServiceAgreementScalarFieldEnum = {
 exports.Prisma.ComplimentaryServiceScalarFieldEnum = {
   id: 'id',
   serviceId: 'serviceId',
-  complimentaryServiceId: 'complimentaryServiceId'
+  complimentaryServiceId: 'complimentaryServiceId',
+  complimentaryServicePlanId: 'complimentaryServicePlanId'
+};
+
+exports.Prisma.ServicePlanScalarFieldEnum = {
+  id: 'id',
+  serviceId: 'serviceId',
+  label: 'label',
+  durationInDays: 'durationInDays',
+  price: 'price',
+  discount: 'discount',
+  isActive: 'isActive',
+  stockLimit: 'stockLimit'
 };
 
 exports.Prisma.ServiceScalarFieldEnum = {
   id: 'id',
   name: 'name',
   slug: 'slug',
+  order: 'order',
   tag: 'tag',
   label: 'label',
   serviceClass: 'serviceClass',
   description: 'description',
   chart: 'chart',
   comparisonTitle: 'comparisonTitle',
+  philosophy: 'philosophy',
   recommendedService: 'recommendedService',
-  price: 'price',
   taxPercent: 'taxPercent',
-  tenureDiscounts: 'tenureDiscounts',
   features: 'features',
   faq: 'faq',
   active: 'active',
   type: 'type',
   createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  afterPurchaseFeaturesDelta: 'afterPurchaseFeaturesDelta',
+  detailMutualFundPageDelta: 'detailMutualFundPageDelta'
+};
+
+exports.Prisma.PortfolioReviewScalarFieldEnum = {
+  id: 'id',
+  userPurchasedServiceId: 'userPurchasedServiceId',
+  status: 'status',
+  userId: 'userId',
+  uploadedFileName: 'uploadedFileName',
+  uploadedFileUrl: 'uploadedFileUrl',
+  stockCount: 'stockCount',
+  reviewedFileName: 'reviewedFileName',
+  reviewedFileUrl: 'reviewedFileUrl',
+  reviewedBy: 'reviewedBy',
+  createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.ServiceTradingScalarFieldEnum = {
+exports.Prisma.ResearchAdvisoryStockListScalarFieldEnum = {
   id: 'id',
-  buy_stock_list: 'buy_stock_list',
-  sell_stock_list: 'sell_stock_list',
+  serviceId: 'serviceId',
+  name: 'name',
+  stockTicker: 'stockTicker',
+  sector: 'sector',
+  status: 'status',
+  callType: 'callType',
+  entryPrice: 'entryPrice',
+  targetPrice: 'targetPrice',
+  stopLoss: 'stopLoss',
+  rationale: 'rationale',
+  exitRationale: 'exitRationale',
+  exitDate: 'exitDate',
+  entryDate: 'entryDate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ResearchAdvisoryModelPortfolioStockListScalarFieldEnum = {
+  id: 'id',
+  serviceId: 'serviceId',
+  name: 'name',
+  stockTicker: 'stockTicker',
+  sector: 'sector',
+  portfolioWeight: 'portfolioWeight',
+  researchReport: 'researchReport',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ResearchAdvisoryMutualFundStockListScalarFieldEnum = {
+  id: 'id',
+  serviceId: 'serviceId',
+  name: 'name',
+  category: 'category',
+  weight: 'weight',
+  rationale: 'rationale',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -332,8 +382,15 @@ exports.Prisma.UserRiskProfileScalarFieldEnum = {
   lastUpdated: 'lastUpdated',
   isAnsweredPlatinaQues: 'isAnsweredPlatinaQues',
   isActive: 'isActive',
-  categories: 'categories',
-  recommendations: 'recommendations'
+  isRiskLevelAdminSet: 'isRiskLevelAdminSet'
+};
+
+exports.Prisma.RiskLevelServiceRecommendationScalarFieldEnum = {
+  id: 'id',
+  riskLevel: 'riskLevel',
+  services: 'services',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.ServicePlatinaWealthScalarFieldEnum = {
@@ -355,7 +412,7 @@ exports.Prisma.UserPlatinaRecommendationScalarFieldEnum = {
   portfolioType: 'portfolioType',
   assetAllocation: 'assetAllocation',
   userInvestmentAmount: 'userInvestmentAmount',
-  recommendationDate: 'recommendationDate',
+  nextRecommendationDate: 'nextRecommendationDate',
   isActive: 'isActive',
   rationale: 'rationale',
   peChart: 'peChart',
@@ -396,6 +453,47 @@ exports.Prisma.UserPlatinaStockHistoryScalarFieldEnum = {
   newWeight: 'newWeight',
   changeDescription: 'changeDescription',
   metadata: 'metadata'
+};
+
+exports.Prisma.BlogScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  slug: 'slug',
+  excerpt: 'excerpt',
+  content: 'content',
+  featuredImage: 'featuredImage',
+  authorId: 'authorId',
+  category: 'category',
+  status: 'status',
+  featured: 'featured',
+  published: 'published',
+  views: 'views',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ContactMessageScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  phone: 'phone',
+  message: 'message',
+  createdAt: 'createdAt',
+  read: 'read'
+};
+
+exports.Prisma.BannerScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  text: 'text',
+  imageUrl: 'imageUrl',
+  buttonLabel: 'buttonLabel',
+  buttonUrl: 'buttonUrl',
+  isActive: 'isActive',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -453,24 +551,47 @@ exports.GrantType = exports.$Enums.GrantType = {
   ADMIN_GRANTED: 'ADMIN_GRANTED'
 };
 
-exports.DocumentStatus = exports.$Enums.DocumentStatus = {
-  PENDING: 'PENDING',
-  UNDER_REVIEW: 'UNDER_REVIEW',
-  RESUBMISSION_REQUIRED: 'RESUBMISSION_REQUIRED',
-  COMPLETED: 'COMPLETED',
-  CANCELLED: 'CANCELLED'
+exports.AgreementType = exports.$Enums.AgreementType = {
+  AGREEMENT: 'AGREEMENT',
+  POLICY: 'POLICY'
+};
+
+exports.PolicyType = exports.$Enums.PolicyType = {
+  TERMS_AND_CONDITIONS: 'TERMS_AND_CONDITIONS',
+  PRIVACY_POLICY: 'PRIVACY_POLICY',
+  REFUND_POLICY: 'REFUND_POLICY',
+  COOKIE_POLICY: 'COOKIE_POLICY',
+  DISCLOSURE_RA: 'DISCLOSURE_RA',
+  DISCLOSURE_IA: 'DISCLOSURE_IA',
+  GRIEVANCE_REDRESSAL: 'GRIEVANCE_REDRESSAL',
+  INVESTOR_CHARTER: 'INVESTOR_CHARTER'
 };
 
 exports.ServiceType = exports.$Enums.ServiceType = {
   COMBO: 'COMBO',
-  TRADING: 'TRADING',
   RESEARCH_ADVISORY: 'RESEARCH_ADVISORY',
   RESEARCH_ADVISORY_MODEL_PORTFOLIO: 'RESEARCH_ADVISORY_MODEL_PORTFOLIO',
-  RESEARCH_ADVISORY_PORTFOLIO_REVIEW: 'RESEARCH_ADVISORY_PORTFOLIO_REVIEW',
-  INVESTMENT_ADVISORY: 'INVESTMENT_ADVISORY',
   RESEARCH_ADVISORY_MUTUAL_FUNDS: 'RESEARCH_ADVISORY_MUTUAL_FUNDS',
+  PORTFOLIO_REVIEW: 'PORTFOLIO_REVIEW',
   SMALLCASE: 'SMALLCASE',
   PLATINA_WEALTH: 'PLATINA_WEALTH'
+};
+
+exports.PortfolioReviewStatus = exports.$Enums.PortfolioReviewStatus = {
+  PENDING_UPLOAD: 'PENDING_UPLOAD',
+  UNDER_REVIEW: 'UNDER_REVIEW',
+  COMPLETED: 'COMPLETED',
+  EXPIRED: 'EXPIRED'
+};
+
+exports.ResearchAdvisoryStockStatus = exports.$Enums.ResearchAdvisoryStockStatus = {
+  OPEN: 'OPEN',
+  CLOSED: 'CLOSED'
+};
+
+exports.CallType = exports.$Enums.CallType = {
+  BUY: 'BUY',
+  SELL: 'SELL'
 };
 
 exports.QuestionType = exports.$Enums.QuestionType = {
@@ -485,11 +606,23 @@ exports.QuestionCategory = exports.$Enums.QuestionCategory = {
   PLATINA_WEALTH: 'PLATINA_WEALTH'
 };
 
+exports.RiskLevel = exports.$Enums.RiskLevel = {
+  CONSERVATIVE: 'CONSERVATIVE',
+  MODERATE: 'MODERATE',
+  AGGRESSIVE: 'AGGRESSIVE'
+};
+
 exports.StockChangeType = exports.$Enums.StockChangeType = {
   ADDED: 'ADDED',
   UPDATED: 'UPDATED',
   REMOVED: 'REMOVED',
   INITIAL: 'INITIAL'
+};
+
+exports.BlogStatus = exports.$Enums.BlogStatus = {
+  DRAFT: 'DRAFT',
+  PUBLISHED: 'PUBLISHED',
+  ARCHIVED: 'ARCHIVED'
 };
 
 exports.Prisma.ModelName = {
@@ -500,19 +633,26 @@ exports.Prisma.ModelName = {
   UserPurchasedServices: 'UserPurchasedServices',
   Coupon: 'Coupon',
   Transaction: 'Transaction',
-  UserDocuments: 'UserDocuments',
   Agreement: 'Agreement',
   ServiceAgreement: 'ServiceAgreement',
   ComplimentaryService: 'ComplimentaryService',
+  ServicePlan: 'ServicePlan',
   Service: 'Service',
-  ServiceTrading: 'ServiceTrading',
+  PortfolioReview: 'PortfolioReview',
+  ResearchAdvisoryStockList: 'ResearchAdvisoryStockList',
+  ResearchAdvisoryModelPortfolioStockList: 'ResearchAdvisoryModelPortfolioStockList',
+  ResearchAdvisoryMutualFundStockList: 'ResearchAdvisoryMutualFundStockList',
   RiskProfileQuestion: 'RiskProfileQuestion',
   UserRiskProfileResponse: 'UserRiskProfileResponse',
   UserRiskProfile: 'UserRiskProfile',
+  RiskLevelServiceRecommendation: 'RiskLevelServiceRecommendation',
   ServicePlatinaWealth: 'ServicePlatinaWealth',
   UserPlatinaRecommendation: 'UserPlatinaRecommendation',
   UserPlatinaStockList: 'UserPlatinaStockList',
-  UserPlatinaStockHistory: 'UserPlatinaStockHistory'
+  UserPlatinaStockHistory: 'UserPlatinaStockHistory',
+  Blog: 'Blog',
+  ContactMessage: 'ContactMessage',
+  Banner: 'Banner'
 };
 
 /**

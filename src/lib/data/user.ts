@@ -118,7 +118,8 @@ export const getUserTransactions = async (userId: string) => {
    return await db.transaction.findMany({
       where: { userId: userId },
       include: { 
-         service: true, 
+         service: true,
+         servicePlan: true,
       },
       orderBy: { createdAt: "desc" },
    });
