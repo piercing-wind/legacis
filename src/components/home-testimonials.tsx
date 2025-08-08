@@ -4,7 +4,7 @@ import { Button } from './ui/button';
 import { ChevronLeft, ChevronRight, Star, User } from 'lucide-react';
 
 const DESKTOP_CARD_WIDTH = 450;
-const MOBILE_CARD_WIDTH = 360; // Make sure this fits your mobile container
+const MOBILE_CARD_WIDTH = 300; // Make sure this fits your mobile container
 const CARD_GAP = 40;
 
 const Testimonial = () => {
@@ -136,7 +136,7 @@ const Testimonial = () => {
                 ))}
               </div>
               {/* Person below stars */}
-              <p className="text-neutral-700 dark:text-neutral-300">{testimonial.content}</p>
+              <p className="text-neutral-700 dark:text-neutral-300 text-sm sm:text-base">{testimonial.content}</p>
               <div className="flex items-center gap-4 my-4">
                 <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-neutral-200 dark:border-neutral-700 flex items-center justify-center bg-neutral-100 dark:bg-neutral-900">
                   {/* {testimonial.image ? (

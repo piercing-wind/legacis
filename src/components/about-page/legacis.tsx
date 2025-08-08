@@ -25,7 +25,7 @@ const Legacis = () => {
         style={{ objectFit: "cover" }}
         className="absolute top-0 left-0 opacity-40 dark:opacity-20 rounded-2xl overflow-clip -z-1"
       />
-      <h1 className="mb-14 sm:mb-20 text-3xl sm:text-4xl text-neutral-700 dark:text-neutral-50 z-10">The Legacis Framework</h1>
+      <h1 className="mb-14 sm:mb-20 text-2xl sm:text-4xl text-neutral-700 dark:text-neutral-50 z-10 text-center">The Legacis Framework</h1>
       <div className="flex items-center flex-wrap gap-4 sm:gap-8 w-full justify-center relative">
         {LEGACIS_DATA.map((item, idx) => (
           <motion.div

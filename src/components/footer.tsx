@@ -76,7 +76,7 @@ const Footer = ({className}:{className?:string}) => {
             <Link href="/services" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Services</Link>
             <Link href="/blog" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Blogs</Link>
          </div>
-         <div className='flex flex-col gap-4 text-sm px-4 sm:px-0'>
+         <div className='flex flex-col col-span-2 sm:col-span-1 gap-4 text-sm px-4 sm:px-0'>
             <span className='text-lg font-semibold'>Company</span>
             <Link href="/about#our-team" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Our Team</Link>
             <Link href="/privacy-policy" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Privacy Policy</Link>
@@ -116,11 +116,11 @@ const Footer = ({className}:{className?:string}) => {
           <span className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-300">
             © {new Date().getFullYear()} Legacis. All rights reserved.
           </span>
-          <span className='text-xs sm:text-sm gap-1 text-neutral-500 dark:text-neutral-300 flex items-center'>
+          <span className='text-xs sm:text-sm gap-1 text-neutral-500 dark:text-neutral-300 flex items-start'>
             <Link href={'/'}>Legacis</Link>
-            <span className="hidden md:inline-block mx-2">|</span>
-            <Link href={'https://byteswithbits.com'} target="_blank">
-              Designed Developed & Hosted By{' '}
+            <span className=" mx-2">|</span>
+            <Link href={'https://byteswithbits.com'} target="_blank" className='flex items-center flex-col sm:flex-row'>
+              Designed Developed & Hosted By &nbsp;
               <span className="font-medium text-legacisPurple dark:text-legacisGreen">
                 Bytes with Bits
               </span>

@@ -4,32 +4,27 @@ import HomeBlogs from "@/components/home-blogs";
 import HomeServices from "@/components/home-services";
 import HomeStickyScroller from "@/components/home-sticky-scroller";
 import Testimonial from "@/components/home-testimonials";
-import { GradientLineVertical } from "@/components/icon";
-import Nav from "@/components/nav";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { findBlogs } from "@/lib/data/blogs";
 import { findServices } from "@/lib/data/services";
 import { homeService } from "@/lib/data/static-data";
 import { cn } from "@/lib/utils";
-import { ArrowUpRight, ArrowUpRightIcon, Award, BadgeCheck, Check, DollarSign, LogIn, Shield, TrendingUp, Wallet } from "lucide-react";
+import { ArrowUpRightIcon, Award, BadgeCheck, Check, Shield } from "lucide-react";
 import { NumberTicker } from "@/components/magicui/number-ticker";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import FloatingWhatsApp from "@/components/floating-whatsapp";
 import { ClientComplaintsTable } from "@/components/clientComplaintsTable";
 import { AnnualDisposalTable } from "@/components/annualDisposalTable";
-import Banner from "@/components/banner";
-import { findBanners } from "@/lib/data/banner";
+export const dynamic = "force-dynamic";
 
 
 export default async function Home() {
 
-   const [banner, services, blogs] = await Promise.all([
-   findBanners(),
-   findServices(),
-   findBlogs({ take: 10 }),
+   const [services, blogs] = await Promise.all([
+      findServices(),
+      findBlogs({ take: 10 }),
    ]);
 
    const filteredServices = services
@@ -78,20 +73,11 @@ export default async function Home() {
    ];
    return (
       <main className="w-full relative px-5 lg:px-10 xl:px-24">
-         <FloatingWhatsApp />
-         {banner.length > 0 && (
-            <Banner
-              bannerData={banner[0]}
-              className="px-0 lg:px-0 xl:px-0"  // Optional className for spacing
-            />
-         )}
-
-         <Nav className="px-0 lg:px-0 xl:px-0"/> 
          {/* Hero Section */}
          <section className="relative w-full pt-12 -mt-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-0">
                <div className="space-y-8 flex-1 lg:h-full flex flex-col order-1">
-                  <h6 className="self-start text-legacisPurple dark:text-legacisGreen tracking-wide text-sm xl:text-lg rounded-lg shadow shadow-neutral-200 dark:shadow-neutral-600 px-2 py-1">Research-Led. Risk-Aware. Built To Compound</h6>
+                  <h6 className="self-start inline-block text-legacisPurple dark:text-legacisGreen tracking-wide text-sm xl:text-lg rounded-lg shadow shadow-neutral-200 dark:shadow-neutral-600 px-2 py-1">Research-Led. Risk-Aware. Built To Compound</h6>
                   <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl text-nowrap leading-10 lg:leading-18 xl:leading-20 flex flex-col items-start">
                      Turn Your Investments 
                      <span>
@@ -317,12 +303,12 @@ export default async function Home() {
               Our Portfolio at a Glance
             </h2>
             <Tabs defaultValue={"all"} className="mt-8 ">
-               <TabsList className="p-4 h-auto sm:h-16 flex flex-wrap items-center gap-4">
-                  <TabsTrigger value="all" asChild className="text-lg flex-shrink-0 p-4">
+               <TabsList className="p-2 sm:p-4 h-auto sm:h-16 flex flex-wrap items-center gap-2 sm:gap-4">
+                  <TabsTrigger value="all" asChild className="text-sm sm:text-lg flex-shrink-0 p-2 sm:p-4">
                      <Link href="/services">All</Link>
                   </TabsTrigger>
                   {categories.map((cat) => (
-                     <TabsTrigger key={cat.type} value={cat.type} asChild className="text-lg flex-shrink-0 p-4">  
+                     <TabsTrigger key={cat.type} value={cat.type} asChild className="text-sm sm:text-lg flex-shrink-0 p-2 sm:p-4">
                      <Link href={`/services?type=${encodeURIComponent(cat.type)}`}>{cat.label}</Link>
                      </TabsTrigger>
                   ))}
@@ -332,11 +318,11 @@ export default async function Home() {
          </section>
          
          {/* Testimonials */}
-         <section className="py-16 lg:py-24 flex flex-col items-center justify-center h-full bg-neutral-100 dark:bg-zinc-900 rounded-2xl">
+         <section className="px-4 py-16 lg:py-24 flex flex-col items-center justify-center h-full bg-neutral-100 dark:bg-zinc-900 rounded-2xl">
             <Testimonial/>
          </section>
          {/* Recent Blogs  */}
-         <section className="py-16 lg:py-24 flex flex-col items-center justify-center h-full bg-neutral-100 dark:bg-neutral-800 rounded-2xl mt-16">
+         <section className="px-4 py-16 lg:py-24 flex flex-col items-center justify-center h-full bg-neutral-100 dark:bg-neutral-800 rounded-2xl mt-16">
             <h6 className="inline-block rounded-lg shadow shadow-neutral-200 dark:shadow-neutral-600 px-2 py-1 text-legacisPurple dark:text-legacisGreen font-medium xl:text-2xl">Blogs</h6>
             <HomeBlogs blogs={blogs} />
          </section>

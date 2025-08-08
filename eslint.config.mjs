@@ -25,5 +25,5 @@ export default {
     "src/prisma/generated/**",
   ],
   ...eslintConfig[0], // spread your config here if needed
-  ...eslintConfig.slice(1),
+  ...eslintConfig[1],
 };

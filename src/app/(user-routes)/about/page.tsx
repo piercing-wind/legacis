@@ -167,7 +167,7 @@ const Page = () => {
          </p>
          {/* Team component can be added here */}
          <h2 className='text-xl sm:text-2xl mb-6 font-semibold mt-20'>Founders</h2>
-         <div className='mt-8 flex items-stretch gap-8'>
+         <div className='mt-8 flex flex-col lg:flex-row items-stretch gap-8'>
             <div className='max-w-sm w-full flex-1 shrink-0 p-4 rounded-lg shadow-2xl shadow-neutral-200 dark:shadow-neutral-800'>
               <div className='flex flex-col items-center'>
                   <Image
@@ -210,7 +210,7 @@ const Page = () => {
               </div>
  
             </div>
-            <div className='w-full flex flex-col gap-6 flex-1 p-6 shadow-2xl shadow-neutral-200 dark:shadow-neutral-800 rounded-lg items-stretch'>
+            <div className='w-full flex flex-col gap-6 flex-1 p-4 sm:p-6 shadow-2xl shadow-neutral-200 dark:shadow-neutral-800 rounded-lg items-stretch'>
                <h5 className='text-2xl font-medium'>CA Raghav Wadhwa</h5>
                <p className='pl-4 border-l-4 border-legacisGreen'>
                   A Chartered Accountant and graduate of Delhi University, holding 10+ years of professional experience leverages his expertise in auditing and forensic accounting with a sharp focus on uncovering clean businesses, grounded in solid fundamentals. His passion for equity research, rooted years back inspired him to start advising on wealth management and leading investments for his family and friends, which eventually gave rise to Legacis Capital (Earlier Samar Wealth) 

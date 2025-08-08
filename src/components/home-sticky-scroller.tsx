@@ -68,7 +68,7 @@ function HomeStickyScroller() {
               </Link>
             </Button>
           </div>
-          <div className="flex flex-col w-full gap-8 p-4 rounded-2xl  justify-center">
+          <div className="flex flex-col w-full gap-8 sm:p-4 rounded-2xl  justify-center">
             {howItWorksChunks.map((group, rowIdx) => (
               <div key={rowIdx} className="flex gap-0 justify-center">
                 {group.map((item, index) => {
@@ -264,7 +264,7 @@ function HomeStickyScroller() {
         <Button
           onClick={prevSection}
           variant={'outline'}
-          className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm rounded-full p-2 shadow-lg z-10 flex items-center border-0 justify-center hover:bg-neutral-800 hover:text-white shrink-0 h-10 w-10"
+          className="absolute -left-4 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm rounded-full p-2 shadow-lg z-10 flex items-center border-0 justify-center hover:bg-neutral-800 hover:text-white shrink-0 h-10 w-10"
         >
           <ChevronLeft className="w-5 h-5" />
         </Button>
@@ -272,7 +272,7 @@ function HomeStickyScroller() {
         <Button
           onClick={nextSection}
          variant={'outline'}
-          className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm rounded-full p-2 shadow-lg z-10 flex items-center border-0 justify-center hover:bg-neutral-800 hover:text-white shrink-0 h-10 w-10"
+          className="absolute -right-4 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm rounded-full p-2 shadow-lg z-10 flex items-center border-0 justify-center hover:bg-neutral-800 hover:text-white shrink-0 h-10 w-10"
         >
           <ChevronRight className="w-5 h-5" />
         </Button>
