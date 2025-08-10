@@ -82,7 +82,7 @@ const Testimonial = () => {
       <div className="flex flex-col items-start justify-center gap-6 flex-1 max-w-2xl lg:w-full">
         <h6 className="rounded-lg shadow shadow-neutral-200 dark:shadow-neutral-600 px-2 py-1 text-legacisPurple dark:text-legacisGreen font-medium xl:text-2xl">Testimonials</h6>
         <h2 className="text-3xl lg:text-4xl 2xl:text-5xl font-medium leading-10 sm:leading-14 text-neutral-800 dark:text-neutral-200">
-          We’ve build trust with <br /> reviews from real users
+          We’ve build trust with reviews from real users
         </h2>
         <p className="text-sm lg:text-lg">
           Boost your credibility by featuring genuine testimonials from real users, showcasing their positive experiences and satisfaction with Monks Pay services.

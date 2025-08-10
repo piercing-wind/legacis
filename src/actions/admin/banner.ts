@@ -24,6 +24,7 @@ export const upsertBanner = async (data: z.infer<typeof bannerSchema>) => {
       imageUrl: parsedData.imageUrl,
       buttonLabel: parsedData.buttonLabel,
       buttonUrl: parsedData.buttonUrl,
+      bgColor: parsedData.bgColor,
       isActive: parsedData.isActive,
       startDate,
       endDate,

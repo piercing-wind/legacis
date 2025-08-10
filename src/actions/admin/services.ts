@@ -45,6 +45,9 @@ export const serviceUpdate = async (
       taxPercent: data.taxPercent,
       features,
       faq,
+      raResearchReport: data.raResearchReport
+        ? JSON.parse(data.raResearchReport)
+        : null,
       active: data.active,
       type,
       detailMutualFundPageDelta: data.detailMutualFundPageDelta
@@ -179,6 +182,7 @@ export async function upsertResearchAdvisoryStocks(
           entryPrice: stock.entryPrice,
           targetPrice: stock.targetPrice,
           stopLoss: stock.stopLoss,
+          exitPrice: stock.exitPrice,
           rationale: normalizeRationale(stock.rationale),
           exitRationale: normalizeRationale(stock.exitRationale),
           entryDate,

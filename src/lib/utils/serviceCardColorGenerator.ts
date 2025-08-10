@@ -28,10 +28,10 @@ export const getColorForCardByServiceType = (serviceType?: ServiceType) => {
          return colors3;
       case ServiceType.PLATINA_WEALTH:
          const colors4 = {
-            color : '#7812de',
-            color_l : '#b972ff',
+            color : '#a684ff',
+            color_l : '#a684ff',
             card_tw : 'border-[#b972ff]/30 shadow-[0_0_16px_0_rgba(185,114,255,0.2)]',
-            btn_tw : 'border-[#6104C0]/30 bg-[#6104C0]/30 dark:bg-[#cb98ff]/80'
+            btn_tw : 'border-purple-500/30 bg-purple-400/30 dark:bg-purple-300/80'
          }
          return colors4;
       case ServiceType.SMALLCASE:

@@ -93,6 +93,9 @@ const form = useForm<ServiceFormValues>({
           ? JSON.stringify(service.features, null, 2)
           : "",
         faq: service.faq ? JSON.stringify(service.faq, null, 2) : "",
+        raResearchReport: service.raResearchReport
+          ? JSON.stringify(service.raResearchReport, null, 2)
+          : "",
         active: service.active,
         type: service.type as ServiceType,
         agreements: service.agreements?.map(a => a.agreement.id) ?? [],
@@ -123,6 +126,7 @@ const form = useForm<ServiceFormValues>({
         taxPercent: 18,
         features: "",
         faq: "",
+        raResearchReport: null,
         active: true,
         type: Object.values(ServiceType)[0] as ServiceType,
         agreements: [],
@@ -525,6 +529,36 @@ const form = useForm<ServiceFormValues>({
                            setQuillInstance(quill);
                            quill.on("text-change", () => {
                              form.setValue("detailMutualFundPageDelta", JSON.stringify(quill.getContents()));
+                           });
+                        }}
+                        />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+         )}
+         {selectedType === 'RESEARCH_ADVISORY' && (
+            <FormField
+              control={form.control}
+              name="raResearchReport"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Research Advisory Report</FormLabel>
+                  <FormControl>
+                    <div className="w-full mb-24 min-h-[80vh]">
+                     <QuillRenderPage
+                        defaultValue={
+                           typeof service?.raResearchReport === "string"
+                              ? JSON.parse(service.raResearchReport)
+                              : service?.raResearchReport
+                        }
+                        enableImageUpload
+                        onQuillReady={(quill: any) => {
+                           setQuillInstance(quill);
+                           quill.on("text-change", () => {
+                             form.setValue("raResearchReport", JSON.stringify(quill.getContents()));
                            });
                         }}
                         />

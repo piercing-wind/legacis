@@ -59,7 +59,6 @@ export async function POST(request: Request) {
 
       switch (body.type) {
          case "PAYMENT_SUCCESS_WEBHOOK":
-            console.log("Payment successful:", body.data);
 
             const res =  await db.$transaction(async (txn)=>{
                const transaction = await txn.transaction.findFirst({

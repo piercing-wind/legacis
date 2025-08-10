@@ -169,10 +169,10 @@ export const homeService= [
          tw: 'bg-green-50 dark:bg-green-50'
       },
       {
-         icon : '/mutual-fund-icon.svg',
-         name: 'Portfolio Review',
+         icon : '/platina-wealth.png',
+         name: 'Platina Wealth (HNI)',
          desc: 'Diagnose gaps and get a clear action plan.',
-         link: '/services?type=PORTFOLIO_REVIEW',
+         link: '/services?type=PLATINA_WEALTH',
          tw: 'bg-blue-50 dark:bg-blue-50'
       }
    ]

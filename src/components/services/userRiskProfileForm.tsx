@@ -201,7 +201,6 @@ const UserRiskProfileQuestions = ({platina_wealth = false, className, text="Risk
 
       setLoading(true);
       try {
-         console.log('Submitting risk profile answers:', answersWithWeights);
          const [profileResult, answersResult] = await Promise.all([
             createRiskProfile({
                userId: user.id,

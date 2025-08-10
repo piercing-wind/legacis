@@ -1,6 +1,7 @@
 import { ServiceType } from "@/prisma/generated/client";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+import { ServiceWithComplimentary } from "./data/services";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -130,4 +131,22 @@ export function chunkArray<T>(arr: T[], size: number): T[][] {
   return Array.from({ length: Math.ceil(arr.length / size) }, (_, i) =>
     arr.slice(i * size, i * size + size)
   );
+}
+
+/**
+ * Returns a new array containing all services except mutual funds and portfolio review,
+ * and at most one mutual fund and one portfolio review service.
+ */
+export function getUniqueSpecialServices(services: ServiceWithComplimentary[]) {
+  const mf = services.find(s => s.type === 'RESEARCH_ADVISORY_MUTUAL_FUNDS');
+  const pr = services.find(s => s.type === 'PORTFOLIO_REVIEW');
+  const others = services.filter(
+    (service) =>
+      service.type !== 'RESEARCH_ADVISORY_MUTUAL_FUNDS' &&
+      service.type !== 'PORTFOLIO_REVIEW'
+  );
+  const result = [...others];
+  if (mf) result.push(mf);
+  if (pr) result.push(pr);
+  return result;
 }

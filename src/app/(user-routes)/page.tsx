@@ -1,5 +1,4 @@
 import { ZoomIn } from "@/components/animation/zoom";
-import Footer from "@/components/footer";
 import HomeBlogs from "@/components/home-blogs";
 import HomeServices from "@/components/home-services";
 import HomeStickyScroller from "@/components/home-sticky-scroller";
@@ -9,7 +8,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { findBlogs } from "@/lib/data/blogs";
 import { findServices } from "@/lib/data/services";
 import { homeService } from "@/lib/data/static-data";
-import { cn } from "@/lib/utils";
+import { cn, getUniqueSpecialServices } from "@/lib/utils";
 import { ArrowUpRightIcon, Award, BadgeCheck, Check, Shield } from "lucide-react";
 import { NumberTicker } from "@/components/magicui/number-ticker";
 import Image from "next/image";
@@ -27,16 +26,12 @@ export default async function Home() {
       findBlogs({ take: 10 }),
    ]);
 
-   const filteredServices = services
-    .filter((service) => {
-       // Filter by type if type is set and not ALL
-       if (service.type !== 'PLATINA_WEALTH' && 
-          service.type !== 'RESEARCH_ADVISORY_MUTUAL_FUNDS' && 
-          service.type !== 'COMBO') return true;
-       return false;
-    })
-    .slice(0, 6); // Limit to 6 services
+   const filteredServices = getUniqueSpecialServices(
+      services.filter(service => service.type !== 'COMBO')
+      )
+    .slice(0, 6);
 
+   
 
    const builtToGrow = [
       {
@@ -76,14 +71,24 @@ export default async function Home() {
          {/* Hero Section */}
          <section className="relative w-full pt-12 -mt-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-0">
-               <div className="space-y-8 flex-1 lg:h-full flex flex-col order-1">
-                  <h6 className="self-start inline-block text-legacisPurple dark:text-legacisGreen tracking-wide text-sm xl:text-lg rounded-lg shadow shadow-neutral-200 dark:shadow-neutral-600 px-2 py-1">Research-Led. Risk-Aware. Built To Compound</h6>
-                  <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl text-nowrap leading-10 lg:leading-18 xl:leading-20 flex flex-col items-start">
+               <div className="space-y-8 flex-1 flex flex-col order-1">
+                  <h6 className="self-start inline-block text-legacisPurple dark:text-legacisGreen tracking-wide text-sm xl:text-lg rounded-lg shadow shadow-neutral-200 dark:shadow-neutral-600 px-2 py-1">Research-Led. Built To Compound</h6>
+                  <h1 className="text-3xl sm:text-4xl mb-0 sm:mb-auto lg:text-5xl xl:text-6xl text-nowrap leading-10 lg:leading-18 xl:leading-20 flex flex-col items-start">
                      Turn Your Investments 
                      <span>
                         into Opportunities
                      </span>
                   </h1>
+                  <div className="order-3 space-y-6 hidden md:block">
+                     <p className="text-sm lg:text-lg">From in-depth research to discovering market’s hidden opportunities, we help you invest with confidence and aim for enduring growth.</p>
+                     <Button asChild variant={'default'} className="max-w-80 shadow shadow-neutral-200 dark:shadow-neutral-600 px-2 font-normal text-base sm:text-xl h-auto py-3 rounded-sm w-full">
+                        <Link href={'/services'} className="gap-4 hover:!text-white dark:hover:!text-neutral-800">
+                            Explore Plans
+                        </Link>  
+                     </Button>
+                  </div>
+               </div>
+               <div className="order-3 space-y-6 md:hidden">
                   <p className="text-sm lg:text-lg">From in-depth research to discovering market’s hidden opportunities, we help you invest with confidence and aim for enduring growth.</p>
                   <Button asChild variant={'default'} className="max-w-80 shadow shadow-neutral-200 dark:shadow-neutral-600 px-2 font-normal text-base sm:text-xl h-auto py-3 rounded-sm w-full">
                      <Link href={'/services'} className="gap-4 hover:!text-white dark:hover:!text-neutral-800">
@@ -91,7 +96,7 @@ export default async function Home() {
                      </Link>  
                   </Button>
                </div>
-               <div className="flex flex-col flex-1 relative items-center order-3 md:order-2 justify-center w-full sm:w-auto">
+               <div className="flex flex-col flex-1 relative items-center order-2 md:order-2 justify-center w-full sm:w-auto">
                   <div className="flex-1 flex flex-col gap-2 w-full sm:max-w-md justify-center">
                      {homeService.map((item, index) => (
                         <ZoomIn
@@ -118,6 +123,7 @@ export default async function Home() {
                                  alt="hero"
                                  width={36}
                                  height={36}
+                                 className="rounded-lg"
                               />
                               <span>{item.name}</span>
                               <ArrowUpRightIcon className="inline-block w-4 h-4" />
@@ -129,20 +135,23 @@ export default async function Home() {
 
                </div>
             
-               <div className="w-full md:col-span-2 py-4 flex flex-col lg:flex-row order-2 md:order-3 items-start justify-between gap-4 lg:gap-8 mt-4">
-                  <div className="flex flex-wrap gap-4">
-                        <div className="flex items-end gap-2 rounded-full hover:scale-[1.01] backdrop-blur-xs transition-all duration-300 ease-in-out border border-neutral-100 dark:border-neutral-700 px-4 py-2 font-medium w-72">
-                           <span className="flex items-baseline gap-1">
-                              <NumberTicker
-                                 value={100}
-                                 className="whitespace-pre-wrap text-2xl font-medium tracking-tighter text-black dark:text-white"
-                              />
-                               k +
-                           </span> 
-                           Community Members
+               <div className="w-full md:col-span-2 py-4 flex flex-col lg:flex-row order-4 md:order-3 items-start justify-between gap-4 lg:gap-8 mt-4">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 w-full">
+                     <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 h-36 sm:h-auto sm:col-span-3 lg:col-span-2 border sm:border-0 rounded-xl p-4 sm:p-0">
+                        <div className="sm:w-72">
+                           <div className="flex flex-col sm:flex-row text-xs sm:text-base items-center sm:items-end gap-2 hover:scale-[1.01] backdrop-blur-xs transition-all duration-300 ease-in-out rounded-full sm:border border-neutral-100 dark:border-neutral-700 sm:px-4 sm:py-3 font-medium">
+                              <span className="flex items-baseline gap-1">
+                                 <NumberTicker
+                                    value={100}
+                                    className="whitespace-pre-wrap text-sm sm:text-2xl font-medium tracking-tighter text-black dark:text-white"
+                                 />
+                                 k +
+                              </span>
+                              Community Members
+                           </div>
                         </div>
                         <Link href={"https://x.com/raghavwadhwa"} target="_blank">
-                           <div className="flex items-end gap-2 hover:scale-[1.01] backdrop-blur-xs transition-all duration-300 ease-in-out rounded-full border border-neutral-100 dark:border-neutral-700 px-4 py-2 font-medium">
+                           <div className="flex flex-col sm:flex-row text-xs items-center sm:text-base sm:items-end gap-2 hover:scale-[1.01] backdrop-blur-xs transition-all duration-300 ease-in-out rounded-full sm:border border-neutral-100 dark:border-neutral-700 sm:px-4 sm:py-2 font-medium">
                               <Image
                                  src="/raghav-wadhwa.jpg"
                                  alt="Raghav Wadhwa"
@@ -153,9 +162,8 @@ export default async function Home() {
                               Raghav Wadhwa
                            </div>
                         </Link>
-                  </div>
-                  <div className="flex items-center flex-wrap lg:flex-nowrap gap-4 w-full max-w-3xl">
-                     <div className="font-medium p-2 h-36 w-full sm:w-56 xl:w-60 flex flex-col items-center justify-center gap-4 border px-4 backdrop-blur-sm rounded-xl hover:scale-[1.01] transition-all duration-300 ease-in-out">
+                     </div>
+                     <div className="font-medium p-2 h-36 w-full flex flex-col items-center justify-center gap-4 border px-4 backdrop-blur-sm rounded-xl hover:scale-[1.01] transition-all duration-300 ease-in-out">
                         <BadgeCheck className="w-8 h-8 text-green-600" aria-label="SEBI Registered" />                     
                         <div className="flex flex-col items-center ">
                            <span className="text-center">
@@ -174,32 +182,32 @@ export default async function Home() {
                    
                         </div>
                      </div>
-                     <div className="font-medium p-2 h-36 w-full sm:w-56 xl:w-60 flex flex-col items-center justify-center gap-4 border px-4 backdrop-blur-sm rounded-xl hover:scale-[1.01] transition-all duration-300 ease-in-out">
+                     <div className="font-medium p-2 h-36 w-full flex flex-col items-center justify-center gap-4 border px-4 backdrop-blur-sm rounded-xl hover:scale-[1.01] transition-all duration-300 ease-in-out">
                         <Award className="w-8 h-8 text-blue-600" aria-label="AUM" />   
                         <div className="flex items-center justify-center gap-2 w-full">
                            <span className="flex items-baseline gap-2">
                               <NumberTicker
                                  value={10}
-                                 className="whitespace-pre-wrap text-4xl font-medium tracking-tighter text-black dark:text-white"
+                                 className="whitespace-pre-wrap text-2xl xl:text-4xl font-medium tracking-tighter text-black dark:text-white"
                               />
                               +
                            </span>  
-                           <span className="text-center">
+                           <span className="text-center text-xs sm:text-sm xl:text-base">
                               Years of Experience
                            </span>
                         </div>
                      </div>
-                     <div className="font-medium p-2 h-36 w-full sm:w-56 xl:w-60 flex flex-col items-center justify-center gap-4 border px-4 backdrop-blur-sm rounded-xl hover:scale-[1.01] transition-all duration-300 ease-in-out">
+                     <div className="font-medium p-2 h-36 w-full flex flex-col items-center justify-center gap-4 border px-4 backdrop-blur-sm rounded-xl hover:scale-[1.01] transition-all duration-300 ease-in-out">
                         <Shield className="w-8 h-8" aria-label="AUM" />   
-                        <div className="flex items-center gap-2 w-full">
+                        <div className="flex flex-col md:flex-row items-center gap-2 w-full">
                            <span className="flex items-baseline gap-2">
                               <NumberTicker
                                  value={2500}
-                                 className="whitespace-pre-wrap text-4xl font-medium tracking-tighter text-black dark:text-white"
+                                 className="whitespace-pre-wrap text-2xl xl:text-4xl font-medium tracking-tighter text-black dark:text-white"
                               />
                            +
                            </span>  
-                           <span className="text-center text-sm xl:text-base">
+                           <span className="text-center text-xs sm:text-sm xl:text-base">
                               Satisfied investors
                            </span>
                         </div>
@@ -209,7 +217,7 @@ export default async function Home() {
             </div>
 
             {/* Circles */}
-            <div className="rounded-full blur-xs bg-legacisGreen dark:bg-blue-200 -z-10 h-40 w-40 sm:h-60 sm:w-60 opacity-10 dark:opacity-50 absolute bottom-[30%] right-[50%] sm:bottom-44 sm:right-[2%]" >
+            <div className="rounded-full blur-xs bg-legacisGreen dark:bg-blue-200 -z-10 h-40 w-40 sm:h-60 sm:w-60 opacity-10 dark:opacity-50 absolute bottom-[40%] right-[50%] sm:bottom-44 sm:right-[2%] " >
                <div className=" items-center h-full w-full relative">
                      <Image
                         src="/icons/favicon.ico"
@@ -222,7 +230,7 @@ export default async function Home() {
                      />
                </div>
             </div>
-            <div className="rounded-full blur-xs bg-legacisGreen dark:bg-blue-200 -z-10 h-20 w-20 opacity-10 dark:opacity-50 absolute bottom-[40%] right-4 sm:bottom-44 sm:right-[30%]" >
+            <div className="rounded-full blur-xs bg-legacisGreen dark:bg-blue-200 -z-10 h-20 w-20 opacity-10 dark:opacity-50 absolute top-[10%] right-4 sm:top-[55%] sm:right-[32%] " >
                <div className=" items-center h-full w-full relative">
                      <Image
                         src="/icons/favicon.ico"
@@ -235,7 +243,7 @@ export default async function Home() {
                      />
                </div>
             </div>
-            <div className="rounded-full blur-xs bg-legacisGreen dark:bg-blue-200 -z-10 h-24 w-24 sm:h-40 sm:w-40 opacity-10 dark:opacity-50 absolute bottom-[60%] right-1/3 sm:bottom-60 sm:right-[35%]" >
+            <div className="rounded-full blur-xs bg-legacisGreen dark:bg-blue-200 -z-10 h-24 w-24 sm:h-40 sm:w-40 opacity-10 dark:opacity-50 absolute top-[15%] right-1/3 sm:bottom-60 sm:right-[35%] " >
                <div className=" items-center h-full w-full relative">
                      <Image
                         src="/icons/favicon.ico"
@@ -248,7 +256,7 @@ export default async function Home() {
                      />
                </div>
             </div>
-            <div className="rounded-full blur-xs bg-legacisGreen dark:bg-blue-200 -z-10 h-24 w-24 md:h-36 md:w-36 opacity-10 dark:opacity-50 absolute top-4 sm:top-10 sm:right-[15%]" >
+            <div className="rounded-full blur-xs bg-legacisGreen dark:bg-blue-200 -z-10 h-24 w-24 md:h-36 md:w-36 opacity-10 dark:opacity-50 absolute top-4 sm:top-10 sm:right-[15%] " >
                <div className=" items-center h-full w-full relative">
                      <Image
                         src="/icons/favicon.ico"
@@ -271,9 +279,9 @@ export default async function Home() {
                <h2 className="text-2xl lg:text-5xl font-medium leading-8 sm:leading-14 text-neutral-800 dark:text-neutral-200">
                   Why Legacis is the Right <br />Platform for Your Investments
                </h2>
-               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mt-20 items-center justify-center justify-items-center">
+               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mt-10 sm:mt-20 items-center justify-center justify-items-center">
                   {builtToGrow.map((item, index) => (
-                     <ZoomIn key={index} delay={index * 0.1} className={cn("flex flex-col sm:max-w-72 items-center justify-center gap-10 min-h-80 p-8 rounded-xl shadow-2xl bg-", item.color)}>
+                     <ZoomIn key={index} delay={index * 0.1} className={cn("flex flex-col sm:max-w-72 items-center justify-center gap-4 sm:gap-10 sm:min-h-80 p-4 sm:p-8 rounded-xl shadow-xl shadow-neutral-200 dark:shadow-neutral-800", item.color)}>
                         <Image
                            src={item.icon}
                            alt={item.title}
@@ -292,30 +300,32 @@ export default async function Home() {
          </section>
 
          {/* Scroller sticky section */}
-          <section className="w-full  py-16 my-16 rounded-2xl">
-            <HomeStickyScroller />
-          </section>
-     
-         {/* Services */}
-         <section className="py-16 lg:py-24 flex flex-col items-center justify-center h-full">
-            <h6 className="rounded-lg shadow shadow-neutral-200 dark:shadow-neutral-600 px-2 py-1 text-legacisPurple dark:text-legacisGreen font-medium xl:text-2xl">Services</h6>
-            <h2 className="text-2xl my-4 lg:text-5xl font-medium leading-10 sm:leading-14 text-neutral-800 dark:text-neutral-200">
-              Our Portfolio at a Glance
-            </h2>
-            <Tabs defaultValue={"all"} className="mt-8 ">
-               <TabsList className="p-2 sm:p-4 h-auto sm:h-16 flex flex-wrap items-center gap-2 sm:gap-4">
-                  <TabsTrigger value="all" asChild className="text-sm sm:text-lg flex-shrink-0 p-2 sm:p-4">
-                     <Link href="/services">All</Link>
-                  </TabsTrigger>
-                  {categories.map((cat) => (
-                     <TabsTrigger key={cat.type} value={cat.type} asChild className="text-sm sm:text-lg flex-shrink-0 p-2 sm:p-4">
-                     <Link href={`/services?type=${encodeURIComponent(cat.type)}`}>{cat.label}</Link>
+         <div className="flex flex-col-reverse md:flex-col w-full">
+            <section className="w-full py-8 sm:py-16 my-16 rounded-2xl">
+               <HomeStickyScroller />
+            </section>
+      
+            {/* Services */}
+            <section className="py-16 lg:py-24 flex flex-col items-center justify-center h-full">
+               <h6 className="rounded-lg shadow shadow-neutral-200 dark:shadow-neutral-600 px-2 py-1 text-legacisPurple dark:text-legacisGreen font-medium xl:text-2xl">Services</h6>
+               <h2 className="text-2xl my-4 lg:text-5xl font-medium leading-10 sm:leading-14 text-neutral-800 dark:text-neutral-200">
+               Our Portfolio at a Glance
+               </h2>
+               <Tabs defaultValue={"all"} className="mt-8 ">
+                  <TabsList className="p-2 sm:p-4 h-auto sm:h-16 flex flex-wrap items-center gap-2 sm:gap-4">
+                     <TabsTrigger value="all" asChild className="text-sm sm:text-lg flex-shrink-0 p-2 sm:p-4">
+                        <Link href="/services">All</Link>
                      </TabsTrigger>
-                  ))}
-               </TabsList>
-            </Tabs>
-            <HomeServices services={filteredServices}/>
-         </section>
+                     {categories.map((cat) => (
+                        <TabsTrigger key={cat.type} value={cat.type} asChild className="text-sm sm:text-lg flex-shrink-0 p-2 sm:p-4">
+                           <Link href={`/services?type=${encodeURIComponent(cat.type)}`}>{cat.label}</Link>
+                        </TabsTrigger>
+                     ))}
+                  </TabsList>
+               </Tabs>
+               <HomeServices services={filteredServices}/>
+            </section>
+         </div>
          
          {/* Testimonials */}
          <section className="px-4 py-16 lg:py-24 flex flex-col items-center justify-center h-full bg-neutral-100 dark:bg-zinc-900 rounded-2xl">
@@ -339,8 +349,6 @@ export default async function Home() {
              </div>
 
          </section>
-
-         <Footer className="pt-0 lg:pt-0  px-0 lg:px-0 xl:px-0" />
       </main>
    )
 }

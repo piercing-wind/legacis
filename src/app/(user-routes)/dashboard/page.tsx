@@ -1,5 +1,5 @@
 import { Session } from "@/actions/session";
-import { ServiceCard } from "@/components/services/serviceCard";
+import { ChartDummy, ServiceCard } from "@/components/services/serviceCard";
 import UserRiskProfileQuestions from "@/components/services/userRiskProfileForm";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -7,7 +7,7 @@ import { getUserRiskProfileById } from "@/lib/data/admin/risk-profile";
 import { findRiskRecommendations } from "@/lib/data/riskLevelServiceRecommendation";
 import { findServices, getUserPurchasedServiceById } from "@/lib/data/services";
 import { dashboardWhyChooseUs } from "@/lib/data/static-data";
-import { cn, formatDateWithTime, formatHumanDate, getServiceLink } from "@/lib/utils";
+import { cn, formatDateWithTime, formatHumanDate, getServiceLink, getUniqueSpecialServices } from "@/lib/utils";
 import { ArrowRight, ArrowRightCircle, Calculator, File, Presentation } from "lucide-react";
 import { User } from "next-auth";
 import Image from "next/image";
@@ -16,6 +16,8 @@ import { redirect } from "next/navigation";
 import PortfolioReviewFileUpload from "@/components/services/portfolioReviewFileUpload";
 import { ClockLoader } from "react-spinners";
 import { getUserPurchasedServicesPortfolio } from "@/lib/data/portfolio-review";
+import { GradientLine } from "@/components/icon";
+import { getColorForCardByServiceType } from "@/lib/utils/serviceCardColorGenerator";
 
 
 function toTitleCase(str: string) {
@@ -45,6 +47,7 @@ async function Page() {
    );
 
 
+
    let filteredServices = [];
 
    if (riskProfile?.riskLevel && Array.isArray(riskRecommendation)) {
@@ -52,6 +55,7 @@ async function Page() {
    const rec = riskRecommendation.find(
       (r) => r.riskLevel === riskProfile.riskLevel
    );
+   
    if (rec && Array.isArray(rec.services) && rec.services.length > 0) {
       // Filter services that are recommended
       filteredServices = services.filter((service) =>
@@ -65,6 +69,8 @@ async function Page() {
       // If no risk profile or recommendations, show all services
       filteredServices = services;
    }
+
+   const recommendedServices = getUniqueSpecialServices(filteredServices)
 
    const hasPortfolioReview = userPurchasedServicesPortfolio && userPurchasedServicesPortfolio.length > 0;
    const hasRegularService = userPurchasedServicesOtherThanPortfolioReview && userPurchasedServicesOtherThanPortfolioReview.length > 0;
@@ -307,7 +313,7 @@ async function Page() {
             <p className="text-sm flex items-end sm:items-center gap-2">These recommendation are created based on your risk profiling. <span><UserRiskProfileQuestions className="border-0 p-0 text-sm font-medium text-legacisPurple dark:text-legacisGreen bg-transparent dark:bg-transparent hover:dark:bg-transparent shadow-none"/></span></p>
             
             <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
-               {filteredServices.map((service) => (
+               {recommendedServices.map((service) => (
                   <ServiceCard key={service.id} service={service} />
                ))}
             </div>

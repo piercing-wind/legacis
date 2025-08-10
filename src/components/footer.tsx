@@ -61,7 +61,7 @@ const Footer = ({className}:{className?:string}) => {
 
       <div className='grid grid-cols-2 sm:grid-cols-3 gap-8 lg:gap-16 col-span-3 sm:px-4'>
          <div className='flex flex-col gap-4 text-sm px-4 sm:px-0'>
-            <span className='text-lg font-semibold'>Products</span>
+            <span className='text-lg font-semibold'>Services</span>
             <Link href="/services?type=RESEARCH_ADVIOSRY" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Equity Direct</Link>
             <Link href="/services?type=SMALLCASE" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Equity Smallcase</Link>
             <Link href="/services?type=RESEARCH_ADVIOSRY_MUTUAL_FUNDS" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Mutual Funds</Link>
@@ -107,6 +107,8 @@ const Footer = ({className}:{className?:string}) => {
          </div>
          <div className='flex flex-col gap-2 w-full'>
             <p className='text-xs'>The information provided by Legacis Capital through its website is for informational and educational purposes only and is not a solicitation to buy any of our products.</p>
+            <p className='text-xs'>Past performance, registration granted by SEBI and Membership of BASL does not guarantee the future performance by any means. Investment in equities is subject to market risks. Notwithstanding all the efforts to do best research, clients should understand that investing in equities involves a risk of loss of both income and principal. Please ensure that you understand fully the risks involved.</p>
+       
          </div>
       </div>
 

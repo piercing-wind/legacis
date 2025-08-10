@@ -85,7 +85,6 @@ export const POST = auth(async (request)=> {
       const order = await cashfree.PGCreateOrder(requestBody);
       if (order.status !== 200) throw new Error(`Failed to create order: ${order.statusText}`);
       
-      console.log("Order created successfully:", order.data);
 
       await db.transaction.create({
        data: {

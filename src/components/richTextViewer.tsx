@@ -162,7 +162,6 @@ export const AgreementViewer = () => {
          if (!data.payment_session_id) throw new Error("Payment session ID not received from server.");
          setShowLoadingModal(false);
          await handlePayment(data.payment_session_id, data.order_id);
-         console.log("OTP verified successfully, proceeding to create order.");
       }catch(error){
          setShowLoadingModal(false);
          setShowAgreementModal(true);

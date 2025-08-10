@@ -10,7 +10,6 @@ export const findCouponByCode = async ({
   serviceId: string | null,
   planId: string | null,
 }) => {
-  console.log("Finding coupon with code:", code, "for serviceId:", serviceId, "and planId:", planId);
   
   return await db.coupon.findFirst({
     where: {

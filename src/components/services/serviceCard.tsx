@@ -20,6 +20,22 @@ export const ServiceCard = ({
 }: {
   service: ServiceWithComplimentary;
 }) => {
+   switch (service.type) {
+      case "RESEARCH_ADVISORY_MUTUAL_FUNDS":
+         return <MutualFundServiceCard />;
+      case "PORTFOLIO_REVIEW":
+         return <PortfolioReviewServiceCard />;
+      default:
+         return <RegularServiceCard service={service} />;
+   }
+}
+
+
+export const RegularServiceCard = ({
+  service,
+}: {
+  service: ServiceWithComplimentary;
+}) => {
   const { name, tag, features, type, slug } = service;
   const { color, color_l, card_tw, btn_tw } =
     getColorForCardByServiceType(type);
@@ -38,9 +54,11 @@ export const ServiceCard = ({
   const { displayPrice } = getServiceDisplayPrice(service.plans);
 
   return (
-    <div
+    <Link
+      href={getServiceLink(type, slug)}
+      target="_blank"
       className={cn(
-        "w-full relative overflow-clip flex flex-col rounded-2xl border p-6 self-stretch dark:bg-neutral-800/50",
+        "w-full relative overflow-clip flex flex-col rounded-2xl border p-4 sm:p-6 self-stretch dark:bg-neutral-800/50 hover:shadow-neutral-50 dark:hover:shadow-neutral-800",
         card_tw
       )}
     >
@@ -49,11 +67,11 @@ export const ServiceCard = ({
           COMBO
         </span>
       )}
-      <h5 className="text-xl font-semibold mb-1">{name}</h5>
+      <h5 className="text-xl font-semibold mb-1 text-neutral-800 dark:text-neutral-100">{name}</h5>
       <p className="text-sm">{tag}</p>
       <div className="flex items-baseline justify-between mt-6 mb-2">
         <span className="flex items-baseline">
-          <h2 className="font-urbanist !text-5xl !font-semibold">
+          <h2 className="font-urbanist !text-5xl !font-semibold text-neutral-800 dark:text-neutral-100">
             ₹{displayPrice}
           </h2>
           <p className="text-sm">/ month</p>
@@ -69,19 +87,16 @@ export const ServiceCard = ({
       </div>
       <GradientLine color={color_l} height="2px" width="100%" />
       {service.type === "COMBO" && service.complimentaryService?.length ? (
-        <div className="w-full flex flex-col justify-center min-h-[150px] h-full items-stretch mb-2 sm:mb-auto py-4">
+        <div className="w-full flex flex-col justify-center min-h-[150px] h-full items-stretch mb-2 sm:mb-auto py-4 text-neutral-800 dark:text-neutral-100">
           <h6 className="font-medium mb-4">Get Access to :</h6>
           <div className="grid grid-cols-2
            gap-4 ">
             {service.complimentaryService.map((cs, idx) => (
-              <Link
+              <div
                 key={cs.id + idx}
-                href={getServiceLink(cs.type, cs.slug)}
-                target="_blank"
                 className={cn(
                   "w-full h-full border rounded-lg p-2 relative",
-                  `border-[${color}]`,
-                  "hover:shadow-lg transition-shadow duration-200"
+                  `border-[${color}]`
                 )}
               >
                 <Image
@@ -110,7 +125,7 @@ export const ServiceCard = ({
                     </p>
                   </div>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         </div>
@@ -149,7 +164,7 @@ export const ServiceCard = ({
           <React.Fragment key={item.name + idx}>
             <span className="relative flex flex-col w-full h-24 items-center justify-center">
               <p className="text-xs">{item.name}</p>
-              <p className="font-medium">{item.value}</p>
+              <p className="text-xs sm:text-base font-medium mt-2">{item.value}</p>
             </span>
             {idx < arr.length - 1 && (
               <GradientLineVertical
@@ -163,23 +178,58 @@ export const ServiceCard = ({
         ))}
       </div>
       <Button
-        asChild
         variant={"outline"}
         className={cn(
-          `w-full tracking-wider text-base text-neutral-700 dark:text-neutral-900 mt-auto p-2 h-14 border uppercase rounded-full`,
+          `w-full tracking-wider text-base text-neutral-700 dark:text-neutral-900 hover:dark:text-neutral-200 mt-auto p-2 h-14 border uppercase rounded-full`,
           btn_tw
         )}
       >
-        <Link
-          href={getServiceLink(type, slug)}
-          target="_blank"
-          className="dark:hover:!text-white"
-        >
-          Subscribe Now
-        </Link>
+        Explore More
       </Button>
-    </div>
+    </Link>
   );
+};
+
+export const MutualFundServiceCard = () => {
+   const {color, color_l, card_tw, btn_tw} = getColorForCardByServiceType('RESEARCH_ADVISORY_MUTUAL_FUNDS');
+   return (
+      <Link 
+         href={getServiceLink('RESEARCH_ADVISORY_MUTUAL_FUNDS', '/mutual-funds')} target="_blank"
+         className={cn('border w-full rounded-2xl p-6 hover:shadow-neutral-50 dark:hover:shadow-neutral-800', card_tw)}>
+         <h2 className="text-xl font-semibold text-neutral-800 dark:text-neutral-100">Legacis - Mutual Funds Portfolios</h2>
+         <p className="text-base text-purple-800 my-4 ">Explore our curated mutual fund portfolios designed to meet your investment goals.</p>
+         <GradientLine color={color_l} height="2px" width="100%"/>
+            <ChartDummy color={color} />
+         <GradientLine color={color_l} height="2px" width="100%"/>
+         <Button 
+            variant={'outline'} 
+            className={cn(`w-full tracking-wider text-base text-neutral-700 dark:text-neutral-900 p-2 h-14 border uppercase rounded-full mt-4 dark:hover:!text-white`, btn_tw)}
+            >
+            Explore More
+         </Button>
+      </Link>
+   );
+};
+
+export const PortfolioReviewServiceCard = () => {
+   const {color, color_l, card_tw, btn_tw} = getColorForCardByServiceType('RESEARCH_ADVISORY_MUTUAL_FUNDS');
+   return (
+      <Link 
+         href={getServiceLink('PORTFOLIO_REVIEW', '/portfolio-review')} target="_blank"
+         className={cn('border w-full rounded-2xl p-6 hover:shadow-neutral-50 dark:hover:shadow-neutral-800', card_tw)}>
+         <h2 className="text-xl font-semibold text-neutral-800 dark:text-neutral-100">Legacis - Portfolio Review</h2>
+         <p className="text-base text-purple-800 my-4 ">Get expert analysis of your stock portfolio with clear advice on which stocks to hold or sell for better returns.</p>
+         <GradientLine color={color_l} height="2px" width="100%"/>
+            <ChartDummy color={color} />
+         <GradientLine color={color_l} height="2px" width="100%"/>
+         <Button 
+            variant={'outline'} 
+            className={cn(`w-full tracking-wider text-base text-neutral-700 dark:text-neutral-900 p-2 h-14 border uppercase rounded-full mt-4 dark:hover:!text-white`, btn_tw)}
+            >
+            Explore More
+         </Button>
+      </Link>
+   );
 };
 
 export const ChartDummy = ({color}:{color:string}) => {

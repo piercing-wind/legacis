@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/sonner"
 import { Authentication } from "@/components/auth/authentication";
 import { SessionProvider } from "next-auth/react";
 import Modal from "@/components/profile/modal";
+import ConsoleMessage from "@/components/consoleRenderer";
 
 const poppins = Poppins({
    weight : [ "100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -53,12 +54,12 @@ export const metadata: Metadata = {
    },
   },
   robots: {
-   index: true,
-   follow: true,
+   index: false,
+   follow: false,
    nocache: false,
    googleBot: {
-      index: true,
-      follow: true,
+      index: false,
+      follow: false,
       noimageindex: false,
       'max-video-preview': -1,
       'max-image-preview': 'large',
@@ -85,7 +86,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${poppins.variable} ${urbanist.variable} antialiased relative`}
-      >
+      >  <ConsoleMessage />
          <ThemeProvider 
             attribute="class"
             defaultTheme="light"

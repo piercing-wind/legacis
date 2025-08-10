@@ -17,8 +17,8 @@ export default function Banner({
    bannerData,
    className = "",
 }: BannerProps) {
- 
-  const { imageUrl, text, buttonUrl, buttonLabel, title } = bannerData;
+
+  const { imageUrl, text, buttonUrl, buttonLabel, title, bgColor } = bannerData;
   const [visible, setVisible] = useState(true);
 
   return (
@@ -31,7 +31,9 @@ export default function Banner({
           transition={{ duration: 0.4, ease: "easeInOut" }}
           className={cn("z-50 px-4 lg:px-10 xl:px-24 w-full", className)}
         >
-          <div className={`flex flex-col md:flex-row items-center justify-between bg-legacisGreen  px-4 ${imageUrl ? 'py-3 md:py-4' : 'py-6 md:py-8' } md:px-8  rounded-b-lg`}>
+          <div className={`flex flex-col md:flex-row items-center justify-between bg-legacisGreen  px-4 ${imageUrl ? 'py-3 md:py-4' : 'py-6 md:py-8' } md:px-8  rounded-b-lg`}
+           style={{ background: bgColor || "#4aedb9" }}
+          >
             <div className="flex items-center gap-3 w-full">
                {imageUrl && (
                   <div className="flex-shrink-0 w-24 h-16 md:w-40 md:h-24 aspect-video rounded-lg overflow-hidden">

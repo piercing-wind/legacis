@@ -28,8 +28,6 @@ function RationaleInput({userId, platinaServiceId, prevRationale } : {userId: st
    const handleGetContents = async () => {
       try {
          if (!quillInstance) throw new Error('Quill instance is not initialized');
-         
-         console.log(quillInstance.getContents());
 
          const delta = quillInstance.getContents();
          const res = await updateUserPlatinaRationale({

@@ -76,7 +76,7 @@ export const POST = auth(async (request: any) => {
     const actualStocks = customStocks || selectedPlan.stockLimit;
 
     // Log the admin action for audit trail
-    console.log(`Admin Grant Access - Admin: ${user.email} granted ${result.service.name} to ${result.user.email} for ${actualDays} days${actualStocks ? ` with ${actualStocks} stocks` : ''}. Value: ₹${result.pricing.finalPrice}. Reason: ${grantReason}`);
+   //  console.log(`Admin Grant Access - Admin: ${user.email} granted ${result.service.name} to ${result.user.email} for ${actualDays} days${actualStocks ? ` with ${actualStocks} stocks` : ''}. Value: ₹${result.pricing.finalPrice}. Reason: ${grantReason}`);
 
     return new Response(JSON.stringify({
       message: 'Access granted successfully',

@@ -91,7 +91,7 @@ export default function Plans({plans, service}: {plans: ServicePlan[], service?:
             <div
               className={`w-full hover:scale-105 transition-all min-h-26 duration-300 cursor-pointer rounded-xl p-4 flex flex-col gap-2 relative dark:shadow dark:shadow-neutral-600 bg-gradient-to-r from-purple-100 to-blue-100 dark:bg-gradient-to-r dark:from-neutral-800 dark:to-neutral-800`}
             >
-              <h6 className="!text-xl">For more than {highestStocks} Stocks</h6>
+              <h6 className="!text-xl text-neutral-800 dark:text-neutral-100">For more than {highestStocks} Stocks</h6>
               <p className="!text-sm"> Please contact our sales team. <span className="text-purple-600">here</span></p>
             </div>
           </Link>

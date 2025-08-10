@@ -1,9 +1,9 @@
 'use client'
-import { ComplimentaryServiceWithService, ServiceData } from '@/lib/data/services'
+import { ComplimentaryServiceWithService, ServiceData, ServiceWithComplimentary } from '@/lib/data/services'
 import { ResearchAdvisoryModelPortfolioStockList, ResearchAdvisoryMutualFundStockList, ResearchAdvisoryStockList, Service, ServiceType, UserPurchasedServices } from '@/prisma/generated/client'
 import React, { useEffect, useState } from 'react'
 import { Button } from '../ui/button'
-import { cn, formatHumanDate, normalizeRationale } from '@/lib/utils'
+import { cn, formatDateWithTime, formatHumanDate, normalizeRationale } from '@/lib/utils'
 import { Line } from '../icon'
 import { X } from 'lucide-react'
 import {
@@ -23,6 +23,8 @@ import { PDFDisplay } from '../pdfDisplay'
 import { generateSectorColor } from '@/lib/utils/generate-sector-color'
 import Link from 'next/link'
 import Image from 'next/image'
+import { QuillHtmlViewer } from '../richTextViewer'
+
 
 type PurchasedMFServiceData = {
    service : Service;
@@ -33,10 +35,13 @@ type PurchasedMFServiceData = {
 // MF stands for Mutual Fund
 
 
-const PurchasedServiceSection = ({serviceType, data, mfServiceData}:{serviceType : ServiceType, data?: ServiceData, mfServiceData?: PurchasedMFServiceData[] }) => {
+const PurchasedServiceSection = ({service, data, mfServiceData}:{service: Service, data?: ServiceData, mfServiceData?: PurchasedMFServiceData[] }) => {
+   
+   const serviceType = service.type;
    switch (serviceType) {
       case ServiceType.RESEARCH_ADVISORY:
-         return <ServiceResearchAdviosrySection data={data as ResearchAdvisoryStockList[]} />
+         const delta = service.raResearchReport || { ops: [{ insert: "Thank you for your purchase!" }] };
+         return <ServiceResearchAdvisorySection data={data as ResearchAdvisoryStockList[]} delta={delta} />
       case ServiceType.RESEARCH_ADVISORY_MODEL_PORTFOLIO:
          return <ServiceModelPortfolioSection data={data as ResearchAdvisoryModelPortfolioStockList[]} />
       case ServiceType.RESEARCH_ADVISORY_MUTUAL_FUNDS:
@@ -98,7 +103,7 @@ export default PurchasedServiceSection
 
 
 
-const ServiceResearchAdviosrySection = ({data} : {data : ResearchAdvisoryStockList[]}) => {
+const ServiceResearchAdvisorySection = ({data, delta} : {data : ResearchAdvisoryStockList[], delta: any}) => {
    const [activeTab, setActiveTab] = useState<"OPEN" | "CLOSED">("OPEN");
 
    
@@ -126,6 +131,21 @@ const ServiceResearchAdviosrySection = ({data} : {data : ResearchAdvisoryStockLi
            >
              Closed Calls
            </Button>
+           <Dialog>
+            <DialogTrigger asChild>
+               <Button
+                  variant={'secondary'}
+               >
+                  Research Report
+               </Button>
+            </DialogTrigger>
+            <DialogContent className='max-w-4xl w-full max-h-[80vh] overflow-y-auto text-sm'>
+               <DialogHeader>
+                  <DialogTitle>Research Report</DialogTitle>
+                  <QuillHtmlViewer delta={delta} />
+               </DialogHeader>
+            </DialogContent>
+         </Dialog>
          </div>
          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 min-h-96">
            {filteredStocks.length === 0 ? (
@@ -140,189 +160,201 @@ const ServiceResearchAdviosrySection = ({data} : {data : ResearchAdvisoryStockLi
    )
 }
 
+const InfoBlock = ({ label, value }: { label: string; value: React.ReactNode }) => (
+  <div className="flex flex-col gap-2">
+    <span className="text-xs text-neutral-500 dark:text-neutral-300">{label}</span>
+    <span className="text-sm font-urbanist font-medium">{value}</span>
+  </div>
+);
+
+const RationalePopover = ({
+  label,
+  text,
+  showPopover,
+  setShowPopover,
+  truncate,
+}: {
+  label: string;
+  text: string;
+  showPopover: boolean;
+  setShowPopover: (v: boolean) => void;
+  truncate: (t: string, n: number) => string;
+}) => (
+  <div className="flex-1 w-full h-10">
+    <span className="text-sm font-medium">{label}</span>
+    <div className="text-xs text-neutral-500 dark:text-neutral-300">
+      {truncate(text, 80)}
+      {text.length > 80 && (
+        <>
+          <Button
+            variant={'link'}
+            className="text-xs h-auto text-blue-500 dark:text-blue-300 font-normal p-0 m-0"
+            onClick={() => setShowPopover(true)}
+            type="button"
+          >
+            Read more
+          </Button>
+          {showPopover && (
+            <div
+              className="absolute left-1/2 -translate-x-1/2 top-1/5 mt-2 z-10 w-[95%] px-4 py-3 h-auto leading-5 bg-white dark:bg-neutral-800 border rounded-xl shadow-lg text-xs"
+              onClick={() => setShowPopover(false)}
+            >
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-sm font-medium">{label}</span>
+                <Button
+                  variant={'ghost'}
+                  className="text-gray-400 hover:text-gray-600 text-lg h-auto p-0"
+                  onClick={() => setShowPopover(false)}
+                  type="button"
+                >
+                  <X size={14} />
+                </Button>
+              </div>
+              <p>{text}</p>
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  </div>
+);
+
 const StockCard = ({ stock }: { stock: ResearchAdvisoryStockList }) => {
-   const [showPopover, setShowPopover] = useState(false);
-   const truncate = (text: string, n: number) =>
+  const [showPopover, setShowPopover] = useState(false);
+  const truncate = (text: string, n: number) =>
     text.length > n ? text.slice(0, n) + "..." : text;
 
-      let potential = 0;
-      if (stock.entryPrice !== null && stock.targetPrice !== null) {
+  let potential = 0;
+  if (stock.entryPrice !== null) {
+    const price =
+      stock.status === "CLOSED" && stock.exitPrice !== null
+        ? stock.exitPrice
+        : stock.targetPrice;
+    if (price !== null) {
       potential =
-         stock.callType === "SELL"
-            ? ((stock.entryPrice - stock.targetPrice) / stock.entryPrice) * 100
-            : ((stock.targetPrice - stock.entryPrice) / stock.entryPrice) * 100;
-      }
-   
-   const rationaleText = normalizeRationale(stock.rationale);
-   const exitRationaleText = normalizeRationale(stock.exitRationale);
+        stock.callType === "SELL"
+          ? ((stock.entryPrice - price) / stock.entryPrice) * 100
+          : ((price - stock.entryPrice) / stock.entryPrice) * 100;
+    }
+  }
 
-   return (
-    <div className={`w-full relative flex flex-col items-center justify-between rounded-xl 
-    ${stock.status === 'OPEN' ? 'bg-green-50/10  dark:bg-neutral-800/50' : 'bg-neutral-50 dark:bg-neutral-500/5' } border`}>
+  const rationaleText = normalizeRationale(stock.rationale);
+  const exitRationaleText = normalizeRationale(stock.exitRationale);
+
+  const holdingPeriod =
+    stock.status === "CLOSED" && stock.entryDate && stock.exitDate
+      ? Math.round(
+          (new Date(stock.exitDate).getTime() -
+            new Date(stock.entryDate).getTime()) /
+            (1000 * 60 * 60 * 24)
+        )
+      : null;
+
+  const statusLabel =
+    stock.status === "OPEN"
+      ? "Open"
+      : "Closed";
+  const statusClass =
+    stock.status === "OPEN"
+      ? "bg-green-50 dark:bg-green-100/5 border border-green-400 px-2 py-1 rounded text-green-600 dark:text-green-300"
+      : "bg-red-50 border border-red-400 px-2 py-1 rounded text-red-500";
+
+  return (
+    <div
+      className={`w-full relative flex flex-col items-center justify-between rounded-xl 
+      ${stock.status === "OPEN"
+        ? "bg-green-50/10  dark:bg-neutral-800/50"
+        : "bg-neutral-50 dark:bg-neutral-500/5"
+      } border`}
+    >
       <div className="w-full p-4 ">
-         <div className="flex items-center justify-between mb-2">
-         <h6 className='!text-xl'>{stock.name}</h6>
-         <span
-            className={cn(
-               stock.status === "OPEN"
-               ? "bg-green-50 dark:bg-green-100/5 border border-green-400 px-2 py-1 rounded text-green-600 dark:text-green-300 "
-               : "bg-red-50 border border-red-400 px-2 py-1 rounded text-red-500", "rounded-full text-xs px-4" )
-            }
-         >
-            {stock.status === "OPEN" ? "Open" : "Closed"}
-         </span>
-         </div>
-         <div className="flex items-center justify-between mb-4">
-         <span className="text-[10px] text-neutral-600 dark:text-neutral-300 bg-neutral-100 dark:bg-neutral-700 p-1 px-2 rounded-md">
-            <span className='font-semibold'>Entry:</span>{" "}
-            {stock.entryDate ?
-               new Date(stock.entryDate).toLocaleString("en-IN", {
-               year: "numeric",
-               month: "short",
-               day: "2-digit",
-               hour: "2-digit",
-               minute: "2-digit",
-               hour12: false,
-            }) 
-            : "N/A"
-         }
-         </span>
-         {stock.exitDate && (
+        <div className="flex items-center justify-between mb-2">
+          <h6 className="!text-xl">{stock.name}</h6>
+          <span className={cn(statusClass, "rounded-full text-xs px-4")}>
+            {statusLabel}
+          </span>
+        </div>
+        <div className="flex items-center justify-between mb-4">
+          <span className="text-[10px] text-neutral-600 dark:text-neutral-300 bg-neutral-100 dark:bg-neutral-700 p-1 px-2 rounded-md">
+            <span className="font-semibold">Entry:</span>{" "}
+            {formatDateWithTime(stock.entryDate ?? new Date())}
+          </span>
+          {stock.exitDate && (
             <span className="text-[10px] text-neutral-600 dark:text-neutral-300 bg-neutral-100 dark:bg-neutral-700 ml-4 p-1 px-2 rounded-md">
-               <span className='font-semibold'>Exit:</span>{" "}
-               {new Date(stock.exitDate).toLocaleString("en-IN", {
-               year: "numeric",
-               month: "short",
-               day: "2-digit",
-               hour: "2-digit",
-               minute: "2-digit",
-               hour12: false,
-               })}
+              <span className="font-semibold">Exit:</span>{" "}
+              {formatDateWithTime(stock.exitDate)}
             </span>
-         )}
-         </div>
-         <Line color='var(--text-color)' className='opacity-40' height="1px" width="100%" />
-         <div className="grid grid-cols-3 gap-6 items-center justify-between py-2 mt-4">
-            <div className="flex flex-col gap-2">
-               <span className="text-xs text-neutral-500 dark:text-neutral-300 ">Entry Price</span>
-               <span className="text-sm font-urbanist font-medium">₹{stock.entryPrice}</span>
-            </div>
-            <div className="flex flex-col gap-2">
-               <span className="text-xs text-neutral-500 dark:text-neutral-300">Target Price</span>
-               <span className="text-sm font-urbanist font-medium">₹{stock.targetPrice}</span>
-            </div>
-            <div className="flex flex-col gap-2">
-               <span className="text-xs text-neutral-500 dark:text-neutral-300">Stop Loss</span>
-               <span className="text-sm font-urbanist font-medium">₹{stock.stopLoss}</span>
-            </div>
-            <div className="flex flex-col gap-2">
-               <span className="text-xs text-neutral-500 dark:text-neutral-300">Potential</span>
-               <span
-                 className={`text-sm font-urbanist font-medium ${
-                   (stock.callType === "SELL" && potential > 0) ||
-                   (stock.callType !== "SELL" && potential > 0)
-                     ? "text-green-600 dark:text-green-300"
-                     : potential < 0
-                     ? "text-red-600"
-                     : "text-neutral-600"
-                 }`}
-               >
-                 {potential > 0 ? "+" : ""}
-                 {potential.toFixed(2)}%
-               </span>
-            </div>
-         </div>
-         <div className="flex items-start justify-between py-2 pb-4 gap-4">
-         {stock.status === "CLOSED" ? (
-            <div className="flex-1 w-full h-10">
-               <span className="text-sm font-medium">Exit Rationale</span>
-               <div className="text-xs text-neutral-500 dark:text-neutral-300">
-                  {truncate(rationaleText.text, 80)}
-                  {(exitRationaleText.text).length > 80 && (
-                  <>
-                     <Button
-                     variant={'link'}
-                     className="text-xs h-auto text-blue-500 dark:text-blue-300 font-normal p-0 m-0"
-                     onClick={() => setShowPopover(true)}
-                     type="button"
-                     >
-                     Read more
-                     </Button>
-                     {showPopover && (
-                     <div
-                        className="absolute left-1/2 -translate-x-1/2 top-1/5 mt-2 z-10 w-full px-4 py-3 h-auto leading-5 bg-white dark:bg-neutral-800 border rounded-xl shadow-lg text-xs"
-                        onClick={() => setShowPopover(false)}
-                     >
-                        <div className="flex justify-between items-center mb-2">
-                           <span className="text-sm font-medium">Exit Rationale</span>
-                           <Button
-                           variant={'ghost'}
-                           className="text-gray-400 hover:text-gray-600 text-lg h-auto p-0"
-                           onClick={() => setShowPopover(false)}
-                           type="button"
-                           >
-                           <X size={14}/>
-                           </Button>
-                        </div>
-                        <p>{exitRationaleText.text}</p>
-                     </div>
-                     )}
-                  </>
-               )}
-               </div>
-            </div>
-         ) : (
-            <div className="flex-1 w-full h-10">
-               <span className="text-sm font-medium">Rationale</span>
-               <div className="text-xs text-neutral-500 dark:text-neutral-300">
-                  {truncate(rationaleText.text, 80)}
-                  {(rationaleText.text).length > 80 && (
-                  <>
-                     <Button
-                     variant={'link'}
-                     className="text-xs h-auto text-blue-500 dark:text-blue-300 font-normal p-0 m-0"
-                     onClick={() => setShowPopover(true)}
-                     type="button"
-                     >
-                     Read more
-                     </Button>
-                     {showPopover && (
-                     <div
-                        className="absolute left-1/2 -translate-x-1/2 top-1/5 mt-2 z-10 w-full px-4 py-3 h-auto leading-5 tracking-wide bg-white dark:bg-neutral-700 border rounded-xl shadow-lg text-xs"
-                        onClick={() => setShowPopover(false)}
-                     >
-                        <div className="flex justify-between items-center mb-2">
-                           <span className="text-sm font-medium">Rationale</span>
-                           <Button
-                           variant={'ghost'}
-                           className="text-gray-400 hover:text-gray-600 text-lg h-auto p-0"
-                           onClick={() => setShowPopover(false)}
-                           type="button"
-                           >
-                           <X size={14}/>
-                           </Button>
-                        </div>
-                        <p>{rationaleText.text}</p>
-                     </div>
-                     )}
-                  </>
-               )}
-               </div>
-            </div>
-         )}
-         </div>
+          )}
+        </div>
+        <Line color="var(--text-color)" className="opacity-40" height="1px" width="100%" />
+        <div className="grid grid-cols-3 gap-6 items-center justify-between py-2 mt-4">
+          <InfoBlock label="Entry Price" value={`₹${stock.entryPrice}`} />
+          <InfoBlock label="Target Price" value={`₹${stock.targetPrice}`} />
+          {stock.status !== "CLOSED" ? (
+            <InfoBlock label="Stop Loss" value={`₹${stock.stopLoss}`} />
+          ) : (
+            <InfoBlock label="Exit Price" value={`₹${stock.exitPrice}`} />
+          )}
+          {stock.status === "CLOSED" && (
+            <InfoBlock label="Holding Period" value={`${holdingPeriod} Days`} />
+          )}
+          <InfoBlock
+            label={stock.status === "CLOSED" ? "Net Gain" : "Potential"}
+            value={
+              <span
+                className={`text-sm font-urbanist font-medium ${
+                  potential > 0
+                    ? "text-green-600 dark:text-green-300"
+                    : potential < 0
+                    ? "text-red-600"
+                    : "text-neutral-600"
+                }`}
+              >
+                {potential > 0 ? "+" : ""}
+                {potential.toFixed(2)}%
+              </span>
+            }
+          />
+        </div>
+        <div className="flex items-start justify-between py-2 pb-4 gap-4">
+          {stock.status === "CLOSED" ? (
+            <RationalePopover
+              label="Exit Rationale"
+              text={exitRationaleText.text}
+              showPopover={showPopover}
+              setShowPopover={setShowPopover}
+              truncate={truncate}
+            />
+          ) : (
+            <RationalePopover
+              label="Rationale"
+              text={rationaleText.text}
+              showPopover={showPopover}
+              setShowPopover={setShowPopover}
+              truncate={truncate}
+            />
+          )}
+        </div>
       </div>
-         <Line color='var(--text-color)' className='opacity-40' height="1px" width="100%" />
+      <Line color="var(--text-color)" className="opacity-40" height="1px" width="100%" />
       {stock.status !== "CLOSED" && (
-         stock.callType === "BUY" ? (
-           <div className='w-full mt-2 bg-legacisGreen/10 p-4 flex items-center justify-center rounded-b-xl'>
-               <span className="text-green-600 dark:text-green-300 uppercase tracking-widest text-lg font-medium">{stock.callType}</span>
-           </div>
-         ):(
-           <div className='w-full mt-2 bg-legacisPink/10 p-4 flex items-center justify-center rounded-b-xl'>
-               <span className="text-red-600 dark:text-red-400 uppercase tracking-widest text-lg font-medium">{stock.callType}</span>
-           </div>
-         )
+        <div
+          className={`w-full mt-2 ${
+            stock.callType === "BUY"
+              ? "bg-legacisGreen/10"
+              : "bg-legacisPink/10"
+          } p-4 flex items-center justify-center rounded-b-xl`}
+        >
+          <span
+            className={`${
+              stock.callType === "BUY"
+                ? "text-green-600 dark:text-green-300"
+                : "text-red-600 dark:text-red-400"
+            } uppercase tracking-widest text-lg font-medium`}
+          >
+            {stock.callType}
+          </span>
+        </div>
       )}
     </div>
   );
@@ -338,7 +370,7 @@ const ServiceModelPortfolioSection = ({data} : {data : ResearchAdvisoryModelPort
          const stored = localStorage.getItem(AMOUNT_STORAGE_KEY);
          if (stored) return Number(stored);
       }
-      return 0;
+      return 100000; // Default amount
    });
 
    useEffect(() => {
@@ -538,7 +570,7 @@ const ServiceMutualFundSection = ({data} : {data : PurchasedMFServiceData[]}) =>
    return (
       <section className='w-full flex flex-col xl:flex-row items-start gap-8 relative'>
          {totalAmount > 0 ? (   
-            <div className='xl:max-w-lg 2xl:max-w-xl w-full flex-1 xl:sticky top-24 z-10 p-4 rounded-xl border border-pink-100 dark:border-pink-100/50'>
+            <div className='xl:max-w-lg 2xl:max-w-xl w-full flex-1 xl:sticky top-28 z-10 p-4 rounded-xl border border-pink-100 dark:border-pink-100/50'>
                <div className="mb-4 text-right font-medium">
                   Total Amount: ₹{totalAmount.toLocaleString("en-IN", { maximumFractionDigits: 2 })}
                </div>
@@ -586,6 +618,9 @@ const MFCardList = ({data, amount, setAmount} : {data : ResearchAdvisoryMutualFu
    const totalWeight = data.reduce((sum, stock) => sum + (stock.weight || 0), 0);
    const unknownWeight = Math.max(0, 100 - totalWeight);
    const showTable = amount > 0;
+   useEffect(() => {
+      if (amount === 0) setAmount(100000);
+   }, [amount, setAmount]);
    return (
      <div className='p-4 rounded-xl border border-pink-100 dark:border-pink-100/50 w-full flex-1'>
          <div className='flex items-end gap-4 mb-4'>
@@ -607,7 +642,7 @@ const MFCardList = ({data, amount, setAmount} : {data : ResearchAdvisoryMutualFu
              <TableHeader>
                 <TableRow>
                    <TableHead>#</TableHead>
-                   <TableHead>Stock Name</TableHead>
+                   <TableHead>Name</TableHead>
                    <TableHead>Category</TableHead>
                    <TableHead>Weight (%)</TableHead>
                    <TableHead>Amount</TableHead>

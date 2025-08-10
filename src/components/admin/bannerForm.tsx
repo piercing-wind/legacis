@@ -45,6 +45,7 @@ export default function BannerForm({ banner }: { banner?: Banner | null }) {
           imageUrl: banner.imageUrl ?? "",
           buttonLabel: banner.buttonLabel,
           buttonUrl: banner.buttonUrl,
+          bgColor: banner.bgColor ?? "",
           isActive: banner.isActive,
           startDate: banner.startDate?.toISOString().slice(0, 16) ?? "",
           endDate: banner.endDate?.toISOString().slice(0, 16) ?? "",
@@ -55,11 +56,29 @@ export default function BannerForm({ banner }: { banner?: Banner | null }) {
           imageUrl: "",
           buttonLabel: "",
           buttonUrl: "",
+          bgColor: "",
           isActive: true,
           startDate: "",
           endDate: "",
         },
   });
+
+   async function handleRemoveImage() {
+   const imageUrl = form.getValues("imageUrl");
+   if (imageUrl && typeof imageUrl === "string") {
+      try {
+         setUploading(true);
+         await deleteS3File(extractFileKeyFromUrl(imageUrl));
+         form.setValue("imageUrl", "");
+         setLocalImagePreview(null);
+         toast.success("Image removed!");
+      } catch (err) {
+         toast.error("Failed to remove image");
+      } finally {
+         setUploading(false);
+      }
+   }
+   }
 
   async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     setUploading(true);
@@ -141,53 +160,63 @@ export default function BannerForm({ banner }: { banner?: Banner | null }) {
               </FormItem>
             )}
           />
-          <FormField
-  control={form.control}
-  name="imageUrl"
-  render={({ field }) => (
-    <FormItem className="space-y-2 mt-8">
-      <FormLabel>Banner Image (16:9)</FormLabel>
-      <FormControl>
-        <div className="mb-4">
-          <div className="mb-2 relative aspect-video w-full rounded-lg overflow-clip border">
-            {localImagePreview ? (
-              <Image
-                src={localImagePreview}
-                alt="Banner"
-                className="h-24 rounded object-cover"
-                fill
-              />
-            ) : (
-              banner?.imageUrl ? (
-                <Image
-                  src={banner.imageUrl}
-                  alt="Banner"
-                  className="h-24 rounded object-cover"
-                  fill
-                  unoptimized
-                />
-              ) : null
+        <FormField
+            control={form.control}
+            name="imageUrl"
+            render={({ field }) => (
+              <FormItem className="space-y-2 mt-8">
+                <FormLabel>Banner Image (16:9)</FormLabel>
+                <FormControl>
+                  <div className="mb-4">
+                    <div className="mb-2 relative aspect-video w-full rounded-lg overflow-clip border">
+                      {localImagePreview ? (
+                        <Image
+                          src={localImagePreview}
+                          alt="Banner"
+                          className="h-24 rounded object-cover"
+                          fill
+                        />
+                      ) : banner?.imageUrl ? (
+                        <Image
+                          src={banner.imageUrl}
+                          alt="Banner"
+                          className="h-24 rounded object-cover"
+                          fill
+                          unoptimized
+                        />
+                      ) : null}
+                      {uploading && (
+                        <div className="z-10 inset-0 absolute bg-neutral-800/50 text-lg flex items-center justify-center !text-white text-center">
+                          Uploading...
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex gap-2">
+                      <Input
+                        type="file"
+                        accept="image/*"
+                        ref={fileInputRef}
+                        onChange={handleFileChange}
+                        disabled={uploading}
+                        className="border rounded-xl h-10 cursor-pointer"
+                      />
+                      {(form.getValues("imageUrl") || localImagePreview) && (
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          onClick={handleRemoveImage}
+                          disabled={uploading}
+                        >
+                          Remove Image
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
             )}
-            {uploading && (
-              <div className="z-10 inset-0 absolute bg-neutral-800/50 text-lg flex items-center justify-center !text-white text-center">
-                Uploading...
-              </div>
-            )}
-          </div>
-          <Input
-            type="file"
-            accept="image/*"
-            ref={fileInputRef}
-            onChange={handleFileChange}
-            disabled={uploading}
-            className="border rounded-xl h-10 cursor-pointer"
           />
-        </div>
-      </FormControl>
-      <FormMessage />
-    </FormItem>
-  )}
-/>
           <FormField
             control={form.control}
             name="buttonLabel"
@@ -214,6 +243,36 @@ export default function BannerForm({ banner }: { banner?: Banner | null }) {
               </FormItem>
             )}
           />
+         <FormField
+         control={form.control}
+         name="bgColor"
+         render={({ field }) => (
+            <FormItem>
+               <FormLabel>Background Color</FormLabel>
+               <FormControl>
+               <div className="flex items-center gap-2">
+                  <Input
+                     type="text"
+                     placeholder="#4aedb9"
+                     {...field}
+                     value={field.value || ""}
+                     className="w-32"
+                  />
+                  <div
+                     style={{
+                     background: field.value || "#4aedb9",
+                     width: 32,
+                     height: 32,
+                     borderRadius: 6,
+                     border: "1px solid #ccc"
+                     }}
+                  />
+               </div>
+               </FormControl>
+               <FormMessage />
+            </FormItem>
+         )}
+         />
           <FormField
             control={form.control}
             name="isActive"

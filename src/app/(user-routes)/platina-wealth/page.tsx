@@ -84,7 +84,7 @@ export default async function Page() {
        }
       <section className="relative z-20 bg-background flex flex-col lg:flex-row justify-center gap-4 lg:gap-8 w-full my-8">
          <div className="w-full relative lg:min-w-2xl xl:min-w-3xl space-y-12 rounded-2xl mb-4 lg:mb-0">
-            <div className="sticky top-40 z-5 bg-gradient-to-br from-[#e3d4f9] via-white to-[#e3d4f9] dark:from-neutral-900 dark:via-neutral-900 dark:to-neutral-900 p-4 sm:p-10 rounded-2xl mb-4 min-h-[550px] sm:min-h-[500px] shadow-lg shadow-neutral-100 dark:shadow-neutral-800">
+            <div className="sticky top-40 z-5 bg-gradient-to-br from-[#e3d4f9] via-white to-[#e3d4f9] dark:from-neutral-900 dark:via-neutral-900 dark:to-neutral-900 p-4 sm:p-10 rounded-2xl mb-4 min-h-[550px] sm:min-h-[515px] shadow-lg shadow-neutral-100 dark:shadow-neutral-800">
                <h3 className="text-lg sm:text-2xl font-medium mb-2">Custom <span className="text-legacisPurple/90 dark:text-purple-400">Investment</span> Advisory</h3>
                <p className="text-sm sm:text-base">Bespoke equity & mutual fund portfolio construction aligned to your goals, risk profile, and liquidity needs.</p>
                <div className="mt-4 sm:mt-8 border-t-2 w-1/2 border-purple-300/80 dark:border-purple-200/80"/>
@@ -127,7 +127,7 @@ export default async function Page() {
                   </div>
                </div>
             </div>
-            <div className="sticky top-40 z-5 bg-gradient-to-br from-[#e3d4f9] via-white to-[#e3d4f9] dark:from-neutral-900 dark:via-neutral-900 dark:to-neutral-900 p-4 sm:p-10 rounded-2xl mb-4 min-h-[550px] sm:min-h-[500px] shadow-lg shadow-neutral-100 dark:shadow-neutral-800">
+            <div className="sticky top-40 z-5 bg-gradient-to-br from-[#e3d4f9] via-white to-[#e3d4f9] dark:from-neutral-900 dark:via-neutral-900 dark:to-neutral-900 p-4 sm:p-10 rounded-2xl mb-4 min-h-[550px] sm:min-h-[515px] shadow-lg shadow-neutral-100 dark:shadow-neutral-800">
                <h3 className="text-lg sm:text-2xl font-medium mb-2"><span className="text-legacisPurple/90 dark:text-purple-400">Comprehensive</span> Portfolio Review</h3>
                <p className="text-sm sm:text-base">A deep dive into your existing holdings to assess quality, risk, and alignment with your objectives.</p>
                <div className="mt-4 sm:mt-8 border-t-2 w-1/2 border-purple-300/80 dark:border-purple-200/80"/>
@@ -170,7 +170,7 @@ export default async function Page() {
                   </div>
                </div>
             </div>
-            <div className="sticky top-40 z-5 bg-gradient-to-br from-[#e3d4f9] via-white to-[#e3d4f9] dark:from-neutral-900 dark:via-neutral-900 dark:to-neutral-900 p-4 sm:p-10 rounded-2xl mb-4 min-h-[550px] sm:min-h-[500px] shadow-lg shadow-neutral-100 dark:shadow-neutral-800">
+            <div className="sticky top-40 z-5 bg-gradient-to-br from-[#e3d4f9] via-white to-[#e3d4f9] dark:from-neutral-900 dark:via-neutral-900 dark:to-neutral-900 p-4 sm:p-10 rounded-2xl mb-4 min-h-[550px] sm:min-h-[515px] shadow-lg shadow-neutral-100 dark:shadow-neutral-800">
                <h3 className="text-lg sm:text-2xl font-medium mb-2"> Access to <span className="text-legacisPurple/90 dark:text-purple-400">Research</span> Services</h3>
                <p className="text-sm sm:text-base">Exclusive access to our flagship research services for idea flow and market insights</p>
                <div className="mt-4 sm:mt-8 border-t-2 w-1/2 border-purple-300/80 dark:border-purple-200/80"/>
@@ -199,7 +199,7 @@ export default async function Page() {
                   )})}
                </div>
             </div>
-            <div className="sticky top-40 z-5 bg-gradient-to-br from-[#e3d4f9] via-white to-[#e3d4f9] dark:from-neutral-900 dark:via-neutral-900 dark:to-neutral-900 p-4 sm:p-10 rounded-2xl mb-4 min-h-[550px] sm:min-h-[500px] shadow-lg shadow-neutral-100 dark:shadow-neutral-800">
+            <div className="sticky top-40 z-5 bg-gradient-to-br from-[#e3d4f9] via-white to-[#e3d4f9] dark:from-neutral-900 dark:via-neutral-900 dark:to-neutral-900 p-4 sm:p-10 rounded-2xl mb-4 min-h-[550px] sm:min-h-[515px] shadow-lg shadow-neutral-100 dark:shadow-neutral-800">
                <h3 className="text-lg sm:text-2xl font-medium mb-2"><span className="text-legacisPurple/90 dark:text-purple-400">Dedicated</span> Access to the Desk</h3>
                <p className="text-sm sm:text-base">Direct WhatsApp channel with our research team Year-round access for clarifications, portfolio queries, and review notes so you never feel adrift between reviews..</p>
                <div className="mt-4 sm:mt-8 border-t-2 w-1/2 border-purple-300/80 dark:border-purple-200/80"/>

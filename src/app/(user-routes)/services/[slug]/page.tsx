@@ -10,7 +10,7 @@ import Faq from "@/components/services/faq"
 import PurchasedServiceSection from "@/components/services/purchasedServiceSection"
 import { Session } from "@/actions/session"
 import { User } from "next-auth"
-import { formatHumanDate } from "@/lib/utils"
+import { formatHumanDate, getUniqueSpecialServices } from "@/lib/utils"
 import { findAgreementsByServiceId } from "@/lib/data/agreement"
 import { CheckoutForm } from "@/components/services/checkoutForm"
 import { notFound, redirect } from "next/navigation"
@@ -20,6 +20,7 @@ import { getServiceDisplayPrice } from "@/lib/utils/servicePricingDisplay"
 import { Service } from "@/prisma/generated/client"
 import { QuillHtmlViewer } from "@/components/richTextViewer"
 import { ServiceCard } from "@/components/services/serviceCard"
+import { getColorForCardByServiceType } from "@/lib/utils/serviceCardColorGenerator"
 
 export default async function Page({params}: { params: Promise<{ slug: string }>}) {
    const session = await Session();
@@ -70,12 +71,15 @@ export default async function Page({params}: { params: Promise<{ slug: string }>
       "#F0F7FF", "#F1FFFA", "#E2FFE9", "#F6F0FF", "#E6F7FF", "#F0F7FF"
    ];
 
-   let recommendedServices;
+   let recommendations;
    const recommendedServicesIds: string[] = Array.isArray(service?.recommendedService) ? (service.recommendedService as string[]) : [];
    
    if(recommendedServicesIds.length > 0) {
-      recommendedServices = await findServicesByIds(recommendedServicesIds);
+      recommendations = await findServicesByIds(recommendedServicesIds);
    }
+   
+   const recommendedServices = getUniqueSpecialServices(recommendations ?? []);
+
 
    let delta: any = service.afterPurchaseFeaturesDelta || { ops: [{ insert: "Thank you for your purchase!" }] }
    if (typeof delta === "string") {
@@ -91,7 +95,7 @@ export default async function Page({params}: { params: Promise<{ slug: string }>
        {purchasedService && service &&
          <>
             <h5 className="mb-4 text-xl font-medium">{service.name}</h5>
-            <PurchasedServiceSection serviceType={service?.type} data={data}/>
+            <PurchasedServiceSection service={service} data={data}/>
          </>
        }
        <section className="flex flex-col-reverse xl:flex-row items-stretch justify-center gap-8 w-full my-8">
@@ -254,7 +258,6 @@ export default async function Page({params}: { params: Promise<{ slug: string }>
             <section className="w-full p-4 border rounded-2xl mt-8 dark:bg-neutral-800">
                <h6 className="text-xl font-medium mb-4">Recommended Services</h6>
                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                
                   {recommendedServices.map((service, idx) => (
                      <ServiceCard 
                         key={idx} 

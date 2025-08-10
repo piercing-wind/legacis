@@ -119,7 +119,7 @@ function HomeStickyScroller() {
                   Experience the Legacis platform on your phone with our intuitive mockup design. Explore how easy it is to manage your investments, track your portfolio, and make informed decisions on the go.
                </p>
             </div>
-            <div className="flex-1 relative w-full max-w-2xl mt-8 min-h-[60vh]">
+            <div className="flex-1 relative w-full max-w-2xl mt-8 min-h-[50vh] sm:min-h-[60vh]">
                <Image
 
                   src="/phone-design.png"
@@ -146,10 +146,10 @@ function HomeStickyScroller() {
           <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8 z-5 pb-8">
             {homeWhyChooseUs.map((item, index) => (
               <div key={index} className={cn(item.color, "w-full shadow-lg sm:min-h-64 lg:min-h-80 rounded-2xl p-4 sm:p-8 flex flex-col items-start justify-center relative overflow-clip")}>
-                <span className='flex items-center gap-1 font-medium text-sm'>Problem :</span>
-                <h5 className="text-sm sm:text-xl font-medium w-full mt-2 text-neutral-700">{item.title}</h5>
+                <span className='flex items-center gap-1 font-medium text-sm dark:text-neutral-800'>Problem :</span>
+                <h5 className="t dark:text-neutral-800 sm:text-xl font-medium w-full mt-2 text-neutral-700">{item.title}</h5>
                 <div className="border-t w-1/2  my-2 sm:my-4 border-neutral-300"/>
-                <span className='flex items-center gap-1 font-medium text-sm'>Solution :</span>
+                <span className='flex items-center gap-1 font-medium text-sm dark:text-neutral-800'>Solution :</span>
                 <p className="text-xs sm:text-base !text-neutral-600 mt-2">{item.description}</p>
               </div>
             ))}
@@ -219,15 +219,15 @@ function HomeStickyScroller() {
   };
 
   // Auto scroll functionality
-//   useEffect(() => {
-//     if (!isAutoScrolling) return;
+  useEffect(() => {
+    if (!isAutoScrolling) return;
 
-//     const interval = setInterval(() => {
-//       nextSection();
-//     }, 5000); // Auto scroll every 5 seconds
+    const interval = setInterval(() => {
+      nextSection();
+    }, 3000); // Auto scroll every 5 seconds
 
-//     return () => clearInterval(interval);
-//   }, [currentIndex, isAutoScrolling]);
+    return () => clearInterval(interval);
+  }, [currentIndex, isAutoScrolling]);
 
   // Pause auto scroll on hover
   const handleMouseEnter = () => setIsAutoScrolling(false);

@@ -273,6 +273,23 @@ export default async function Page() {
       { purchasedServicesData.length > 0 && (
         <PurchasedServiceSection serviceType={'RESEARCH_ADVISORY_MUTUAL_FUNDS'} mfServiceData={purchasedServicesData} />
       )}
+      {/* Service Cards */}
+      <div className="my-12 ">
+         <h2 className="text-xl font-medium p-8 bg-gradient-to-r from-purple-50 to-blue-50 dark:bg-gradient-to-r dark:from-transparent dark:to-transparent dark:border dark:shadow-lg rounded-xl">Mutual Funds</h2>
+      </div>
+      <section className="grid grid-cols-1 lg:grid-cols-3 gap-8 w-full">
+        {servicePromises.map((serviceData, idx) => (
+          <ServiceCard
+            key={serviceData.service.id || idx}
+            service={serviceData.service}
+            idx={idx}
+            purchasedService={serviceData.purchasedService}
+            highlights={serviceData.highlights}
+            plans={serviceData.plans}
+            agreement={serviceData.agreement}
+          />
+        ))}
+      </section>
 
       {/* Chart or Philosophy Section */}
       <section className="flex flex-col-reverse xl:flex-row items-stretch justify-center gap-8 w-full my-8 mb-12">
@@ -289,23 +306,7 @@ export default async function Page() {
         )}
       </section>
 
-      {/* Service Cards */}
-      <div className="mb-12 ">
-         <h2 className="text-xl font-medium p-8 bg-gradient-to-r from-purple-50 to-blue-50 dark:bg-gradient-to-r dark:from-transparent dark:to-transparent dark:border dark:shadow-lg rounded-xl">Services</h2>
-      </div>
-      <section className="grid grid-cols-1 lg:grid-cols-3 gap-8 w-full">
-        {servicePromises.map((serviceData, idx) => (
-          <ServiceCard
-            key={serviceData.service.id || idx}
-            service={serviceData.service}
-            idx={idx}
-            purchasedService={serviceData.purchasedService}
-            highlights={serviceData.highlights}
-            plans={serviceData.plans}
-            agreement={serviceData.agreement}
-          />
-        ))}
-      </section>
+
       {/* Additional Information */}
 
       <section className="prose prose-lg dark:prose-invert max-w-none text-sm !text-neutral-600 p-4 px-6 border rounded-2xl my-14 dark:bg-neutral-800">

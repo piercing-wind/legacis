@@ -62,8 +62,6 @@ export function UserEditForm({ user }: {user : User | null}) {
 
   const onSubmit = async (data: UserFormInput) => {
     try {
-  
-      console.log("User update result:", data);
       const result = await updateUser(data)
       // if(!result.success) throw new Error(result.message);
       toast.success(result.message);

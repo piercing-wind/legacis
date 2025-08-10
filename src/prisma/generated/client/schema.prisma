@@ -303,6 +303,7 @@ model Service {
   plans                                   ServicePlan[]
   features                                Json?
   faq                                     Json?
+  raResearchReport                        Json? //For Research Advisory Services
   active                                  Boolean                                   @default(true)
   type                                    ServiceType
   createdAt                               DateTime                                  @default(now())
@@ -371,6 +372,7 @@ model ResearchAdvisoryStockList {
   entryPrice  Float?
   targetPrice Float?
   stopLoss    Float?
+  exitPrice   Float?
 
   rationale     Json? // Fomat { "text" : "value"}
   exitRationale Json?
@@ -633,6 +635,7 @@ model Banner {
   imageUrl    String?
   buttonLabel String
   buttonUrl   String
+  bgColor     String?
   isActive    Boolean   @default(true)
   startDate   DateTime?
   endDate     DateTime?
