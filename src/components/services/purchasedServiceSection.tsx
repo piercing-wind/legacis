@@ -35,12 +35,11 @@ type PurchasedMFServiceData = {
 // MF stands for Mutual Fund
 
 
-const PurchasedServiceSection = ({service, data, mfServiceData}:{service: Service, data?: ServiceData, mfServiceData?: PurchasedMFServiceData[] }) => {
-   
-   const serviceType = service.type;
+const PurchasedServiceSection = ({serviceType, data, raResearchReport, mfServiceData}:{serviceType: ServiceType, data?: ServiceData, raResearchReport?: any, mfServiceData?: PurchasedMFServiceData[] }) => {
+
    switch (serviceType) {
       case ServiceType.RESEARCH_ADVISORY:
-         const delta = service.raResearchReport || { ops: [{ insert: "Thank you for your purchase!" }] };
+         const delta = raResearchReport || { ops: [{ insert: "Thank you for your purchase!" }] };
          return <ServiceResearchAdvisorySection data={data as ResearchAdvisoryStockList[]} delta={delta} />
       case ServiceType.RESEARCH_ADVISORY_MODEL_PORTFOLIO:
          return <ServiceModelPortfolioSection data={data as ResearchAdvisoryModelPortfolioStockList[]} />

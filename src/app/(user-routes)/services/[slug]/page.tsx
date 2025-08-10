@@ -95,7 +95,7 @@ export default async function Page({params}: { params: Promise<{ slug: string }>
        {purchasedService && service &&
          <>
             <h5 className="mb-4 text-xl font-medium">{service.name}</h5>
-            <PurchasedServiceSection service={service} data={data}/>
+            <PurchasedServiceSection serviceType={service.type} raResearchReport={service.raResearchReport} data={data}/>
          </>
        }
        <section className="flex flex-col-reverse xl:flex-row items-stretch justify-center gap-8 w-full my-8">
