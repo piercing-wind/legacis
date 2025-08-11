@@ -78,34 +78,28 @@ type CashfreeInstance = {
 export const AgreementViewer = () => {
    const {service, agreement, agreementSummary, coupon} = useAppSelector((state) => state.checkout);
    const cashfreeRef = useRef<CashfreeInstance | null>(null);
-   
    const agreementContent = agreement;
    const plan = service.selectedPlan;
    const serviceId = service.serviceId;
    const router = useRouter();
-
-   if (!agreementContent || agreementContent.length === 0) {
-      return <div className="text-center">No agreement available</div>;
-   }
-
    const dispatch = useAppDispatch();
-
    const [otp, setOTP] = useState<string>(''); 
    const [otpSent, setOTPSent] = useState<boolean>(false);
    const [isPending, startTransition] = useTransition();
    const [showLoadingModal, setShowLoadingModal] = useState<boolean>(false);
    const [showAgreementModal, setShowAgreementModal] = useState(true);
-
-   const signatureAgreement = agreementContent.find(
+   const signatureAgreement = agreementContent?.find(
     (agreement) => agreement.signatoryPerson || agreement.companyName
    );
-
-
+   
    useEffect(() => {
     load({ mode: "sandbox" }).then((cf) => {
       cashfreeRef.current = cf;
     });
    }, []);
+   if (!agreementContent || agreementContent.length === 0) {
+      return <div className="text-center">No agreement available</div>;
+   }
 
    function sendotp() {
       startTransition(() => {

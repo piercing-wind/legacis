@@ -79,7 +79,7 @@ export default async function UserPlatinaDetailsPage({params}: { params: Promise
         </Button>
         <div>
           <h1 className="text-3xl font-bold">User Portfolio Management</h1>
-          <p className="text-muted-foreground">Manage {user.name}'s Platina Wealth portfolio</p>
+          <p className="text-muted-foreground">Manage {user.name}&apos;s Platina Wealth portfolio</p>
         </div>
       </div>
 
@@ -346,7 +346,7 @@ export default async function UserPlatinaDetailsPage({params}: { params: Promise
               <PieChart className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
               <h3 className="text-lg font-semibold mb-2">No Portfolio Recommendation</h3>
               <p className="text-muted-foreground mb-4">
-                This user doesn't have a portfolio recommendation yet. Create one to start managing their stocks.
+                This user doesn&apos;t have a portfolio recommendation yet. Create one to start managing their stocks.
               </p>
             </div>
           </CardContent>

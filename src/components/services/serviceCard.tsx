@@ -158,25 +158,26 @@ export const RegularServiceCard = ({
         </div>
       )}
       <GradientLine color={color_l} height="2px" width="100%" />
-
-      <div className="w-full flex flex-row flex-nowrap items-stretch text-nowrap gap-2 my-2 h-20 sm:min-h-20">
-        {parsedFeatures?.highlights?.slice(0, 3).map((item, idx, arr) => (
-          <React.Fragment key={item.name + idx}>
-            <span className="relative flex flex-col w-full h-24 items-center justify-center">
-              <p className="text-xs">{item.name}</p>
-              <p className="text-xs sm:text-base font-medium mt-2">{item.value}</p>
-            </span>
-            {idx < arr.length - 1 && (
-              <GradientLineVertical
-                color={color_l}
-                height="100%"
-                width="2px"
-                className="self-stretch h-full"
-              />
-            )}
-          </React.Fragment>
-        ))}
-      </div>
+      {parsedFeatures?.highlights && parsedFeatures.highlights.length > 0 && (
+         <div className="w-full flex flex-row flex-nowrap items-stretch text-nowrap gap-2 my-2 h-20 sm:min-h-20">
+         {parsedFeatures?.highlights?.slice(0, 3).map((item, idx, arr) => (
+            <React.Fragment key={item.name + idx}>
+               <span className="relative flex flex-col w-full h-24 items-center justify-center">
+               <p className="text-xs">{item.name}</p>
+               <p className="text-xs sm:text-base font-medium mt-2">{item.value}</p>
+               </span>
+               {idx < arr.length - 1 && (
+               <GradientLineVertical
+                  color={color_l}
+                  height="100%"
+                  width="2px"
+                  className="self-stretch h-full"
+               />
+               )}
+            </React.Fragment>
+         ))}
+         </div>
+      )}
       <Button
         variant={"outline"}
         className={cn(

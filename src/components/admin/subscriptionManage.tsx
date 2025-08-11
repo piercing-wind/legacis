@@ -132,7 +132,7 @@ export function SubscriptionActions({
         <DialogHeader>
           <DialogTitle>Manage Subscription</DialogTitle>
           <DialogDescription>
-            Update expiry for {userName}'s {serviceName} subscription
+            Update expiry for {userName}&apos;s {serviceName} subscription
           </DialogDescription>
         </DialogHeader>
 
@@ -163,7 +163,7 @@ export function SubscriptionActions({
             <div className="flex items-start gap-2 p-2 bg-amber-50 border border-amber-200 rounded-md">
               <AlertTriangle className="h-4 w-4 text-amber-600 mt-0.5" />
               <div className="text-xs text-amber-800">
-                Deactivating will immediately block user access, even if subscription hasn't expired.
+                Deactivating will immediately block user access, even if subscription hasn&apos;t expired.
               </div>
             </div>
           )}

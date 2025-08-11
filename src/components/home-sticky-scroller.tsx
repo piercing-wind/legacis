@@ -59,7 +59,7 @@ function HomeStickyScroller() {
               Just a Few Clicks to Grow Your Wealth
             </h2>
             <p className="text-sm lg:text-lg !text-neutral-200">
-              Getting started with Legacis is simple and seamless. Whether you're a beginner or a seasoned investor, our guided process helps you invest with confidence — in just a few quick steps.
+              Getting started with Legacis is simple and seamless. Whether you&apos;re a beginner or a seasoned investor, our guided process helps you invest with confidence — in just a few quick steps.
             </p>
             <Button asChild variant={'secondary'} className="max-w-80 dark:bg-white/80 dark:hover:bg-white font-normal text-base h-12 rounded-sm">
               <Link href={'/services'} className="gap-4 !font-medium !text-neutral-800 hover:!text-neutral-800">
@@ -227,7 +227,7 @@ function HomeStickyScroller() {
     }, 3000); // Auto scroll every 5 seconds
 
     return () => clearInterval(interval);
-  }, [currentIndex, isAutoScrolling]);
+  }, [currentIndex, isAutoScrolling, nextSection]);
 
   // Pause auto scroll on hover
   const handleMouseEnter = () => setIsAutoScrolling(false);

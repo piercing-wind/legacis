@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useCallback, useMemo } from "react";
+import { useEffect, useCallback, useMemo, Suspense } from "react";
 import Register from "./register";
 import { Button } from "../ui/button";
 import Image from "next/image";
@@ -10,11 +10,16 @@ import ResetPassword from "./reset-password";
 import { ArrowLeft } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import OTPVerificationForm from "../shared/otpVerificationForm";
+import { usePathname, useSearchParams } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 export const Authentication = () => {
   const { model } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
 
+  const callbackUrl = searchParams.get('callbackurl') || pathname || '/';
   // Always show login by default on mount
   useEffect(() => {
     dispatch(setAuthModel('login'));
@@ -51,11 +56,18 @@ export const Authentication = () => {
         </Button>
       )}
       <div className="flex flex-col w-full md:w-[60%] overflow-x-hidden overflow-y-auto items-center justify-center bg-white self-stretch dark:bg-neutral-800 p-4 md:px-14">
-        {renderModel}
+        <Suspense>
+          {renderModel}
+        </Suspense>
         {isAuthForm && <div className="text-neutral-400">-------- or --------</div>}
         {isAuthForm && (
-          <Button variant={'default'} type="submit" className="px-8 mx-8 rounded-full cursor-pointer mt-2 w-full flex items-center justify-center gap-8">
-            <Image src="./Google.svg" alt="google icon" width={24} height={24} />
+            <Button 
+               variant={'default'} 
+               type="submit" 
+               onClick={() => signIn('google', { callbackUrl: callbackUrl })}
+               className="px-8 mx-8 rounded-full cursor-pointer mt-2 w-full flex items-center justify-center gap-8"
+            >
+              <Image src="./Google.svg" alt="google icon" width={24} height={24} />
             Continue with Google
           </Button>
         )}
@@ -67,7 +79,7 @@ export const Authentication = () => {
         )}
         {model === 'login' && (
           <p className="text-sm mt-4">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Button variant={'link'} onClick={handleSwitchToRegister}>Create here</Button>
           </p>
         )}

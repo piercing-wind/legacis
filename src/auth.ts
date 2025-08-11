@@ -1,16 +1,29 @@
 import NextAuth, {User} from "next-auth";
-import { Session } from "next-auth";
 import authConfig from "@/auth.config";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "@/lib/db";
 import { JWT } from "next-auth/jwt";
-import { AdapterUser } from "next-auth/adapters";
-import { Phone } from "lucide-react";
 
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: {
     ...PrismaAdapter(db),
+      async createUser(profile) {
+         // Generate username from email or name
+         const base =
+            profile.email?.split('@')[0] ||
+            (profile.name ? profile.name.replace(/\s+/g, '').toLowerCase() : 'user');
+         const username = `${base}${Math.floor(Math.random() * 1000)}`;
+         const newUser = await db.user.create({
+            data: {
+            email: profile.email,
+            name: profile.name,
+            image: profile.image,
+            username: username, // Set username at creation
+            },
+         });
+      return newUser;
+   },
   },
   callbacks: {
     async signIn({ user, account, profile, email, credentials }){
@@ -19,6 +32,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       return true;
     },
+
     async jwt({ token, user, account, profile, trigger, session}): Promise<JWT> {
       // console.log("JWT Token1", token);
       if (!token.sub) return token; 

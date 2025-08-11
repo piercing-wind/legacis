@@ -20,7 +20,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { panVerificationData, User } from "@/prisma/generated/client";
-import { identifyInputType } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { Input } from "../ui/input";
 import * as XLSX from "xlsx";

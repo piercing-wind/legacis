@@ -170,7 +170,7 @@ export const homeService= [
       },
       {
          icon : '/platina-wealth.png',
-         name: 'Platina Wealth (HNI)',
+         name: 'Platina Wealth - HNI',
          desc: 'Diagnose gaps and get a clear action plan.',
          link: '/services?type=PLATINA_WEALTH',
          tw: 'bg-blue-50 dark:bg-blue-50'

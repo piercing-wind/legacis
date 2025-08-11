@@ -309,8 +309,8 @@ export function RiskProfileQuestionForm({
                 <FormLabel>
                   Options (JSON)
                   <span className="block text-xs text-muted-foreground">
-                    For MCQ/YES_NO: [{"{"}"value": 1, "text": "Low risk", "weight": 1{"}"}]<br />
-                    For SCALE: {"{"}"minScore": 1, "maxScore": 5{"}"}
+                    For MCQ/YES_NO: [{"{"}&quot;value&quot;: 1, &quot;text&quot;: &quot;Low risk&quot;, &quot;weight&quot;: 1{"}"}]<br />
+                    For SCALE: {"{"}&quot;minScore&quot;: 1, &quot;maxScore&quot;: 5{"}"}
                   </span>
                 </FormLabel>
                 <FormControl>

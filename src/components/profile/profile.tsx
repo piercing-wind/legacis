@@ -223,13 +223,23 @@ const Profile = ({user, fullUserData, riskProfile}:{user: User, fullUserData: Fu
             >
               Sign Out
             </Button>
-            <Button
-              onClick={handleChangePassword}
-              variant={"legacis"}
-              className="text-xs px-4 rounded-full w-full h-12"
-            >
-              Change Password
-            </Button>
+            {fullUserData?.password ? (
+               <Button
+               onClick={handleChangePassword}
+               variant={"legacis"}
+               className="text-xs px-4 rounded-full w-full h-12"
+               >
+                 Change Password
+               </Button>
+            ):(
+             <Button
+               variant={'outline'}
+               className="text-xs px-4 rounded-full w-full h-12"
+               >
+                <Image src="./Google.svg" alt="Google Logo" width={16} height={16} className="inline-block mr-1" />
+                Connected With Google
+               </Button>
+            )}
             {(user?.panVerified === null || user?.emailVerified === null || user?.phoneVerified === null) &&
                <Button
                className="text-xs px-4 rounded-full w-full h-12"

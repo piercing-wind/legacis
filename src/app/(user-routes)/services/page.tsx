@@ -57,7 +57,7 @@ const Page = async ({ searchParams }: PageProps) => {
          q={query}
          type={type}
       />
-      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-center gap-12 mt-16">
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-start gap-12 mt-16">
          {services.length === 0 && (
             <div className="col-span-3 text-center">
                <p className="text-lg text-gray-600">No services found.</p>

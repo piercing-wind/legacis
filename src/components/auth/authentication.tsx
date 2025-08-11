@@ -10,11 +10,17 @@ import ResetPassword from "./reset-password";
 import { ArrowLeft, X } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import OTPVerificationForm from "../shared/otpVerificationForm";
+import { signIn } from "next-auth/react";
+import { usePathname, useSearchParams } from "next/navigation";
 
 export const Authentication = () => {
   const { model, isAuthOpen } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
-  
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
+  const callbackUrl = searchParams.get('callbackurl') || pathname || '/';
+
   // All hooks must be called before any return
   useEffect(() => {
     if (isAuthOpen) {
@@ -80,7 +86,12 @@ export const Authentication = () => {
           {renderModel}
           {isAuthForm && <div className="text-neutral-400">-------- or --------</div>}
           {isAuthForm && (
-            <Button variant={'default'} type="submit" className="px-8 mx-8 rounded-full cursor-pointer mt-2 w-full flex items-center justify-center gap-8">
+            <Button 
+               variant={'default'} 
+               type="submit" 
+               onClick={() => signIn('google', { callbackUrl: callbackUrl })}
+               className="px-8 mx-8 rounded-full cursor-pointer mt-2 w-full flex items-center justify-center gap-8"
+            >
               <Image src="./Google.svg" alt="google icon" width={24} height={24} />
               Continue with Google
             </Button>
@@ -93,7 +104,7 @@ export const Authentication = () => {
           )}
           {model === 'login' && (
             <p className="text-sm mt-4">
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <Button variant={'link'} onClick={handleSwitchToRegister}>Create here</Button>
             </p>
           )}

@@ -396,7 +396,7 @@ const handleUpdateStock = async () => {
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This will remove "{stockName}" from the portfolio. This action cannot be undone.
+              This will remove &quot;{stockName}&quot; from the portfolio. This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -573,7 +573,7 @@ export function UpdateRecommendationDate({
       setDate(initialDate);
       setTimeout(() => inputRef.current?.focus(), 100);
     }
-  }, [open, nextRecommendationDate]);
+  }, [open, nextRecommendationDate, initialDate]);
 
   const handleSave = async () => {
    try {

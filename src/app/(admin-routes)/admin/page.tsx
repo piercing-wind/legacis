@@ -263,7 +263,7 @@ const SubscriptionRow = ({ purchase, service, index }: { purchase: UserPurchased
           </div>
           {purchase.grantType === 'ADMIN_GRANTED' && purchase.grantReason && (
             <div className="text-xs text-purple-600 italic max-w-[200px] truncate">
-              "{purchase.grantReason}"
+              &quot;{purchase.grantReason}&quot;
             </div>
           )}
         </div>

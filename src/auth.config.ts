@@ -23,8 +23,6 @@ export default {
             }
          }
       }),
-      Google({
-         
-      })
+      Google({}) //Automatically uses the environment variables AUTH_GOOGLE_ID and AUTH_GOOGLE_SECRET
    ]
 }

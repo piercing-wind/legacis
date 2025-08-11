@@ -5,8 +5,7 @@ import { db } from "@/lib/db";
 import { identifyInputType } from "@/lib/utils";
 import { findUser, markEmailVerifiedById, markPhoneVerifiedById, updateEmailAndVerifyById, updatePhoneAndVerifyById, updateTermsAcceptedById } from "@/lib/data/user";
 import { Session } from "./session";
-import { User } from "next-auth";
-import { VerificationType } from "@/prisma/generated/client";
+import { User, VerificationType } from "@/prisma/generated/client";
 import { sendOTPSMS } from "@/sms/sms";
 
 
@@ -32,19 +31,18 @@ function getVerificationTypeLabel(type: VerificationType) {
 
 export const sendOTP = async ({ identifier, verificationType }: { identifier: string, verificationType : VerificationType}) => {
   try {
-    const session = await Session();
-    let user: User | null = session?.user ?? null;
     const input_type = identifyInputType(identifier);
+    const user = await findUser(identifier);
+    if (!user) return { success: false, message: "No account found for this identifier." };
 
-    let userId: string;
-
-    if (user) {
-      userId = user.id;
-    } else {
-      user = await findUser(identifier);
-      if (!user) throw new Error("User not found.");
-      userId = user.id;
+    const userId = user.id;
+    
+    if (verificationType === 'RESET_PASS_VERIFY') {
+      if (!user.password) {
+        return { success: false, message: "Password reset is not available for accounts created via Google or social login. Try logging in with a different method." };
+      }
     }
+
 
     // Rate limit check
     const recentOtp = await db.otp.findUnique({
@@ -131,31 +129,26 @@ export const verifyOTP = async ({identifier, otp}:{identifier : string, otp: str
          otpRecord.verificationType === "PHONE_VERIFY" ||
          otpRecord.verificationType === "CONSENT"
        ) {
-         const session = await Session();
-         const user: User | undefined = session?.user;
-         if (!user) {
-           throw new Error("User session not found.");
-         }
-   
+ 
          switch (otpRecord.verificationType) {
            case "EMAIL_UPDATE":
-             res = await updateEmailAndVerifyById(user.id, otpRecord.identifier);
+             res = await updateEmailAndVerifyById(otpRecord.userId, otpRecord.identifier);
              message = "Email updated and verified successfully";
              break;
            case "PHONE_UPDATE":
-             res = await updatePhoneAndVerifyById(user.id, otpRecord.identifier);
+             res = await updatePhoneAndVerifyById(otpRecord.userId, otpRecord.identifier);
              message = "Phone number updated and verified successfully";
              break;
            case "EMAIL_VERIFY":
-             res = await markEmailVerifiedById(user.id);
+             res = await markEmailVerifiedById(otpRecord.userId);
              message = "Email verified successfully";
              break;
            case "PHONE_VERIFY":
-             res = await markPhoneVerifiedById(user.id);
+             res = await markPhoneVerifiedById(otpRecord.userId);
              message = "Phone number verified successfully";
              break;
            case 'CONSENT':
-            res = await updateTermsAcceptedById(user.id)
+            res = await updateTermsAcceptedById(otpRecord.userId);
             message = "Consent accepted successfully";
             break;
          }

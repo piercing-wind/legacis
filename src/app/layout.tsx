@@ -8,6 +8,7 @@ import { Authentication } from "@/components/auth/authentication";
 import { SessionProvider } from "next-auth/react";
 import Modal from "@/components/profile/modal";
 import ConsoleMessage from "@/components/consoleRenderer";
+import { Suspense } from "react";
 
 const poppins = Poppins({
    weight : [ "100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -95,7 +96,9 @@ export default function RootLayout({
             >
            <SessionProvider> 
             <ReduxProvider>
-               <Authentication />
+               <Suspense fallback={null}>
+                 <Authentication />
+               </Suspense>
                <Modal />
                {children}
                <Toaster />

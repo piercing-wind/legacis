@@ -758,7 +758,7 @@ const form = useForm<ServiceFormValues>({
          
          {plans.length === 0 && (
             <div className="text-center py-8 text-gray-500">
-               <p>No plans added yet. Click "Add Plan" to create your first service plan.</p>
+               <p>No plans added yet. Click &quot;Add Plan&quot; to create your first service plan.</p>
             </div>
          )}
          </div>
