@@ -44,6 +44,8 @@ The ComplimentaryService Model is designed to store all the relationships betwee
 
 ### 🔧 Service Management System
 
+to get service Agreement of purchased by the user use transactionAgreements relation in Transaction model.
+
 #### Service Types & Their Unique Behaviors
 ```typescript
 enum ServiceType {

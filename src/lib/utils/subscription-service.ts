@@ -1,5 +1,7 @@
 import { db } from '@/lib/db'
 import { GrantType, ServiceType } from '@/prisma/generated/client'
+import { AgreementSummary } from '@/types/global'
+import { User } from 'next-auth'
 
 export interface CreateSubscriptionInput {
   userId: string
@@ -13,7 +15,7 @@ export interface CreateSubscriptionInput {
     stockLimit?: number | null
   }
   grantType: GrantType
-  grantedBy?: string
+  adminUser?: User,
   grantReason?: string
   paymentId?: string
   couponCode?: string
@@ -22,8 +24,6 @@ export interface CreateSubscriptionInput {
   customStocks?: number
   transactionId?: string
   parentServiceId?: string
-  agreementData?: any
-  agreementAcceptedAt?: Date
 }
 
 // Extract pricing calculation to reduce duplication
@@ -113,7 +113,7 @@ export async function createSubscription(input: CreateSubscriptionInput) {
     serviceId, 
     selectedPlan,
     grantType, 
-    grantedBy, 
+    adminUser, 
     grantReason, 
     paymentId,
     couponDiscountPercent = 0,
@@ -121,8 +121,6 @@ export async function createSubscription(input: CreateSubscriptionInput) {
     customStocks,
     transactionId,
     parentServiceId,
-    agreementData,
-    agreementAcceptedAt
   } = input
 
   // Validate user exists and isn't banned
@@ -188,7 +186,6 @@ export async function createSubscription(input: CreateSubscriptionInput) {
   // Calculate dates
   const purchaseDate = new Date()
   let expiryDate: Date | null = null // Start with null
-    
   // Determine actual plan days to use
   let actualPlanDays: number;
   let actualStocks: number | null = null;
@@ -218,8 +215,8 @@ export async function createSubscription(input: CreateSubscriptionInput) {
       // Deactivate existing subscription if extending
       if (existingService) {
          await db.userPurchasedServices.update({
-         where: { id: existingService.id },
-         data: { isActive: false }
+            where: { id: existingService.id },
+            data: { isActive: false }
          });
       }
    }
@@ -228,10 +225,10 @@ export async function createSubscription(input: CreateSubscriptionInput) {
   const metadata = grantType === GrantType.ADMIN_GRANTED 
     ? {
         grantedAt: purchaseDate.toISOString(),
-        grantedByAdmin: grantedBy ? {
-          id: grantedBy,
-          name: targetUser.name,
-          email: targetUser.email
+        grantedByAdmin: adminUser ? {
+          id: adminUser.id,
+          name: adminUser.name,
+          email: adminUser.email
         } : null,
         grantReason,
         finalPrice: pricingResult.finalPrice,
@@ -269,6 +266,7 @@ export async function createSubscription(input: CreateSubscriptionInput) {
         purchaseVersion: "2.0"
       };
 
+      
   // Create subscription
   const subscription = await db.userPurchasedServices.create({
     data: {
@@ -278,15 +276,14 @@ export async function createSubscription(input: CreateSubscriptionInput) {
       expiryDate, // This will be null for Portfolio Review
       servicePlanId: selectedPlan?.id || null,
       grantType,
-      grantedBy: grantedBy || null,
+      grantedBy: adminUser?.id || null,
       grantReason: grantReason || null,
       isActive: true,
       grantMetadata: metadata,
       transactionId: transactionId || null,
       parentServiceId: parentServiceId || null,
-      agreementData: agreementData || null,
-      agreementAcceptedAt: agreementAcceptedAt || null
-    },
+   },
+    
     include: {
       user: {
         select: { 

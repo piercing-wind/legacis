@@ -3,6 +3,8 @@ import { db } from '@/lib/db'
 import React from 'react'
 import { Metadata } from 'next';
 
+export const revalidate = 1800;
+
 export const metadata: Metadata = {
     title: "Terms and Conditions",
     description: "Terms and Conditions policy and practices for Legacis Capital.",

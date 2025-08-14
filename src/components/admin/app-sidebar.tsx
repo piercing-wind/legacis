@@ -3,6 +3,7 @@ import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -12,6 +13,7 @@ import {
 } from "@/components/ui/sidebar"
 import Image from "next/image"
 import Link from "next/link"
+import DataBackup from "./data-backup"
 
 // Menu items.
 const items = [
@@ -101,7 +103,7 @@ export function AppSidebar() {
             </Link>
           </SidebarGroupLabel>
           <SidebarGroupContent className="mt-4">
-            <SidebarMenu>
+            <SidebarMenu className="flex flex-col gap-2">
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
@@ -115,6 +117,9 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        {/* <SidebarFooter className="mt-auto absolute bottom-4 left-0 right-0 flex flex-col items-center px-4 w-full">
+              <DataBackup />
+        </SidebarFooter> */}
       </SidebarContent>
     </Sidebar>
   )

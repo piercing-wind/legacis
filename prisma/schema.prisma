@@ -121,6 +121,19 @@ model Otp {
   @@index([userId, identifier])
 }
 
+model AadhaarOtp {
+   id                   String   @id @default(uuid())
+   aadhaarNumber        String  
+   ref_id               String
+   otpStatus            String
+   generatedOTPResponse Json?
+   verifiedOTPResponse  Json?
+   transactionId        String? @unique
+
+   createdAt      DateTime          @default(now())   
+   transaction         Transaction? @relation(fields: [transactionId], references: [id])
+}
+
 model panVerificationData {
   userId    String   @id
   provider  String
@@ -142,28 +155,30 @@ model UserPurchasedServices {
   id                  String    @id @default(uuid())
   userId              String
   serviceId           String
+  servicePlanId       String?
   purchaseDate        DateTime  @default(now())
   expiryDate          DateTime? //nullable
-  servicePlanId       String?
-  agreementAcceptedAt DateTime?
-  agreementData       Json?
+  
 
   grantType           GrantType @default(PURCHASED)
   grantedBy           String?   // Admin user ID if manually granted
   grantReason         String?   // Reason for manual grant or promotion details
-  parentServiceId     String?   // If complimentary, which service purchase triggered this
   transactionId       String?   // Link to actual payment transaction
+  parentServiceId     String?   // If complimentary, which service purchase triggered this
   isActive            Boolean   @default(true)
   
   grantMetadata       Json? //For coupons 
-  portfolioReview PortfolioReview?
-  
+  portfolioReview     PortfolioReview?
+  createdAt           DateTime          @default(now())
+
+  transaction         Transaction? @relation(fields: [transactionId], references: [id])
   user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   service Service? @relation(fields: [serviceId], references: [id], onDelete: SetNull)
   servicePlan ServicePlan? @relation(fields: [servicePlanId], references: [id])
   
   @@unique([userId, serviceId, expiryDate])
 }
+
 
 model Coupon {
   id          String   @id @default(uuid())
@@ -200,7 +215,12 @@ model Transaction {
   createdAt      DateTime          @default(now())
   updatedAt      DateTime          @updatedAt
   extraData      Json?
-
+  agreementSummary       Json? 
+  agreementAcceptedAt DateTime?
+  userPurchasedServices UserPurchasedServices[]
+  transactionAgreements TransactionAgreement[]
+  aadhaarOtp            AadhaarOtp?
+ 
   user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   service   Service?   @relation(fields: [serviceId], references: [id], onDelete: Cascade)
   servicePlan   ServicePlan? @relation(fields: [servicePlanId], references: [id])
@@ -208,6 +228,20 @@ model Transaction {
 
   @@index([userId])
   @@index([orderId])
+}
+
+//Junction table for transaction to know which agreement user accepted. before completing the payment.
+model TransactionAgreement {
+  id            String   @id @default(uuid())
+  transactionId String
+  agreementId   String
+
+  transaction   Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  agreement     Agreement   @relation(fields: [agreementId], references: [id], onDelete: Cascade)
+
+  @@unique([transactionId, agreementId])
+  @@index([transactionId])
+  @@index([agreementId])
 }
 
 enum AgreementType {
@@ -226,31 +260,25 @@ enum PolicyType {
   INVESTOR_CHARTER
 }
 
-
 model Agreement {
   id        String   @id @default(uuid())
   name      String
   content   String
   version   Int 
-  hash      String
+  hash      String   
   type      AgreementType @default(AGREEMENT)
   policyType PolicyType?
   signatoryPerson  String?
   companyName  String?
+  
+  
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
 
   serviceAgreements   ServiceAgreement[]
+  transactionAgreements TransactionAgreement[]
 }
 
-model ServiceAgreement {
-  id          String   @id @default(uuid())
-  serviceId   String
-  agreementId String
-
-  service     Service   @relation(fields: [serviceId], references: [id])
-  agreement   Agreement @relation(fields: [agreementId], references: [id])
-}
 
 model ComplimentaryService {
   id                     String   @id @default(uuid())
@@ -266,6 +294,15 @@ model ComplimentaryService {
   @@unique([serviceId, complimentaryServiceId])
   @@index([serviceId])
   @@index([complimentaryServiceId])
+}
+
+model ServiceAgreement {
+  id          String   @id @default(uuid())
+  serviceId   String
+  agreementId String
+
+  service     Service   @relation(fields: [serviceId], references: [id])
+  agreement   Agreement @relation(fields: [agreementId], references: [id])
 }
 
 model ServicePlan {

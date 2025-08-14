@@ -4,7 +4,7 @@ import Chart from "@/components/services/chart"
 import { isServicePurchased, findServiceBySlug, getServiceDataById, findServicesByIds } from "@/lib/data/services"
 import { ChartDataPoint, FaqItem, Philosophy, ServiceFeature } from "@/types/service"
 import { Button } from "@/components/ui/button"
-import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer"
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer"
 import Plans from "@/components/services/plans"
 import Faq from "@/components/services/faq"
 import PurchasedServiceSection from "@/components/services/purchasedServiceSection"
@@ -17,10 +17,8 @@ import { notFound, redirect } from "next/navigation"
 import { ZoomIn } from "@/components/animation/zoom"
 import Image from "next/image"
 import { getServiceDisplayPrice } from "@/lib/utils/servicePricingDisplay"
-import { Service } from "@/prisma/generated/client"
 import { QuillHtmlViewer } from "@/components/richTextViewer"
 import { ServiceCard } from "@/components/services/serviceCard"
-import { getColorForCardByServiceType } from "@/lib/utils/serviceCardColorGenerator"
 
 export default async function Page({params}: { params: Promise<{ slug: string }>}) {
    const session = await Session();
@@ -89,6 +87,12 @@ export default async function Page({params}: { params: Promise<{ slug: string }>
          delta = { ops: [{ insert: service.afterPurchaseFeaturesDelta }] };
       }
    }
+
+   const complimentaryServices = (service?.complimentaryService ?? [])
+     .map((item: any) => item?.complimentaryService ?? item)
+     .filter(Boolean);
+
+   
    return (
       <main className='w-full px-5 lg:px-10 xl:px-24 py-8'>
        
@@ -152,15 +156,15 @@ export default async function Page({params}: { params: Promise<{ slug: string }>
                </div>
             ):(
             <>         
-               {service.complimentaryService.length > 0 && (
+               {complimentaryServices.length > 0 && (
                   <div>
                      <h5 className="font-medium mb-2">Get Access to:</h5>
                      <div className="w-full grid grid-cols-3 gap-4">
-                        {service.complimentaryService.map(({complimentaryService}, index) => (
+                        {complimentaryServices.map((item, index) => (
                            <div  key={index} className="flex items-start gap-1 sm:gap-3 p-2 border rounded-lg">
                            <Image
                               src="/icons/favicon.ico"  
-                              alt={complimentaryService.name || "Service Icon"}
+                              alt={item.name || "Service Icon"}
                               width={20}
                               height={20}
                               className="rounded-full sm:mt-1"
@@ -168,10 +172,10 @@ export default async function Page({params}: { params: Promise<{ slug: string }>
          
                            <div>
                               <h3 className="text-xs font-semibold">
-                                 {complimentaryService.name.substring(0, 44)}
+                                 {item.name.substring(0, 44)}
                               </h3>
                               <p className="text-[10px] text-muted-foreground uppercase mt-1 sm:leading-[14px] tracking-wide">
-                                 {(complimentaryService.tag || "").substring(0, 75)}
+                                 {(item.tag || "").substring(0, 75)}
                               </p>
                            </div>
                            </div>
@@ -239,7 +243,8 @@ export default async function Page({params}: { params: Promise<{ slug: string }>
                   <div className="flex-1 min-w-0 flex flex-col">
                     <CheckoutForm
                       service={service}
-                      agreement={agreement}   
+                      agreement={agreement}  
+                      complimentaryServices={complimentaryServices} 
                     />
                   </div>
                </div>

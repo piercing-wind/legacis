@@ -4,7 +4,7 @@ import { LoginSchema } from "./lib/schema";
 import { findUser } from "./lib/data/user";
 import bcrypt from "bcryptjs";
 
-export default {
+const authConfig = {
    providers :[
       Credentials({
          async authorize(credentials) {
@@ -25,4 +25,6 @@ export default {
       }),
       Google({}) //Automatically uses the environment variables AUTH_GOOGLE_ID and AUTH_GOOGLE_SECRET
    ]
-}
+};
+
+export default authConfig;

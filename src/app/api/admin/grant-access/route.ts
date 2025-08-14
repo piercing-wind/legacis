@@ -1,6 +1,7 @@
 import { auth } from "@/auth"
 import { db } from '@/lib/db'
 import { createSubscription } from "@/lib/utils/subscription-service";
+import { User } from "next-auth";
 
 export const GET = (request: Request) => {
   return new Response(JSON.stringify({ message: "Restricted Access" }), { status: 200 });
@@ -63,7 +64,7 @@ export const POST = auth(async (request: any) => {
       serviceId,
       selectedPlan,
       grantType: 'ADMIN_GRANTED',
-      grantedBy: user.id,
+      adminUser: user,
       grantReason: grantReason.trim(),
       customPlanDays: customPlanDays || undefined,
       customStocks: customStocks || undefined

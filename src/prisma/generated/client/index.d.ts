@@ -29,6 +29,11 @@ export type Account = $Result.DefaultSelection<Prisma.$AccountPayload>
  */
 export type Otp = $Result.DefaultSelection<Prisma.$OtpPayload>
 /**
+ * Model AadhaarOtp
+ * 
+ */
+export type AadhaarOtp = $Result.DefaultSelection<Prisma.$AadhaarOtpPayload>
+/**
  * Model panVerificationData
  * 
  */
@@ -49,20 +54,25 @@ export type Coupon = $Result.DefaultSelection<Prisma.$CouponPayload>
  */
 export type Transaction = $Result.DefaultSelection<Prisma.$TransactionPayload>
 /**
+ * Model TransactionAgreement
+ * 
+ */
+export type TransactionAgreement = $Result.DefaultSelection<Prisma.$TransactionAgreementPayload>
+/**
  * Model Agreement
  * 
  */
 export type Agreement = $Result.DefaultSelection<Prisma.$AgreementPayload>
 /**
- * Model ServiceAgreement
- * 
- */
-export type ServiceAgreement = $Result.DefaultSelection<Prisma.$ServiceAgreementPayload>
-/**
  * Model ComplimentaryService
  * 
  */
 export type ComplimentaryService = $Result.DefaultSelection<Prisma.$ComplimentaryServicePayload>
+/**
+ * Model ServiceAgreement
+ * 
+ */
+export type ServiceAgreement = $Result.DefaultSelection<Prisma.$ServiceAgreementPayload>
 /**
  * Model ServicePlan
  * 
@@ -527,6 +537,16 @@ export class PrismaClient<
   get otp(): Prisma.OtpDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.aadhaarOtp`: Exposes CRUD operations for the **AadhaarOtp** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AadhaarOtps
+    * const aadhaarOtps = await prisma.aadhaarOtp.findMany()
+    * ```
+    */
+  get aadhaarOtp(): Prisma.AadhaarOtpDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.panVerificationData`: Exposes CRUD operations for the **panVerificationData** model.
     * Example usage:
     * ```ts
@@ -567,6 +587,16 @@ export class PrismaClient<
   get transaction(): Prisma.TransactionDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.transactionAgreement`: Exposes CRUD operations for the **TransactionAgreement** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TransactionAgreements
+    * const transactionAgreements = await prisma.transactionAgreement.findMany()
+    * ```
+    */
+  get transactionAgreement(): Prisma.TransactionAgreementDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.agreement`: Exposes CRUD operations for the **Agreement** model.
     * Example usage:
     * ```ts
@@ -577,16 +607,6 @@ export class PrismaClient<
   get agreement(): Prisma.AgreementDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.serviceAgreement`: Exposes CRUD operations for the **ServiceAgreement** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more ServiceAgreements
-    * const serviceAgreements = await prisma.serviceAgreement.findMany()
-    * ```
-    */
-  get serviceAgreement(): Prisma.ServiceAgreementDelegate<ExtArgs, ClientOptions>;
-
-  /**
    * `prisma.complimentaryService`: Exposes CRUD operations for the **ComplimentaryService** model.
     * Example usage:
     * ```ts
@@ -595,6 +615,16 @@ export class PrismaClient<
     * ```
     */
   get complimentaryService(): Prisma.ComplimentaryServiceDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.serviceAgreement`: Exposes CRUD operations for the **ServiceAgreement** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ServiceAgreements
+    * const serviceAgreements = await prisma.serviceAgreement.findMany()
+    * ```
+    */
+  get serviceAgreement(): Prisma.ServiceAgreementDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.servicePlan`: Exposes CRUD operations for the **ServicePlan** model.
@@ -1208,13 +1238,15 @@ export namespace Prisma {
     User: 'User',
     Account: 'Account',
     Otp: 'Otp',
+    AadhaarOtp: 'AadhaarOtp',
     panVerificationData: 'panVerificationData',
     UserPurchasedServices: 'UserPurchasedServices',
     Coupon: 'Coupon',
     Transaction: 'Transaction',
+    TransactionAgreement: 'TransactionAgreement',
     Agreement: 'Agreement',
-    ServiceAgreement: 'ServiceAgreement',
     ComplimentaryService: 'ComplimentaryService',
+    ServiceAgreement: 'ServiceAgreement',
     ServicePlan: 'ServicePlan',
     Service: 'Service',
     PortfolioReview: 'PortfolioReview',
@@ -1250,7 +1282,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "otp" | "panVerificationData" | "userPurchasedServices" | "coupon" | "transaction" | "agreement" | "serviceAgreement" | "complimentaryService" | "servicePlan" | "service" | "portfolioReview" | "researchAdvisoryStockList" | "researchAdvisoryModelPortfolioStockList" | "researchAdvisoryMutualFundStockList" | "riskProfileQuestion" | "userRiskProfileResponse" | "userRiskProfile" | "riskLevelServiceRecommendation" | "servicePlatinaWealth" | "userPlatinaRecommendation" | "userPlatinaStockList" | "userPlatinaStockHistory" | "blog" | "contactMessage" | "banner"
+      modelProps: "user" | "account" | "otp" | "aadhaarOtp" | "panVerificationData" | "userPurchasedServices" | "coupon" | "transaction" | "transactionAgreement" | "agreement" | "complimentaryService" | "serviceAgreement" | "servicePlan" | "service" | "portfolioReview" | "researchAdvisoryStockList" | "researchAdvisoryModelPortfolioStockList" | "researchAdvisoryMutualFundStockList" | "riskProfileQuestion" | "userRiskProfileResponse" | "userRiskProfile" | "riskLevelServiceRecommendation" | "servicePlatinaWealth" | "userPlatinaRecommendation" | "userPlatinaStockList" | "userPlatinaStockHistory" | "blog" | "contactMessage" | "banner"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1473,6 +1505,80 @@ export namespace Prisma {
           count: {
             args: Prisma.OtpCountArgs<ExtArgs>
             result: $Utils.Optional<OtpCountAggregateOutputType> | number
+          }
+        }
+      }
+      AadhaarOtp: {
+        payload: Prisma.$AadhaarOtpPayload<ExtArgs>
+        fields: Prisma.AadhaarOtpFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AadhaarOtpFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AadhaarOtpPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AadhaarOtpFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AadhaarOtpPayload>
+          }
+          findFirst: {
+            args: Prisma.AadhaarOtpFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AadhaarOtpPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AadhaarOtpFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AadhaarOtpPayload>
+          }
+          findMany: {
+            args: Prisma.AadhaarOtpFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AadhaarOtpPayload>[]
+          }
+          create: {
+            args: Prisma.AadhaarOtpCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AadhaarOtpPayload>
+          }
+          createMany: {
+            args: Prisma.AadhaarOtpCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AadhaarOtpCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AadhaarOtpPayload>[]
+          }
+          delete: {
+            args: Prisma.AadhaarOtpDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AadhaarOtpPayload>
+          }
+          update: {
+            args: Prisma.AadhaarOtpUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AadhaarOtpPayload>
+          }
+          deleteMany: {
+            args: Prisma.AadhaarOtpDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AadhaarOtpUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AadhaarOtpUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AadhaarOtpPayload>[]
+          }
+          upsert: {
+            args: Prisma.AadhaarOtpUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AadhaarOtpPayload>
+          }
+          aggregate: {
+            args: Prisma.AadhaarOtpAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAadhaarOtp>
+          }
+          groupBy: {
+            args: Prisma.AadhaarOtpGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AadhaarOtpGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AadhaarOtpCountArgs<ExtArgs>
+            result: $Utils.Optional<AadhaarOtpCountAggregateOutputType> | number
           }
         }
       }
@@ -1772,6 +1878,80 @@ export namespace Prisma {
           }
         }
       }
+      TransactionAgreement: {
+        payload: Prisma.$TransactionAgreementPayload<ExtArgs>
+        fields: Prisma.TransactionAgreementFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TransactionAgreementFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TransactionAgreementPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TransactionAgreementFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TransactionAgreementPayload>
+          }
+          findFirst: {
+            args: Prisma.TransactionAgreementFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TransactionAgreementPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TransactionAgreementFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TransactionAgreementPayload>
+          }
+          findMany: {
+            args: Prisma.TransactionAgreementFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TransactionAgreementPayload>[]
+          }
+          create: {
+            args: Prisma.TransactionAgreementCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TransactionAgreementPayload>
+          }
+          createMany: {
+            args: Prisma.TransactionAgreementCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TransactionAgreementCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TransactionAgreementPayload>[]
+          }
+          delete: {
+            args: Prisma.TransactionAgreementDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TransactionAgreementPayload>
+          }
+          update: {
+            args: Prisma.TransactionAgreementUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TransactionAgreementPayload>
+          }
+          deleteMany: {
+            args: Prisma.TransactionAgreementDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TransactionAgreementUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TransactionAgreementUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TransactionAgreementPayload>[]
+          }
+          upsert: {
+            args: Prisma.TransactionAgreementUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TransactionAgreementPayload>
+          }
+          aggregate: {
+            args: Prisma.TransactionAgreementAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTransactionAgreement>
+          }
+          groupBy: {
+            args: Prisma.TransactionAgreementGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TransactionAgreementGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TransactionAgreementCountArgs<ExtArgs>
+            result: $Utils.Optional<TransactionAgreementCountAggregateOutputType> | number
+          }
+        }
+      }
       Agreement: {
         payload: Prisma.$AgreementPayload<ExtArgs>
         fields: Prisma.AgreementFieldRefs
@@ -1846,80 +2026,6 @@ export namespace Prisma {
           }
         }
       }
-      ServiceAgreement: {
-        payload: Prisma.$ServiceAgreementPayload<ExtArgs>
-        fields: Prisma.ServiceAgreementFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.ServiceAgreementFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ServiceAgreementPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.ServiceAgreementFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ServiceAgreementPayload>
-          }
-          findFirst: {
-            args: Prisma.ServiceAgreementFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ServiceAgreementPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.ServiceAgreementFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ServiceAgreementPayload>
-          }
-          findMany: {
-            args: Prisma.ServiceAgreementFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ServiceAgreementPayload>[]
-          }
-          create: {
-            args: Prisma.ServiceAgreementCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ServiceAgreementPayload>
-          }
-          createMany: {
-            args: Prisma.ServiceAgreementCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.ServiceAgreementCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ServiceAgreementPayload>[]
-          }
-          delete: {
-            args: Prisma.ServiceAgreementDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ServiceAgreementPayload>
-          }
-          update: {
-            args: Prisma.ServiceAgreementUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ServiceAgreementPayload>
-          }
-          deleteMany: {
-            args: Prisma.ServiceAgreementDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.ServiceAgreementUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.ServiceAgreementUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ServiceAgreementPayload>[]
-          }
-          upsert: {
-            args: Prisma.ServiceAgreementUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ServiceAgreementPayload>
-          }
-          aggregate: {
-            args: Prisma.ServiceAgreementAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateServiceAgreement>
-          }
-          groupBy: {
-            args: Prisma.ServiceAgreementGroupByArgs<ExtArgs>
-            result: $Utils.Optional<ServiceAgreementGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.ServiceAgreementCountArgs<ExtArgs>
-            result: $Utils.Optional<ServiceAgreementCountAggregateOutputType> | number
-          }
-        }
-      }
       ComplimentaryService: {
         payload: Prisma.$ComplimentaryServicePayload<ExtArgs>
         fields: Prisma.ComplimentaryServiceFieldRefs
@@ -1991,6 +2097,80 @@ export namespace Prisma {
           count: {
             args: Prisma.ComplimentaryServiceCountArgs<ExtArgs>
             result: $Utils.Optional<ComplimentaryServiceCountAggregateOutputType> | number
+          }
+        }
+      }
+      ServiceAgreement: {
+        payload: Prisma.$ServiceAgreementPayload<ExtArgs>
+        fields: Prisma.ServiceAgreementFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ServiceAgreementFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceAgreementPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ServiceAgreementFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceAgreementPayload>
+          }
+          findFirst: {
+            args: Prisma.ServiceAgreementFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceAgreementPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ServiceAgreementFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceAgreementPayload>
+          }
+          findMany: {
+            args: Prisma.ServiceAgreementFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceAgreementPayload>[]
+          }
+          create: {
+            args: Prisma.ServiceAgreementCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceAgreementPayload>
+          }
+          createMany: {
+            args: Prisma.ServiceAgreementCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ServiceAgreementCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceAgreementPayload>[]
+          }
+          delete: {
+            args: Prisma.ServiceAgreementDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceAgreementPayload>
+          }
+          update: {
+            args: Prisma.ServiceAgreementUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceAgreementPayload>
+          }
+          deleteMany: {
+            args: Prisma.ServiceAgreementDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ServiceAgreementUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ServiceAgreementUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceAgreementPayload>[]
+          }
+          upsert: {
+            args: Prisma.ServiceAgreementUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceAgreementPayload>
+          }
+          aggregate: {
+            args: Prisma.ServiceAgreementAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateServiceAgreement>
+          }
+          groupBy: {
+            args: Prisma.ServiceAgreementGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ServiceAgreementGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ServiceAgreementCountArgs<ExtArgs>
+            result: $Utils.Optional<ServiceAgreementCountAggregateOutputType> | number
           }
         }
       }
@@ -3339,13 +3519,15 @@ export namespace Prisma {
     user?: UserOmit
     account?: AccountOmit
     otp?: OtpOmit
+    aadhaarOtp?: AadhaarOtpOmit
     panVerificationData?: panVerificationDataOmit
     userPurchasedServices?: UserPurchasedServicesOmit
     coupon?: CouponOmit
     transaction?: TransactionOmit
+    transactionAgreement?: TransactionAgreementOmit
     agreement?: AgreementOmit
-    serviceAgreement?: ServiceAgreementOmit
     complimentaryService?: ComplimentaryServiceOmit
+    serviceAgreement?: ServiceAgreementOmit
     servicePlan?: ServicePlanOmit
     service?: ServiceOmit
     portfolioReview?: PortfolioReviewOmit
@@ -3560,15 +3742,57 @@ export namespace Prisma {
 
 
   /**
+   * Count Type TransactionCountOutputType
+   */
+
+  export type TransactionCountOutputType = {
+    userPurchasedServices: number
+    transactionAgreements: number
+  }
+
+  export type TransactionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    userPurchasedServices?: boolean | TransactionCountOutputTypeCountUserPurchasedServicesArgs
+    transactionAgreements?: boolean | TransactionCountOutputTypeCountTransactionAgreementsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * TransactionCountOutputType without action
+   */
+  export type TransactionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TransactionCountOutputType
+     */
+    select?: TransactionCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * TransactionCountOutputType without action
+   */
+  export type TransactionCountOutputTypeCountUserPurchasedServicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserPurchasedServicesWhereInput
+  }
+
+  /**
+   * TransactionCountOutputType without action
+   */
+  export type TransactionCountOutputTypeCountTransactionAgreementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TransactionAgreementWhereInput
+  }
+
+
+  /**
    * Count Type AgreementCountOutputType
    */
 
   export type AgreementCountOutputType = {
     serviceAgreements: number
+    transactionAgreements: number
   }
 
   export type AgreementCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     serviceAgreements?: boolean | AgreementCountOutputTypeCountServiceAgreementsArgs
+    transactionAgreements?: boolean | AgreementCountOutputTypeCountTransactionAgreementsArgs
   }
 
   // Custom InputTypes
@@ -3587,6 +3811,13 @@ export namespace Prisma {
    */
   export type AgreementCountOutputTypeCountServiceAgreementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ServiceAgreementWhereInput
+  }
+
+  /**
+   * AgreementCountOutputType without action
+   */
+  export type AgreementCountOutputTypeCountTransactionAgreementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TransactionAgreementWhereInput
   }
 
 
@@ -7618,6 +7849,1114 @@ export namespace Prisma {
 
 
   /**
+   * Model AadhaarOtp
+   */
+
+  export type AggregateAadhaarOtp = {
+    _count: AadhaarOtpCountAggregateOutputType | null
+    _min: AadhaarOtpMinAggregateOutputType | null
+    _max: AadhaarOtpMaxAggregateOutputType | null
+  }
+
+  export type AadhaarOtpMinAggregateOutputType = {
+    id: string | null
+    aadhaarNumber: string | null
+    ref_id: string | null
+    otpStatus: string | null
+    transactionId: string | null
+    createdAt: Date | null
+  }
+
+  export type AadhaarOtpMaxAggregateOutputType = {
+    id: string | null
+    aadhaarNumber: string | null
+    ref_id: string | null
+    otpStatus: string | null
+    transactionId: string | null
+    createdAt: Date | null
+  }
+
+  export type AadhaarOtpCountAggregateOutputType = {
+    id: number
+    aadhaarNumber: number
+    ref_id: number
+    otpStatus: number
+    generatedOTPResponse: number
+    verifiedOTPResponse: number
+    transactionId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type AadhaarOtpMinAggregateInputType = {
+    id?: true
+    aadhaarNumber?: true
+    ref_id?: true
+    otpStatus?: true
+    transactionId?: true
+    createdAt?: true
+  }
+
+  export type AadhaarOtpMaxAggregateInputType = {
+    id?: true
+    aadhaarNumber?: true
+    ref_id?: true
+    otpStatus?: true
+    transactionId?: true
+    createdAt?: true
+  }
+
+  export type AadhaarOtpCountAggregateInputType = {
+    id?: true
+    aadhaarNumber?: true
+    ref_id?: true
+    otpStatus?: true
+    generatedOTPResponse?: true
+    verifiedOTPResponse?: true
+    transactionId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type AadhaarOtpAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AadhaarOtp to aggregate.
+     */
+    where?: AadhaarOtpWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AadhaarOtps to fetch.
+     */
+    orderBy?: AadhaarOtpOrderByWithRelationInput | AadhaarOtpOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AadhaarOtpWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AadhaarOtps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AadhaarOtps.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AadhaarOtps
+    **/
+    _count?: true | AadhaarOtpCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AadhaarOtpMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AadhaarOtpMaxAggregateInputType
+  }
+
+  export type GetAadhaarOtpAggregateType<T extends AadhaarOtpAggregateArgs> = {
+        [P in keyof T & keyof AggregateAadhaarOtp]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAadhaarOtp[P]>
+      : GetScalarType<T[P], AggregateAadhaarOtp[P]>
+  }
+
+
+
+
+  export type AadhaarOtpGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AadhaarOtpWhereInput
+    orderBy?: AadhaarOtpOrderByWithAggregationInput | AadhaarOtpOrderByWithAggregationInput[]
+    by: AadhaarOtpScalarFieldEnum[] | AadhaarOtpScalarFieldEnum
+    having?: AadhaarOtpScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AadhaarOtpCountAggregateInputType | true
+    _min?: AadhaarOtpMinAggregateInputType
+    _max?: AadhaarOtpMaxAggregateInputType
+  }
+
+  export type AadhaarOtpGroupByOutputType = {
+    id: string
+    aadhaarNumber: string
+    ref_id: string
+    otpStatus: string
+    generatedOTPResponse: JsonValue | null
+    verifiedOTPResponse: JsonValue | null
+    transactionId: string | null
+    createdAt: Date
+    _count: AadhaarOtpCountAggregateOutputType | null
+    _min: AadhaarOtpMinAggregateOutputType | null
+    _max: AadhaarOtpMaxAggregateOutputType | null
+  }
+
+  type GetAadhaarOtpGroupByPayload<T extends AadhaarOtpGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AadhaarOtpGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AadhaarOtpGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AadhaarOtpGroupByOutputType[P]>
+            : GetScalarType<T[P], AadhaarOtpGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AadhaarOtpSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    aadhaarNumber?: boolean
+    ref_id?: boolean
+    otpStatus?: boolean
+    generatedOTPResponse?: boolean
+    verifiedOTPResponse?: boolean
+    transactionId?: boolean
+    createdAt?: boolean
+    transaction?: boolean | AadhaarOtp$transactionArgs<ExtArgs>
+  }, ExtArgs["result"]["aadhaarOtp"]>
+
+  export type AadhaarOtpSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    aadhaarNumber?: boolean
+    ref_id?: boolean
+    otpStatus?: boolean
+    generatedOTPResponse?: boolean
+    verifiedOTPResponse?: boolean
+    transactionId?: boolean
+    createdAt?: boolean
+    transaction?: boolean | AadhaarOtp$transactionArgs<ExtArgs>
+  }, ExtArgs["result"]["aadhaarOtp"]>
+
+  export type AadhaarOtpSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    aadhaarNumber?: boolean
+    ref_id?: boolean
+    otpStatus?: boolean
+    generatedOTPResponse?: boolean
+    verifiedOTPResponse?: boolean
+    transactionId?: boolean
+    createdAt?: boolean
+    transaction?: boolean | AadhaarOtp$transactionArgs<ExtArgs>
+  }, ExtArgs["result"]["aadhaarOtp"]>
+
+  export type AadhaarOtpSelectScalar = {
+    id?: boolean
+    aadhaarNumber?: boolean
+    ref_id?: boolean
+    otpStatus?: boolean
+    generatedOTPResponse?: boolean
+    verifiedOTPResponse?: boolean
+    transactionId?: boolean
+    createdAt?: boolean
+  }
+
+  export type AadhaarOtpOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "aadhaarNumber" | "ref_id" | "otpStatus" | "generatedOTPResponse" | "verifiedOTPResponse" | "transactionId" | "createdAt", ExtArgs["result"]["aadhaarOtp"]>
+  export type AadhaarOtpInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    transaction?: boolean | AadhaarOtp$transactionArgs<ExtArgs>
+  }
+  export type AadhaarOtpIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    transaction?: boolean | AadhaarOtp$transactionArgs<ExtArgs>
+  }
+  export type AadhaarOtpIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    transaction?: boolean | AadhaarOtp$transactionArgs<ExtArgs>
+  }
+
+  export type $AadhaarOtpPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AadhaarOtp"
+    objects: {
+      transaction: Prisma.$TransactionPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      aadhaarNumber: string
+      ref_id: string
+      otpStatus: string
+      generatedOTPResponse: Prisma.JsonValue | null
+      verifiedOTPResponse: Prisma.JsonValue | null
+      transactionId: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["aadhaarOtp"]>
+    composites: {}
+  }
+
+  type AadhaarOtpGetPayload<S extends boolean | null | undefined | AadhaarOtpDefaultArgs> = $Result.GetResult<Prisma.$AadhaarOtpPayload, S>
+
+  type AadhaarOtpCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AadhaarOtpFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AadhaarOtpCountAggregateInputType | true
+    }
+
+  export interface AadhaarOtpDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AadhaarOtp'], meta: { name: 'AadhaarOtp' } }
+    /**
+     * Find zero or one AadhaarOtp that matches the filter.
+     * @param {AadhaarOtpFindUniqueArgs} args - Arguments to find a AadhaarOtp
+     * @example
+     * // Get one AadhaarOtp
+     * const aadhaarOtp = await prisma.aadhaarOtp.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AadhaarOtpFindUniqueArgs>(args: SelectSubset<T, AadhaarOtpFindUniqueArgs<ExtArgs>>): Prisma__AadhaarOtpClient<$Result.GetResult<Prisma.$AadhaarOtpPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AadhaarOtp that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AadhaarOtpFindUniqueOrThrowArgs} args - Arguments to find a AadhaarOtp
+     * @example
+     * // Get one AadhaarOtp
+     * const aadhaarOtp = await prisma.aadhaarOtp.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AadhaarOtpFindUniqueOrThrowArgs>(args: SelectSubset<T, AadhaarOtpFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AadhaarOtpClient<$Result.GetResult<Prisma.$AadhaarOtpPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AadhaarOtp that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AadhaarOtpFindFirstArgs} args - Arguments to find a AadhaarOtp
+     * @example
+     * // Get one AadhaarOtp
+     * const aadhaarOtp = await prisma.aadhaarOtp.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AadhaarOtpFindFirstArgs>(args?: SelectSubset<T, AadhaarOtpFindFirstArgs<ExtArgs>>): Prisma__AadhaarOtpClient<$Result.GetResult<Prisma.$AadhaarOtpPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AadhaarOtp that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AadhaarOtpFindFirstOrThrowArgs} args - Arguments to find a AadhaarOtp
+     * @example
+     * // Get one AadhaarOtp
+     * const aadhaarOtp = await prisma.aadhaarOtp.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AadhaarOtpFindFirstOrThrowArgs>(args?: SelectSubset<T, AadhaarOtpFindFirstOrThrowArgs<ExtArgs>>): Prisma__AadhaarOtpClient<$Result.GetResult<Prisma.$AadhaarOtpPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AadhaarOtps that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AadhaarOtpFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AadhaarOtps
+     * const aadhaarOtps = await prisma.aadhaarOtp.findMany()
+     * 
+     * // Get first 10 AadhaarOtps
+     * const aadhaarOtps = await prisma.aadhaarOtp.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const aadhaarOtpWithIdOnly = await prisma.aadhaarOtp.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AadhaarOtpFindManyArgs>(args?: SelectSubset<T, AadhaarOtpFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AadhaarOtpPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AadhaarOtp.
+     * @param {AadhaarOtpCreateArgs} args - Arguments to create a AadhaarOtp.
+     * @example
+     * // Create one AadhaarOtp
+     * const AadhaarOtp = await prisma.aadhaarOtp.create({
+     *   data: {
+     *     // ... data to create a AadhaarOtp
+     *   }
+     * })
+     * 
+     */
+    create<T extends AadhaarOtpCreateArgs>(args: SelectSubset<T, AadhaarOtpCreateArgs<ExtArgs>>): Prisma__AadhaarOtpClient<$Result.GetResult<Prisma.$AadhaarOtpPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AadhaarOtps.
+     * @param {AadhaarOtpCreateManyArgs} args - Arguments to create many AadhaarOtps.
+     * @example
+     * // Create many AadhaarOtps
+     * const aadhaarOtp = await prisma.aadhaarOtp.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AadhaarOtpCreateManyArgs>(args?: SelectSubset<T, AadhaarOtpCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AadhaarOtps and returns the data saved in the database.
+     * @param {AadhaarOtpCreateManyAndReturnArgs} args - Arguments to create many AadhaarOtps.
+     * @example
+     * // Create many AadhaarOtps
+     * const aadhaarOtp = await prisma.aadhaarOtp.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AadhaarOtps and only return the `id`
+     * const aadhaarOtpWithIdOnly = await prisma.aadhaarOtp.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AadhaarOtpCreateManyAndReturnArgs>(args?: SelectSubset<T, AadhaarOtpCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AadhaarOtpPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AadhaarOtp.
+     * @param {AadhaarOtpDeleteArgs} args - Arguments to delete one AadhaarOtp.
+     * @example
+     * // Delete one AadhaarOtp
+     * const AadhaarOtp = await prisma.aadhaarOtp.delete({
+     *   where: {
+     *     // ... filter to delete one AadhaarOtp
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AadhaarOtpDeleteArgs>(args: SelectSubset<T, AadhaarOtpDeleteArgs<ExtArgs>>): Prisma__AadhaarOtpClient<$Result.GetResult<Prisma.$AadhaarOtpPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AadhaarOtp.
+     * @param {AadhaarOtpUpdateArgs} args - Arguments to update one AadhaarOtp.
+     * @example
+     * // Update one AadhaarOtp
+     * const aadhaarOtp = await prisma.aadhaarOtp.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AadhaarOtpUpdateArgs>(args: SelectSubset<T, AadhaarOtpUpdateArgs<ExtArgs>>): Prisma__AadhaarOtpClient<$Result.GetResult<Prisma.$AadhaarOtpPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AadhaarOtps.
+     * @param {AadhaarOtpDeleteManyArgs} args - Arguments to filter AadhaarOtps to delete.
+     * @example
+     * // Delete a few AadhaarOtps
+     * const { count } = await prisma.aadhaarOtp.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AadhaarOtpDeleteManyArgs>(args?: SelectSubset<T, AadhaarOtpDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AadhaarOtps.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AadhaarOtpUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AadhaarOtps
+     * const aadhaarOtp = await prisma.aadhaarOtp.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AadhaarOtpUpdateManyArgs>(args: SelectSubset<T, AadhaarOtpUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AadhaarOtps and returns the data updated in the database.
+     * @param {AadhaarOtpUpdateManyAndReturnArgs} args - Arguments to update many AadhaarOtps.
+     * @example
+     * // Update many AadhaarOtps
+     * const aadhaarOtp = await prisma.aadhaarOtp.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AadhaarOtps and only return the `id`
+     * const aadhaarOtpWithIdOnly = await prisma.aadhaarOtp.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AadhaarOtpUpdateManyAndReturnArgs>(args: SelectSubset<T, AadhaarOtpUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AadhaarOtpPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AadhaarOtp.
+     * @param {AadhaarOtpUpsertArgs} args - Arguments to update or create a AadhaarOtp.
+     * @example
+     * // Update or create a AadhaarOtp
+     * const aadhaarOtp = await prisma.aadhaarOtp.upsert({
+     *   create: {
+     *     // ... data to create a AadhaarOtp
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AadhaarOtp we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AadhaarOtpUpsertArgs>(args: SelectSubset<T, AadhaarOtpUpsertArgs<ExtArgs>>): Prisma__AadhaarOtpClient<$Result.GetResult<Prisma.$AadhaarOtpPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AadhaarOtps.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AadhaarOtpCountArgs} args - Arguments to filter AadhaarOtps to count.
+     * @example
+     * // Count the number of AadhaarOtps
+     * const count = await prisma.aadhaarOtp.count({
+     *   where: {
+     *     // ... the filter for the AadhaarOtps we want to count
+     *   }
+     * })
+    **/
+    count<T extends AadhaarOtpCountArgs>(
+      args?: Subset<T, AadhaarOtpCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AadhaarOtpCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AadhaarOtp.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AadhaarOtpAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AadhaarOtpAggregateArgs>(args: Subset<T, AadhaarOtpAggregateArgs>): Prisma.PrismaPromise<GetAadhaarOtpAggregateType<T>>
+
+    /**
+     * Group by AadhaarOtp.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AadhaarOtpGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AadhaarOtpGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AadhaarOtpGroupByArgs['orderBy'] }
+        : { orderBy?: AadhaarOtpGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AadhaarOtpGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAadhaarOtpGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AadhaarOtp model
+   */
+  readonly fields: AadhaarOtpFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AadhaarOtp.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AadhaarOtpClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    transaction<T extends AadhaarOtp$transactionArgs<ExtArgs> = {}>(args?: Subset<T, AadhaarOtp$transactionArgs<ExtArgs>>): Prisma__TransactionClient<$Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AadhaarOtp model
+   */
+  interface AadhaarOtpFieldRefs {
+    readonly id: FieldRef<"AadhaarOtp", 'String'>
+    readonly aadhaarNumber: FieldRef<"AadhaarOtp", 'String'>
+    readonly ref_id: FieldRef<"AadhaarOtp", 'String'>
+    readonly otpStatus: FieldRef<"AadhaarOtp", 'String'>
+    readonly generatedOTPResponse: FieldRef<"AadhaarOtp", 'Json'>
+    readonly verifiedOTPResponse: FieldRef<"AadhaarOtp", 'Json'>
+    readonly transactionId: FieldRef<"AadhaarOtp", 'String'>
+    readonly createdAt: FieldRef<"AadhaarOtp", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AadhaarOtp findUnique
+   */
+  export type AadhaarOtpFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AadhaarOtp
+     */
+    select?: AadhaarOtpSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AadhaarOtp
+     */
+    omit?: AadhaarOtpOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AadhaarOtpInclude<ExtArgs> | null
+    /**
+     * Filter, which AadhaarOtp to fetch.
+     */
+    where: AadhaarOtpWhereUniqueInput
+  }
+
+  /**
+   * AadhaarOtp findUniqueOrThrow
+   */
+  export type AadhaarOtpFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AadhaarOtp
+     */
+    select?: AadhaarOtpSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AadhaarOtp
+     */
+    omit?: AadhaarOtpOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AadhaarOtpInclude<ExtArgs> | null
+    /**
+     * Filter, which AadhaarOtp to fetch.
+     */
+    where: AadhaarOtpWhereUniqueInput
+  }
+
+  /**
+   * AadhaarOtp findFirst
+   */
+  export type AadhaarOtpFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AadhaarOtp
+     */
+    select?: AadhaarOtpSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AadhaarOtp
+     */
+    omit?: AadhaarOtpOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AadhaarOtpInclude<ExtArgs> | null
+    /**
+     * Filter, which AadhaarOtp to fetch.
+     */
+    where?: AadhaarOtpWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AadhaarOtps to fetch.
+     */
+    orderBy?: AadhaarOtpOrderByWithRelationInput | AadhaarOtpOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AadhaarOtps.
+     */
+    cursor?: AadhaarOtpWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AadhaarOtps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AadhaarOtps.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AadhaarOtps.
+     */
+    distinct?: AadhaarOtpScalarFieldEnum | AadhaarOtpScalarFieldEnum[]
+  }
+
+  /**
+   * AadhaarOtp findFirstOrThrow
+   */
+  export type AadhaarOtpFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AadhaarOtp
+     */
+    select?: AadhaarOtpSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AadhaarOtp
+     */
+    omit?: AadhaarOtpOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AadhaarOtpInclude<ExtArgs> | null
+    /**
+     * Filter, which AadhaarOtp to fetch.
+     */
+    where?: AadhaarOtpWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AadhaarOtps to fetch.
+     */
+    orderBy?: AadhaarOtpOrderByWithRelationInput | AadhaarOtpOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AadhaarOtps.
+     */
+    cursor?: AadhaarOtpWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AadhaarOtps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AadhaarOtps.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AadhaarOtps.
+     */
+    distinct?: AadhaarOtpScalarFieldEnum | AadhaarOtpScalarFieldEnum[]
+  }
+
+  /**
+   * AadhaarOtp findMany
+   */
+  export type AadhaarOtpFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AadhaarOtp
+     */
+    select?: AadhaarOtpSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AadhaarOtp
+     */
+    omit?: AadhaarOtpOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AadhaarOtpInclude<ExtArgs> | null
+    /**
+     * Filter, which AadhaarOtps to fetch.
+     */
+    where?: AadhaarOtpWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AadhaarOtps to fetch.
+     */
+    orderBy?: AadhaarOtpOrderByWithRelationInput | AadhaarOtpOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AadhaarOtps.
+     */
+    cursor?: AadhaarOtpWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AadhaarOtps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AadhaarOtps.
+     */
+    skip?: number
+    distinct?: AadhaarOtpScalarFieldEnum | AadhaarOtpScalarFieldEnum[]
+  }
+
+  /**
+   * AadhaarOtp create
+   */
+  export type AadhaarOtpCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AadhaarOtp
+     */
+    select?: AadhaarOtpSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AadhaarOtp
+     */
+    omit?: AadhaarOtpOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AadhaarOtpInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AadhaarOtp.
+     */
+    data: XOR<AadhaarOtpCreateInput, AadhaarOtpUncheckedCreateInput>
+  }
+
+  /**
+   * AadhaarOtp createMany
+   */
+  export type AadhaarOtpCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AadhaarOtps.
+     */
+    data: AadhaarOtpCreateManyInput | AadhaarOtpCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AadhaarOtp createManyAndReturn
+   */
+  export type AadhaarOtpCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AadhaarOtp
+     */
+    select?: AadhaarOtpSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AadhaarOtp
+     */
+    omit?: AadhaarOtpOmit<ExtArgs> | null
+    /**
+     * The data used to create many AadhaarOtps.
+     */
+    data: AadhaarOtpCreateManyInput | AadhaarOtpCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AadhaarOtpIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AadhaarOtp update
+   */
+  export type AadhaarOtpUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AadhaarOtp
+     */
+    select?: AadhaarOtpSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AadhaarOtp
+     */
+    omit?: AadhaarOtpOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AadhaarOtpInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AadhaarOtp.
+     */
+    data: XOR<AadhaarOtpUpdateInput, AadhaarOtpUncheckedUpdateInput>
+    /**
+     * Choose, which AadhaarOtp to update.
+     */
+    where: AadhaarOtpWhereUniqueInput
+  }
+
+  /**
+   * AadhaarOtp updateMany
+   */
+  export type AadhaarOtpUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AadhaarOtps.
+     */
+    data: XOR<AadhaarOtpUpdateManyMutationInput, AadhaarOtpUncheckedUpdateManyInput>
+    /**
+     * Filter which AadhaarOtps to update
+     */
+    where?: AadhaarOtpWhereInput
+    /**
+     * Limit how many AadhaarOtps to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AadhaarOtp updateManyAndReturn
+   */
+  export type AadhaarOtpUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AadhaarOtp
+     */
+    select?: AadhaarOtpSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AadhaarOtp
+     */
+    omit?: AadhaarOtpOmit<ExtArgs> | null
+    /**
+     * The data used to update AadhaarOtps.
+     */
+    data: XOR<AadhaarOtpUpdateManyMutationInput, AadhaarOtpUncheckedUpdateManyInput>
+    /**
+     * Filter which AadhaarOtps to update
+     */
+    where?: AadhaarOtpWhereInput
+    /**
+     * Limit how many AadhaarOtps to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AadhaarOtpIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AadhaarOtp upsert
+   */
+  export type AadhaarOtpUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AadhaarOtp
+     */
+    select?: AadhaarOtpSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AadhaarOtp
+     */
+    omit?: AadhaarOtpOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AadhaarOtpInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AadhaarOtp to update in case it exists.
+     */
+    where: AadhaarOtpWhereUniqueInput
+    /**
+     * In case the AadhaarOtp found by the `where` argument doesn't exist, create a new AadhaarOtp with this data.
+     */
+    create: XOR<AadhaarOtpCreateInput, AadhaarOtpUncheckedCreateInput>
+    /**
+     * In case the AadhaarOtp was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AadhaarOtpUpdateInput, AadhaarOtpUncheckedUpdateInput>
+  }
+
+  /**
+   * AadhaarOtp delete
+   */
+  export type AadhaarOtpDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AadhaarOtp
+     */
+    select?: AadhaarOtpSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AadhaarOtp
+     */
+    omit?: AadhaarOtpOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AadhaarOtpInclude<ExtArgs> | null
+    /**
+     * Filter which AadhaarOtp to delete.
+     */
+    where: AadhaarOtpWhereUniqueInput
+  }
+
+  /**
+   * AadhaarOtp deleteMany
+   */
+  export type AadhaarOtpDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AadhaarOtps to delete
+     */
+    where?: AadhaarOtpWhereInput
+    /**
+     * Limit how many AadhaarOtps to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AadhaarOtp.transaction
+   */
+  export type AadhaarOtp$transactionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Transaction
+     */
+    select?: TransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Transaction
+     */
+    omit?: TransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransactionInclude<ExtArgs> | null
+    where?: TransactionWhereInput
+  }
+
+  /**
+   * AadhaarOtp without action
+   */
+  export type AadhaarOtpDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AadhaarOtp
+     */
+    select?: AadhaarOtpSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AadhaarOtp
+     */
+    omit?: AadhaarOtpOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AadhaarOtpInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model panVerificationData
    */
 
@@ -8698,50 +10037,49 @@ export namespace Prisma {
     id: string | null
     userId: string | null
     serviceId: string | null
+    servicePlanId: string | null
     purchaseDate: Date | null
     expiryDate: Date | null
-    servicePlanId: string | null
-    agreementAcceptedAt: Date | null
     grantType: $Enums.GrantType | null
     grantedBy: string | null
     grantReason: string | null
-    parentServiceId: string | null
     transactionId: string | null
+    parentServiceId: string | null
     isActive: boolean | null
+    createdAt: Date | null
   }
 
   export type UserPurchasedServicesMaxAggregateOutputType = {
     id: string | null
     userId: string | null
     serviceId: string | null
+    servicePlanId: string | null
     purchaseDate: Date | null
     expiryDate: Date | null
-    servicePlanId: string | null
-    agreementAcceptedAt: Date | null
     grantType: $Enums.GrantType | null
     grantedBy: string | null
     grantReason: string | null
-    parentServiceId: string | null
     transactionId: string | null
+    parentServiceId: string | null
     isActive: boolean | null
+    createdAt: Date | null
   }
 
   export type UserPurchasedServicesCountAggregateOutputType = {
     id: number
     userId: number
     serviceId: number
+    servicePlanId: number
     purchaseDate: number
     expiryDate: number
-    servicePlanId: number
-    agreementAcceptedAt: number
-    agreementData: number
     grantType: number
     grantedBy: number
     grantReason: number
-    parentServiceId: number
     transactionId: number
+    parentServiceId: number
     isActive: number
     grantMetadata: number
+    createdAt: number
     _all: number
   }
 
@@ -8750,50 +10088,49 @@ export namespace Prisma {
     id?: true
     userId?: true
     serviceId?: true
+    servicePlanId?: true
     purchaseDate?: true
     expiryDate?: true
-    servicePlanId?: true
-    agreementAcceptedAt?: true
     grantType?: true
     grantedBy?: true
     grantReason?: true
-    parentServiceId?: true
     transactionId?: true
+    parentServiceId?: true
     isActive?: true
+    createdAt?: true
   }
 
   export type UserPurchasedServicesMaxAggregateInputType = {
     id?: true
     userId?: true
     serviceId?: true
+    servicePlanId?: true
     purchaseDate?: true
     expiryDate?: true
-    servicePlanId?: true
-    agreementAcceptedAt?: true
     grantType?: true
     grantedBy?: true
     grantReason?: true
-    parentServiceId?: true
     transactionId?: true
+    parentServiceId?: true
     isActive?: true
+    createdAt?: true
   }
 
   export type UserPurchasedServicesCountAggregateInputType = {
     id?: true
     userId?: true
     serviceId?: true
+    servicePlanId?: true
     purchaseDate?: true
     expiryDate?: true
-    servicePlanId?: true
-    agreementAcceptedAt?: true
-    agreementData?: true
     grantType?: true
     grantedBy?: true
     grantReason?: true
-    parentServiceId?: true
     transactionId?: true
+    parentServiceId?: true
     isActive?: true
     grantMetadata?: true
+    createdAt?: true
     _all?: true
   }
 
@@ -8873,18 +10210,17 @@ export namespace Prisma {
     id: string
     userId: string
     serviceId: string
+    servicePlanId: string | null
     purchaseDate: Date
     expiryDate: Date | null
-    servicePlanId: string | null
-    agreementAcceptedAt: Date | null
-    agreementData: JsonValue | null
     grantType: $Enums.GrantType
     grantedBy: string | null
     grantReason: string | null
-    parentServiceId: string | null
     transactionId: string | null
+    parentServiceId: string | null
     isActive: boolean
     grantMetadata: JsonValue | null
+    createdAt: Date
     _count: UserPurchasedServicesCountAggregateOutputType | null
     _min: UserPurchasedServicesMinAggregateOutputType | null
     _max: UserPurchasedServicesMaxAggregateOutputType | null
@@ -8908,19 +10244,19 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     serviceId?: boolean
+    servicePlanId?: boolean
     purchaseDate?: boolean
     expiryDate?: boolean
-    servicePlanId?: boolean
-    agreementAcceptedAt?: boolean
-    agreementData?: boolean
     grantType?: boolean
     grantedBy?: boolean
     grantReason?: boolean
-    parentServiceId?: boolean
     transactionId?: boolean
+    parentServiceId?: boolean
     isActive?: boolean
     grantMetadata?: boolean
+    createdAt?: boolean
     portfolioReview?: boolean | UserPurchasedServices$portfolioReviewArgs<ExtArgs>
+    transaction?: boolean | UserPurchasedServices$transactionArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | UserPurchasedServices$serviceArgs<ExtArgs>
     servicePlan?: boolean | UserPurchasedServices$servicePlanArgs<ExtArgs>
@@ -8930,18 +10266,18 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     serviceId?: boolean
+    servicePlanId?: boolean
     purchaseDate?: boolean
     expiryDate?: boolean
-    servicePlanId?: boolean
-    agreementAcceptedAt?: boolean
-    agreementData?: boolean
     grantType?: boolean
     grantedBy?: boolean
     grantReason?: boolean
-    parentServiceId?: boolean
     transactionId?: boolean
+    parentServiceId?: boolean
     isActive?: boolean
     grantMetadata?: boolean
+    createdAt?: boolean
+    transaction?: boolean | UserPurchasedServices$transactionArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | UserPurchasedServices$serviceArgs<ExtArgs>
     servicePlan?: boolean | UserPurchasedServices$servicePlanArgs<ExtArgs>
@@ -8951,18 +10287,18 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     serviceId?: boolean
+    servicePlanId?: boolean
     purchaseDate?: boolean
     expiryDate?: boolean
-    servicePlanId?: boolean
-    agreementAcceptedAt?: boolean
-    agreementData?: boolean
     grantType?: boolean
     grantedBy?: boolean
     grantReason?: boolean
-    parentServiceId?: boolean
     transactionId?: boolean
+    parentServiceId?: boolean
     isActive?: boolean
     grantMetadata?: boolean
+    createdAt?: boolean
+    transaction?: boolean | UserPurchasedServices$transactionArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | UserPurchasedServices$serviceArgs<ExtArgs>
     servicePlan?: boolean | UserPurchasedServices$servicePlanArgs<ExtArgs>
@@ -8972,33 +10308,35 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     serviceId?: boolean
+    servicePlanId?: boolean
     purchaseDate?: boolean
     expiryDate?: boolean
-    servicePlanId?: boolean
-    agreementAcceptedAt?: boolean
-    agreementData?: boolean
     grantType?: boolean
     grantedBy?: boolean
     grantReason?: boolean
-    parentServiceId?: boolean
     transactionId?: boolean
+    parentServiceId?: boolean
     isActive?: boolean
     grantMetadata?: boolean
+    createdAt?: boolean
   }
 
-  export type UserPurchasedServicesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "serviceId" | "purchaseDate" | "expiryDate" | "servicePlanId" | "agreementAcceptedAt" | "agreementData" | "grantType" | "grantedBy" | "grantReason" | "parentServiceId" | "transactionId" | "isActive" | "grantMetadata", ExtArgs["result"]["userPurchasedServices"]>
+  export type UserPurchasedServicesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "serviceId" | "servicePlanId" | "purchaseDate" | "expiryDate" | "grantType" | "grantedBy" | "grantReason" | "transactionId" | "parentServiceId" | "isActive" | "grantMetadata" | "createdAt", ExtArgs["result"]["userPurchasedServices"]>
   export type UserPurchasedServicesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     portfolioReview?: boolean | UserPurchasedServices$portfolioReviewArgs<ExtArgs>
+    transaction?: boolean | UserPurchasedServices$transactionArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | UserPurchasedServices$serviceArgs<ExtArgs>
     servicePlan?: boolean | UserPurchasedServices$servicePlanArgs<ExtArgs>
   }
   export type UserPurchasedServicesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    transaction?: boolean | UserPurchasedServices$transactionArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | UserPurchasedServices$serviceArgs<ExtArgs>
     servicePlan?: boolean | UserPurchasedServices$servicePlanArgs<ExtArgs>
   }
   export type UserPurchasedServicesIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    transaction?: boolean | UserPurchasedServices$transactionArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | UserPurchasedServices$serviceArgs<ExtArgs>
     servicePlan?: boolean | UserPurchasedServices$servicePlanArgs<ExtArgs>
@@ -9008,6 +10346,7 @@ export namespace Prisma {
     name: "UserPurchasedServices"
     objects: {
       portfolioReview: Prisma.$PortfolioReviewPayload<ExtArgs> | null
+      transaction: Prisma.$TransactionPayload<ExtArgs> | null
       user: Prisma.$UserPayload<ExtArgs>
       service: Prisma.$ServicePayload<ExtArgs> | null
       servicePlan: Prisma.$ServicePlanPayload<ExtArgs> | null
@@ -9016,18 +10355,17 @@ export namespace Prisma {
       id: string
       userId: string
       serviceId: string
+      servicePlanId: string | null
       purchaseDate: Date
       expiryDate: Date | null
-      servicePlanId: string | null
-      agreementAcceptedAt: Date | null
-      agreementData: Prisma.JsonValue | null
       grantType: $Enums.GrantType
       grantedBy: string | null
       grantReason: string | null
-      parentServiceId: string | null
       transactionId: string | null
+      parentServiceId: string | null
       isActive: boolean
       grantMetadata: Prisma.JsonValue | null
+      createdAt: Date
     }, ExtArgs["result"]["userPurchasedServices"]>
     composites: {}
   }
@@ -9423,6 +10761,7 @@ export namespace Prisma {
   export interface Prisma__UserPurchasedServicesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     portfolioReview<T extends UserPurchasedServices$portfolioReviewArgs<ExtArgs> = {}>(args?: Subset<T, UserPurchasedServices$portfolioReviewArgs<ExtArgs>>): Prisma__PortfolioReviewClient<$Result.GetResult<Prisma.$PortfolioReviewPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    transaction<T extends UserPurchasedServices$transactionArgs<ExtArgs> = {}>(args?: Subset<T, UserPurchasedServices$transactionArgs<ExtArgs>>): Prisma__TransactionClient<$Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     service<T extends UserPurchasedServices$serviceArgs<ExtArgs> = {}>(args?: Subset<T, UserPurchasedServices$serviceArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     servicePlan<T extends UserPurchasedServices$servicePlanArgs<ExtArgs> = {}>(args?: Subset<T, UserPurchasedServices$servicePlanArgs<ExtArgs>>): Prisma__ServicePlanClient<$Result.GetResult<Prisma.$ServicePlanPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -9458,18 +10797,17 @@ export namespace Prisma {
     readonly id: FieldRef<"UserPurchasedServices", 'String'>
     readonly userId: FieldRef<"UserPurchasedServices", 'String'>
     readonly serviceId: FieldRef<"UserPurchasedServices", 'String'>
+    readonly servicePlanId: FieldRef<"UserPurchasedServices", 'String'>
     readonly purchaseDate: FieldRef<"UserPurchasedServices", 'DateTime'>
     readonly expiryDate: FieldRef<"UserPurchasedServices", 'DateTime'>
-    readonly servicePlanId: FieldRef<"UserPurchasedServices", 'String'>
-    readonly agreementAcceptedAt: FieldRef<"UserPurchasedServices", 'DateTime'>
-    readonly agreementData: FieldRef<"UserPurchasedServices", 'Json'>
     readonly grantType: FieldRef<"UserPurchasedServices", 'GrantType'>
     readonly grantedBy: FieldRef<"UserPurchasedServices", 'String'>
     readonly grantReason: FieldRef<"UserPurchasedServices", 'String'>
-    readonly parentServiceId: FieldRef<"UserPurchasedServices", 'String'>
     readonly transactionId: FieldRef<"UserPurchasedServices", 'String'>
+    readonly parentServiceId: FieldRef<"UserPurchasedServices", 'String'>
     readonly isActive: FieldRef<"UserPurchasedServices", 'Boolean'>
     readonly grantMetadata: FieldRef<"UserPurchasedServices", 'Json'>
+    readonly createdAt: FieldRef<"UserPurchasedServices", 'DateTime'>
   }
     
 
@@ -9882,6 +11220,25 @@ export namespace Prisma {
      */
     include?: PortfolioReviewInclude<ExtArgs> | null
     where?: PortfolioReviewWhereInput
+  }
+
+  /**
+   * UserPurchasedServices.transaction
+   */
+  export type UserPurchasedServices$transactionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Transaction
+     */
+    select?: TransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Transaction
+     */
+    omit?: TransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransactionInclude<ExtArgs> | null
+    where?: TransactionWhereInput
   }
 
   /**
@@ -11196,6 +12553,7 @@ export namespace Prisma {
     idempotencyKey: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    agreementAcceptedAt: Date | null
   }
 
   export type TransactionMaxAggregateOutputType = {
@@ -11213,6 +12571,7 @@ export namespace Prisma {
     idempotencyKey: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    agreementAcceptedAt: Date | null
   }
 
   export type TransactionCountAggregateOutputType = {
@@ -11232,6 +12591,8 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     extraData: number
+    agreementSummary: number
+    agreementAcceptedAt: number
     _all: number
   }
 
@@ -11259,6 +12620,7 @@ export namespace Prisma {
     idempotencyKey?: true
     createdAt?: true
     updatedAt?: true
+    agreementAcceptedAt?: true
   }
 
   export type TransactionMaxAggregateInputType = {
@@ -11276,6 +12638,7 @@ export namespace Prisma {
     idempotencyKey?: true
     createdAt?: true
     updatedAt?: true
+    agreementAcceptedAt?: true
   }
 
   export type TransactionCountAggregateInputType = {
@@ -11295,6 +12658,8 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     extraData?: true
+    agreementSummary?: true
+    agreementAcceptedAt?: true
     _all?: true
   }
 
@@ -11401,6 +12766,8 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     extraData: JsonValue | null
+    agreementSummary: JsonValue | null
+    agreementAcceptedAt: Date | null
     _count: TransactionCountAggregateOutputType | null
     _avg: TransactionAvgAggregateOutputType | null
     _sum: TransactionSumAggregateOutputType | null
@@ -11439,10 +12806,16 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     extraData?: boolean
+    agreementSummary?: boolean
+    agreementAcceptedAt?: boolean
+    userPurchasedServices?: boolean | Transaction$userPurchasedServicesArgs<ExtArgs>
+    transactionAgreements?: boolean | Transaction$transactionAgreementsArgs<ExtArgs>
+    aadhaarOtp?: boolean | Transaction$aadhaarOtpArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | Transaction$serviceArgs<ExtArgs>
     servicePlan?: boolean | Transaction$servicePlanArgs<ExtArgs>
     coupon?: boolean | Transaction$couponArgs<ExtArgs>
+    _count?: boolean | TransactionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["transaction"]>
 
   export type TransactionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -11462,6 +12835,8 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     extraData?: boolean
+    agreementSummary?: boolean
+    agreementAcceptedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | Transaction$serviceArgs<ExtArgs>
     servicePlan?: boolean | Transaction$servicePlanArgs<ExtArgs>
@@ -11485,6 +12860,8 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     extraData?: boolean
+    agreementSummary?: boolean
+    agreementAcceptedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | Transaction$serviceArgs<ExtArgs>
     servicePlan?: boolean | Transaction$servicePlanArgs<ExtArgs>
@@ -11508,14 +12885,20 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     extraData?: boolean
+    agreementSummary?: boolean
+    agreementAcceptedAt?: boolean
   }
 
-  export type TransactionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orderId" | "paymentId" | "couponId" | "userId" | "serviceId" | "amount" | "servicePlanId" | "currency" | "status" | "paymentGateway" | "idempotencyKey" | "webhookResponse" | "createdAt" | "updatedAt" | "extraData", ExtArgs["result"]["transaction"]>
+  export type TransactionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orderId" | "paymentId" | "couponId" | "userId" | "serviceId" | "amount" | "servicePlanId" | "currency" | "status" | "paymentGateway" | "idempotencyKey" | "webhookResponse" | "createdAt" | "updatedAt" | "extraData" | "agreementSummary" | "agreementAcceptedAt", ExtArgs["result"]["transaction"]>
   export type TransactionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    userPurchasedServices?: boolean | Transaction$userPurchasedServicesArgs<ExtArgs>
+    transactionAgreements?: boolean | Transaction$transactionAgreementsArgs<ExtArgs>
+    aadhaarOtp?: boolean | Transaction$aadhaarOtpArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | Transaction$serviceArgs<ExtArgs>
     servicePlan?: boolean | Transaction$servicePlanArgs<ExtArgs>
     coupon?: boolean | Transaction$couponArgs<ExtArgs>
+    _count?: boolean | TransactionCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TransactionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -11533,6 +12916,9 @@ export namespace Prisma {
   export type $TransactionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Transaction"
     objects: {
+      userPurchasedServices: Prisma.$UserPurchasedServicesPayload<ExtArgs>[]
+      transactionAgreements: Prisma.$TransactionAgreementPayload<ExtArgs>[]
+      aadhaarOtp: Prisma.$AadhaarOtpPayload<ExtArgs> | null
       user: Prisma.$UserPayload<ExtArgs>
       service: Prisma.$ServicePayload<ExtArgs> | null
       servicePlan: Prisma.$ServicePlanPayload<ExtArgs> | null
@@ -11555,6 +12941,8 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date
       extraData: Prisma.JsonValue | null
+      agreementSummary: Prisma.JsonValue | null
+      agreementAcceptedAt: Date | null
     }, ExtArgs["result"]["transaction"]>
     composites: {}
   }
@@ -11949,6 +13337,9 @@ export namespace Prisma {
    */
   export interface Prisma__TransactionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    userPurchasedServices<T extends Transaction$userPurchasedServicesArgs<ExtArgs> = {}>(args?: Subset<T, Transaction$userPurchasedServicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPurchasedServicesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    transactionAgreements<T extends Transaction$transactionAgreementsArgs<ExtArgs> = {}>(args?: Subset<T, Transaction$transactionAgreementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransactionAgreementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    aadhaarOtp<T extends Transaction$aadhaarOtpArgs<ExtArgs> = {}>(args?: Subset<T, Transaction$aadhaarOtpArgs<ExtArgs>>): Prisma__AadhaarOtpClient<$Result.GetResult<Prisma.$AadhaarOtpPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     service<T extends Transaction$serviceArgs<ExtArgs> = {}>(args?: Subset<T, Transaction$serviceArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     servicePlan<T extends Transaction$servicePlanArgs<ExtArgs> = {}>(args?: Subset<T, Transaction$servicePlanArgs<ExtArgs>>): Prisma__ServicePlanClient<$Result.GetResult<Prisma.$ServicePlanPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -11998,6 +13389,8 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"Transaction", 'DateTime'>
     readonly updatedAt: FieldRef<"Transaction", 'DateTime'>
     readonly extraData: FieldRef<"Transaction", 'Json'>
+    readonly agreementSummary: FieldRef<"Transaction", 'Json'>
+    readonly agreementAcceptedAt: FieldRef<"Transaction", 'DateTime'>
   }
     
 
@@ -12394,6 +13787,73 @@ export namespace Prisma {
   }
 
   /**
+   * Transaction.userPurchasedServices
+   */
+  export type Transaction$userPurchasedServicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPurchasedServices
+     */
+    select?: UserPurchasedServicesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPurchasedServices
+     */
+    omit?: UserPurchasedServicesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPurchasedServicesInclude<ExtArgs> | null
+    where?: UserPurchasedServicesWhereInput
+    orderBy?: UserPurchasedServicesOrderByWithRelationInput | UserPurchasedServicesOrderByWithRelationInput[]
+    cursor?: UserPurchasedServicesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserPurchasedServicesScalarFieldEnum | UserPurchasedServicesScalarFieldEnum[]
+  }
+
+  /**
+   * Transaction.transactionAgreements
+   */
+  export type Transaction$transactionAgreementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TransactionAgreement
+     */
+    select?: TransactionAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TransactionAgreement
+     */
+    omit?: TransactionAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransactionAgreementInclude<ExtArgs> | null
+    where?: TransactionAgreementWhereInput
+    orderBy?: TransactionAgreementOrderByWithRelationInput | TransactionAgreementOrderByWithRelationInput[]
+    cursor?: TransactionAgreementWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TransactionAgreementScalarFieldEnum | TransactionAgreementScalarFieldEnum[]
+  }
+
+  /**
+   * Transaction.aadhaarOtp
+   */
+  export type Transaction$aadhaarOtpArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AadhaarOtp
+     */
+    select?: AadhaarOtpSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AadhaarOtp
+     */
+    omit?: AadhaarOtpOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AadhaarOtpInclude<ExtArgs> | null
+    where?: AadhaarOtpWhereInput
+  }
+
+  /**
    * Transaction.service
    */
   export type Transaction$serviceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -12466,6 +13926,1046 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: TransactionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TransactionAgreement
+   */
+
+  export type AggregateTransactionAgreement = {
+    _count: TransactionAgreementCountAggregateOutputType | null
+    _min: TransactionAgreementMinAggregateOutputType | null
+    _max: TransactionAgreementMaxAggregateOutputType | null
+  }
+
+  export type TransactionAgreementMinAggregateOutputType = {
+    id: string | null
+    transactionId: string | null
+    agreementId: string | null
+  }
+
+  export type TransactionAgreementMaxAggregateOutputType = {
+    id: string | null
+    transactionId: string | null
+    agreementId: string | null
+  }
+
+  export type TransactionAgreementCountAggregateOutputType = {
+    id: number
+    transactionId: number
+    agreementId: number
+    _all: number
+  }
+
+
+  export type TransactionAgreementMinAggregateInputType = {
+    id?: true
+    transactionId?: true
+    agreementId?: true
+  }
+
+  export type TransactionAgreementMaxAggregateInputType = {
+    id?: true
+    transactionId?: true
+    agreementId?: true
+  }
+
+  export type TransactionAgreementCountAggregateInputType = {
+    id?: true
+    transactionId?: true
+    agreementId?: true
+    _all?: true
+  }
+
+  export type TransactionAgreementAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TransactionAgreement to aggregate.
+     */
+    where?: TransactionAgreementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TransactionAgreements to fetch.
+     */
+    orderBy?: TransactionAgreementOrderByWithRelationInput | TransactionAgreementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TransactionAgreementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TransactionAgreements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TransactionAgreements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TransactionAgreements
+    **/
+    _count?: true | TransactionAgreementCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TransactionAgreementMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TransactionAgreementMaxAggregateInputType
+  }
+
+  export type GetTransactionAgreementAggregateType<T extends TransactionAgreementAggregateArgs> = {
+        [P in keyof T & keyof AggregateTransactionAgreement]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTransactionAgreement[P]>
+      : GetScalarType<T[P], AggregateTransactionAgreement[P]>
+  }
+
+
+
+
+  export type TransactionAgreementGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TransactionAgreementWhereInput
+    orderBy?: TransactionAgreementOrderByWithAggregationInput | TransactionAgreementOrderByWithAggregationInput[]
+    by: TransactionAgreementScalarFieldEnum[] | TransactionAgreementScalarFieldEnum
+    having?: TransactionAgreementScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TransactionAgreementCountAggregateInputType | true
+    _min?: TransactionAgreementMinAggregateInputType
+    _max?: TransactionAgreementMaxAggregateInputType
+  }
+
+  export type TransactionAgreementGroupByOutputType = {
+    id: string
+    transactionId: string
+    agreementId: string
+    _count: TransactionAgreementCountAggregateOutputType | null
+    _min: TransactionAgreementMinAggregateOutputType | null
+    _max: TransactionAgreementMaxAggregateOutputType | null
+  }
+
+  type GetTransactionAgreementGroupByPayload<T extends TransactionAgreementGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TransactionAgreementGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TransactionAgreementGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TransactionAgreementGroupByOutputType[P]>
+            : GetScalarType<T[P], TransactionAgreementGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TransactionAgreementSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    transactionId?: boolean
+    agreementId?: boolean
+    transaction?: boolean | TransactionDefaultArgs<ExtArgs>
+    agreement?: boolean | AgreementDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["transactionAgreement"]>
+
+  export type TransactionAgreementSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    transactionId?: boolean
+    agreementId?: boolean
+    transaction?: boolean | TransactionDefaultArgs<ExtArgs>
+    agreement?: boolean | AgreementDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["transactionAgreement"]>
+
+  export type TransactionAgreementSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    transactionId?: boolean
+    agreementId?: boolean
+    transaction?: boolean | TransactionDefaultArgs<ExtArgs>
+    agreement?: boolean | AgreementDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["transactionAgreement"]>
+
+  export type TransactionAgreementSelectScalar = {
+    id?: boolean
+    transactionId?: boolean
+    agreementId?: boolean
+  }
+
+  export type TransactionAgreementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "transactionId" | "agreementId", ExtArgs["result"]["transactionAgreement"]>
+  export type TransactionAgreementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    transaction?: boolean | TransactionDefaultArgs<ExtArgs>
+    agreement?: boolean | AgreementDefaultArgs<ExtArgs>
+  }
+  export type TransactionAgreementIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    transaction?: boolean | TransactionDefaultArgs<ExtArgs>
+    agreement?: boolean | AgreementDefaultArgs<ExtArgs>
+  }
+  export type TransactionAgreementIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    transaction?: boolean | TransactionDefaultArgs<ExtArgs>
+    agreement?: boolean | AgreementDefaultArgs<ExtArgs>
+  }
+
+  export type $TransactionAgreementPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TransactionAgreement"
+    objects: {
+      transaction: Prisma.$TransactionPayload<ExtArgs>
+      agreement: Prisma.$AgreementPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      transactionId: string
+      agreementId: string
+    }, ExtArgs["result"]["transactionAgreement"]>
+    composites: {}
+  }
+
+  type TransactionAgreementGetPayload<S extends boolean | null | undefined | TransactionAgreementDefaultArgs> = $Result.GetResult<Prisma.$TransactionAgreementPayload, S>
+
+  type TransactionAgreementCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TransactionAgreementFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TransactionAgreementCountAggregateInputType | true
+    }
+
+  export interface TransactionAgreementDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TransactionAgreement'], meta: { name: 'TransactionAgreement' } }
+    /**
+     * Find zero or one TransactionAgreement that matches the filter.
+     * @param {TransactionAgreementFindUniqueArgs} args - Arguments to find a TransactionAgreement
+     * @example
+     * // Get one TransactionAgreement
+     * const transactionAgreement = await prisma.transactionAgreement.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TransactionAgreementFindUniqueArgs>(args: SelectSubset<T, TransactionAgreementFindUniqueArgs<ExtArgs>>): Prisma__TransactionAgreementClient<$Result.GetResult<Prisma.$TransactionAgreementPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TransactionAgreement that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TransactionAgreementFindUniqueOrThrowArgs} args - Arguments to find a TransactionAgreement
+     * @example
+     * // Get one TransactionAgreement
+     * const transactionAgreement = await prisma.transactionAgreement.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TransactionAgreementFindUniqueOrThrowArgs>(args: SelectSubset<T, TransactionAgreementFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TransactionAgreementClient<$Result.GetResult<Prisma.$TransactionAgreementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TransactionAgreement that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TransactionAgreementFindFirstArgs} args - Arguments to find a TransactionAgreement
+     * @example
+     * // Get one TransactionAgreement
+     * const transactionAgreement = await prisma.transactionAgreement.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TransactionAgreementFindFirstArgs>(args?: SelectSubset<T, TransactionAgreementFindFirstArgs<ExtArgs>>): Prisma__TransactionAgreementClient<$Result.GetResult<Prisma.$TransactionAgreementPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TransactionAgreement that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TransactionAgreementFindFirstOrThrowArgs} args - Arguments to find a TransactionAgreement
+     * @example
+     * // Get one TransactionAgreement
+     * const transactionAgreement = await prisma.transactionAgreement.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TransactionAgreementFindFirstOrThrowArgs>(args?: SelectSubset<T, TransactionAgreementFindFirstOrThrowArgs<ExtArgs>>): Prisma__TransactionAgreementClient<$Result.GetResult<Prisma.$TransactionAgreementPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TransactionAgreements that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TransactionAgreementFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TransactionAgreements
+     * const transactionAgreements = await prisma.transactionAgreement.findMany()
+     * 
+     * // Get first 10 TransactionAgreements
+     * const transactionAgreements = await prisma.transactionAgreement.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const transactionAgreementWithIdOnly = await prisma.transactionAgreement.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TransactionAgreementFindManyArgs>(args?: SelectSubset<T, TransactionAgreementFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransactionAgreementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TransactionAgreement.
+     * @param {TransactionAgreementCreateArgs} args - Arguments to create a TransactionAgreement.
+     * @example
+     * // Create one TransactionAgreement
+     * const TransactionAgreement = await prisma.transactionAgreement.create({
+     *   data: {
+     *     // ... data to create a TransactionAgreement
+     *   }
+     * })
+     * 
+     */
+    create<T extends TransactionAgreementCreateArgs>(args: SelectSubset<T, TransactionAgreementCreateArgs<ExtArgs>>): Prisma__TransactionAgreementClient<$Result.GetResult<Prisma.$TransactionAgreementPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TransactionAgreements.
+     * @param {TransactionAgreementCreateManyArgs} args - Arguments to create many TransactionAgreements.
+     * @example
+     * // Create many TransactionAgreements
+     * const transactionAgreement = await prisma.transactionAgreement.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TransactionAgreementCreateManyArgs>(args?: SelectSubset<T, TransactionAgreementCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TransactionAgreements and returns the data saved in the database.
+     * @param {TransactionAgreementCreateManyAndReturnArgs} args - Arguments to create many TransactionAgreements.
+     * @example
+     * // Create many TransactionAgreements
+     * const transactionAgreement = await prisma.transactionAgreement.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TransactionAgreements and only return the `id`
+     * const transactionAgreementWithIdOnly = await prisma.transactionAgreement.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TransactionAgreementCreateManyAndReturnArgs>(args?: SelectSubset<T, TransactionAgreementCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransactionAgreementPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TransactionAgreement.
+     * @param {TransactionAgreementDeleteArgs} args - Arguments to delete one TransactionAgreement.
+     * @example
+     * // Delete one TransactionAgreement
+     * const TransactionAgreement = await prisma.transactionAgreement.delete({
+     *   where: {
+     *     // ... filter to delete one TransactionAgreement
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TransactionAgreementDeleteArgs>(args: SelectSubset<T, TransactionAgreementDeleteArgs<ExtArgs>>): Prisma__TransactionAgreementClient<$Result.GetResult<Prisma.$TransactionAgreementPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TransactionAgreement.
+     * @param {TransactionAgreementUpdateArgs} args - Arguments to update one TransactionAgreement.
+     * @example
+     * // Update one TransactionAgreement
+     * const transactionAgreement = await prisma.transactionAgreement.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TransactionAgreementUpdateArgs>(args: SelectSubset<T, TransactionAgreementUpdateArgs<ExtArgs>>): Prisma__TransactionAgreementClient<$Result.GetResult<Prisma.$TransactionAgreementPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TransactionAgreements.
+     * @param {TransactionAgreementDeleteManyArgs} args - Arguments to filter TransactionAgreements to delete.
+     * @example
+     * // Delete a few TransactionAgreements
+     * const { count } = await prisma.transactionAgreement.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TransactionAgreementDeleteManyArgs>(args?: SelectSubset<T, TransactionAgreementDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TransactionAgreements.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TransactionAgreementUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TransactionAgreements
+     * const transactionAgreement = await prisma.transactionAgreement.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TransactionAgreementUpdateManyArgs>(args: SelectSubset<T, TransactionAgreementUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TransactionAgreements and returns the data updated in the database.
+     * @param {TransactionAgreementUpdateManyAndReturnArgs} args - Arguments to update many TransactionAgreements.
+     * @example
+     * // Update many TransactionAgreements
+     * const transactionAgreement = await prisma.transactionAgreement.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TransactionAgreements and only return the `id`
+     * const transactionAgreementWithIdOnly = await prisma.transactionAgreement.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TransactionAgreementUpdateManyAndReturnArgs>(args: SelectSubset<T, TransactionAgreementUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransactionAgreementPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TransactionAgreement.
+     * @param {TransactionAgreementUpsertArgs} args - Arguments to update or create a TransactionAgreement.
+     * @example
+     * // Update or create a TransactionAgreement
+     * const transactionAgreement = await prisma.transactionAgreement.upsert({
+     *   create: {
+     *     // ... data to create a TransactionAgreement
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TransactionAgreement we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TransactionAgreementUpsertArgs>(args: SelectSubset<T, TransactionAgreementUpsertArgs<ExtArgs>>): Prisma__TransactionAgreementClient<$Result.GetResult<Prisma.$TransactionAgreementPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TransactionAgreements.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TransactionAgreementCountArgs} args - Arguments to filter TransactionAgreements to count.
+     * @example
+     * // Count the number of TransactionAgreements
+     * const count = await prisma.transactionAgreement.count({
+     *   where: {
+     *     // ... the filter for the TransactionAgreements we want to count
+     *   }
+     * })
+    **/
+    count<T extends TransactionAgreementCountArgs>(
+      args?: Subset<T, TransactionAgreementCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TransactionAgreementCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TransactionAgreement.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TransactionAgreementAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TransactionAgreementAggregateArgs>(args: Subset<T, TransactionAgreementAggregateArgs>): Prisma.PrismaPromise<GetTransactionAgreementAggregateType<T>>
+
+    /**
+     * Group by TransactionAgreement.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TransactionAgreementGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TransactionAgreementGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TransactionAgreementGroupByArgs['orderBy'] }
+        : { orderBy?: TransactionAgreementGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TransactionAgreementGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTransactionAgreementGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TransactionAgreement model
+   */
+  readonly fields: TransactionAgreementFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TransactionAgreement.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TransactionAgreementClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    transaction<T extends TransactionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TransactionDefaultArgs<ExtArgs>>): Prisma__TransactionClient<$Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    agreement<T extends AgreementDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AgreementDefaultArgs<ExtArgs>>): Prisma__AgreementClient<$Result.GetResult<Prisma.$AgreementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TransactionAgreement model
+   */
+  interface TransactionAgreementFieldRefs {
+    readonly id: FieldRef<"TransactionAgreement", 'String'>
+    readonly transactionId: FieldRef<"TransactionAgreement", 'String'>
+    readonly agreementId: FieldRef<"TransactionAgreement", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TransactionAgreement findUnique
+   */
+  export type TransactionAgreementFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TransactionAgreement
+     */
+    select?: TransactionAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TransactionAgreement
+     */
+    omit?: TransactionAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransactionAgreementInclude<ExtArgs> | null
+    /**
+     * Filter, which TransactionAgreement to fetch.
+     */
+    where: TransactionAgreementWhereUniqueInput
+  }
+
+  /**
+   * TransactionAgreement findUniqueOrThrow
+   */
+  export type TransactionAgreementFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TransactionAgreement
+     */
+    select?: TransactionAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TransactionAgreement
+     */
+    omit?: TransactionAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransactionAgreementInclude<ExtArgs> | null
+    /**
+     * Filter, which TransactionAgreement to fetch.
+     */
+    where: TransactionAgreementWhereUniqueInput
+  }
+
+  /**
+   * TransactionAgreement findFirst
+   */
+  export type TransactionAgreementFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TransactionAgreement
+     */
+    select?: TransactionAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TransactionAgreement
+     */
+    omit?: TransactionAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransactionAgreementInclude<ExtArgs> | null
+    /**
+     * Filter, which TransactionAgreement to fetch.
+     */
+    where?: TransactionAgreementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TransactionAgreements to fetch.
+     */
+    orderBy?: TransactionAgreementOrderByWithRelationInput | TransactionAgreementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TransactionAgreements.
+     */
+    cursor?: TransactionAgreementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TransactionAgreements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TransactionAgreements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TransactionAgreements.
+     */
+    distinct?: TransactionAgreementScalarFieldEnum | TransactionAgreementScalarFieldEnum[]
+  }
+
+  /**
+   * TransactionAgreement findFirstOrThrow
+   */
+  export type TransactionAgreementFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TransactionAgreement
+     */
+    select?: TransactionAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TransactionAgreement
+     */
+    omit?: TransactionAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransactionAgreementInclude<ExtArgs> | null
+    /**
+     * Filter, which TransactionAgreement to fetch.
+     */
+    where?: TransactionAgreementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TransactionAgreements to fetch.
+     */
+    orderBy?: TransactionAgreementOrderByWithRelationInput | TransactionAgreementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TransactionAgreements.
+     */
+    cursor?: TransactionAgreementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TransactionAgreements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TransactionAgreements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TransactionAgreements.
+     */
+    distinct?: TransactionAgreementScalarFieldEnum | TransactionAgreementScalarFieldEnum[]
+  }
+
+  /**
+   * TransactionAgreement findMany
+   */
+  export type TransactionAgreementFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TransactionAgreement
+     */
+    select?: TransactionAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TransactionAgreement
+     */
+    omit?: TransactionAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransactionAgreementInclude<ExtArgs> | null
+    /**
+     * Filter, which TransactionAgreements to fetch.
+     */
+    where?: TransactionAgreementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TransactionAgreements to fetch.
+     */
+    orderBy?: TransactionAgreementOrderByWithRelationInput | TransactionAgreementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TransactionAgreements.
+     */
+    cursor?: TransactionAgreementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TransactionAgreements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TransactionAgreements.
+     */
+    skip?: number
+    distinct?: TransactionAgreementScalarFieldEnum | TransactionAgreementScalarFieldEnum[]
+  }
+
+  /**
+   * TransactionAgreement create
+   */
+  export type TransactionAgreementCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TransactionAgreement
+     */
+    select?: TransactionAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TransactionAgreement
+     */
+    omit?: TransactionAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransactionAgreementInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TransactionAgreement.
+     */
+    data: XOR<TransactionAgreementCreateInput, TransactionAgreementUncheckedCreateInput>
+  }
+
+  /**
+   * TransactionAgreement createMany
+   */
+  export type TransactionAgreementCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TransactionAgreements.
+     */
+    data: TransactionAgreementCreateManyInput | TransactionAgreementCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TransactionAgreement createManyAndReturn
+   */
+  export type TransactionAgreementCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TransactionAgreement
+     */
+    select?: TransactionAgreementSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TransactionAgreement
+     */
+    omit?: TransactionAgreementOmit<ExtArgs> | null
+    /**
+     * The data used to create many TransactionAgreements.
+     */
+    data: TransactionAgreementCreateManyInput | TransactionAgreementCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransactionAgreementIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TransactionAgreement update
+   */
+  export type TransactionAgreementUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TransactionAgreement
+     */
+    select?: TransactionAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TransactionAgreement
+     */
+    omit?: TransactionAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransactionAgreementInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TransactionAgreement.
+     */
+    data: XOR<TransactionAgreementUpdateInput, TransactionAgreementUncheckedUpdateInput>
+    /**
+     * Choose, which TransactionAgreement to update.
+     */
+    where: TransactionAgreementWhereUniqueInput
+  }
+
+  /**
+   * TransactionAgreement updateMany
+   */
+  export type TransactionAgreementUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TransactionAgreements.
+     */
+    data: XOR<TransactionAgreementUpdateManyMutationInput, TransactionAgreementUncheckedUpdateManyInput>
+    /**
+     * Filter which TransactionAgreements to update
+     */
+    where?: TransactionAgreementWhereInput
+    /**
+     * Limit how many TransactionAgreements to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TransactionAgreement updateManyAndReturn
+   */
+  export type TransactionAgreementUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TransactionAgreement
+     */
+    select?: TransactionAgreementSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TransactionAgreement
+     */
+    omit?: TransactionAgreementOmit<ExtArgs> | null
+    /**
+     * The data used to update TransactionAgreements.
+     */
+    data: XOR<TransactionAgreementUpdateManyMutationInput, TransactionAgreementUncheckedUpdateManyInput>
+    /**
+     * Filter which TransactionAgreements to update
+     */
+    where?: TransactionAgreementWhereInput
+    /**
+     * Limit how many TransactionAgreements to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransactionAgreementIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TransactionAgreement upsert
+   */
+  export type TransactionAgreementUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TransactionAgreement
+     */
+    select?: TransactionAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TransactionAgreement
+     */
+    omit?: TransactionAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransactionAgreementInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TransactionAgreement to update in case it exists.
+     */
+    where: TransactionAgreementWhereUniqueInput
+    /**
+     * In case the TransactionAgreement found by the `where` argument doesn't exist, create a new TransactionAgreement with this data.
+     */
+    create: XOR<TransactionAgreementCreateInput, TransactionAgreementUncheckedCreateInput>
+    /**
+     * In case the TransactionAgreement was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TransactionAgreementUpdateInput, TransactionAgreementUncheckedUpdateInput>
+  }
+
+  /**
+   * TransactionAgreement delete
+   */
+  export type TransactionAgreementDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TransactionAgreement
+     */
+    select?: TransactionAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TransactionAgreement
+     */
+    omit?: TransactionAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransactionAgreementInclude<ExtArgs> | null
+    /**
+     * Filter which TransactionAgreement to delete.
+     */
+    where: TransactionAgreementWhereUniqueInput
+  }
+
+  /**
+   * TransactionAgreement deleteMany
+   */
+  export type TransactionAgreementDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TransactionAgreements to delete
+     */
+    where?: TransactionAgreementWhereInput
+    /**
+     * Limit how many TransactionAgreements to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TransactionAgreement without action
+   */
+  export type TransactionAgreementDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TransactionAgreement
+     */
+    select?: TransactionAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TransactionAgreement
+     */
+    omit?: TransactionAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransactionAgreementInclude<ExtArgs> | null
   }
 
 
@@ -12716,6 +15216,7 @@ export namespace Prisma {
     updatedAt?: boolean
     createdAt?: boolean
     serviceAgreements?: boolean | Agreement$serviceAgreementsArgs<ExtArgs>
+    transactionAgreements?: boolean | Agreement$transactionAgreementsArgs<ExtArgs>
     _count?: boolean | AgreementCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["agreement"]>
 
@@ -12764,6 +15265,7 @@ export namespace Prisma {
   export type AgreementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "content" | "version" | "hash" | "type" | "policyType" | "signatoryPerson" | "companyName" | "updatedAt" | "createdAt", ExtArgs["result"]["agreement"]>
   export type AgreementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     serviceAgreements?: boolean | Agreement$serviceAgreementsArgs<ExtArgs>
+    transactionAgreements?: boolean | Agreement$transactionAgreementsArgs<ExtArgs>
     _count?: boolean | AgreementCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type AgreementIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -12773,6 +15275,7 @@ export namespace Prisma {
     name: "Agreement"
     objects: {
       serviceAgreements: Prisma.$ServiceAgreementPayload<ExtArgs>[]
+      transactionAgreements: Prisma.$TransactionAgreementPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -13181,6 +15684,7 @@ export namespace Prisma {
   export interface Prisma__AgreementClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     serviceAgreements<T extends Agreement$serviceAgreementsArgs<ExtArgs> = {}>(args?: Subset<T, Agreement$serviceAgreementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    transactionAgreements<T extends Agreement$transactionAgreementsArgs<ExtArgs> = {}>(args?: Subset<T, Agreement$transactionAgreementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransactionAgreementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -13633,6 +16137,30 @@ export namespace Prisma {
   }
 
   /**
+   * Agreement.transactionAgreements
+   */
+  export type Agreement$transactionAgreementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TransactionAgreement
+     */
+    select?: TransactionAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TransactionAgreement
+     */
+    omit?: TransactionAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransactionAgreementInclude<ExtArgs> | null
+    where?: TransactionAgreementWhereInput
+    orderBy?: TransactionAgreementOrderByWithRelationInput | TransactionAgreementOrderByWithRelationInput[]
+    cursor?: TransactionAgreementWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TransactionAgreementScalarFieldEnum | TransactionAgreementScalarFieldEnum[]
+  }
+
+  /**
    * Agreement without action
    */
   export type AgreementDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13648,1046 +16176,6 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: AgreementInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model ServiceAgreement
-   */
-
-  export type AggregateServiceAgreement = {
-    _count: ServiceAgreementCountAggregateOutputType | null
-    _min: ServiceAgreementMinAggregateOutputType | null
-    _max: ServiceAgreementMaxAggregateOutputType | null
-  }
-
-  export type ServiceAgreementMinAggregateOutputType = {
-    id: string | null
-    serviceId: string | null
-    agreementId: string | null
-  }
-
-  export type ServiceAgreementMaxAggregateOutputType = {
-    id: string | null
-    serviceId: string | null
-    agreementId: string | null
-  }
-
-  export type ServiceAgreementCountAggregateOutputType = {
-    id: number
-    serviceId: number
-    agreementId: number
-    _all: number
-  }
-
-
-  export type ServiceAgreementMinAggregateInputType = {
-    id?: true
-    serviceId?: true
-    agreementId?: true
-  }
-
-  export type ServiceAgreementMaxAggregateInputType = {
-    id?: true
-    serviceId?: true
-    agreementId?: true
-  }
-
-  export type ServiceAgreementCountAggregateInputType = {
-    id?: true
-    serviceId?: true
-    agreementId?: true
-    _all?: true
-  }
-
-  export type ServiceAgreementAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which ServiceAgreement to aggregate.
-     */
-    where?: ServiceAgreementWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of ServiceAgreements to fetch.
-     */
-    orderBy?: ServiceAgreementOrderByWithRelationInput | ServiceAgreementOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: ServiceAgreementWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` ServiceAgreements from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` ServiceAgreements.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned ServiceAgreements
-    **/
-    _count?: true | ServiceAgreementCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: ServiceAgreementMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: ServiceAgreementMaxAggregateInputType
-  }
-
-  export type GetServiceAgreementAggregateType<T extends ServiceAgreementAggregateArgs> = {
-        [P in keyof T & keyof AggregateServiceAgreement]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateServiceAgreement[P]>
-      : GetScalarType<T[P], AggregateServiceAgreement[P]>
-  }
-
-
-
-
-  export type ServiceAgreementGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ServiceAgreementWhereInput
-    orderBy?: ServiceAgreementOrderByWithAggregationInput | ServiceAgreementOrderByWithAggregationInput[]
-    by: ServiceAgreementScalarFieldEnum[] | ServiceAgreementScalarFieldEnum
-    having?: ServiceAgreementScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: ServiceAgreementCountAggregateInputType | true
-    _min?: ServiceAgreementMinAggregateInputType
-    _max?: ServiceAgreementMaxAggregateInputType
-  }
-
-  export type ServiceAgreementGroupByOutputType = {
-    id: string
-    serviceId: string
-    agreementId: string
-    _count: ServiceAgreementCountAggregateOutputType | null
-    _min: ServiceAgreementMinAggregateOutputType | null
-    _max: ServiceAgreementMaxAggregateOutputType | null
-  }
-
-  type GetServiceAgreementGroupByPayload<T extends ServiceAgreementGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<ServiceAgreementGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof ServiceAgreementGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], ServiceAgreementGroupByOutputType[P]>
-            : GetScalarType<T[P], ServiceAgreementGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type ServiceAgreementSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    serviceId?: boolean
-    agreementId?: boolean
-    service?: boolean | ServiceDefaultArgs<ExtArgs>
-    agreement?: boolean | AgreementDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["serviceAgreement"]>
-
-  export type ServiceAgreementSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    serviceId?: boolean
-    agreementId?: boolean
-    service?: boolean | ServiceDefaultArgs<ExtArgs>
-    agreement?: boolean | AgreementDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["serviceAgreement"]>
-
-  export type ServiceAgreementSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    serviceId?: boolean
-    agreementId?: boolean
-    service?: boolean | ServiceDefaultArgs<ExtArgs>
-    agreement?: boolean | AgreementDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["serviceAgreement"]>
-
-  export type ServiceAgreementSelectScalar = {
-    id?: boolean
-    serviceId?: boolean
-    agreementId?: boolean
-  }
-
-  export type ServiceAgreementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "serviceId" | "agreementId", ExtArgs["result"]["serviceAgreement"]>
-  export type ServiceAgreementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    service?: boolean | ServiceDefaultArgs<ExtArgs>
-    agreement?: boolean | AgreementDefaultArgs<ExtArgs>
-  }
-  export type ServiceAgreementIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    service?: boolean | ServiceDefaultArgs<ExtArgs>
-    agreement?: boolean | AgreementDefaultArgs<ExtArgs>
-  }
-  export type ServiceAgreementIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    service?: boolean | ServiceDefaultArgs<ExtArgs>
-    agreement?: boolean | AgreementDefaultArgs<ExtArgs>
-  }
-
-  export type $ServiceAgreementPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "ServiceAgreement"
-    objects: {
-      service: Prisma.$ServicePayload<ExtArgs>
-      agreement: Prisma.$AgreementPayload<ExtArgs>
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      serviceId: string
-      agreementId: string
-    }, ExtArgs["result"]["serviceAgreement"]>
-    composites: {}
-  }
-
-  type ServiceAgreementGetPayload<S extends boolean | null | undefined | ServiceAgreementDefaultArgs> = $Result.GetResult<Prisma.$ServiceAgreementPayload, S>
-
-  type ServiceAgreementCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<ServiceAgreementFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: ServiceAgreementCountAggregateInputType | true
-    }
-
-  export interface ServiceAgreementDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ServiceAgreement'], meta: { name: 'ServiceAgreement' } }
-    /**
-     * Find zero or one ServiceAgreement that matches the filter.
-     * @param {ServiceAgreementFindUniqueArgs} args - Arguments to find a ServiceAgreement
-     * @example
-     * // Get one ServiceAgreement
-     * const serviceAgreement = await prisma.serviceAgreement.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends ServiceAgreementFindUniqueArgs>(args: SelectSubset<T, ServiceAgreementFindUniqueArgs<ExtArgs>>): Prisma__ServiceAgreementClient<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one ServiceAgreement that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {ServiceAgreementFindUniqueOrThrowArgs} args - Arguments to find a ServiceAgreement
-     * @example
-     * // Get one ServiceAgreement
-     * const serviceAgreement = await prisma.serviceAgreement.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends ServiceAgreementFindUniqueOrThrowArgs>(args: SelectSubset<T, ServiceAgreementFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ServiceAgreementClient<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first ServiceAgreement that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ServiceAgreementFindFirstArgs} args - Arguments to find a ServiceAgreement
-     * @example
-     * // Get one ServiceAgreement
-     * const serviceAgreement = await prisma.serviceAgreement.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends ServiceAgreementFindFirstArgs>(args?: SelectSubset<T, ServiceAgreementFindFirstArgs<ExtArgs>>): Prisma__ServiceAgreementClient<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first ServiceAgreement that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ServiceAgreementFindFirstOrThrowArgs} args - Arguments to find a ServiceAgreement
-     * @example
-     * // Get one ServiceAgreement
-     * const serviceAgreement = await prisma.serviceAgreement.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends ServiceAgreementFindFirstOrThrowArgs>(args?: SelectSubset<T, ServiceAgreementFindFirstOrThrowArgs<ExtArgs>>): Prisma__ServiceAgreementClient<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more ServiceAgreements that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ServiceAgreementFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all ServiceAgreements
-     * const serviceAgreements = await prisma.serviceAgreement.findMany()
-     * 
-     * // Get first 10 ServiceAgreements
-     * const serviceAgreements = await prisma.serviceAgreement.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const serviceAgreementWithIdOnly = await prisma.serviceAgreement.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends ServiceAgreementFindManyArgs>(args?: SelectSubset<T, ServiceAgreementFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a ServiceAgreement.
-     * @param {ServiceAgreementCreateArgs} args - Arguments to create a ServiceAgreement.
-     * @example
-     * // Create one ServiceAgreement
-     * const ServiceAgreement = await prisma.serviceAgreement.create({
-     *   data: {
-     *     // ... data to create a ServiceAgreement
-     *   }
-     * })
-     * 
-     */
-    create<T extends ServiceAgreementCreateArgs>(args: SelectSubset<T, ServiceAgreementCreateArgs<ExtArgs>>): Prisma__ServiceAgreementClient<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many ServiceAgreements.
-     * @param {ServiceAgreementCreateManyArgs} args - Arguments to create many ServiceAgreements.
-     * @example
-     * // Create many ServiceAgreements
-     * const serviceAgreement = await prisma.serviceAgreement.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends ServiceAgreementCreateManyArgs>(args?: SelectSubset<T, ServiceAgreementCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many ServiceAgreements and returns the data saved in the database.
-     * @param {ServiceAgreementCreateManyAndReturnArgs} args - Arguments to create many ServiceAgreements.
-     * @example
-     * // Create many ServiceAgreements
-     * const serviceAgreement = await prisma.serviceAgreement.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many ServiceAgreements and only return the `id`
-     * const serviceAgreementWithIdOnly = await prisma.serviceAgreement.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends ServiceAgreementCreateManyAndReturnArgs>(args?: SelectSubset<T, ServiceAgreementCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a ServiceAgreement.
-     * @param {ServiceAgreementDeleteArgs} args - Arguments to delete one ServiceAgreement.
-     * @example
-     * // Delete one ServiceAgreement
-     * const ServiceAgreement = await prisma.serviceAgreement.delete({
-     *   where: {
-     *     // ... filter to delete one ServiceAgreement
-     *   }
-     * })
-     * 
-     */
-    delete<T extends ServiceAgreementDeleteArgs>(args: SelectSubset<T, ServiceAgreementDeleteArgs<ExtArgs>>): Prisma__ServiceAgreementClient<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one ServiceAgreement.
-     * @param {ServiceAgreementUpdateArgs} args - Arguments to update one ServiceAgreement.
-     * @example
-     * // Update one ServiceAgreement
-     * const serviceAgreement = await prisma.serviceAgreement.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends ServiceAgreementUpdateArgs>(args: SelectSubset<T, ServiceAgreementUpdateArgs<ExtArgs>>): Prisma__ServiceAgreementClient<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more ServiceAgreements.
-     * @param {ServiceAgreementDeleteManyArgs} args - Arguments to filter ServiceAgreements to delete.
-     * @example
-     * // Delete a few ServiceAgreements
-     * const { count } = await prisma.serviceAgreement.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends ServiceAgreementDeleteManyArgs>(args?: SelectSubset<T, ServiceAgreementDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more ServiceAgreements.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ServiceAgreementUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many ServiceAgreements
-     * const serviceAgreement = await prisma.serviceAgreement.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends ServiceAgreementUpdateManyArgs>(args: SelectSubset<T, ServiceAgreementUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more ServiceAgreements and returns the data updated in the database.
-     * @param {ServiceAgreementUpdateManyAndReturnArgs} args - Arguments to update many ServiceAgreements.
-     * @example
-     * // Update many ServiceAgreements
-     * const serviceAgreement = await prisma.serviceAgreement.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more ServiceAgreements and only return the `id`
-     * const serviceAgreementWithIdOnly = await prisma.serviceAgreement.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends ServiceAgreementUpdateManyAndReturnArgs>(args: SelectSubset<T, ServiceAgreementUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one ServiceAgreement.
-     * @param {ServiceAgreementUpsertArgs} args - Arguments to update or create a ServiceAgreement.
-     * @example
-     * // Update or create a ServiceAgreement
-     * const serviceAgreement = await prisma.serviceAgreement.upsert({
-     *   create: {
-     *     // ... data to create a ServiceAgreement
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the ServiceAgreement we want to update
-     *   }
-     * })
-     */
-    upsert<T extends ServiceAgreementUpsertArgs>(args: SelectSubset<T, ServiceAgreementUpsertArgs<ExtArgs>>): Prisma__ServiceAgreementClient<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of ServiceAgreements.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ServiceAgreementCountArgs} args - Arguments to filter ServiceAgreements to count.
-     * @example
-     * // Count the number of ServiceAgreements
-     * const count = await prisma.serviceAgreement.count({
-     *   where: {
-     *     // ... the filter for the ServiceAgreements we want to count
-     *   }
-     * })
-    **/
-    count<T extends ServiceAgreementCountArgs>(
-      args?: Subset<T, ServiceAgreementCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], ServiceAgreementCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a ServiceAgreement.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ServiceAgreementAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends ServiceAgreementAggregateArgs>(args: Subset<T, ServiceAgreementAggregateArgs>): Prisma.PrismaPromise<GetServiceAgreementAggregateType<T>>
-
-    /**
-     * Group by ServiceAgreement.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ServiceAgreementGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends ServiceAgreementGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: ServiceAgreementGroupByArgs['orderBy'] }
-        : { orderBy?: ServiceAgreementGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, ServiceAgreementGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetServiceAgreementGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the ServiceAgreement model
-   */
-  readonly fields: ServiceAgreementFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for ServiceAgreement.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__ServiceAgreementClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    service<T extends ServiceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ServiceDefaultArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    agreement<T extends AgreementDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AgreementDefaultArgs<ExtArgs>>): Prisma__AgreementClient<$Result.GetResult<Prisma.$AgreementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the ServiceAgreement model
-   */
-  interface ServiceAgreementFieldRefs {
-    readonly id: FieldRef<"ServiceAgreement", 'String'>
-    readonly serviceId: FieldRef<"ServiceAgreement", 'String'>
-    readonly agreementId: FieldRef<"ServiceAgreement", 'String'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * ServiceAgreement findUnique
-   */
-  export type ServiceAgreementFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ServiceAgreement
-     */
-    select?: ServiceAgreementSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ServiceAgreement
-     */
-    omit?: ServiceAgreementOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ServiceAgreementInclude<ExtArgs> | null
-    /**
-     * Filter, which ServiceAgreement to fetch.
-     */
-    where: ServiceAgreementWhereUniqueInput
-  }
-
-  /**
-   * ServiceAgreement findUniqueOrThrow
-   */
-  export type ServiceAgreementFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ServiceAgreement
-     */
-    select?: ServiceAgreementSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ServiceAgreement
-     */
-    omit?: ServiceAgreementOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ServiceAgreementInclude<ExtArgs> | null
-    /**
-     * Filter, which ServiceAgreement to fetch.
-     */
-    where: ServiceAgreementWhereUniqueInput
-  }
-
-  /**
-   * ServiceAgreement findFirst
-   */
-  export type ServiceAgreementFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ServiceAgreement
-     */
-    select?: ServiceAgreementSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ServiceAgreement
-     */
-    omit?: ServiceAgreementOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ServiceAgreementInclude<ExtArgs> | null
-    /**
-     * Filter, which ServiceAgreement to fetch.
-     */
-    where?: ServiceAgreementWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of ServiceAgreements to fetch.
-     */
-    orderBy?: ServiceAgreementOrderByWithRelationInput | ServiceAgreementOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for ServiceAgreements.
-     */
-    cursor?: ServiceAgreementWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` ServiceAgreements from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` ServiceAgreements.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of ServiceAgreements.
-     */
-    distinct?: ServiceAgreementScalarFieldEnum | ServiceAgreementScalarFieldEnum[]
-  }
-
-  /**
-   * ServiceAgreement findFirstOrThrow
-   */
-  export type ServiceAgreementFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ServiceAgreement
-     */
-    select?: ServiceAgreementSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ServiceAgreement
-     */
-    omit?: ServiceAgreementOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ServiceAgreementInclude<ExtArgs> | null
-    /**
-     * Filter, which ServiceAgreement to fetch.
-     */
-    where?: ServiceAgreementWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of ServiceAgreements to fetch.
-     */
-    orderBy?: ServiceAgreementOrderByWithRelationInput | ServiceAgreementOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for ServiceAgreements.
-     */
-    cursor?: ServiceAgreementWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` ServiceAgreements from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` ServiceAgreements.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of ServiceAgreements.
-     */
-    distinct?: ServiceAgreementScalarFieldEnum | ServiceAgreementScalarFieldEnum[]
-  }
-
-  /**
-   * ServiceAgreement findMany
-   */
-  export type ServiceAgreementFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ServiceAgreement
-     */
-    select?: ServiceAgreementSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ServiceAgreement
-     */
-    omit?: ServiceAgreementOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ServiceAgreementInclude<ExtArgs> | null
-    /**
-     * Filter, which ServiceAgreements to fetch.
-     */
-    where?: ServiceAgreementWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of ServiceAgreements to fetch.
-     */
-    orderBy?: ServiceAgreementOrderByWithRelationInput | ServiceAgreementOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing ServiceAgreements.
-     */
-    cursor?: ServiceAgreementWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` ServiceAgreements from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` ServiceAgreements.
-     */
-    skip?: number
-    distinct?: ServiceAgreementScalarFieldEnum | ServiceAgreementScalarFieldEnum[]
-  }
-
-  /**
-   * ServiceAgreement create
-   */
-  export type ServiceAgreementCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ServiceAgreement
-     */
-    select?: ServiceAgreementSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ServiceAgreement
-     */
-    omit?: ServiceAgreementOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ServiceAgreementInclude<ExtArgs> | null
-    /**
-     * The data needed to create a ServiceAgreement.
-     */
-    data: XOR<ServiceAgreementCreateInput, ServiceAgreementUncheckedCreateInput>
-  }
-
-  /**
-   * ServiceAgreement createMany
-   */
-  export type ServiceAgreementCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many ServiceAgreements.
-     */
-    data: ServiceAgreementCreateManyInput | ServiceAgreementCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * ServiceAgreement createManyAndReturn
-   */
-  export type ServiceAgreementCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ServiceAgreement
-     */
-    select?: ServiceAgreementSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the ServiceAgreement
-     */
-    omit?: ServiceAgreementOmit<ExtArgs> | null
-    /**
-     * The data used to create many ServiceAgreements.
-     */
-    data: ServiceAgreementCreateManyInput | ServiceAgreementCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ServiceAgreementIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * ServiceAgreement update
-   */
-  export type ServiceAgreementUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ServiceAgreement
-     */
-    select?: ServiceAgreementSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ServiceAgreement
-     */
-    omit?: ServiceAgreementOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ServiceAgreementInclude<ExtArgs> | null
-    /**
-     * The data needed to update a ServiceAgreement.
-     */
-    data: XOR<ServiceAgreementUpdateInput, ServiceAgreementUncheckedUpdateInput>
-    /**
-     * Choose, which ServiceAgreement to update.
-     */
-    where: ServiceAgreementWhereUniqueInput
-  }
-
-  /**
-   * ServiceAgreement updateMany
-   */
-  export type ServiceAgreementUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update ServiceAgreements.
-     */
-    data: XOR<ServiceAgreementUpdateManyMutationInput, ServiceAgreementUncheckedUpdateManyInput>
-    /**
-     * Filter which ServiceAgreements to update
-     */
-    where?: ServiceAgreementWhereInput
-    /**
-     * Limit how many ServiceAgreements to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * ServiceAgreement updateManyAndReturn
-   */
-  export type ServiceAgreementUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ServiceAgreement
-     */
-    select?: ServiceAgreementSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the ServiceAgreement
-     */
-    omit?: ServiceAgreementOmit<ExtArgs> | null
-    /**
-     * The data used to update ServiceAgreements.
-     */
-    data: XOR<ServiceAgreementUpdateManyMutationInput, ServiceAgreementUncheckedUpdateManyInput>
-    /**
-     * Filter which ServiceAgreements to update
-     */
-    where?: ServiceAgreementWhereInput
-    /**
-     * Limit how many ServiceAgreements to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ServiceAgreementIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * ServiceAgreement upsert
-   */
-  export type ServiceAgreementUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ServiceAgreement
-     */
-    select?: ServiceAgreementSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ServiceAgreement
-     */
-    omit?: ServiceAgreementOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ServiceAgreementInclude<ExtArgs> | null
-    /**
-     * The filter to search for the ServiceAgreement to update in case it exists.
-     */
-    where: ServiceAgreementWhereUniqueInput
-    /**
-     * In case the ServiceAgreement found by the `where` argument doesn't exist, create a new ServiceAgreement with this data.
-     */
-    create: XOR<ServiceAgreementCreateInput, ServiceAgreementUncheckedCreateInput>
-    /**
-     * In case the ServiceAgreement was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<ServiceAgreementUpdateInput, ServiceAgreementUncheckedUpdateInput>
-  }
-
-  /**
-   * ServiceAgreement delete
-   */
-  export type ServiceAgreementDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ServiceAgreement
-     */
-    select?: ServiceAgreementSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ServiceAgreement
-     */
-    omit?: ServiceAgreementOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ServiceAgreementInclude<ExtArgs> | null
-    /**
-     * Filter which ServiceAgreement to delete.
-     */
-    where: ServiceAgreementWhereUniqueInput
-  }
-
-  /**
-   * ServiceAgreement deleteMany
-   */
-  export type ServiceAgreementDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which ServiceAgreements to delete
-     */
-    where?: ServiceAgreementWhereInput
-    /**
-     * Limit how many ServiceAgreements to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * ServiceAgreement without action
-   */
-  export type ServiceAgreementDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ServiceAgreement
-     */
-    select?: ServiceAgreementSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ServiceAgreement
-     */
-    omit?: ServiceAgreementOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ServiceAgreementInclude<ExtArgs> | null
   }
 
 
@@ -15768,6 +17256,1046 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ComplimentaryServiceInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ServiceAgreement
+   */
+
+  export type AggregateServiceAgreement = {
+    _count: ServiceAgreementCountAggregateOutputType | null
+    _min: ServiceAgreementMinAggregateOutputType | null
+    _max: ServiceAgreementMaxAggregateOutputType | null
+  }
+
+  export type ServiceAgreementMinAggregateOutputType = {
+    id: string | null
+    serviceId: string | null
+    agreementId: string | null
+  }
+
+  export type ServiceAgreementMaxAggregateOutputType = {
+    id: string | null
+    serviceId: string | null
+    agreementId: string | null
+  }
+
+  export type ServiceAgreementCountAggregateOutputType = {
+    id: number
+    serviceId: number
+    agreementId: number
+    _all: number
+  }
+
+
+  export type ServiceAgreementMinAggregateInputType = {
+    id?: true
+    serviceId?: true
+    agreementId?: true
+  }
+
+  export type ServiceAgreementMaxAggregateInputType = {
+    id?: true
+    serviceId?: true
+    agreementId?: true
+  }
+
+  export type ServiceAgreementCountAggregateInputType = {
+    id?: true
+    serviceId?: true
+    agreementId?: true
+    _all?: true
+  }
+
+  export type ServiceAgreementAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ServiceAgreement to aggregate.
+     */
+    where?: ServiceAgreementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceAgreements to fetch.
+     */
+    orderBy?: ServiceAgreementOrderByWithRelationInput | ServiceAgreementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ServiceAgreementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceAgreements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceAgreements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ServiceAgreements
+    **/
+    _count?: true | ServiceAgreementCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ServiceAgreementMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ServiceAgreementMaxAggregateInputType
+  }
+
+  export type GetServiceAgreementAggregateType<T extends ServiceAgreementAggregateArgs> = {
+        [P in keyof T & keyof AggregateServiceAgreement]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateServiceAgreement[P]>
+      : GetScalarType<T[P], AggregateServiceAgreement[P]>
+  }
+
+
+
+
+  export type ServiceAgreementGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServiceAgreementWhereInput
+    orderBy?: ServiceAgreementOrderByWithAggregationInput | ServiceAgreementOrderByWithAggregationInput[]
+    by: ServiceAgreementScalarFieldEnum[] | ServiceAgreementScalarFieldEnum
+    having?: ServiceAgreementScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ServiceAgreementCountAggregateInputType | true
+    _min?: ServiceAgreementMinAggregateInputType
+    _max?: ServiceAgreementMaxAggregateInputType
+  }
+
+  export type ServiceAgreementGroupByOutputType = {
+    id: string
+    serviceId: string
+    agreementId: string
+    _count: ServiceAgreementCountAggregateOutputType | null
+    _min: ServiceAgreementMinAggregateOutputType | null
+    _max: ServiceAgreementMaxAggregateOutputType | null
+  }
+
+  type GetServiceAgreementGroupByPayload<T extends ServiceAgreementGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ServiceAgreementGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ServiceAgreementGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ServiceAgreementGroupByOutputType[P]>
+            : GetScalarType<T[P], ServiceAgreementGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ServiceAgreementSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    serviceId?: boolean
+    agreementId?: boolean
+    service?: boolean | ServiceDefaultArgs<ExtArgs>
+    agreement?: boolean | AgreementDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serviceAgreement"]>
+
+  export type ServiceAgreementSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    serviceId?: boolean
+    agreementId?: boolean
+    service?: boolean | ServiceDefaultArgs<ExtArgs>
+    agreement?: boolean | AgreementDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serviceAgreement"]>
+
+  export type ServiceAgreementSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    serviceId?: boolean
+    agreementId?: boolean
+    service?: boolean | ServiceDefaultArgs<ExtArgs>
+    agreement?: boolean | AgreementDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serviceAgreement"]>
+
+  export type ServiceAgreementSelectScalar = {
+    id?: boolean
+    serviceId?: boolean
+    agreementId?: boolean
+  }
+
+  export type ServiceAgreementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "serviceId" | "agreementId", ExtArgs["result"]["serviceAgreement"]>
+  export type ServiceAgreementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    service?: boolean | ServiceDefaultArgs<ExtArgs>
+    agreement?: boolean | AgreementDefaultArgs<ExtArgs>
+  }
+  export type ServiceAgreementIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    service?: boolean | ServiceDefaultArgs<ExtArgs>
+    agreement?: boolean | AgreementDefaultArgs<ExtArgs>
+  }
+  export type ServiceAgreementIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    service?: boolean | ServiceDefaultArgs<ExtArgs>
+    agreement?: boolean | AgreementDefaultArgs<ExtArgs>
+  }
+
+  export type $ServiceAgreementPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ServiceAgreement"
+    objects: {
+      service: Prisma.$ServicePayload<ExtArgs>
+      agreement: Prisma.$AgreementPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      serviceId: string
+      agreementId: string
+    }, ExtArgs["result"]["serviceAgreement"]>
+    composites: {}
+  }
+
+  type ServiceAgreementGetPayload<S extends boolean | null | undefined | ServiceAgreementDefaultArgs> = $Result.GetResult<Prisma.$ServiceAgreementPayload, S>
+
+  type ServiceAgreementCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ServiceAgreementFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ServiceAgreementCountAggregateInputType | true
+    }
+
+  export interface ServiceAgreementDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ServiceAgreement'], meta: { name: 'ServiceAgreement' } }
+    /**
+     * Find zero or one ServiceAgreement that matches the filter.
+     * @param {ServiceAgreementFindUniqueArgs} args - Arguments to find a ServiceAgreement
+     * @example
+     * // Get one ServiceAgreement
+     * const serviceAgreement = await prisma.serviceAgreement.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ServiceAgreementFindUniqueArgs>(args: SelectSubset<T, ServiceAgreementFindUniqueArgs<ExtArgs>>): Prisma__ServiceAgreementClient<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ServiceAgreement that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ServiceAgreementFindUniqueOrThrowArgs} args - Arguments to find a ServiceAgreement
+     * @example
+     * // Get one ServiceAgreement
+     * const serviceAgreement = await prisma.serviceAgreement.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ServiceAgreementFindUniqueOrThrowArgs>(args: SelectSubset<T, ServiceAgreementFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ServiceAgreementClient<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ServiceAgreement that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceAgreementFindFirstArgs} args - Arguments to find a ServiceAgreement
+     * @example
+     * // Get one ServiceAgreement
+     * const serviceAgreement = await prisma.serviceAgreement.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ServiceAgreementFindFirstArgs>(args?: SelectSubset<T, ServiceAgreementFindFirstArgs<ExtArgs>>): Prisma__ServiceAgreementClient<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ServiceAgreement that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceAgreementFindFirstOrThrowArgs} args - Arguments to find a ServiceAgreement
+     * @example
+     * // Get one ServiceAgreement
+     * const serviceAgreement = await prisma.serviceAgreement.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ServiceAgreementFindFirstOrThrowArgs>(args?: SelectSubset<T, ServiceAgreementFindFirstOrThrowArgs<ExtArgs>>): Prisma__ServiceAgreementClient<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ServiceAgreements that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceAgreementFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ServiceAgreements
+     * const serviceAgreements = await prisma.serviceAgreement.findMany()
+     * 
+     * // Get first 10 ServiceAgreements
+     * const serviceAgreements = await prisma.serviceAgreement.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const serviceAgreementWithIdOnly = await prisma.serviceAgreement.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ServiceAgreementFindManyArgs>(args?: SelectSubset<T, ServiceAgreementFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ServiceAgreement.
+     * @param {ServiceAgreementCreateArgs} args - Arguments to create a ServiceAgreement.
+     * @example
+     * // Create one ServiceAgreement
+     * const ServiceAgreement = await prisma.serviceAgreement.create({
+     *   data: {
+     *     // ... data to create a ServiceAgreement
+     *   }
+     * })
+     * 
+     */
+    create<T extends ServiceAgreementCreateArgs>(args: SelectSubset<T, ServiceAgreementCreateArgs<ExtArgs>>): Prisma__ServiceAgreementClient<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ServiceAgreements.
+     * @param {ServiceAgreementCreateManyArgs} args - Arguments to create many ServiceAgreements.
+     * @example
+     * // Create many ServiceAgreements
+     * const serviceAgreement = await prisma.serviceAgreement.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ServiceAgreementCreateManyArgs>(args?: SelectSubset<T, ServiceAgreementCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ServiceAgreements and returns the data saved in the database.
+     * @param {ServiceAgreementCreateManyAndReturnArgs} args - Arguments to create many ServiceAgreements.
+     * @example
+     * // Create many ServiceAgreements
+     * const serviceAgreement = await prisma.serviceAgreement.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ServiceAgreements and only return the `id`
+     * const serviceAgreementWithIdOnly = await prisma.serviceAgreement.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ServiceAgreementCreateManyAndReturnArgs>(args?: SelectSubset<T, ServiceAgreementCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ServiceAgreement.
+     * @param {ServiceAgreementDeleteArgs} args - Arguments to delete one ServiceAgreement.
+     * @example
+     * // Delete one ServiceAgreement
+     * const ServiceAgreement = await prisma.serviceAgreement.delete({
+     *   where: {
+     *     // ... filter to delete one ServiceAgreement
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ServiceAgreementDeleteArgs>(args: SelectSubset<T, ServiceAgreementDeleteArgs<ExtArgs>>): Prisma__ServiceAgreementClient<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ServiceAgreement.
+     * @param {ServiceAgreementUpdateArgs} args - Arguments to update one ServiceAgreement.
+     * @example
+     * // Update one ServiceAgreement
+     * const serviceAgreement = await prisma.serviceAgreement.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ServiceAgreementUpdateArgs>(args: SelectSubset<T, ServiceAgreementUpdateArgs<ExtArgs>>): Prisma__ServiceAgreementClient<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ServiceAgreements.
+     * @param {ServiceAgreementDeleteManyArgs} args - Arguments to filter ServiceAgreements to delete.
+     * @example
+     * // Delete a few ServiceAgreements
+     * const { count } = await prisma.serviceAgreement.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ServiceAgreementDeleteManyArgs>(args?: SelectSubset<T, ServiceAgreementDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ServiceAgreements.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceAgreementUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ServiceAgreements
+     * const serviceAgreement = await prisma.serviceAgreement.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ServiceAgreementUpdateManyArgs>(args: SelectSubset<T, ServiceAgreementUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ServiceAgreements and returns the data updated in the database.
+     * @param {ServiceAgreementUpdateManyAndReturnArgs} args - Arguments to update many ServiceAgreements.
+     * @example
+     * // Update many ServiceAgreements
+     * const serviceAgreement = await prisma.serviceAgreement.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ServiceAgreements and only return the `id`
+     * const serviceAgreementWithIdOnly = await prisma.serviceAgreement.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ServiceAgreementUpdateManyAndReturnArgs>(args: SelectSubset<T, ServiceAgreementUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ServiceAgreement.
+     * @param {ServiceAgreementUpsertArgs} args - Arguments to update or create a ServiceAgreement.
+     * @example
+     * // Update or create a ServiceAgreement
+     * const serviceAgreement = await prisma.serviceAgreement.upsert({
+     *   create: {
+     *     // ... data to create a ServiceAgreement
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ServiceAgreement we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ServiceAgreementUpsertArgs>(args: SelectSubset<T, ServiceAgreementUpsertArgs<ExtArgs>>): Prisma__ServiceAgreementClient<$Result.GetResult<Prisma.$ServiceAgreementPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ServiceAgreements.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceAgreementCountArgs} args - Arguments to filter ServiceAgreements to count.
+     * @example
+     * // Count the number of ServiceAgreements
+     * const count = await prisma.serviceAgreement.count({
+     *   where: {
+     *     // ... the filter for the ServiceAgreements we want to count
+     *   }
+     * })
+    **/
+    count<T extends ServiceAgreementCountArgs>(
+      args?: Subset<T, ServiceAgreementCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ServiceAgreementCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ServiceAgreement.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceAgreementAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ServiceAgreementAggregateArgs>(args: Subset<T, ServiceAgreementAggregateArgs>): Prisma.PrismaPromise<GetServiceAgreementAggregateType<T>>
+
+    /**
+     * Group by ServiceAgreement.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceAgreementGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ServiceAgreementGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ServiceAgreementGroupByArgs['orderBy'] }
+        : { orderBy?: ServiceAgreementGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ServiceAgreementGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetServiceAgreementGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ServiceAgreement model
+   */
+  readonly fields: ServiceAgreementFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ServiceAgreement.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ServiceAgreementClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    service<T extends ServiceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ServiceDefaultArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    agreement<T extends AgreementDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AgreementDefaultArgs<ExtArgs>>): Prisma__AgreementClient<$Result.GetResult<Prisma.$AgreementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ServiceAgreement model
+   */
+  interface ServiceAgreementFieldRefs {
+    readonly id: FieldRef<"ServiceAgreement", 'String'>
+    readonly serviceId: FieldRef<"ServiceAgreement", 'String'>
+    readonly agreementId: FieldRef<"ServiceAgreement", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ServiceAgreement findUnique
+   */
+  export type ServiceAgreementFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAgreement
+     */
+    select?: ServiceAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAgreement
+     */
+    omit?: ServiceAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAgreementInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceAgreement to fetch.
+     */
+    where: ServiceAgreementWhereUniqueInput
+  }
+
+  /**
+   * ServiceAgreement findUniqueOrThrow
+   */
+  export type ServiceAgreementFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAgreement
+     */
+    select?: ServiceAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAgreement
+     */
+    omit?: ServiceAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAgreementInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceAgreement to fetch.
+     */
+    where: ServiceAgreementWhereUniqueInput
+  }
+
+  /**
+   * ServiceAgreement findFirst
+   */
+  export type ServiceAgreementFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAgreement
+     */
+    select?: ServiceAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAgreement
+     */
+    omit?: ServiceAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAgreementInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceAgreement to fetch.
+     */
+    where?: ServiceAgreementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceAgreements to fetch.
+     */
+    orderBy?: ServiceAgreementOrderByWithRelationInput | ServiceAgreementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ServiceAgreements.
+     */
+    cursor?: ServiceAgreementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceAgreements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceAgreements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ServiceAgreements.
+     */
+    distinct?: ServiceAgreementScalarFieldEnum | ServiceAgreementScalarFieldEnum[]
+  }
+
+  /**
+   * ServiceAgreement findFirstOrThrow
+   */
+  export type ServiceAgreementFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAgreement
+     */
+    select?: ServiceAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAgreement
+     */
+    omit?: ServiceAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAgreementInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceAgreement to fetch.
+     */
+    where?: ServiceAgreementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceAgreements to fetch.
+     */
+    orderBy?: ServiceAgreementOrderByWithRelationInput | ServiceAgreementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ServiceAgreements.
+     */
+    cursor?: ServiceAgreementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceAgreements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceAgreements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ServiceAgreements.
+     */
+    distinct?: ServiceAgreementScalarFieldEnum | ServiceAgreementScalarFieldEnum[]
+  }
+
+  /**
+   * ServiceAgreement findMany
+   */
+  export type ServiceAgreementFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAgreement
+     */
+    select?: ServiceAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAgreement
+     */
+    omit?: ServiceAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAgreementInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceAgreements to fetch.
+     */
+    where?: ServiceAgreementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceAgreements to fetch.
+     */
+    orderBy?: ServiceAgreementOrderByWithRelationInput | ServiceAgreementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ServiceAgreements.
+     */
+    cursor?: ServiceAgreementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceAgreements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceAgreements.
+     */
+    skip?: number
+    distinct?: ServiceAgreementScalarFieldEnum | ServiceAgreementScalarFieldEnum[]
+  }
+
+  /**
+   * ServiceAgreement create
+   */
+  export type ServiceAgreementCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAgreement
+     */
+    select?: ServiceAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAgreement
+     */
+    omit?: ServiceAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAgreementInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ServiceAgreement.
+     */
+    data: XOR<ServiceAgreementCreateInput, ServiceAgreementUncheckedCreateInput>
+  }
+
+  /**
+   * ServiceAgreement createMany
+   */
+  export type ServiceAgreementCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ServiceAgreements.
+     */
+    data: ServiceAgreementCreateManyInput | ServiceAgreementCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ServiceAgreement createManyAndReturn
+   */
+  export type ServiceAgreementCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAgreement
+     */
+    select?: ServiceAgreementSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAgreement
+     */
+    omit?: ServiceAgreementOmit<ExtArgs> | null
+    /**
+     * The data used to create many ServiceAgreements.
+     */
+    data: ServiceAgreementCreateManyInput | ServiceAgreementCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAgreementIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ServiceAgreement update
+   */
+  export type ServiceAgreementUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAgreement
+     */
+    select?: ServiceAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAgreement
+     */
+    omit?: ServiceAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAgreementInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ServiceAgreement.
+     */
+    data: XOR<ServiceAgreementUpdateInput, ServiceAgreementUncheckedUpdateInput>
+    /**
+     * Choose, which ServiceAgreement to update.
+     */
+    where: ServiceAgreementWhereUniqueInput
+  }
+
+  /**
+   * ServiceAgreement updateMany
+   */
+  export type ServiceAgreementUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ServiceAgreements.
+     */
+    data: XOR<ServiceAgreementUpdateManyMutationInput, ServiceAgreementUncheckedUpdateManyInput>
+    /**
+     * Filter which ServiceAgreements to update
+     */
+    where?: ServiceAgreementWhereInput
+    /**
+     * Limit how many ServiceAgreements to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ServiceAgreement updateManyAndReturn
+   */
+  export type ServiceAgreementUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAgreement
+     */
+    select?: ServiceAgreementSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAgreement
+     */
+    omit?: ServiceAgreementOmit<ExtArgs> | null
+    /**
+     * The data used to update ServiceAgreements.
+     */
+    data: XOR<ServiceAgreementUpdateManyMutationInput, ServiceAgreementUncheckedUpdateManyInput>
+    /**
+     * Filter which ServiceAgreements to update
+     */
+    where?: ServiceAgreementWhereInput
+    /**
+     * Limit how many ServiceAgreements to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAgreementIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ServiceAgreement upsert
+   */
+  export type ServiceAgreementUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAgreement
+     */
+    select?: ServiceAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAgreement
+     */
+    omit?: ServiceAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAgreementInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ServiceAgreement to update in case it exists.
+     */
+    where: ServiceAgreementWhereUniqueInput
+    /**
+     * In case the ServiceAgreement found by the `where` argument doesn't exist, create a new ServiceAgreement with this data.
+     */
+    create: XOR<ServiceAgreementCreateInput, ServiceAgreementUncheckedCreateInput>
+    /**
+     * In case the ServiceAgreement was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ServiceAgreementUpdateInput, ServiceAgreementUncheckedUpdateInput>
+  }
+
+  /**
+   * ServiceAgreement delete
+   */
+  export type ServiceAgreementDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAgreement
+     */
+    select?: ServiceAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAgreement
+     */
+    omit?: ServiceAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAgreementInclude<ExtArgs> | null
+    /**
+     * Filter which ServiceAgreement to delete.
+     */
+    where: ServiceAgreementWhereUniqueInput
+  }
+
+  /**
+   * ServiceAgreement deleteMany
+   */
+  export type ServiceAgreementDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ServiceAgreements to delete
+     */
+    where?: ServiceAgreementWhereInput
+    /**
+     * Limit how many ServiceAgreements to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ServiceAgreement without action
+   */
+  export type ServiceAgreementDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAgreement
+     */
+    select?: ServiceAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAgreement
+     */
+    omit?: ServiceAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAgreementInclude<ExtArgs> | null
   }
 
 
@@ -36042,6 +38570,20 @@ export namespace Prisma {
   export type OtpScalarFieldEnum = (typeof OtpScalarFieldEnum)[keyof typeof OtpScalarFieldEnum]
 
 
+  export const AadhaarOtpScalarFieldEnum: {
+    id: 'id',
+    aadhaarNumber: 'aadhaarNumber',
+    ref_id: 'ref_id',
+    otpStatus: 'otpStatus',
+    generatedOTPResponse: 'generatedOTPResponse',
+    verifiedOTPResponse: 'verifiedOTPResponse',
+    transactionId: 'transactionId',
+    createdAt: 'createdAt'
+  };
+
+  export type AadhaarOtpScalarFieldEnum = (typeof AadhaarOtpScalarFieldEnum)[keyof typeof AadhaarOtpScalarFieldEnum]
+
+
   export const PanVerificationDataScalarFieldEnum: {
     userId: 'userId',
     provider: 'provider',
@@ -36058,18 +38600,17 @@ export namespace Prisma {
     id: 'id',
     userId: 'userId',
     serviceId: 'serviceId',
+    servicePlanId: 'servicePlanId',
     purchaseDate: 'purchaseDate',
     expiryDate: 'expiryDate',
-    servicePlanId: 'servicePlanId',
-    agreementAcceptedAt: 'agreementAcceptedAt',
-    agreementData: 'agreementData',
     grantType: 'grantType',
     grantedBy: 'grantedBy',
     grantReason: 'grantReason',
-    parentServiceId: 'parentServiceId',
     transactionId: 'transactionId',
+    parentServiceId: 'parentServiceId',
     isActive: 'isActive',
-    grantMetadata: 'grantMetadata'
+    grantMetadata: 'grantMetadata',
+    createdAt: 'createdAt'
   };
 
   export type UserPurchasedServicesScalarFieldEnum = (typeof UserPurchasedServicesScalarFieldEnum)[keyof typeof UserPurchasedServicesScalarFieldEnum]
@@ -36106,10 +38647,21 @@ export namespace Prisma {
     webhookResponse: 'webhookResponse',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    extraData: 'extraData'
+    extraData: 'extraData',
+    agreementSummary: 'agreementSummary',
+    agreementAcceptedAt: 'agreementAcceptedAt'
   };
 
   export type TransactionScalarFieldEnum = (typeof TransactionScalarFieldEnum)[keyof typeof TransactionScalarFieldEnum]
+
+
+  export const TransactionAgreementScalarFieldEnum: {
+    id: 'id',
+    transactionId: 'transactionId',
+    agreementId: 'agreementId'
+  };
+
+  export type TransactionAgreementScalarFieldEnum = (typeof TransactionAgreementScalarFieldEnum)[keyof typeof TransactionAgreementScalarFieldEnum]
 
 
   export const AgreementScalarFieldEnum: {
@@ -36129,15 +38681,6 @@ export namespace Prisma {
   export type AgreementScalarFieldEnum = (typeof AgreementScalarFieldEnum)[keyof typeof AgreementScalarFieldEnum]
 
 
-  export const ServiceAgreementScalarFieldEnum: {
-    id: 'id',
-    serviceId: 'serviceId',
-    agreementId: 'agreementId'
-  };
-
-  export type ServiceAgreementScalarFieldEnum = (typeof ServiceAgreementScalarFieldEnum)[keyof typeof ServiceAgreementScalarFieldEnum]
-
-
   export const ComplimentaryServiceScalarFieldEnum: {
     id: 'id',
     serviceId: 'serviceId',
@@ -36146,6 +38689,15 @@ export namespace Prisma {
   };
 
   export type ComplimentaryServiceScalarFieldEnum = (typeof ComplimentaryServiceScalarFieldEnum)[keyof typeof ComplimentaryServiceScalarFieldEnum]
+
+
+  export const ServiceAgreementScalarFieldEnum: {
+    id: 'id',
+    serviceId: 'serviceId',
+    agreementId: 'agreementId'
+  };
+
+  export type ServiceAgreementScalarFieldEnum = (typeof ServiceAgreementScalarFieldEnum)[keyof typeof ServiceAgreementScalarFieldEnum]
 
 
   export const ServicePlanScalarFieldEnum: {
@@ -36448,19 +39000,19 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-  export const JsonNullValueInput: {
-    JsonNull: typeof JsonNull
-  };
-
-  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
-
-
   export const NullableJsonNullValueInput: {
     DbNull: typeof DbNull,
     JsonNull: typeof JsonNull
   };
 
   export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+  export const JsonNullValueInput: {
+    JsonNull: typeof JsonNull
+  };
+
+  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
   export const QueryMode: {
@@ -37115,6 +39667,76 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Otp"> | Date | string
   }
 
+  export type AadhaarOtpWhereInput = {
+    AND?: AadhaarOtpWhereInput | AadhaarOtpWhereInput[]
+    OR?: AadhaarOtpWhereInput[]
+    NOT?: AadhaarOtpWhereInput | AadhaarOtpWhereInput[]
+    id?: StringFilter<"AadhaarOtp"> | string
+    aadhaarNumber?: StringFilter<"AadhaarOtp"> | string
+    ref_id?: StringFilter<"AadhaarOtp"> | string
+    otpStatus?: StringFilter<"AadhaarOtp"> | string
+    generatedOTPResponse?: JsonNullableFilter<"AadhaarOtp">
+    verifiedOTPResponse?: JsonNullableFilter<"AadhaarOtp">
+    transactionId?: StringNullableFilter<"AadhaarOtp"> | string | null
+    createdAt?: DateTimeFilter<"AadhaarOtp"> | Date | string
+    transaction?: XOR<TransactionNullableScalarRelationFilter, TransactionWhereInput> | null
+  }
+
+  export type AadhaarOtpOrderByWithRelationInput = {
+    id?: SortOrder
+    aadhaarNumber?: SortOrder
+    ref_id?: SortOrder
+    otpStatus?: SortOrder
+    generatedOTPResponse?: SortOrderInput | SortOrder
+    verifiedOTPResponse?: SortOrderInput | SortOrder
+    transactionId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    transaction?: TransactionOrderByWithRelationInput
+  }
+
+  export type AadhaarOtpWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    transactionId?: string
+    AND?: AadhaarOtpWhereInput | AadhaarOtpWhereInput[]
+    OR?: AadhaarOtpWhereInput[]
+    NOT?: AadhaarOtpWhereInput | AadhaarOtpWhereInput[]
+    aadhaarNumber?: StringFilter<"AadhaarOtp"> | string
+    ref_id?: StringFilter<"AadhaarOtp"> | string
+    otpStatus?: StringFilter<"AadhaarOtp"> | string
+    generatedOTPResponse?: JsonNullableFilter<"AadhaarOtp">
+    verifiedOTPResponse?: JsonNullableFilter<"AadhaarOtp">
+    createdAt?: DateTimeFilter<"AadhaarOtp"> | Date | string
+    transaction?: XOR<TransactionNullableScalarRelationFilter, TransactionWhereInput> | null
+  }, "id" | "transactionId">
+
+  export type AadhaarOtpOrderByWithAggregationInput = {
+    id?: SortOrder
+    aadhaarNumber?: SortOrder
+    ref_id?: SortOrder
+    otpStatus?: SortOrder
+    generatedOTPResponse?: SortOrderInput | SortOrder
+    verifiedOTPResponse?: SortOrderInput | SortOrder
+    transactionId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: AadhaarOtpCountOrderByAggregateInput
+    _max?: AadhaarOtpMaxOrderByAggregateInput
+    _min?: AadhaarOtpMinOrderByAggregateInput
+  }
+
+  export type AadhaarOtpScalarWhereWithAggregatesInput = {
+    AND?: AadhaarOtpScalarWhereWithAggregatesInput | AadhaarOtpScalarWhereWithAggregatesInput[]
+    OR?: AadhaarOtpScalarWhereWithAggregatesInput[]
+    NOT?: AadhaarOtpScalarWhereWithAggregatesInput | AadhaarOtpScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AadhaarOtp"> | string
+    aadhaarNumber?: StringWithAggregatesFilter<"AadhaarOtp"> | string
+    ref_id?: StringWithAggregatesFilter<"AadhaarOtp"> | string
+    otpStatus?: StringWithAggregatesFilter<"AadhaarOtp"> | string
+    generatedOTPResponse?: JsonNullableWithAggregatesFilter<"AadhaarOtp">
+    verifiedOTPResponse?: JsonNullableWithAggregatesFilter<"AadhaarOtp">
+    transactionId?: StringNullableWithAggregatesFilter<"AadhaarOtp"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"AadhaarOtp"> | Date | string
+  }
+
   export type panVerificationDataWhereInput = {
     AND?: panVerificationDataWhereInput | panVerificationDataWhereInput[]
     OR?: panVerificationDataWhereInput[]
@@ -37182,19 +39804,19 @@ export namespace Prisma {
     id?: StringFilter<"UserPurchasedServices"> | string
     userId?: StringFilter<"UserPurchasedServices"> | string
     serviceId?: StringFilter<"UserPurchasedServices"> | string
+    servicePlanId?: StringNullableFilter<"UserPurchasedServices"> | string | null
     purchaseDate?: DateTimeFilter<"UserPurchasedServices"> | Date | string
     expiryDate?: DateTimeNullableFilter<"UserPurchasedServices"> | Date | string | null
-    servicePlanId?: StringNullableFilter<"UserPurchasedServices"> | string | null
-    agreementAcceptedAt?: DateTimeNullableFilter<"UserPurchasedServices"> | Date | string | null
-    agreementData?: JsonNullableFilter<"UserPurchasedServices">
     grantType?: EnumGrantTypeFilter<"UserPurchasedServices"> | $Enums.GrantType
     grantedBy?: StringNullableFilter<"UserPurchasedServices"> | string | null
     grantReason?: StringNullableFilter<"UserPurchasedServices"> | string | null
-    parentServiceId?: StringNullableFilter<"UserPurchasedServices"> | string | null
     transactionId?: StringNullableFilter<"UserPurchasedServices"> | string | null
+    parentServiceId?: StringNullableFilter<"UserPurchasedServices"> | string | null
     isActive?: BoolFilter<"UserPurchasedServices"> | boolean
     grantMetadata?: JsonNullableFilter<"UserPurchasedServices">
+    createdAt?: DateTimeFilter<"UserPurchasedServices"> | Date | string
     portfolioReview?: XOR<PortfolioReviewNullableScalarRelationFilter, PortfolioReviewWhereInput> | null
+    transaction?: XOR<TransactionNullableScalarRelationFilter, TransactionWhereInput> | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     service?: XOR<ServiceNullableScalarRelationFilter, ServiceWhereInput> | null
     servicePlan?: XOR<ServicePlanNullableScalarRelationFilter, ServicePlanWhereInput> | null
@@ -37204,19 +39826,19 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     serviceId?: SortOrder
+    servicePlanId?: SortOrderInput | SortOrder
     purchaseDate?: SortOrder
     expiryDate?: SortOrderInput | SortOrder
-    servicePlanId?: SortOrderInput | SortOrder
-    agreementAcceptedAt?: SortOrderInput | SortOrder
-    agreementData?: SortOrderInput | SortOrder
     grantType?: SortOrder
     grantedBy?: SortOrderInput | SortOrder
     grantReason?: SortOrderInput | SortOrder
-    parentServiceId?: SortOrderInput | SortOrder
     transactionId?: SortOrderInput | SortOrder
+    parentServiceId?: SortOrderInput | SortOrder
     isActive?: SortOrder
     grantMetadata?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
     portfolioReview?: PortfolioReviewOrderByWithRelationInput
+    transaction?: TransactionOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
     service?: ServiceOrderByWithRelationInput
     servicePlan?: ServicePlanOrderByWithRelationInput
@@ -37230,19 +39852,19 @@ export namespace Prisma {
     NOT?: UserPurchasedServicesWhereInput | UserPurchasedServicesWhereInput[]
     userId?: StringFilter<"UserPurchasedServices"> | string
     serviceId?: StringFilter<"UserPurchasedServices"> | string
+    servicePlanId?: StringNullableFilter<"UserPurchasedServices"> | string | null
     purchaseDate?: DateTimeFilter<"UserPurchasedServices"> | Date | string
     expiryDate?: DateTimeNullableFilter<"UserPurchasedServices"> | Date | string | null
-    servicePlanId?: StringNullableFilter<"UserPurchasedServices"> | string | null
-    agreementAcceptedAt?: DateTimeNullableFilter<"UserPurchasedServices"> | Date | string | null
-    agreementData?: JsonNullableFilter<"UserPurchasedServices">
     grantType?: EnumGrantTypeFilter<"UserPurchasedServices"> | $Enums.GrantType
     grantedBy?: StringNullableFilter<"UserPurchasedServices"> | string | null
     grantReason?: StringNullableFilter<"UserPurchasedServices"> | string | null
-    parentServiceId?: StringNullableFilter<"UserPurchasedServices"> | string | null
     transactionId?: StringNullableFilter<"UserPurchasedServices"> | string | null
+    parentServiceId?: StringNullableFilter<"UserPurchasedServices"> | string | null
     isActive?: BoolFilter<"UserPurchasedServices"> | boolean
     grantMetadata?: JsonNullableFilter<"UserPurchasedServices">
+    createdAt?: DateTimeFilter<"UserPurchasedServices"> | Date | string
     portfolioReview?: XOR<PortfolioReviewNullableScalarRelationFilter, PortfolioReviewWhereInput> | null
+    transaction?: XOR<TransactionNullableScalarRelationFilter, TransactionWhereInput> | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     service?: XOR<ServiceNullableScalarRelationFilter, ServiceWhereInput> | null
     servicePlan?: XOR<ServicePlanNullableScalarRelationFilter, ServicePlanWhereInput> | null
@@ -37252,18 +39874,17 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     serviceId?: SortOrder
+    servicePlanId?: SortOrderInput | SortOrder
     purchaseDate?: SortOrder
     expiryDate?: SortOrderInput | SortOrder
-    servicePlanId?: SortOrderInput | SortOrder
-    agreementAcceptedAt?: SortOrderInput | SortOrder
-    agreementData?: SortOrderInput | SortOrder
     grantType?: SortOrder
     grantedBy?: SortOrderInput | SortOrder
     grantReason?: SortOrderInput | SortOrder
-    parentServiceId?: SortOrderInput | SortOrder
     transactionId?: SortOrderInput | SortOrder
+    parentServiceId?: SortOrderInput | SortOrder
     isActive?: SortOrder
     grantMetadata?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
     _count?: UserPurchasedServicesCountOrderByAggregateInput
     _max?: UserPurchasedServicesMaxOrderByAggregateInput
     _min?: UserPurchasedServicesMinOrderByAggregateInput
@@ -37276,18 +39897,17 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"UserPurchasedServices"> | string
     userId?: StringWithAggregatesFilter<"UserPurchasedServices"> | string
     serviceId?: StringWithAggregatesFilter<"UserPurchasedServices"> | string
+    servicePlanId?: StringNullableWithAggregatesFilter<"UserPurchasedServices"> | string | null
     purchaseDate?: DateTimeWithAggregatesFilter<"UserPurchasedServices"> | Date | string
     expiryDate?: DateTimeNullableWithAggregatesFilter<"UserPurchasedServices"> | Date | string | null
-    servicePlanId?: StringNullableWithAggregatesFilter<"UserPurchasedServices"> | string | null
-    agreementAcceptedAt?: DateTimeNullableWithAggregatesFilter<"UserPurchasedServices"> | Date | string | null
-    agreementData?: JsonNullableWithAggregatesFilter<"UserPurchasedServices">
     grantType?: EnumGrantTypeWithAggregatesFilter<"UserPurchasedServices"> | $Enums.GrantType
     grantedBy?: StringNullableWithAggregatesFilter<"UserPurchasedServices"> | string | null
     grantReason?: StringNullableWithAggregatesFilter<"UserPurchasedServices"> | string | null
-    parentServiceId?: StringNullableWithAggregatesFilter<"UserPurchasedServices"> | string | null
     transactionId?: StringNullableWithAggregatesFilter<"UserPurchasedServices"> | string | null
+    parentServiceId?: StringNullableWithAggregatesFilter<"UserPurchasedServices"> | string | null
     isActive?: BoolWithAggregatesFilter<"UserPurchasedServices"> | boolean
     grantMetadata?: JsonNullableWithAggregatesFilter<"UserPurchasedServices">
+    createdAt?: DateTimeWithAggregatesFilter<"UserPurchasedServices"> | Date | string
   }
 
   export type CouponWhereInput = {
@@ -37393,6 +40013,11 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeFilter<"Transaction"> | Date | string
     extraData?: JsonNullableFilter<"Transaction">
+    agreementSummary?: JsonNullableFilter<"Transaction">
+    agreementAcceptedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    userPurchasedServices?: UserPurchasedServicesListRelationFilter
+    transactionAgreements?: TransactionAgreementListRelationFilter
+    aadhaarOtp?: XOR<AadhaarOtpNullableScalarRelationFilter, AadhaarOtpWhereInput> | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     service?: XOR<ServiceNullableScalarRelationFilter, ServiceWhereInput> | null
     servicePlan?: XOR<ServicePlanNullableScalarRelationFilter, ServicePlanWhereInput> | null
@@ -37416,6 +40041,11 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     extraData?: SortOrderInput | SortOrder
+    agreementSummary?: SortOrderInput | SortOrder
+    agreementAcceptedAt?: SortOrderInput | SortOrder
+    userPurchasedServices?: UserPurchasedServicesOrderByRelationAggregateInput
+    transactionAgreements?: TransactionAgreementOrderByRelationAggregateInput
+    aadhaarOtp?: AadhaarOtpOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
     service?: ServiceOrderByWithRelationInput
     servicePlan?: ServicePlanOrderByWithRelationInput
@@ -37442,6 +40072,11 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeFilter<"Transaction"> | Date | string
     extraData?: JsonNullableFilter<"Transaction">
+    agreementSummary?: JsonNullableFilter<"Transaction">
+    agreementAcceptedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    userPurchasedServices?: UserPurchasedServicesListRelationFilter
+    transactionAgreements?: TransactionAgreementListRelationFilter
+    aadhaarOtp?: XOR<AadhaarOtpNullableScalarRelationFilter, AadhaarOtpWhereInput> | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     service?: XOR<ServiceNullableScalarRelationFilter, ServiceWhereInput> | null
     servicePlan?: XOR<ServicePlanNullableScalarRelationFilter, ServicePlanWhereInput> | null
@@ -37465,6 +40100,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     extraData?: SortOrderInput | SortOrder
+    agreementSummary?: SortOrderInput | SortOrder
+    agreementAcceptedAt?: SortOrderInput | SortOrder
     _count?: TransactionCountOrderByAggregateInput
     _avg?: TransactionAvgOrderByAggregateInput
     _max?: TransactionMaxOrderByAggregateInput
@@ -37492,6 +40129,57 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Transaction"> | Date | string
     extraData?: JsonNullableWithAggregatesFilter<"Transaction">
+    agreementSummary?: JsonNullableWithAggregatesFilter<"Transaction">
+    agreementAcceptedAt?: DateTimeNullableWithAggregatesFilter<"Transaction"> | Date | string | null
+  }
+
+  export type TransactionAgreementWhereInput = {
+    AND?: TransactionAgreementWhereInput | TransactionAgreementWhereInput[]
+    OR?: TransactionAgreementWhereInput[]
+    NOT?: TransactionAgreementWhereInput | TransactionAgreementWhereInput[]
+    id?: StringFilter<"TransactionAgreement"> | string
+    transactionId?: StringFilter<"TransactionAgreement"> | string
+    agreementId?: StringFilter<"TransactionAgreement"> | string
+    transaction?: XOR<TransactionScalarRelationFilter, TransactionWhereInput>
+    agreement?: XOR<AgreementScalarRelationFilter, AgreementWhereInput>
+  }
+
+  export type TransactionAgreementOrderByWithRelationInput = {
+    id?: SortOrder
+    transactionId?: SortOrder
+    agreementId?: SortOrder
+    transaction?: TransactionOrderByWithRelationInput
+    agreement?: AgreementOrderByWithRelationInput
+  }
+
+  export type TransactionAgreementWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    transactionId_agreementId?: TransactionAgreementTransactionIdAgreementIdCompoundUniqueInput
+    AND?: TransactionAgreementWhereInput | TransactionAgreementWhereInput[]
+    OR?: TransactionAgreementWhereInput[]
+    NOT?: TransactionAgreementWhereInput | TransactionAgreementWhereInput[]
+    transactionId?: StringFilter<"TransactionAgreement"> | string
+    agreementId?: StringFilter<"TransactionAgreement"> | string
+    transaction?: XOR<TransactionScalarRelationFilter, TransactionWhereInput>
+    agreement?: XOR<AgreementScalarRelationFilter, AgreementWhereInput>
+  }, "id" | "transactionId_agreementId">
+
+  export type TransactionAgreementOrderByWithAggregationInput = {
+    id?: SortOrder
+    transactionId?: SortOrder
+    agreementId?: SortOrder
+    _count?: TransactionAgreementCountOrderByAggregateInput
+    _max?: TransactionAgreementMaxOrderByAggregateInput
+    _min?: TransactionAgreementMinOrderByAggregateInput
+  }
+
+  export type TransactionAgreementScalarWhereWithAggregatesInput = {
+    AND?: TransactionAgreementScalarWhereWithAggregatesInput | TransactionAgreementScalarWhereWithAggregatesInput[]
+    OR?: TransactionAgreementScalarWhereWithAggregatesInput[]
+    NOT?: TransactionAgreementScalarWhereWithAggregatesInput | TransactionAgreementScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"TransactionAgreement"> | string
+    transactionId?: StringWithAggregatesFilter<"TransactionAgreement"> | string
+    agreementId?: StringWithAggregatesFilter<"TransactionAgreement"> | string
   }
 
   export type AgreementWhereInput = {
@@ -37510,6 +40198,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Agreement"> | Date | string
     createdAt?: DateTimeFilter<"Agreement"> | Date | string
     serviceAgreements?: ServiceAgreementListRelationFilter
+    transactionAgreements?: TransactionAgreementListRelationFilter
   }
 
   export type AgreementOrderByWithRelationInput = {
@@ -37525,6 +40214,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     createdAt?: SortOrder
     serviceAgreements?: ServiceAgreementOrderByRelationAggregateInput
+    transactionAgreements?: TransactionAgreementOrderByRelationAggregateInput
   }
 
   export type AgreementWhereUniqueInput = Prisma.AtLeast<{
@@ -37543,6 +40233,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Agreement"> | Date | string
     createdAt?: DateTimeFilter<"Agreement"> | Date | string
     serviceAgreements?: ServiceAgreementListRelationFilter
+    transactionAgreements?: TransactionAgreementListRelationFilter
   }, "id">
 
   export type AgreementOrderByWithAggregationInput = {
@@ -37579,54 +40270,6 @@ export namespace Prisma {
     companyName?: StringNullableWithAggregatesFilter<"Agreement"> | string | null
     updatedAt?: DateTimeWithAggregatesFilter<"Agreement"> | Date | string
     createdAt?: DateTimeWithAggregatesFilter<"Agreement"> | Date | string
-  }
-
-  export type ServiceAgreementWhereInput = {
-    AND?: ServiceAgreementWhereInput | ServiceAgreementWhereInput[]
-    OR?: ServiceAgreementWhereInput[]
-    NOT?: ServiceAgreementWhereInput | ServiceAgreementWhereInput[]
-    id?: StringFilter<"ServiceAgreement"> | string
-    serviceId?: StringFilter<"ServiceAgreement"> | string
-    agreementId?: StringFilter<"ServiceAgreement"> | string
-    service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
-    agreement?: XOR<AgreementScalarRelationFilter, AgreementWhereInput>
-  }
-
-  export type ServiceAgreementOrderByWithRelationInput = {
-    id?: SortOrder
-    serviceId?: SortOrder
-    agreementId?: SortOrder
-    service?: ServiceOrderByWithRelationInput
-    agreement?: AgreementOrderByWithRelationInput
-  }
-
-  export type ServiceAgreementWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    AND?: ServiceAgreementWhereInput | ServiceAgreementWhereInput[]
-    OR?: ServiceAgreementWhereInput[]
-    NOT?: ServiceAgreementWhereInput | ServiceAgreementWhereInput[]
-    serviceId?: StringFilter<"ServiceAgreement"> | string
-    agreementId?: StringFilter<"ServiceAgreement"> | string
-    service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
-    agreement?: XOR<AgreementScalarRelationFilter, AgreementWhereInput>
-  }, "id">
-
-  export type ServiceAgreementOrderByWithAggregationInput = {
-    id?: SortOrder
-    serviceId?: SortOrder
-    agreementId?: SortOrder
-    _count?: ServiceAgreementCountOrderByAggregateInput
-    _max?: ServiceAgreementMaxOrderByAggregateInput
-    _min?: ServiceAgreementMinOrderByAggregateInput
-  }
-
-  export type ServiceAgreementScalarWhereWithAggregatesInput = {
-    AND?: ServiceAgreementScalarWhereWithAggregatesInput | ServiceAgreementScalarWhereWithAggregatesInput[]
-    OR?: ServiceAgreementScalarWhereWithAggregatesInput[]
-    NOT?: ServiceAgreementScalarWhereWithAggregatesInput | ServiceAgreementScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"ServiceAgreement"> | string
-    serviceId?: StringWithAggregatesFilter<"ServiceAgreement"> | string
-    agreementId?: StringWithAggregatesFilter<"ServiceAgreement"> | string
   }
 
   export type ComplimentaryServiceWhereInput = {
@@ -37684,6 +40327,54 @@ export namespace Prisma {
     serviceId?: StringWithAggregatesFilter<"ComplimentaryService"> | string
     complimentaryServiceId?: StringWithAggregatesFilter<"ComplimentaryService"> | string
     complimentaryServicePlanId?: StringNullableWithAggregatesFilter<"ComplimentaryService"> | string | null
+  }
+
+  export type ServiceAgreementWhereInput = {
+    AND?: ServiceAgreementWhereInput | ServiceAgreementWhereInput[]
+    OR?: ServiceAgreementWhereInput[]
+    NOT?: ServiceAgreementWhereInput | ServiceAgreementWhereInput[]
+    id?: StringFilter<"ServiceAgreement"> | string
+    serviceId?: StringFilter<"ServiceAgreement"> | string
+    agreementId?: StringFilter<"ServiceAgreement"> | string
+    service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
+    agreement?: XOR<AgreementScalarRelationFilter, AgreementWhereInput>
+  }
+
+  export type ServiceAgreementOrderByWithRelationInput = {
+    id?: SortOrder
+    serviceId?: SortOrder
+    agreementId?: SortOrder
+    service?: ServiceOrderByWithRelationInput
+    agreement?: AgreementOrderByWithRelationInput
+  }
+
+  export type ServiceAgreementWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ServiceAgreementWhereInput | ServiceAgreementWhereInput[]
+    OR?: ServiceAgreementWhereInput[]
+    NOT?: ServiceAgreementWhereInput | ServiceAgreementWhereInput[]
+    serviceId?: StringFilter<"ServiceAgreement"> | string
+    agreementId?: StringFilter<"ServiceAgreement"> | string
+    service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
+    agreement?: XOR<AgreementScalarRelationFilter, AgreementWhereInput>
+  }, "id">
+
+  export type ServiceAgreementOrderByWithAggregationInput = {
+    id?: SortOrder
+    serviceId?: SortOrder
+    agreementId?: SortOrder
+    _count?: ServiceAgreementCountOrderByAggregateInput
+    _max?: ServiceAgreementMaxOrderByAggregateInput
+    _min?: ServiceAgreementMinOrderByAggregateInput
+  }
+
+  export type ServiceAgreementScalarWhereWithAggregatesInput = {
+    AND?: ServiceAgreementScalarWhereWithAggregatesInput | ServiceAgreementScalarWhereWithAggregatesInput[]
+    OR?: ServiceAgreementScalarWhereWithAggregatesInput[]
+    NOT?: ServiceAgreementScalarWhereWithAggregatesInput | ServiceAgreementScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ServiceAgreement"> | string
+    serviceId?: StringWithAggregatesFilter<"ServiceAgreement"> | string
+    agreementId?: StringWithAggregatesFilter<"ServiceAgreement"> | string
   }
 
   export type ServicePlanWhereInput = {
@@ -39632,6 +42323,82 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AadhaarOtpCreateInput = {
+    id?: string
+    aadhaarNumber: string
+    ref_id: string
+    otpStatus: string
+    generatedOTPResponse?: NullableJsonNullValueInput | InputJsonValue
+    verifiedOTPResponse?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    transaction?: TransactionCreateNestedOneWithoutAadhaarOtpInput
+  }
+
+  export type AadhaarOtpUncheckedCreateInput = {
+    id?: string
+    aadhaarNumber: string
+    ref_id: string
+    otpStatus: string
+    generatedOTPResponse?: NullableJsonNullValueInput | InputJsonValue
+    verifiedOTPResponse?: NullableJsonNullValueInput | InputJsonValue
+    transactionId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type AadhaarOtpUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    aadhaarNumber?: StringFieldUpdateOperationsInput | string
+    ref_id?: StringFieldUpdateOperationsInput | string
+    otpStatus?: StringFieldUpdateOperationsInput | string
+    generatedOTPResponse?: NullableJsonNullValueInput | InputJsonValue
+    verifiedOTPResponse?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transaction?: TransactionUpdateOneWithoutAadhaarOtpNestedInput
+  }
+
+  export type AadhaarOtpUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    aadhaarNumber?: StringFieldUpdateOperationsInput | string
+    ref_id?: StringFieldUpdateOperationsInput | string
+    otpStatus?: StringFieldUpdateOperationsInput | string
+    generatedOTPResponse?: NullableJsonNullValueInput | InputJsonValue
+    verifiedOTPResponse?: NullableJsonNullValueInput | InputJsonValue
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AadhaarOtpCreateManyInput = {
+    id?: string
+    aadhaarNumber: string
+    ref_id: string
+    otpStatus: string
+    generatedOTPResponse?: NullableJsonNullValueInput | InputJsonValue
+    verifiedOTPResponse?: NullableJsonNullValueInput | InputJsonValue
+    transactionId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type AadhaarOtpUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    aadhaarNumber?: StringFieldUpdateOperationsInput | string
+    ref_id?: StringFieldUpdateOperationsInput | string
+    otpStatus?: StringFieldUpdateOperationsInput | string
+    generatedOTPResponse?: NullableJsonNullValueInput | InputJsonValue
+    verifiedOTPResponse?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AadhaarOtpUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    aadhaarNumber?: StringFieldUpdateOperationsInput | string
+    ref_id?: StringFieldUpdateOperationsInput | string
+    otpStatus?: StringFieldUpdateOperationsInput | string
+    generatedOTPResponse?: NullableJsonNullValueInput | InputJsonValue
+    verifiedOTPResponse?: NullableJsonNullValueInput | InputJsonValue
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type panVerificationDataCreateInput = {
     provider: string
     result: JsonNullValueInput | InputJsonValue
@@ -39698,16 +42465,15 @@ export namespace Prisma {
     id?: string
     purchaseDate?: Date | string
     expiryDate?: Date | string | null
-    agreementAcceptedAt?: Date | string | null
-    agreementData?: NullableJsonNullValueInput | InputJsonValue
     grantType?: $Enums.GrantType
     grantedBy?: string | null
     grantReason?: string | null
     parentServiceId?: string | null
-    transactionId?: string | null
     isActive?: boolean
     grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
     portfolioReview?: PortfolioReviewCreateNestedOneWithoutUserPurchasedServiceInput
+    transaction?: TransactionCreateNestedOneWithoutUserPurchasedServicesInput
     user: UserCreateNestedOneWithoutPurchasedServicesInput
     service?: ServiceCreateNestedOneWithoutPurchasedServicesInput
     servicePlan?: ServicePlanCreateNestedOneWithoutUserPurchasedServicesInput
@@ -39717,18 +42483,17 @@ export namespace Prisma {
     id?: string
     userId: string
     serviceId: string
+    servicePlanId?: string | null
     purchaseDate?: Date | string
     expiryDate?: Date | string | null
-    servicePlanId?: string | null
-    agreementAcceptedAt?: Date | string | null
-    agreementData?: NullableJsonNullValueInput | InputJsonValue
     grantType?: $Enums.GrantType
     grantedBy?: string | null
     grantReason?: string | null
-    parentServiceId?: string | null
     transactionId?: string | null
+    parentServiceId?: string | null
     isActive?: boolean
     grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
     portfolioReview?: PortfolioReviewUncheckedCreateNestedOneWithoutUserPurchasedServiceInput
   }
 
@@ -39736,16 +42501,15 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    agreementData?: NullableJsonNullValueInput | InputJsonValue
     grantType?: EnumGrantTypeFieldUpdateOperationsInput | $Enums.GrantType
     grantedBy?: NullableStringFieldUpdateOperationsInput | string | null
     grantReason?: NullableStringFieldUpdateOperationsInput | string | null
     parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
-    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     portfolioReview?: PortfolioReviewUpdateOneWithoutUserPurchasedServiceNestedInput
+    transaction?: TransactionUpdateOneWithoutUserPurchasedServicesNestedInput
     user?: UserUpdateOneRequiredWithoutPurchasedServicesNestedInput
     service?: ServiceUpdateOneWithoutPurchasedServicesNestedInput
     servicePlan?: ServicePlanUpdateOneWithoutUserPurchasedServicesNestedInput
@@ -39755,18 +42519,17 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     serviceId?: StringFieldUpdateOperationsInput | string
+    servicePlanId?: NullableStringFieldUpdateOperationsInput | string | null
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    servicePlanId?: NullableStringFieldUpdateOperationsInput | string | null
-    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    agreementData?: NullableJsonNullValueInput | InputJsonValue
     grantType?: EnumGrantTypeFieldUpdateOperationsInput | $Enums.GrantType
     grantedBy?: NullableStringFieldUpdateOperationsInput | string | null
     grantReason?: NullableStringFieldUpdateOperationsInput | string | null
-    parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     portfolioReview?: PortfolioReviewUncheckedUpdateOneWithoutUserPurchasedServiceNestedInput
   }
 
@@ -39774,51 +42537,47 @@ export namespace Prisma {
     id?: string
     userId: string
     serviceId: string
+    servicePlanId?: string | null
     purchaseDate?: Date | string
     expiryDate?: Date | string | null
-    servicePlanId?: string | null
-    agreementAcceptedAt?: Date | string | null
-    agreementData?: NullableJsonNullValueInput | InputJsonValue
     grantType?: $Enums.GrantType
     grantedBy?: string | null
     grantReason?: string | null
-    parentServiceId?: string | null
     transactionId?: string | null
+    parentServiceId?: string | null
     isActive?: boolean
     grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
   }
 
   export type UserPurchasedServicesUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    agreementData?: NullableJsonNullValueInput | InputJsonValue
     grantType?: EnumGrantTypeFieldUpdateOperationsInput | $Enums.GrantType
     grantedBy?: NullableStringFieldUpdateOperationsInput | string | null
     grantReason?: NullableStringFieldUpdateOperationsInput | string | null
     parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
-    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserPurchasedServicesUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     serviceId?: StringFieldUpdateOperationsInput | string
+    servicePlanId?: NullableStringFieldUpdateOperationsInput | string | null
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    servicePlanId?: NullableStringFieldUpdateOperationsInput | string | null
-    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    agreementData?: NullableJsonNullValueInput | InputJsonValue
     grantType?: EnumGrantTypeFieldUpdateOperationsInput | $Enums.GrantType
     grantedBy?: NullableStringFieldUpdateOperationsInput | string | null
     grantReason?: NullableStringFieldUpdateOperationsInput | string | null
-    parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CouponCreateInput = {
@@ -39920,6 +42679,11 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: Date | string | null
+    userPurchasedServices?: UserPurchasedServicesCreateNestedManyWithoutTransactionInput
+    transactionAgreements?: TransactionAgreementCreateNestedManyWithoutTransactionInput
+    aadhaarOtp?: AadhaarOtpCreateNestedOneWithoutTransactionInput
     user: UserCreateNestedOneWithoutTransactionInput
     service?: ServiceCreateNestedOneWithoutTransactionInput
     servicePlan?: ServicePlanCreateNestedOneWithoutTransactionsInput
@@ -39943,6 +42707,11 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: Date | string | null
+    userPurchasedServices?: UserPurchasedServicesUncheckedCreateNestedManyWithoutTransactionInput
+    transactionAgreements?: TransactionAgreementUncheckedCreateNestedManyWithoutTransactionInput
+    aadhaarOtp?: AadhaarOtpUncheckedCreateNestedOneWithoutTransactionInput
   }
 
   export type TransactionUpdateInput = {
@@ -39958,6 +42727,11 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    userPurchasedServices?: UserPurchasedServicesUpdateManyWithoutTransactionNestedInput
+    transactionAgreements?: TransactionAgreementUpdateManyWithoutTransactionNestedInput
+    aadhaarOtp?: AadhaarOtpUpdateOneWithoutTransactionNestedInput
     user?: UserUpdateOneRequiredWithoutTransactionNestedInput
     service?: ServiceUpdateOneWithoutTransactionNestedInput
     servicePlan?: ServicePlanUpdateOneWithoutTransactionsNestedInput
@@ -39981,6 +42755,11 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    userPurchasedServices?: UserPurchasedServicesUncheckedUpdateManyWithoutTransactionNestedInput
+    transactionAgreements?: TransactionAgreementUncheckedUpdateManyWithoutTransactionNestedInput
+    aadhaarOtp?: AadhaarOtpUncheckedUpdateOneWithoutTransactionNestedInput
   }
 
   export type TransactionCreateManyInput = {
@@ -40000,6 +42779,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: Date | string | null
   }
 
   export type TransactionUpdateManyMutationInput = {
@@ -40015,6 +42796,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TransactionUncheckedUpdateManyInput = {
@@ -40034,6 +42817,48 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type TransactionAgreementCreateInput = {
+    id?: string
+    transaction: TransactionCreateNestedOneWithoutTransactionAgreementsInput
+    agreement: AgreementCreateNestedOneWithoutTransactionAgreementsInput
+  }
+
+  export type TransactionAgreementUncheckedCreateInput = {
+    id?: string
+    transactionId: string
+    agreementId: string
+  }
+
+  export type TransactionAgreementUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    transaction?: TransactionUpdateOneRequiredWithoutTransactionAgreementsNestedInput
+    agreement?: AgreementUpdateOneRequiredWithoutTransactionAgreementsNestedInput
+  }
+
+  export type TransactionAgreementUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    transactionId?: StringFieldUpdateOperationsInput | string
+    agreementId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TransactionAgreementCreateManyInput = {
+    id?: string
+    transactionId: string
+    agreementId: string
+  }
+
+  export type TransactionAgreementUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TransactionAgreementUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    transactionId?: StringFieldUpdateOperationsInput | string
+    agreementId?: StringFieldUpdateOperationsInput | string
   }
 
   export type AgreementCreateInput = {
@@ -40049,6 +42874,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     createdAt?: Date | string
     serviceAgreements?: ServiceAgreementCreateNestedManyWithoutAgreementInput
+    transactionAgreements?: TransactionAgreementCreateNestedManyWithoutAgreementInput
   }
 
   export type AgreementUncheckedCreateInput = {
@@ -40064,6 +42890,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     createdAt?: Date | string
     serviceAgreements?: ServiceAgreementUncheckedCreateNestedManyWithoutAgreementInput
+    transactionAgreements?: TransactionAgreementUncheckedCreateNestedManyWithoutAgreementInput
   }
 
   export type AgreementUpdateInput = {
@@ -40079,6 +42906,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     serviceAgreements?: ServiceAgreementUpdateManyWithoutAgreementNestedInput
+    transactionAgreements?: TransactionAgreementUpdateManyWithoutAgreementNestedInput
   }
 
   export type AgreementUncheckedUpdateInput = {
@@ -40094,6 +42922,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     serviceAgreements?: ServiceAgreementUncheckedUpdateManyWithoutAgreementNestedInput
+    transactionAgreements?: TransactionAgreementUncheckedUpdateManyWithoutAgreementNestedInput
   }
 
   export type AgreementCreateManyInput = {
@@ -40136,46 +42965,6 @@ export namespace Prisma {
     companyName?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ServiceAgreementCreateInput = {
-    id?: string
-    service: ServiceCreateNestedOneWithoutAgreementsInput
-    agreement: AgreementCreateNestedOneWithoutServiceAgreementsInput
-  }
-
-  export type ServiceAgreementUncheckedCreateInput = {
-    id?: string
-    serviceId: string
-    agreementId: string
-  }
-
-  export type ServiceAgreementUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    service?: ServiceUpdateOneRequiredWithoutAgreementsNestedInput
-    agreement?: AgreementUpdateOneRequiredWithoutServiceAgreementsNestedInput
-  }
-
-  export type ServiceAgreementUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    serviceId?: StringFieldUpdateOperationsInput | string
-    agreementId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type ServiceAgreementCreateManyInput = {
-    id?: string
-    serviceId: string
-    agreementId: string
-  }
-
-  export type ServiceAgreementUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type ServiceAgreementUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    serviceId?: StringFieldUpdateOperationsInput | string
-    agreementId?: StringFieldUpdateOperationsInput | string
   }
 
   export type ComplimentaryServiceCreateInput = {
@@ -40222,6 +43011,46 @@ export namespace Prisma {
     serviceId?: StringFieldUpdateOperationsInput | string
     complimentaryServiceId?: StringFieldUpdateOperationsInput | string
     complimentaryServicePlanId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ServiceAgreementCreateInput = {
+    id?: string
+    service: ServiceCreateNestedOneWithoutAgreementsInput
+    agreement: AgreementCreateNestedOneWithoutServiceAgreementsInput
+  }
+
+  export type ServiceAgreementUncheckedCreateInput = {
+    id?: string
+    serviceId: string
+    agreementId: string
+  }
+
+  export type ServiceAgreementUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    service?: ServiceUpdateOneRequiredWithoutAgreementsNestedInput
+    agreement?: AgreementUpdateOneRequiredWithoutServiceAgreementsNestedInput
+  }
+
+  export type ServiceAgreementUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    serviceId?: StringFieldUpdateOperationsInput | string
+    agreementId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ServiceAgreementCreateManyInput = {
+    id?: string
+    serviceId: string
+    agreementId: string
+  }
+
+  export type ServiceAgreementUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ServiceAgreementUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    serviceId?: StringFieldUpdateOperationsInput | string
+    agreementId?: StringFieldUpdateOperationsInput | string
   }
 
   export type ServicePlanCreateInput = {
@@ -42440,6 +45269,89 @@ export namespace Prisma {
     _min?: NestedEnumVerificationTypeFilter<$PrismaModel>
     _max?: NestedEnumVerificationTypeFilter<$PrismaModel>
   }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type TransactionNullableScalarRelationFilter = {
+    is?: TransactionWhereInput | null
+    isNot?: TransactionWhereInput | null
+  }
+
+  export type AadhaarOtpCountOrderByAggregateInput = {
+    id?: SortOrder
+    aadhaarNumber?: SortOrder
+    ref_id?: SortOrder
+    otpStatus?: SortOrder
+    generatedOTPResponse?: SortOrder
+    verifiedOTPResponse?: SortOrder
+    transactionId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AadhaarOtpMaxOrderByAggregateInput = {
+    id?: SortOrder
+    aadhaarNumber?: SortOrder
+    ref_id?: SortOrder
+    otpStatus?: SortOrder
+    transactionId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AadhaarOtpMinOrderByAggregateInput = {
+    id?: SortOrder
+    aadhaarNumber?: SortOrder
+    ref_id?: SortOrder
+    otpStatus?: SortOrder
+    transactionId?: SortOrder
+    createdAt?: SortOrder
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
   export type JsonFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
@@ -42514,29 +45426,6 @@ export namespace Prisma {
     _min?: NestedJsonFilter<$PrismaModel>
     _max?: NestedJsonFilter<$PrismaModel>
   }
-  export type JsonNullableFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
 
   export type EnumGrantTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.GrantType | EnumGrantTypeFieldRefInput<$PrismaModel>
@@ -42570,76 +45459,49 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     serviceId?: SortOrder
+    servicePlanId?: SortOrder
     purchaseDate?: SortOrder
     expiryDate?: SortOrder
-    servicePlanId?: SortOrder
-    agreementAcceptedAt?: SortOrder
-    agreementData?: SortOrder
     grantType?: SortOrder
     grantedBy?: SortOrder
     grantReason?: SortOrder
-    parentServiceId?: SortOrder
     transactionId?: SortOrder
+    parentServiceId?: SortOrder
     isActive?: SortOrder
     grantMetadata?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type UserPurchasedServicesMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
     serviceId?: SortOrder
+    servicePlanId?: SortOrder
     purchaseDate?: SortOrder
     expiryDate?: SortOrder
-    servicePlanId?: SortOrder
-    agreementAcceptedAt?: SortOrder
     grantType?: SortOrder
     grantedBy?: SortOrder
     grantReason?: SortOrder
-    parentServiceId?: SortOrder
     transactionId?: SortOrder
+    parentServiceId?: SortOrder
     isActive?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type UserPurchasedServicesMinOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
     serviceId?: SortOrder
+    servicePlanId?: SortOrder
     purchaseDate?: SortOrder
     expiryDate?: SortOrder
-    servicePlanId?: SortOrder
-    agreementAcceptedAt?: SortOrder
     grantType?: SortOrder
     grantedBy?: SortOrder
     grantReason?: SortOrder
-    parentServiceId?: SortOrder
     transactionId?: SortOrder
+    parentServiceId?: SortOrder
     isActive?: SortOrder
-  }
-  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedJsonNullableFilter<$PrismaModel>
-    _max?: NestedJsonNullableFilter<$PrismaModel>
+    createdAt?: SortOrder
   }
 
   export type EnumGrantTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -42723,9 +45585,24 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type TransactionAgreementListRelationFilter = {
+    every?: TransactionAgreementWhereInput
+    some?: TransactionAgreementWhereInput
+    none?: TransactionAgreementWhereInput
+  }
+
+  export type AadhaarOtpNullableScalarRelationFilter = {
+    is?: AadhaarOtpWhereInput | null
+    isNot?: AadhaarOtpWhereInput | null
+  }
+
   export type CouponNullableScalarRelationFilter = {
     is?: CouponWhereInput | null
     isNot?: CouponWhereInput | null
+  }
+
+  export type TransactionAgreementOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type TransactionCountOrderByAggregateInput = {
@@ -42745,6 +45622,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     extraData?: SortOrder
+    agreementSummary?: SortOrder
+    agreementAcceptedAt?: SortOrder
   }
 
   export type TransactionAvgOrderByAggregateInput = {
@@ -42766,6 +45645,7 @@ export namespace Prisma {
     idempotencyKey?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    agreementAcceptedAt?: SortOrder
   }
 
   export type TransactionMinOrderByAggregateInput = {
@@ -42783,10 +45663,44 @@ export namespace Prisma {
     idempotencyKey?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    agreementAcceptedAt?: SortOrder
   }
 
   export type TransactionSumOrderByAggregateInput = {
     amount?: SortOrder
+  }
+
+  export type TransactionScalarRelationFilter = {
+    is?: TransactionWhereInput
+    isNot?: TransactionWhereInput
+  }
+
+  export type AgreementScalarRelationFilter = {
+    is?: AgreementWhereInput
+    isNot?: AgreementWhereInput
+  }
+
+  export type TransactionAgreementTransactionIdAgreementIdCompoundUniqueInput = {
+    transactionId: string
+    agreementId: string
+  }
+
+  export type TransactionAgreementCountOrderByAggregateInput = {
+    id?: SortOrder
+    transactionId?: SortOrder
+    agreementId?: SortOrder
+  }
+
+  export type TransactionAgreementMaxOrderByAggregateInput = {
+    id?: SortOrder
+    transactionId?: SortOrder
+    agreementId?: SortOrder
+  }
+
+  export type TransactionAgreementMinOrderByAggregateInput = {
+    id?: SortOrder
+    transactionId?: SortOrder
+    agreementId?: SortOrder
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -42915,29 +45829,6 @@ export namespace Prisma {
     isNot?: ServiceWhereInput
   }
 
-  export type AgreementScalarRelationFilter = {
-    is?: AgreementWhereInput
-    isNot?: AgreementWhereInput
-  }
-
-  export type ServiceAgreementCountOrderByAggregateInput = {
-    id?: SortOrder
-    serviceId?: SortOrder
-    agreementId?: SortOrder
-  }
-
-  export type ServiceAgreementMaxOrderByAggregateInput = {
-    id?: SortOrder
-    serviceId?: SortOrder
-    agreementId?: SortOrder
-  }
-
-  export type ServiceAgreementMinOrderByAggregateInput = {
-    id?: SortOrder
-    serviceId?: SortOrder
-    agreementId?: SortOrder
-  }
-
   export type ComplimentaryServiceServiceIdComplimentaryServiceIdCompoundUniqueInput = {
     serviceId: string
     complimentaryServiceId: string
@@ -42962,6 +45853,24 @@ export namespace Prisma {
     serviceId?: SortOrder
     complimentaryServiceId?: SortOrder
     complimentaryServicePlanId?: SortOrder
+  }
+
+  export type ServiceAgreementCountOrderByAggregateInput = {
+    id?: SortOrder
+    serviceId?: SortOrder
+    agreementId?: SortOrder
+  }
+
+  export type ServiceAgreementMaxOrderByAggregateInput = {
+    id?: SortOrder
+    serviceId?: SortOrder
+    agreementId?: SortOrder
+  }
+
+  export type ServiceAgreementMinOrderByAggregateInput = {
+    id?: SortOrder
+    serviceId?: SortOrder
+    agreementId?: SortOrder
   }
 
   export type FloatNullableFilter<$PrismaModel = never> = {
@@ -44476,6 +47385,22 @@ export namespace Prisma {
     set?: $Enums.VerificationType
   }
 
+  export type TransactionCreateNestedOneWithoutAadhaarOtpInput = {
+    create?: XOR<TransactionCreateWithoutAadhaarOtpInput, TransactionUncheckedCreateWithoutAadhaarOtpInput>
+    connectOrCreate?: TransactionCreateOrConnectWithoutAadhaarOtpInput
+    connect?: TransactionWhereUniqueInput
+  }
+
+  export type TransactionUpdateOneWithoutAadhaarOtpNestedInput = {
+    create?: XOR<TransactionCreateWithoutAadhaarOtpInput, TransactionUncheckedCreateWithoutAadhaarOtpInput>
+    connectOrCreate?: TransactionCreateOrConnectWithoutAadhaarOtpInput
+    upsert?: TransactionUpsertWithoutAadhaarOtpInput
+    disconnect?: TransactionWhereInput | boolean
+    delete?: TransactionWhereInput | boolean
+    connect?: TransactionWhereUniqueInput
+    update?: XOR<XOR<TransactionUpdateToOneWithWhereWithoutAadhaarOtpInput, TransactionUpdateWithoutAadhaarOtpInput>, TransactionUncheckedUpdateWithoutAadhaarOtpInput>
+  }
+
   export type UserCreateNestedOneWithoutPanVerificationDataInput = {
     create?: XOR<UserCreateWithoutPanVerificationDataInput, UserUncheckedCreateWithoutPanVerificationDataInput>
     connectOrCreate?: UserCreateOrConnectWithoutPanVerificationDataInput
@@ -44494,6 +47419,12 @@ export namespace Prisma {
     create?: XOR<PortfolioReviewCreateWithoutUserPurchasedServiceInput, PortfolioReviewUncheckedCreateWithoutUserPurchasedServiceInput>
     connectOrCreate?: PortfolioReviewCreateOrConnectWithoutUserPurchasedServiceInput
     connect?: PortfolioReviewWhereUniqueInput
+  }
+
+  export type TransactionCreateNestedOneWithoutUserPurchasedServicesInput = {
+    create?: XOR<TransactionCreateWithoutUserPurchasedServicesInput, TransactionUncheckedCreateWithoutUserPurchasedServicesInput>
+    connectOrCreate?: TransactionCreateOrConnectWithoutUserPurchasedServicesInput
+    connect?: TransactionWhereUniqueInput
   }
 
   export type UserCreateNestedOneWithoutPurchasedServicesInput = {
@@ -44532,6 +47463,16 @@ export namespace Prisma {
     delete?: PortfolioReviewWhereInput | boolean
     connect?: PortfolioReviewWhereUniqueInput
     update?: XOR<XOR<PortfolioReviewUpdateToOneWithWhereWithoutUserPurchasedServiceInput, PortfolioReviewUpdateWithoutUserPurchasedServiceInput>, PortfolioReviewUncheckedUpdateWithoutUserPurchasedServiceInput>
+  }
+
+  export type TransactionUpdateOneWithoutUserPurchasedServicesNestedInput = {
+    create?: XOR<TransactionCreateWithoutUserPurchasedServicesInput, TransactionUncheckedCreateWithoutUserPurchasedServicesInput>
+    connectOrCreate?: TransactionCreateOrConnectWithoutUserPurchasedServicesInput
+    upsert?: TransactionUpsertWithoutUserPurchasedServicesInput
+    disconnect?: TransactionWhereInput | boolean
+    delete?: TransactionWhereInput | boolean
+    connect?: TransactionWhereUniqueInput
+    update?: XOR<XOR<TransactionUpdateToOneWithWhereWithoutUserPurchasedServicesInput, TransactionUpdateWithoutUserPurchasedServicesInput>, TransactionUncheckedUpdateWithoutUserPurchasedServicesInput>
   }
 
   export type UserUpdateOneRequiredWithoutPurchasedServicesNestedInput = {
@@ -44654,6 +47595,26 @@ export namespace Prisma {
     deleteMany?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
   }
 
+  export type UserPurchasedServicesCreateNestedManyWithoutTransactionInput = {
+    create?: XOR<UserPurchasedServicesCreateWithoutTransactionInput, UserPurchasedServicesUncheckedCreateWithoutTransactionInput> | UserPurchasedServicesCreateWithoutTransactionInput[] | UserPurchasedServicesUncheckedCreateWithoutTransactionInput[]
+    connectOrCreate?: UserPurchasedServicesCreateOrConnectWithoutTransactionInput | UserPurchasedServicesCreateOrConnectWithoutTransactionInput[]
+    createMany?: UserPurchasedServicesCreateManyTransactionInputEnvelope
+    connect?: UserPurchasedServicesWhereUniqueInput | UserPurchasedServicesWhereUniqueInput[]
+  }
+
+  export type TransactionAgreementCreateNestedManyWithoutTransactionInput = {
+    create?: XOR<TransactionAgreementCreateWithoutTransactionInput, TransactionAgreementUncheckedCreateWithoutTransactionInput> | TransactionAgreementCreateWithoutTransactionInput[] | TransactionAgreementUncheckedCreateWithoutTransactionInput[]
+    connectOrCreate?: TransactionAgreementCreateOrConnectWithoutTransactionInput | TransactionAgreementCreateOrConnectWithoutTransactionInput[]
+    createMany?: TransactionAgreementCreateManyTransactionInputEnvelope
+    connect?: TransactionAgreementWhereUniqueInput | TransactionAgreementWhereUniqueInput[]
+  }
+
+  export type AadhaarOtpCreateNestedOneWithoutTransactionInput = {
+    create?: XOR<AadhaarOtpCreateWithoutTransactionInput, AadhaarOtpUncheckedCreateWithoutTransactionInput>
+    connectOrCreate?: AadhaarOtpCreateOrConnectWithoutTransactionInput
+    connect?: AadhaarOtpWhereUniqueInput
+  }
+
   export type UserCreateNestedOneWithoutTransactionInput = {
     create?: XOR<UserCreateWithoutTransactionInput, UserUncheckedCreateWithoutTransactionInput>
     connectOrCreate?: UserCreateOrConnectWithoutTransactionInput
@@ -44676,6 +47637,64 @@ export namespace Prisma {
     create?: XOR<CouponCreateWithoutTransactionsInput, CouponUncheckedCreateWithoutTransactionsInput>
     connectOrCreate?: CouponCreateOrConnectWithoutTransactionsInput
     connect?: CouponWhereUniqueInput
+  }
+
+  export type UserPurchasedServicesUncheckedCreateNestedManyWithoutTransactionInput = {
+    create?: XOR<UserPurchasedServicesCreateWithoutTransactionInput, UserPurchasedServicesUncheckedCreateWithoutTransactionInput> | UserPurchasedServicesCreateWithoutTransactionInput[] | UserPurchasedServicesUncheckedCreateWithoutTransactionInput[]
+    connectOrCreate?: UserPurchasedServicesCreateOrConnectWithoutTransactionInput | UserPurchasedServicesCreateOrConnectWithoutTransactionInput[]
+    createMany?: UserPurchasedServicesCreateManyTransactionInputEnvelope
+    connect?: UserPurchasedServicesWhereUniqueInput | UserPurchasedServicesWhereUniqueInput[]
+  }
+
+  export type TransactionAgreementUncheckedCreateNestedManyWithoutTransactionInput = {
+    create?: XOR<TransactionAgreementCreateWithoutTransactionInput, TransactionAgreementUncheckedCreateWithoutTransactionInput> | TransactionAgreementCreateWithoutTransactionInput[] | TransactionAgreementUncheckedCreateWithoutTransactionInput[]
+    connectOrCreate?: TransactionAgreementCreateOrConnectWithoutTransactionInput | TransactionAgreementCreateOrConnectWithoutTransactionInput[]
+    createMany?: TransactionAgreementCreateManyTransactionInputEnvelope
+    connect?: TransactionAgreementWhereUniqueInput | TransactionAgreementWhereUniqueInput[]
+  }
+
+  export type AadhaarOtpUncheckedCreateNestedOneWithoutTransactionInput = {
+    create?: XOR<AadhaarOtpCreateWithoutTransactionInput, AadhaarOtpUncheckedCreateWithoutTransactionInput>
+    connectOrCreate?: AadhaarOtpCreateOrConnectWithoutTransactionInput
+    connect?: AadhaarOtpWhereUniqueInput
+  }
+
+  export type UserPurchasedServicesUpdateManyWithoutTransactionNestedInput = {
+    create?: XOR<UserPurchasedServicesCreateWithoutTransactionInput, UserPurchasedServicesUncheckedCreateWithoutTransactionInput> | UserPurchasedServicesCreateWithoutTransactionInput[] | UserPurchasedServicesUncheckedCreateWithoutTransactionInput[]
+    connectOrCreate?: UserPurchasedServicesCreateOrConnectWithoutTransactionInput | UserPurchasedServicesCreateOrConnectWithoutTransactionInput[]
+    upsert?: UserPurchasedServicesUpsertWithWhereUniqueWithoutTransactionInput | UserPurchasedServicesUpsertWithWhereUniqueWithoutTransactionInput[]
+    createMany?: UserPurchasedServicesCreateManyTransactionInputEnvelope
+    set?: UserPurchasedServicesWhereUniqueInput | UserPurchasedServicesWhereUniqueInput[]
+    disconnect?: UserPurchasedServicesWhereUniqueInput | UserPurchasedServicesWhereUniqueInput[]
+    delete?: UserPurchasedServicesWhereUniqueInput | UserPurchasedServicesWhereUniqueInput[]
+    connect?: UserPurchasedServicesWhereUniqueInput | UserPurchasedServicesWhereUniqueInput[]
+    update?: UserPurchasedServicesUpdateWithWhereUniqueWithoutTransactionInput | UserPurchasedServicesUpdateWithWhereUniqueWithoutTransactionInput[]
+    updateMany?: UserPurchasedServicesUpdateManyWithWhereWithoutTransactionInput | UserPurchasedServicesUpdateManyWithWhereWithoutTransactionInput[]
+    deleteMany?: UserPurchasedServicesScalarWhereInput | UserPurchasedServicesScalarWhereInput[]
+  }
+
+  export type TransactionAgreementUpdateManyWithoutTransactionNestedInput = {
+    create?: XOR<TransactionAgreementCreateWithoutTransactionInput, TransactionAgreementUncheckedCreateWithoutTransactionInput> | TransactionAgreementCreateWithoutTransactionInput[] | TransactionAgreementUncheckedCreateWithoutTransactionInput[]
+    connectOrCreate?: TransactionAgreementCreateOrConnectWithoutTransactionInput | TransactionAgreementCreateOrConnectWithoutTransactionInput[]
+    upsert?: TransactionAgreementUpsertWithWhereUniqueWithoutTransactionInput | TransactionAgreementUpsertWithWhereUniqueWithoutTransactionInput[]
+    createMany?: TransactionAgreementCreateManyTransactionInputEnvelope
+    set?: TransactionAgreementWhereUniqueInput | TransactionAgreementWhereUniqueInput[]
+    disconnect?: TransactionAgreementWhereUniqueInput | TransactionAgreementWhereUniqueInput[]
+    delete?: TransactionAgreementWhereUniqueInput | TransactionAgreementWhereUniqueInput[]
+    connect?: TransactionAgreementWhereUniqueInput | TransactionAgreementWhereUniqueInput[]
+    update?: TransactionAgreementUpdateWithWhereUniqueWithoutTransactionInput | TransactionAgreementUpdateWithWhereUniqueWithoutTransactionInput[]
+    updateMany?: TransactionAgreementUpdateManyWithWhereWithoutTransactionInput | TransactionAgreementUpdateManyWithWhereWithoutTransactionInput[]
+    deleteMany?: TransactionAgreementScalarWhereInput | TransactionAgreementScalarWhereInput[]
+  }
+
+  export type AadhaarOtpUpdateOneWithoutTransactionNestedInput = {
+    create?: XOR<AadhaarOtpCreateWithoutTransactionInput, AadhaarOtpUncheckedCreateWithoutTransactionInput>
+    connectOrCreate?: AadhaarOtpCreateOrConnectWithoutTransactionInput
+    upsert?: AadhaarOtpUpsertWithoutTransactionInput
+    disconnect?: AadhaarOtpWhereInput | boolean
+    delete?: AadhaarOtpWhereInput | boolean
+    connect?: AadhaarOtpWhereUniqueInput
+    update?: XOR<XOR<AadhaarOtpUpdateToOneWithWhereWithoutTransactionInput, AadhaarOtpUpdateWithoutTransactionInput>, AadhaarOtpUncheckedUpdateWithoutTransactionInput>
   }
 
   export type UserUpdateOneRequiredWithoutTransactionNestedInput = {
@@ -44716,6 +47735,72 @@ export namespace Prisma {
     update?: XOR<XOR<CouponUpdateToOneWithWhereWithoutTransactionsInput, CouponUpdateWithoutTransactionsInput>, CouponUncheckedUpdateWithoutTransactionsInput>
   }
 
+  export type UserPurchasedServicesUncheckedUpdateManyWithoutTransactionNestedInput = {
+    create?: XOR<UserPurchasedServicesCreateWithoutTransactionInput, UserPurchasedServicesUncheckedCreateWithoutTransactionInput> | UserPurchasedServicesCreateWithoutTransactionInput[] | UserPurchasedServicesUncheckedCreateWithoutTransactionInput[]
+    connectOrCreate?: UserPurchasedServicesCreateOrConnectWithoutTransactionInput | UserPurchasedServicesCreateOrConnectWithoutTransactionInput[]
+    upsert?: UserPurchasedServicesUpsertWithWhereUniqueWithoutTransactionInput | UserPurchasedServicesUpsertWithWhereUniqueWithoutTransactionInput[]
+    createMany?: UserPurchasedServicesCreateManyTransactionInputEnvelope
+    set?: UserPurchasedServicesWhereUniqueInput | UserPurchasedServicesWhereUniqueInput[]
+    disconnect?: UserPurchasedServicesWhereUniqueInput | UserPurchasedServicesWhereUniqueInput[]
+    delete?: UserPurchasedServicesWhereUniqueInput | UserPurchasedServicesWhereUniqueInput[]
+    connect?: UserPurchasedServicesWhereUniqueInput | UserPurchasedServicesWhereUniqueInput[]
+    update?: UserPurchasedServicesUpdateWithWhereUniqueWithoutTransactionInput | UserPurchasedServicesUpdateWithWhereUniqueWithoutTransactionInput[]
+    updateMany?: UserPurchasedServicesUpdateManyWithWhereWithoutTransactionInput | UserPurchasedServicesUpdateManyWithWhereWithoutTransactionInput[]
+    deleteMany?: UserPurchasedServicesScalarWhereInput | UserPurchasedServicesScalarWhereInput[]
+  }
+
+  export type TransactionAgreementUncheckedUpdateManyWithoutTransactionNestedInput = {
+    create?: XOR<TransactionAgreementCreateWithoutTransactionInput, TransactionAgreementUncheckedCreateWithoutTransactionInput> | TransactionAgreementCreateWithoutTransactionInput[] | TransactionAgreementUncheckedCreateWithoutTransactionInput[]
+    connectOrCreate?: TransactionAgreementCreateOrConnectWithoutTransactionInput | TransactionAgreementCreateOrConnectWithoutTransactionInput[]
+    upsert?: TransactionAgreementUpsertWithWhereUniqueWithoutTransactionInput | TransactionAgreementUpsertWithWhereUniqueWithoutTransactionInput[]
+    createMany?: TransactionAgreementCreateManyTransactionInputEnvelope
+    set?: TransactionAgreementWhereUniqueInput | TransactionAgreementWhereUniqueInput[]
+    disconnect?: TransactionAgreementWhereUniqueInput | TransactionAgreementWhereUniqueInput[]
+    delete?: TransactionAgreementWhereUniqueInput | TransactionAgreementWhereUniqueInput[]
+    connect?: TransactionAgreementWhereUniqueInput | TransactionAgreementWhereUniqueInput[]
+    update?: TransactionAgreementUpdateWithWhereUniqueWithoutTransactionInput | TransactionAgreementUpdateWithWhereUniqueWithoutTransactionInput[]
+    updateMany?: TransactionAgreementUpdateManyWithWhereWithoutTransactionInput | TransactionAgreementUpdateManyWithWhereWithoutTransactionInput[]
+    deleteMany?: TransactionAgreementScalarWhereInput | TransactionAgreementScalarWhereInput[]
+  }
+
+  export type AadhaarOtpUncheckedUpdateOneWithoutTransactionNestedInput = {
+    create?: XOR<AadhaarOtpCreateWithoutTransactionInput, AadhaarOtpUncheckedCreateWithoutTransactionInput>
+    connectOrCreate?: AadhaarOtpCreateOrConnectWithoutTransactionInput
+    upsert?: AadhaarOtpUpsertWithoutTransactionInput
+    disconnect?: AadhaarOtpWhereInput | boolean
+    delete?: AadhaarOtpWhereInput | boolean
+    connect?: AadhaarOtpWhereUniqueInput
+    update?: XOR<XOR<AadhaarOtpUpdateToOneWithWhereWithoutTransactionInput, AadhaarOtpUpdateWithoutTransactionInput>, AadhaarOtpUncheckedUpdateWithoutTransactionInput>
+  }
+
+  export type TransactionCreateNestedOneWithoutTransactionAgreementsInput = {
+    create?: XOR<TransactionCreateWithoutTransactionAgreementsInput, TransactionUncheckedCreateWithoutTransactionAgreementsInput>
+    connectOrCreate?: TransactionCreateOrConnectWithoutTransactionAgreementsInput
+    connect?: TransactionWhereUniqueInput
+  }
+
+  export type AgreementCreateNestedOneWithoutTransactionAgreementsInput = {
+    create?: XOR<AgreementCreateWithoutTransactionAgreementsInput, AgreementUncheckedCreateWithoutTransactionAgreementsInput>
+    connectOrCreate?: AgreementCreateOrConnectWithoutTransactionAgreementsInput
+    connect?: AgreementWhereUniqueInput
+  }
+
+  export type TransactionUpdateOneRequiredWithoutTransactionAgreementsNestedInput = {
+    create?: XOR<TransactionCreateWithoutTransactionAgreementsInput, TransactionUncheckedCreateWithoutTransactionAgreementsInput>
+    connectOrCreate?: TransactionCreateOrConnectWithoutTransactionAgreementsInput
+    upsert?: TransactionUpsertWithoutTransactionAgreementsInput
+    connect?: TransactionWhereUniqueInput
+    update?: XOR<XOR<TransactionUpdateToOneWithWhereWithoutTransactionAgreementsInput, TransactionUpdateWithoutTransactionAgreementsInput>, TransactionUncheckedUpdateWithoutTransactionAgreementsInput>
+  }
+
+  export type AgreementUpdateOneRequiredWithoutTransactionAgreementsNestedInput = {
+    create?: XOR<AgreementCreateWithoutTransactionAgreementsInput, AgreementUncheckedCreateWithoutTransactionAgreementsInput>
+    connectOrCreate?: AgreementCreateOrConnectWithoutTransactionAgreementsInput
+    upsert?: AgreementUpsertWithoutTransactionAgreementsInput
+    connect?: AgreementWhereUniqueInput
+    update?: XOR<XOR<AgreementUpdateToOneWithWhereWithoutTransactionAgreementsInput, AgreementUpdateWithoutTransactionAgreementsInput>, AgreementUncheckedUpdateWithoutTransactionAgreementsInput>
+  }
+
   export type ServiceAgreementCreateNestedManyWithoutAgreementInput = {
     create?: XOR<ServiceAgreementCreateWithoutAgreementInput, ServiceAgreementUncheckedCreateWithoutAgreementInput> | ServiceAgreementCreateWithoutAgreementInput[] | ServiceAgreementUncheckedCreateWithoutAgreementInput[]
     connectOrCreate?: ServiceAgreementCreateOrConnectWithoutAgreementInput | ServiceAgreementCreateOrConnectWithoutAgreementInput[]
@@ -44723,11 +47808,25 @@ export namespace Prisma {
     connect?: ServiceAgreementWhereUniqueInput | ServiceAgreementWhereUniqueInput[]
   }
 
+  export type TransactionAgreementCreateNestedManyWithoutAgreementInput = {
+    create?: XOR<TransactionAgreementCreateWithoutAgreementInput, TransactionAgreementUncheckedCreateWithoutAgreementInput> | TransactionAgreementCreateWithoutAgreementInput[] | TransactionAgreementUncheckedCreateWithoutAgreementInput[]
+    connectOrCreate?: TransactionAgreementCreateOrConnectWithoutAgreementInput | TransactionAgreementCreateOrConnectWithoutAgreementInput[]
+    createMany?: TransactionAgreementCreateManyAgreementInputEnvelope
+    connect?: TransactionAgreementWhereUniqueInput | TransactionAgreementWhereUniqueInput[]
+  }
+
   export type ServiceAgreementUncheckedCreateNestedManyWithoutAgreementInput = {
     create?: XOR<ServiceAgreementCreateWithoutAgreementInput, ServiceAgreementUncheckedCreateWithoutAgreementInput> | ServiceAgreementCreateWithoutAgreementInput[] | ServiceAgreementUncheckedCreateWithoutAgreementInput[]
     connectOrCreate?: ServiceAgreementCreateOrConnectWithoutAgreementInput | ServiceAgreementCreateOrConnectWithoutAgreementInput[]
     createMany?: ServiceAgreementCreateManyAgreementInputEnvelope
     connect?: ServiceAgreementWhereUniqueInput | ServiceAgreementWhereUniqueInput[]
+  }
+
+  export type TransactionAgreementUncheckedCreateNestedManyWithoutAgreementInput = {
+    create?: XOR<TransactionAgreementCreateWithoutAgreementInput, TransactionAgreementUncheckedCreateWithoutAgreementInput> | TransactionAgreementCreateWithoutAgreementInput[] | TransactionAgreementUncheckedCreateWithoutAgreementInput[]
+    connectOrCreate?: TransactionAgreementCreateOrConnectWithoutAgreementInput | TransactionAgreementCreateOrConnectWithoutAgreementInput[]
+    createMany?: TransactionAgreementCreateManyAgreementInputEnvelope
+    connect?: TransactionAgreementWhereUniqueInput | TransactionAgreementWhereUniqueInput[]
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -44760,6 +47859,20 @@ export namespace Prisma {
     deleteMany?: ServiceAgreementScalarWhereInput | ServiceAgreementScalarWhereInput[]
   }
 
+  export type TransactionAgreementUpdateManyWithoutAgreementNestedInput = {
+    create?: XOR<TransactionAgreementCreateWithoutAgreementInput, TransactionAgreementUncheckedCreateWithoutAgreementInput> | TransactionAgreementCreateWithoutAgreementInput[] | TransactionAgreementUncheckedCreateWithoutAgreementInput[]
+    connectOrCreate?: TransactionAgreementCreateOrConnectWithoutAgreementInput | TransactionAgreementCreateOrConnectWithoutAgreementInput[]
+    upsert?: TransactionAgreementUpsertWithWhereUniqueWithoutAgreementInput | TransactionAgreementUpsertWithWhereUniqueWithoutAgreementInput[]
+    createMany?: TransactionAgreementCreateManyAgreementInputEnvelope
+    set?: TransactionAgreementWhereUniqueInput | TransactionAgreementWhereUniqueInput[]
+    disconnect?: TransactionAgreementWhereUniqueInput | TransactionAgreementWhereUniqueInput[]
+    delete?: TransactionAgreementWhereUniqueInput | TransactionAgreementWhereUniqueInput[]
+    connect?: TransactionAgreementWhereUniqueInput | TransactionAgreementWhereUniqueInput[]
+    update?: TransactionAgreementUpdateWithWhereUniqueWithoutAgreementInput | TransactionAgreementUpdateWithWhereUniqueWithoutAgreementInput[]
+    updateMany?: TransactionAgreementUpdateManyWithWhereWithoutAgreementInput | TransactionAgreementUpdateManyWithWhereWithoutAgreementInput[]
+    deleteMany?: TransactionAgreementScalarWhereInput | TransactionAgreementScalarWhereInput[]
+  }
+
   export type ServiceAgreementUncheckedUpdateManyWithoutAgreementNestedInput = {
     create?: XOR<ServiceAgreementCreateWithoutAgreementInput, ServiceAgreementUncheckedCreateWithoutAgreementInput> | ServiceAgreementCreateWithoutAgreementInput[] | ServiceAgreementUncheckedCreateWithoutAgreementInput[]
     connectOrCreate?: ServiceAgreementCreateOrConnectWithoutAgreementInput | ServiceAgreementCreateOrConnectWithoutAgreementInput[]
@@ -44774,32 +47887,18 @@ export namespace Prisma {
     deleteMany?: ServiceAgreementScalarWhereInput | ServiceAgreementScalarWhereInput[]
   }
 
-  export type ServiceCreateNestedOneWithoutAgreementsInput = {
-    create?: XOR<ServiceCreateWithoutAgreementsInput, ServiceUncheckedCreateWithoutAgreementsInput>
-    connectOrCreate?: ServiceCreateOrConnectWithoutAgreementsInput
-    connect?: ServiceWhereUniqueInput
-  }
-
-  export type AgreementCreateNestedOneWithoutServiceAgreementsInput = {
-    create?: XOR<AgreementCreateWithoutServiceAgreementsInput, AgreementUncheckedCreateWithoutServiceAgreementsInput>
-    connectOrCreate?: AgreementCreateOrConnectWithoutServiceAgreementsInput
-    connect?: AgreementWhereUniqueInput
-  }
-
-  export type ServiceUpdateOneRequiredWithoutAgreementsNestedInput = {
-    create?: XOR<ServiceCreateWithoutAgreementsInput, ServiceUncheckedCreateWithoutAgreementsInput>
-    connectOrCreate?: ServiceCreateOrConnectWithoutAgreementsInput
-    upsert?: ServiceUpsertWithoutAgreementsInput
-    connect?: ServiceWhereUniqueInput
-    update?: XOR<XOR<ServiceUpdateToOneWithWhereWithoutAgreementsInput, ServiceUpdateWithoutAgreementsInput>, ServiceUncheckedUpdateWithoutAgreementsInput>
-  }
-
-  export type AgreementUpdateOneRequiredWithoutServiceAgreementsNestedInput = {
-    create?: XOR<AgreementCreateWithoutServiceAgreementsInput, AgreementUncheckedCreateWithoutServiceAgreementsInput>
-    connectOrCreate?: AgreementCreateOrConnectWithoutServiceAgreementsInput
-    upsert?: AgreementUpsertWithoutServiceAgreementsInput
-    connect?: AgreementWhereUniqueInput
-    update?: XOR<XOR<AgreementUpdateToOneWithWhereWithoutServiceAgreementsInput, AgreementUpdateWithoutServiceAgreementsInput>, AgreementUncheckedUpdateWithoutServiceAgreementsInput>
+  export type TransactionAgreementUncheckedUpdateManyWithoutAgreementNestedInput = {
+    create?: XOR<TransactionAgreementCreateWithoutAgreementInput, TransactionAgreementUncheckedCreateWithoutAgreementInput> | TransactionAgreementCreateWithoutAgreementInput[] | TransactionAgreementUncheckedCreateWithoutAgreementInput[]
+    connectOrCreate?: TransactionAgreementCreateOrConnectWithoutAgreementInput | TransactionAgreementCreateOrConnectWithoutAgreementInput[]
+    upsert?: TransactionAgreementUpsertWithWhereUniqueWithoutAgreementInput | TransactionAgreementUpsertWithWhereUniqueWithoutAgreementInput[]
+    createMany?: TransactionAgreementCreateManyAgreementInputEnvelope
+    set?: TransactionAgreementWhereUniqueInput | TransactionAgreementWhereUniqueInput[]
+    disconnect?: TransactionAgreementWhereUniqueInput | TransactionAgreementWhereUniqueInput[]
+    delete?: TransactionAgreementWhereUniqueInput | TransactionAgreementWhereUniqueInput[]
+    connect?: TransactionAgreementWhereUniqueInput | TransactionAgreementWhereUniqueInput[]
+    update?: TransactionAgreementUpdateWithWhereUniqueWithoutAgreementInput | TransactionAgreementUpdateWithWhereUniqueWithoutAgreementInput[]
+    updateMany?: TransactionAgreementUpdateManyWithWhereWithoutAgreementInput | TransactionAgreementUpdateManyWithWhereWithoutAgreementInput[]
+    deleteMany?: TransactionAgreementScalarWhereInput | TransactionAgreementScalarWhereInput[]
   }
 
   export type ServiceCreateNestedOneWithoutComplimentaryServiceInput = {
@@ -44844,6 +47943,34 @@ export namespace Prisma {
     delete?: ServicePlanWhereInput | boolean
     connect?: ServicePlanWhereUniqueInput
     update?: XOR<XOR<ServicePlanUpdateToOneWithWhereWithoutComplimentaryServicesInput, ServicePlanUpdateWithoutComplimentaryServicesInput>, ServicePlanUncheckedUpdateWithoutComplimentaryServicesInput>
+  }
+
+  export type ServiceCreateNestedOneWithoutAgreementsInput = {
+    create?: XOR<ServiceCreateWithoutAgreementsInput, ServiceUncheckedCreateWithoutAgreementsInput>
+    connectOrCreate?: ServiceCreateOrConnectWithoutAgreementsInput
+    connect?: ServiceWhereUniqueInput
+  }
+
+  export type AgreementCreateNestedOneWithoutServiceAgreementsInput = {
+    create?: XOR<AgreementCreateWithoutServiceAgreementsInput, AgreementUncheckedCreateWithoutServiceAgreementsInput>
+    connectOrCreate?: AgreementCreateOrConnectWithoutServiceAgreementsInput
+    connect?: AgreementWhereUniqueInput
+  }
+
+  export type ServiceUpdateOneRequiredWithoutAgreementsNestedInput = {
+    create?: XOR<ServiceCreateWithoutAgreementsInput, ServiceUncheckedCreateWithoutAgreementsInput>
+    connectOrCreate?: ServiceCreateOrConnectWithoutAgreementsInput
+    upsert?: ServiceUpsertWithoutAgreementsInput
+    connect?: ServiceWhereUniqueInput
+    update?: XOR<XOR<ServiceUpdateToOneWithWhereWithoutAgreementsInput, ServiceUpdateWithoutAgreementsInput>, ServiceUncheckedUpdateWithoutAgreementsInput>
+  }
+
+  export type AgreementUpdateOneRequiredWithoutServiceAgreementsNestedInput = {
+    create?: XOR<AgreementCreateWithoutServiceAgreementsInput, AgreementUncheckedCreateWithoutServiceAgreementsInput>
+    connectOrCreate?: AgreementCreateOrConnectWithoutServiceAgreementsInput
+    upsert?: AgreementUpsertWithoutServiceAgreementsInput
+    connect?: AgreementWhereUniqueInput
+    update?: XOR<XOR<AgreementUpdateToOneWithWhereWithoutServiceAgreementsInput, AgreementUpdateWithoutServiceAgreementsInput>, AgreementUncheckedUpdateWithoutServiceAgreementsInput>
   }
 
   export type ServiceCreateNestedOneWithoutPlansInput = {
@@ -46189,6 +49316,29 @@ export namespace Prisma {
     _min?: NestedEnumVerificationTypeFilter<$PrismaModel>
     _max?: NestedEnumVerificationTypeFilter<$PrismaModel>
   }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
   export type NestedJsonFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
@@ -46218,29 +49368,6 @@ export namespace Prisma {
     in?: $Enums.GrantType[] | ListEnumGrantTypeFieldRefInput<$PrismaModel>
     notIn?: $Enums.GrantType[] | ListEnumGrantTypeFieldRefInput<$PrismaModel>
     not?: NestedEnumGrantTypeFilter<$PrismaModel> | $Enums.GrantType
-  }
-  export type NestedJsonNullableFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<NestedJsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type NestedEnumGrantTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -46560,16 +49687,15 @@ export namespace Prisma {
     id?: string
     purchaseDate?: Date | string
     expiryDate?: Date | string | null
-    agreementAcceptedAt?: Date | string | null
-    agreementData?: NullableJsonNullValueInput | InputJsonValue
     grantType?: $Enums.GrantType
     grantedBy?: string | null
     grantReason?: string | null
     parentServiceId?: string | null
-    transactionId?: string | null
     isActive?: boolean
     grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
     portfolioReview?: PortfolioReviewCreateNestedOneWithoutUserPurchasedServiceInput
+    transaction?: TransactionCreateNestedOneWithoutUserPurchasedServicesInput
     service?: ServiceCreateNestedOneWithoutPurchasedServicesInput
     servicePlan?: ServicePlanCreateNestedOneWithoutUserPurchasedServicesInput
   }
@@ -46577,18 +49703,17 @@ export namespace Prisma {
   export type UserPurchasedServicesUncheckedCreateWithoutUserInput = {
     id?: string
     serviceId: string
+    servicePlanId?: string | null
     purchaseDate?: Date | string
     expiryDate?: Date | string | null
-    servicePlanId?: string | null
-    agreementAcceptedAt?: Date | string | null
-    agreementData?: NullableJsonNullValueInput | InputJsonValue
     grantType?: $Enums.GrantType
     grantedBy?: string | null
     grantReason?: string | null
-    parentServiceId?: string | null
     transactionId?: string | null
+    parentServiceId?: string | null
     isActive?: boolean
     grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
     portfolioReview?: PortfolioReviewUncheckedCreateNestedOneWithoutUserPurchasedServiceInput
   }
 
@@ -46636,6 +49761,11 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: Date | string | null
+    userPurchasedServices?: UserPurchasedServicesCreateNestedManyWithoutTransactionInput
+    transactionAgreements?: TransactionAgreementCreateNestedManyWithoutTransactionInput
+    aadhaarOtp?: AadhaarOtpCreateNestedOneWithoutTransactionInput
     service?: ServiceCreateNestedOneWithoutTransactionInput
     servicePlan?: ServicePlanCreateNestedOneWithoutTransactionsInput
     coupon?: CouponCreateNestedOneWithoutTransactionsInput
@@ -46657,6 +49787,11 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: Date | string | null
+    userPurchasedServices?: UserPurchasedServicesUncheckedCreateNestedManyWithoutTransactionInput
+    transactionAgreements?: TransactionAgreementUncheckedCreateNestedManyWithoutTransactionInput
+    aadhaarOtp?: AadhaarOtpUncheckedCreateNestedOneWithoutTransactionInput
   }
 
   export type TransactionCreateOrConnectWithoutUserInput = {
@@ -46876,18 +50011,17 @@ export namespace Prisma {
     id?: StringFilter<"UserPurchasedServices"> | string
     userId?: StringFilter<"UserPurchasedServices"> | string
     serviceId?: StringFilter<"UserPurchasedServices"> | string
+    servicePlanId?: StringNullableFilter<"UserPurchasedServices"> | string | null
     purchaseDate?: DateTimeFilter<"UserPurchasedServices"> | Date | string
     expiryDate?: DateTimeNullableFilter<"UserPurchasedServices"> | Date | string | null
-    servicePlanId?: StringNullableFilter<"UserPurchasedServices"> | string | null
-    agreementAcceptedAt?: DateTimeNullableFilter<"UserPurchasedServices"> | Date | string | null
-    agreementData?: JsonNullableFilter<"UserPurchasedServices">
     grantType?: EnumGrantTypeFilter<"UserPurchasedServices"> | $Enums.GrantType
     grantedBy?: StringNullableFilter<"UserPurchasedServices"> | string | null
     grantReason?: StringNullableFilter<"UserPurchasedServices"> | string | null
-    parentServiceId?: StringNullableFilter<"UserPurchasedServices"> | string | null
     transactionId?: StringNullableFilter<"UserPurchasedServices"> | string | null
+    parentServiceId?: StringNullableFilter<"UserPurchasedServices"> | string | null
     isActive?: BoolFilter<"UserPurchasedServices"> | boolean
     grantMetadata?: JsonNullableFilter<"UserPurchasedServices">
+    createdAt?: DateTimeFilter<"UserPurchasedServices"> | Date | string
   }
 
   export type panVerificationDataUpsertWithoutUserInput = {
@@ -46953,6 +50087,8 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeFilter<"Transaction"> | Date | string
     extraData?: JsonNullableFilter<"Transaction">
+    agreementSummary?: JsonNullableFilter<"Transaction">
+    agreementAcceptedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
   }
 
   export type UserRiskProfileUpsertWithoutUserInput = {
@@ -47246,6 +50382,114 @@ export namespace Prisma {
     blogs?: BlogUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
+  export type TransactionCreateWithoutAadhaarOtpInput = {
+    id?: string
+    orderId?: string | null
+    paymentId?: string | null
+    amount: number
+    currency?: string
+    status: string
+    paymentGateway: string
+    idempotencyKey?: string | null
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: Date | string | null
+    userPurchasedServices?: UserPurchasedServicesCreateNestedManyWithoutTransactionInput
+    transactionAgreements?: TransactionAgreementCreateNestedManyWithoutTransactionInput
+    user: UserCreateNestedOneWithoutTransactionInput
+    service?: ServiceCreateNestedOneWithoutTransactionInput
+    servicePlan?: ServicePlanCreateNestedOneWithoutTransactionsInput
+    coupon?: CouponCreateNestedOneWithoutTransactionsInput
+  }
+
+  export type TransactionUncheckedCreateWithoutAadhaarOtpInput = {
+    id?: string
+    orderId?: string | null
+    paymentId?: string | null
+    couponId?: string | null
+    userId: string
+    serviceId: string
+    amount: number
+    servicePlanId?: string | null
+    currency?: string
+    status: string
+    paymentGateway: string
+    idempotencyKey?: string | null
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: Date | string | null
+    userPurchasedServices?: UserPurchasedServicesUncheckedCreateNestedManyWithoutTransactionInput
+    transactionAgreements?: TransactionAgreementUncheckedCreateNestedManyWithoutTransactionInput
+  }
+
+  export type TransactionCreateOrConnectWithoutAadhaarOtpInput = {
+    where: TransactionWhereUniqueInput
+    create: XOR<TransactionCreateWithoutAadhaarOtpInput, TransactionUncheckedCreateWithoutAadhaarOtpInput>
+  }
+
+  export type TransactionUpsertWithoutAadhaarOtpInput = {
+    update: XOR<TransactionUpdateWithoutAadhaarOtpInput, TransactionUncheckedUpdateWithoutAadhaarOtpInput>
+    create: XOR<TransactionCreateWithoutAadhaarOtpInput, TransactionUncheckedCreateWithoutAadhaarOtpInput>
+    where?: TransactionWhereInput
+  }
+
+  export type TransactionUpdateToOneWithWhereWithoutAadhaarOtpInput = {
+    where?: TransactionWhereInput
+    data: XOR<TransactionUpdateWithoutAadhaarOtpInput, TransactionUncheckedUpdateWithoutAadhaarOtpInput>
+  }
+
+  export type TransactionUpdateWithoutAadhaarOtpInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    paymentGateway?: StringFieldUpdateOperationsInput | string
+    idempotencyKey?: NullableStringFieldUpdateOperationsInput | string | null
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    userPurchasedServices?: UserPurchasedServicesUpdateManyWithoutTransactionNestedInput
+    transactionAgreements?: TransactionAgreementUpdateManyWithoutTransactionNestedInput
+    user?: UserUpdateOneRequiredWithoutTransactionNestedInput
+    service?: ServiceUpdateOneWithoutTransactionNestedInput
+    servicePlan?: ServicePlanUpdateOneWithoutTransactionsNestedInput
+    coupon?: CouponUpdateOneWithoutTransactionsNestedInput
+  }
+
+  export type TransactionUncheckedUpdateWithoutAadhaarOtpInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    couponId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    serviceId?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    servicePlanId?: NullableStringFieldUpdateOperationsInput | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    paymentGateway?: StringFieldUpdateOperationsInput | string
+    idempotencyKey?: NullableStringFieldUpdateOperationsInput | string | null
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    userPurchasedServices?: UserPurchasedServicesUncheckedUpdateManyWithoutTransactionNestedInput
+    transactionAgreements?: TransactionAgreementUncheckedUpdateManyWithoutTransactionNestedInput
+  }
+
   export type UserCreateWithoutPanVerificationDataInput = {
     id?: string
     name?: string | null
@@ -47429,6 +50673,57 @@ export namespace Prisma {
   export type PortfolioReviewCreateOrConnectWithoutUserPurchasedServiceInput = {
     where: PortfolioReviewWhereUniqueInput
     create: XOR<PortfolioReviewCreateWithoutUserPurchasedServiceInput, PortfolioReviewUncheckedCreateWithoutUserPurchasedServiceInput>
+  }
+
+  export type TransactionCreateWithoutUserPurchasedServicesInput = {
+    id?: string
+    orderId?: string | null
+    paymentId?: string | null
+    amount: number
+    currency?: string
+    status: string
+    paymentGateway: string
+    idempotencyKey?: string | null
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: Date | string | null
+    transactionAgreements?: TransactionAgreementCreateNestedManyWithoutTransactionInput
+    aadhaarOtp?: AadhaarOtpCreateNestedOneWithoutTransactionInput
+    user: UserCreateNestedOneWithoutTransactionInput
+    service?: ServiceCreateNestedOneWithoutTransactionInput
+    servicePlan?: ServicePlanCreateNestedOneWithoutTransactionsInput
+    coupon?: CouponCreateNestedOneWithoutTransactionsInput
+  }
+
+  export type TransactionUncheckedCreateWithoutUserPurchasedServicesInput = {
+    id?: string
+    orderId?: string | null
+    paymentId?: string | null
+    couponId?: string | null
+    userId: string
+    serviceId: string
+    amount: number
+    servicePlanId?: string | null
+    currency?: string
+    status: string
+    paymentGateway: string
+    idempotencyKey?: string | null
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: Date | string | null
+    transactionAgreements?: TransactionAgreementUncheckedCreateNestedManyWithoutTransactionInput
+    aadhaarOtp?: AadhaarOtpUncheckedCreateNestedOneWithoutTransactionInput
+  }
+
+  export type TransactionCreateOrConnectWithoutUserPurchasedServicesInput = {
+    where: TransactionWhereUniqueInput
+    create: XOR<TransactionCreateWithoutUserPurchasedServicesInput, TransactionUncheckedCreateWithoutUserPurchasedServicesInput>
   }
 
   export type UserCreateWithoutPurchasedServicesInput = {
@@ -47649,6 +50944,63 @@ export namespace Prisma {
     reviewedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TransactionUpsertWithoutUserPurchasedServicesInput = {
+    update: XOR<TransactionUpdateWithoutUserPurchasedServicesInput, TransactionUncheckedUpdateWithoutUserPurchasedServicesInput>
+    create: XOR<TransactionCreateWithoutUserPurchasedServicesInput, TransactionUncheckedCreateWithoutUserPurchasedServicesInput>
+    where?: TransactionWhereInput
+  }
+
+  export type TransactionUpdateToOneWithWhereWithoutUserPurchasedServicesInput = {
+    where?: TransactionWhereInput
+    data: XOR<TransactionUpdateWithoutUserPurchasedServicesInput, TransactionUncheckedUpdateWithoutUserPurchasedServicesInput>
+  }
+
+  export type TransactionUpdateWithoutUserPurchasedServicesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    paymentGateway?: StringFieldUpdateOperationsInput | string
+    idempotencyKey?: NullableStringFieldUpdateOperationsInput | string | null
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    transactionAgreements?: TransactionAgreementUpdateManyWithoutTransactionNestedInput
+    aadhaarOtp?: AadhaarOtpUpdateOneWithoutTransactionNestedInput
+    user?: UserUpdateOneRequiredWithoutTransactionNestedInput
+    service?: ServiceUpdateOneWithoutTransactionNestedInput
+    servicePlan?: ServicePlanUpdateOneWithoutTransactionsNestedInput
+    coupon?: CouponUpdateOneWithoutTransactionsNestedInput
+  }
+
+  export type TransactionUncheckedUpdateWithoutUserPurchasedServicesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    couponId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    serviceId?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    servicePlanId?: NullableStringFieldUpdateOperationsInput | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    paymentGateway?: StringFieldUpdateOperationsInput | string
+    idempotencyKey?: NullableStringFieldUpdateOperationsInput | string | null
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    transactionAgreements?: TransactionAgreementUncheckedUpdateManyWithoutTransactionNestedInput
+    aadhaarOtp?: AadhaarOtpUncheckedUpdateOneWithoutTransactionNestedInput
   }
 
   export type UserUpsertWithoutPurchasedServicesInput = {
@@ -47971,6 +51323,11 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: Date | string | null
+    userPurchasedServices?: UserPurchasedServicesCreateNestedManyWithoutTransactionInput
+    transactionAgreements?: TransactionAgreementCreateNestedManyWithoutTransactionInput
+    aadhaarOtp?: AadhaarOtpCreateNestedOneWithoutTransactionInput
     user: UserCreateNestedOneWithoutTransactionInput
     service?: ServiceCreateNestedOneWithoutTransactionInput
     servicePlan?: ServicePlanCreateNestedOneWithoutTransactionsInput
@@ -47992,6 +51349,11 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: Date | string | null
+    userPurchasedServices?: UserPurchasedServicesUncheckedCreateNestedManyWithoutTransactionInput
+    transactionAgreements?: TransactionAgreementUncheckedCreateNestedManyWithoutTransactionInput
+    aadhaarOtp?: AadhaarOtpUncheckedCreateNestedOneWithoutTransactionInput
   }
 
   export type TransactionCreateOrConnectWithoutCouponInput = {
@@ -48138,6 +51500,95 @@ export namespace Prisma {
   export type TransactionUpdateManyWithWhereWithoutCouponInput = {
     where: TransactionScalarWhereInput
     data: XOR<TransactionUpdateManyMutationInput, TransactionUncheckedUpdateManyWithoutCouponInput>
+  }
+
+  export type UserPurchasedServicesCreateWithoutTransactionInput = {
+    id?: string
+    purchaseDate?: Date | string
+    expiryDate?: Date | string | null
+    grantType?: $Enums.GrantType
+    grantedBy?: string | null
+    grantReason?: string | null
+    parentServiceId?: string | null
+    isActive?: boolean
+    grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    portfolioReview?: PortfolioReviewCreateNestedOneWithoutUserPurchasedServiceInput
+    user: UserCreateNestedOneWithoutPurchasedServicesInput
+    service?: ServiceCreateNestedOneWithoutPurchasedServicesInput
+    servicePlan?: ServicePlanCreateNestedOneWithoutUserPurchasedServicesInput
+  }
+
+  export type UserPurchasedServicesUncheckedCreateWithoutTransactionInput = {
+    id?: string
+    userId: string
+    serviceId: string
+    servicePlanId?: string | null
+    purchaseDate?: Date | string
+    expiryDate?: Date | string | null
+    grantType?: $Enums.GrantType
+    grantedBy?: string | null
+    grantReason?: string | null
+    parentServiceId?: string | null
+    isActive?: boolean
+    grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    portfolioReview?: PortfolioReviewUncheckedCreateNestedOneWithoutUserPurchasedServiceInput
+  }
+
+  export type UserPurchasedServicesCreateOrConnectWithoutTransactionInput = {
+    where: UserPurchasedServicesWhereUniqueInput
+    create: XOR<UserPurchasedServicesCreateWithoutTransactionInput, UserPurchasedServicesUncheckedCreateWithoutTransactionInput>
+  }
+
+  export type UserPurchasedServicesCreateManyTransactionInputEnvelope = {
+    data: UserPurchasedServicesCreateManyTransactionInput | UserPurchasedServicesCreateManyTransactionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TransactionAgreementCreateWithoutTransactionInput = {
+    id?: string
+    agreement: AgreementCreateNestedOneWithoutTransactionAgreementsInput
+  }
+
+  export type TransactionAgreementUncheckedCreateWithoutTransactionInput = {
+    id?: string
+    agreementId: string
+  }
+
+  export type TransactionAgreementCreateOrConnectWithoutTransactionInput = {
+    where: TransactionAgreementWhereUniqueInput
+    create: XOR<TransactionAgreementCreateWithoutTransactionInput, TransactionAgreementUncheckedCreateWithoutTransactionInput>
+  }
+
+  export type TransactionAgreementCreateManyTransactionInputEnvelope = {
+    data: TransactionAgreementCreateManyTransactionInput | TransactionAgreementCreateManyTransactionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AadhaarOtpCreateWithoutTransactionInput = {
+    id?: string
+    aadhaarNumber: string
+    ref_id: string
+    otpStatus: string
+    generatedOTPResponse?: NullableJsonNullValueInput | InputJsonValue
+    verifiedOTPResponse?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type AadhaarOtpUncheckedCreateWithoutTransactionInput = {
+    id?: string
+    aadhaarNumber: string
+    ref_id: string
+    otpStatus: string
+    generatedOTPResponse?: NullableJsonNullValueInput | InputJsonValue
+    verifiedOTPResponse?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type AadhaarOtpCreateOrConnectWithoutTransactionInput = {
+    where: AadhaarOtpWhereUniqueInput
+    create: XOR<AadhaarOtpCreateWithoutTransactionInput, AadhaarOtpUncheckedCreateWithoutTransactionInput>
   }
 
   export type UserCreateWithoutTransactionInput = {
@@ -48348,6 +51799,78 @@ export namespace Prisma {
   export type CouponCreateOrConnectWithoutTransactionsInput = {
     where: CouponWhereUniqueInput
     create: XOR<CouponCreateWithoutTransactionsInput, CouponUncheckedCreateWithoutTransactionsInput>
+  }
+
+  export type UserPurchasedServicesUpsertWithWhereUniqueWithoutTransactionInput = {
+    where: UserPurchasedServicesWhereUniqueInput
+    update: XOR<UserPurchasedServicesUpdateWithoutTransactionInput, UserPurchasedServicesUncheckedUpdateWithoutTransactionInput>
+    create: XOR<UserPurchasedServicesCreateWithoutTransactionInput, UserPurchasedServicesUncheckedCreateWithoutTransactionInput>
+  }
+
+  export type UserPurchasedServicesUpdateWithWhereUniqueWithoutTransactionInput = {
+    where: UserPurchasedServicesWhereUniqueInput
+    data: XOR<UserPurchasedServicesUpdateWithoutTransactionInput, UserPurchasedServicesUncheckedUpdateWithoutTransactionInput>
+  }
+
+  export type UserPurchasedServicesUpdateManyWithWhereWithoutTransactionInput = {
+    where: UserPurchasedServicesScalarWhereInput
+    data: XOR<UserPurchasedServicesUpdateManyMutationInput, UserPurchasedServicesUncheckedUpdateManyWithoutTransactionInput>
+  }
+
+  export type TransactionAgreementUpsertWithWhereUniqueWithoutTransactionInput = {
+    where: TransactionAgreementWhereUniqueInput
+    update: XOR<TransactionAgreementUpdateWithoutTransactionInput, TransactionAgreementUncheckedUpdateWithoutTransactionInput>
+    create: XOR<TransactionAgreementCreateWithoutTransactionInput, TransactionAgreementUncheckedCreateWithoutTransactionInput>
+  }
+
+  export type TransactionAgreementUpdateWithWhereUniqueWithoutTransactionInput = {
+    where: TransactionAgreementWhereUniqueInput
+    data: XOR<TransactionAgreementUpdateWithoutTransactionInput, TransactionAgreementUncheckedUpdateWithoutTransactionInput>
+  }
+
+  export type TransactionAgreementUpdateManyWithWhereWithoutTransactionInput = {
+    where: TransactionAgreementScalarWhereInput
+    data: XOR<TransactionAgreementUpdateManyMutationInput, TransactionAgreementUncheckedUpdateManyWithoutTransactionInput>
+  }
+
+  export type TransactionAgreementScalarWhereInput = {
+    AND?: TransactionAgreementScalarWhereInput | TransactionAgreementScalarWhereInput[]
+    OR?: TransactionAgreementScalarWhereInput[]
+    NOT?: TransactionAgreementScalarWhereInput | TransactionAgreementScalarWhereInput[]
+    id?: StringFilter<"TransactionAgreement"> | string
+    transactionId?: StringFilter<"TransactionAgreement"> | string
+    agreementId?: StringFilter<"TransactionAgreement"> | string
+  }
+
+  export type AadhaarOtpUpsertWithoutTransactionInput = {
+    update: XOR<AadhaarOtpUpdateWithoutTransactionInput, AadhaarOtpUncheckedUpdateWithoutTransactionInput>
+    create: XOR<AadhaarOtpCreateWithoutTransactionInput, AadhaarOtpUncheckedCreateWithoutTransactionInput>
+    where?: AadhaarOtpWhereInput
+  }
+
+  export type AadhaarOtpUpdateToOneWithWhereWithoutTransactionInput = {
+    where?: AadhaarOtpWhereInput
+    data: XOR<AadhaarOtpUpdateWithoutTransactionInput, AadhaarOtpUncheckedUpdateWithoutTransactionInput>
+  }
+
+  export type AadhaarOtpUpdateWithoutTransactionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    aadhaarNumber?: StringFieldUpdateOperationsInput | string
+    ref_id?: StringFieldUpdateOperationsInput | string
+    otpStatus?: StringFieldUpdateOperationsInput | string
+    generatedOTPResponse?: NullableJsonNullValueInput | InputJsonValue
+    verifiedOTPResponse?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AadhaarOtpUncheckedUpdateWithoutTransactionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    aadhaarNumber?: StringFieldUpdateOperationsInput | string
+    ref_id?: StringFieldUpdateOperationsInput | string
+    otpStatus?: StringFieldUpdateOperationsInput | string
+    generatedOTPResponse?: NullableJsonNullValueInput | InputJsonValue
+    verifiedOTPResponse?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserUpsertWithoutTransactionInput = {
@@ -48584,6 +52107,190 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type TransactionCreateWithoutTransactionAgreementsInput = {
+    id?: string
+    orderId?: string | null
+    paymentId?: string | null
+    amount: number
+    currency?: string
+    status: string
+    paymentGateway: string
+    idempotencyKey?: string | null
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: Date | string | null
+    userPurchasedServices?: UserPurchasedServicesCreateNestedManyWithoutTransactionInput
+    aadhaarOtp?: AadhaarOtpCreateNestedOneWithoutTransactionInput
+    user: UserCreateNestedOneWithoutTransactionInput
+    service?: ServiceCreateNestedOneWithoutTransactionInput
+    servicePlan?: ServicePlanCreateNestedOneWithoutTransactionsInput
+    coupon?: CouponCreateNestedOneWithoutTransactionsInput
+  }
+
+  export type TransactionUncheckedCreateWithoutTransactionAgreementsInput = {
+    id?: string
+    orderId?: string | null
+    paymentId?: string | null
+    couponId?: string | null
+    userId: string
+    serviceId: string
+    amount: number
+    servicePlanId?: string | null
+    currency?: string
+    status: string
+    paymentGateway: string
+    idempotencyKey?: string | null
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: Date | string | null
+    userPurchasedServices?: UserPurchasedServicesUncheckedCreateNestedManyWithoutTransactionInput
+    aadhaarOtp?: AadhaarOtpUncheckedCreateNestedOneWithoutTransactionInput
+  }
+
+  export type TransactionCreateOrConnectWithoutTransactionAgreementsInput = {
+    where: TransactionWhereUniqueInput
+    create: XOR<TransactionCreateWithoutTransactionAgreementsInput, TransactionUncheckedCreateWithoutTransactionAgreementsInput>
+  }
+
+  export type AgreementCreateWithoutTransactionAgreementsInput = {
+    id?: string
+    name: string
+    content: string
+    version: number
+    hash: string
+    type?: $Enums.AgreementType
+    policyType?: $Enums.PolicyType | null
+    signatoryPerson?: string | null
+    companyName?: string | null
+    updatedAt?: Date | string
+    createdAt?: Date | string
+    serviceAgreements?: ServiceAgreementCreateNestedManyWithoutAgreementInput
+  }
+
+  export type AgreementUncheckedCreateWithoutTransactionAgreementsInput = {
+    id?: string
+    name: string
+    content: string
+    version: number
+    hash: string
+    type?: $Enums.AgreementType
+    policyType?: $Enums.PolicyType | null
+    signatoryPerson?: string | null
+    companyName?: string | null
+    updatedAt?: Date | string
+    createdAt?: Date | string
+    serviceAgreements?: ServiceAgreementUncheckedCreateNestedManyWithoutAgreementInput
+  }
+
+  export type AgreementCreateOrConnectWithoutTransactionAgreementsInput = {
+    where: AgreementWhereUniqueInput
+    create: XOR<AgreementCreateWithoutTransactionAgreementsInput, AgreementUncheckedCreateWithoutTransactionAgreementsInput>
+  }
+
+  export type TransactionUpsertWithoutTransactionAgreementsInput = {
+    update: XOR<TransactionUpdateWithoutTransactionAgreementsInput, TransactionUncheckedUpdateWithoutTransactionAgreementsInput>
+    create: XOR<TransactionCreateWithoutTransactionAgreementsInput, TransactionUncheckedCreateWithoutTransactionAgreementsInput>
+    where?: TransactionWhereInput
+  }
+
+  export type TransactionUpdateToOneWithWhereWithoutTransactionAgreementsInput = {
+    where?: TransactionWhereInput
+    data: XOR<TransactionUpdateWithoutTransactionAgreementsInput, TransactionUncheckedUpdateWithoutTransactionAgreementsInput>
+  }
+
+  export type TransactionUpdateWithoutTransactionAgreementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    paymentGateway?: StringFieldUpdateOperationsInput | string
+    idempotencyKey?: NullableStringFieldUpdateOperationsInput | string | null
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    userPurchasedServices?: UserPurchasedServicesUpdateManyWithoutTransactionNestedInput
+    aadhaarOtp?: AadhaarOtpUpdateOneWithoutTransactionNestedInput
+    user?: UserUpdateOneRequiredWithoutTransactionNestedInput
+    service?: ServiceUpdateOneWithoutTransactionNestedInput
+    servicePlan?: ServicePlanUpdateOneWithoutTransactionsNestedInput
+    coupon?: CouponUpdateOneWithoutTransactionsNestedInput
+  }
+
+  export type TransactionUncheckedUpdateWithoutTransactionAgreementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    couponId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    serviceId?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    servicePlanId?: NullableStringFieldUpdateOperationsInput | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    paymentGateway?: StringFieldUpdateOperationsInput | string
+    idempotencyKey?: NullableStringFieldUpdateOperationsInput | string | null
+    webhookResponse?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    userPurchasedServices?: UserPurchasedServicesUncheckedUpdateManyWithoutTransactionNestedInput
+    aadhaarOtp?: AadhaarOtpUncheckedUpdateOneWithoutTransactionNestedInput
+  }
+
+  export type AgreementUpsertWithoutTransactionAgreementsInput = {
+    update: XOR<AgreementUpdateWithoutTransactionAgreementsInput, AgreementUncheckedUpdateWithoutTransactionAgreementsInput>
+    create: XOR<AgreementCreateWithoutTransactionAgreementsInput, AgreementUncheckedCreateWithoutTransactionAgreementsInput>
+    where?: AgreementWhereInput
+  }
+
+  export type AgreementUpdateToOneWithWhereWithoutTransactionAgreementsInput = {
+    where?: AgreementWhereInput
+    data: XOR<AgreementUpdateWithoutTransactionAgreementsInput, AgreementUncheckedUpdateWithoutTransactionAgreementsInput>
+  }
+
+  export type AgreementUpdateWithoutTransactionAgreementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    hash?: StringFieldUpdateOperationsInput | string
+    type?: EnumAgreementTypeFieldUpdateOperationsInput | $Enums.AgreementType
+    policyType?: NullableEnumPolicyTypeFieldUpdateOperationsInput | $Enums.PolicyType | null
+    signatoryPerson?: NullableStringFieldUpdateOperationsInput | string | null
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceAgreements?: ServiceAgreementUpdateManyWithoutAgreementNestedInput
+  }
+
+  export type AgreementUncheckedUpdateWithoutTransactionAgreementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    hash?: StringFieldUpdateOperationsInput | string
+    type?: EnumAgreementTypeFieldUpdateOperationsInput | $Enums.AgreementType
+    policyType?: NullableEnumPolicyTypeFieldUpdateOperationsInput | $Enums.PolicyType | null
+    signatoryPerson?: NullableStringFieldUpdateOperationsInput | string | null
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceAgreements?: ServiceAgreementUncheckedUpdateManyWithoutAgreementNestedInput
+  }
+
   export type ServiceAgreementCreateWithoutAgreementInput = {
     id?: string
     service: ServiceCreateNestedOneWithoutAgreementsInput
@@ -48601,6 +52308,26 @@ export namespace Prisma {
 
   export type ServiceAgreementCreateManyAgreementInputEnvelope = {
     data: ServiceAgreementCreateManyAgreementInput | ServiceAgreementCreateManyAgreementInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TransactionAgreementCreateWithoutAgreementInput = {
+    id?: string
+    transaction: TransactionCreateNestedOneWithoutTransactionAgreementsInput
+  }
+
+  export type TransactionAgreementUncheckedCreateWithoutAgreementInput = {
+    id?: string
+    transactionId: string
+  }
+
+  export type TransactionAgreementCreateOrConnectWithoutAgreementInput = {
+    where: TransactionAgreementWhereUniqueInput
+    create: XOR<TransactionAgreementCreateWithoutAgreementInput, TransactionAgreementUncheckedCreateWithoutAgreementInput>
+  }
+
+  export type TransactionAgreementCreateManyAgreementInputEnvelope = {
+    data: TransactionAgreementCreateManyAgreementInput | TransactionAgreementCreateManyAgreementInput[]
     skipDuplicates?: boolean
   }
 
@@ -48629,232 +52356,20 @@ export namespace Prisma {
     agreementId?: StringFilter<"ServiceAgreement"> | string
   }
 
-  export type ServiceCreateWithoutAgreementsInput = {
-    id?: string
-    name: string
-    slug: string
-    order?: number
-    tag?: string | null
-    label?: string | null
-    serviceClass?: string | null
-    description?: string | null
-    chart?: NullableJsonNullValueInput | InputJsonValue
-    comparisonTitle?: string | null
-    philosophy?: NullableJsonNullValueInput | InputJsonValue
-    recommendedService?: ServiceCreaterecommendedServiceInput | string[]
-    taxPercent?: number | null
-    features?: NullableJsonNullValueInput | InputJsonValue
-    faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
-    active?: boolean
-    type: $Enums.ServiceType
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    afterPurchaseFeaturesDelta?: NullableJsonNullValueInput | InputJsonValue
-    detailMutualFundPageDelta?: NullableJsonNullValueInput | InputJsonValue
-    plans?: ServicePlanCreateNestedManyWithoutServiceInput
-    researchAdvisoryStockList?: ResearchAdvisoryStockListCreateNestedManyWithoutServiceInput
-    researchAdvisoryModelPortfolioStockList?: ResearchAdvisoryModelPortfolioStockListCreateNestedManyWithoutServiceInput
-    researchAdvisoryMutualFundStockList?: ResearchAdvisoryMutualFundStockListCreateNestedManyWithoutServiceInput
-    servicePlatinaWealth?: ServicePlatinaWealthCreateNestedOneWithoutServiceInput
-    complimentaryService?: ComplimentaryServiceCreateNestedManyWithoutServiceInput
-    complimentaryIncludedIn?: ComplimentaryServiceCreateNestedManyWithoutComplimentaryServiceInput
-    purchasedServices?: UserPurchasedServicesCreateNestedManyWithoutServiceInput
-    Transaction?: TransactionCreateNestedManyWithoutServiceInput
-    coupon?: CouponCreateNestedManyWithoutServiceInput
+  export type TransactionAgreementUpsertWithWhereUniqueWithoutAgreementInput = {
+    where: TransactionAgreementWhereUniqueInput
+    update: XOR<TransactionAgreementUpdateWithoutAgreementInput, TransactionAgreementUncheckedUpdateWithoutAgreementInput>
+    create: XOR<TransactionAgreementCreateWithoutAgreementInput, TransactionAgreementUncheckedCreateWithoutAgreementInput>
   }
 
-  export type ServiceUncheckedCreateWithoutAgreementsInput = {
-    id?: string
-    name: string
-    slug: string
-    order?: number
-    tag?: string | null
-    label?: string | null
-    serviceClass?: string | null
-    description?: string | null
-    chart?: NullableJsonNullValueInput | InputJsonValue
-    comparisonTitle?: string | null
-    philosophy?: NullableJsonNullValueInput | InputJsonValue
-    recommendedService?: ServiceCreaterecommendedServiceInput | string[]
-    taxPercent?: number | null
-    features?: NullableJsonNullValueInput | InputJsonValue
-    faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
-    active?: boolean
-    type: $Enums.ServiceType
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    afterPurchaseFeaturesDelta?: NullableJsonNullValueInput | InputJsonValue
-    detailMutualFundPageDelta?: NullableJsonNullValueInput | InputJsonValue
-    plans?: ServicePlanUncheckedCreateNestedManyWithoutServiceInput
-    researchAdvisoryStockList?: ResearchAdvisoryStockListUncheckedCreateNestedManyWithoutServiceInput
-    researchAdvisoryModelPortfolioStockList?: ResearchAdvisoryModelPortfolioStockListUncheckedCreateNestedManyWithoutServiceInput
-    researchAdvisoryMutualFundStockList?: ResearchAdvisoryMutualFundStockListUncheckedCreateNestedManyWithoutServiceInput
-    servicePlatinaWealth?: ServicePlatinaWealthUncheckedCreateNestedOneWithoutServiceInput
-    complimentaryService?: ComplimentaryServiceUncheckedCreateNestedManyWithoutServiceInput
-    complimentaryIncludedIn?: ComplimentaryServiceUncheckedCreateNestedManyWithoutComplimentaryServiceInput
-    purchasedServices?: UserPurchasedServicesUncheckedCreateNestedManyWithoutServiceInput
-    Transaction?: TransactionUncheckedCreateNestedManyWithoutServiceInput
-    coupon?: CouponUncheckedCreateNestedManyWithoutServiceInput
+  export type TransactionAgreementUpdateWithWhereUniqueWithoutAgreementInput = {
+    where: TransactionAgreementWhereUniqueInput
+    data: XOR<TransactionAgreementUpdateWithoutAgreementInput, TransactionAgreementUncheckedUpdateWithoutAgreementInput>
   }
 
-  export type ServiceCreateOrConnectWithoutAgreementsInput = {
-    where: ServiceWhereUniqueInput
-    create: XOR<ServiceCreateWithoutAgreementsInput, ServiceUncheckedCreateWithoutAgreementsInput>
-  }
-
-  export type AgreementCreateWithoutServiceAgreementsInput = {
-    id?: string
-    name: string
-    content: string
-    version: number
-    hash: string
-    type?: $Enums.AgreementType
-    policyType?: $Enums.PolicyType | null
-    signatoryPerson?: string | null
-    companyName?: string | null
-    updatedAt?: Date | string
-    createdAt?: Date | string
-  }
-
-  export type AgreementUncheckedCreateWithoutServiceAgreementsInput = {
-    id?: string
-    name: string
-    content: string
-    version: number
-    hash: string
-    type?: $Enums.AgreementType
-    policyType?: $Enums.PolicyType | null
-    signatoryPerson?: string | null
-    companyName?: string | null
-    updatedAt?: Date | string
-    createdAt?: Date | string
-  }
-
-  export type AgreementCreateOrConnectWithoutServiceAgreementsInput = {
-    where: AgreementWhereUniqueInput
-    create: XOR<AgreementCreateWithoutServiceAgreementsInput, AgreementUncheckedCreateWithoutServiceAgreementsInput>
-  }
-
-  export type ServiceUpsertWithoutAgreementsInput = {
-    update: XOR<ServiceUpdateWithoutAgreementsInput, ServiceUncheckedUpdateWithoutAgreementsInput>
-    create: XOR<ServiceCreateWithoutAgreementsInput, ServiceUncheckedCreateWithoutAgreementsInput>
-    where?: ServiceWhereInput
-  }
-
-  export type ServiceUpdateToOneWithWhereWithoutAgreementsInput = {
-    where?: ServiceWhereInput
-    data: XOR<ServiceUpdateWithoutAgreementsInput, ServiceUncheckedUpdateWithoutAgreementsInput>
-  }
-
-  export type ServiceUpdateWithoutAgreementsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    order?: IntFieldUpdateOperationsInput | number
-    tag?: NullableStringFieldUpdateOperationsInput | string | null
-    label?: NullableStringFieldUpdateOperationsInput | string | null
-    serviceClass?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    chart?: NullableJsonNullValueInput | InputJsonValue
-    comparisonTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    philosophy?: NullableJsonNullValueInput | InputJsonValue
-    recommendedService?: ServiceUpdaterecommendedServiceInput | string[]
-    taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
-    features?: NullableJsonNullValueInput | InputJsonValue
-    faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
-    active?: BoolFieldUpdateOperationsInput | boolean
-    type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    afterPurchaseFeaturesDelta?: NullableJsonNullValueInput | InputJsonValue
-    detailMutualFundPageDelta?: NullableJsonNullValueInput | InputJsonValue
-    plans?: ServicePlanUpdateManyWithoutServiceNestedInput
-    researchAdvisoryStockList?: ResearchAdvisoryStockListUpdateManyWithoutServiceNestedInput
-    researchAdvisoryModelPortfolioStockList?: ResearchAdvisoryModelPortfolioStockListUpdateManyWithoutServiceNestedInput
-    researchAdvisoryMutualFundStockList?: ResearchAdvisoryMutualFundStockListUpdateManyWithoutServiceNestedInput
-    servicePlatinaWealth?: ServicePlatinaWealthUpdateOneWithoutServiceNestedInput
-    complimentaryService?: ComplimentaryServiceUpdateManyWithoutServiceNestedInput
-    complimentaryIncludedIn?: ComplimentaryServiceUpdateManyWithoutComplimentaryServiceNestedInput
-    purchasedServices?: UserPurchasedServicesUpdateManyWithoutServiceNestedInput
-    Transaction?: TransactionUpdateManyWithoutServiceNestedInput
-    coupon?: CouponUpdateManyWithoutServiceNestedInput
-  }
-
-  export type ServiceUncheckedUpdateWithoutAgreementsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    order?: IntFieldUpdateOperationsInput | number
-    tag?: NullableStringFieldUpdateOperationsInput | string | null
-    label?: NullableStringFieldUpdateOperationsInput | string | null
-    serviceClass?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    chart?: NullableJsonNullValueInput | InputJsonValue
-    comparisonTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    philosophy?: NullableJsonNullValueInput | InputJsonValue
-    recommendedService?: ServiceUpdaterecommendedServiceInput | string[]
-    taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
-    features?: NullableJsonNullValueInput | InputJsonValue
-    faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
-    active?: BoolFieldUpdateOperationsInput | boolean
-    type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    afterPurchaseFeaturesDelta?: NullableJsonNullValueInput | InputJsonValue
-    detailMutualFundPageDelta?: NullableJsonNullValueInput | InputJsonValue
-    plans?: ServicePlanUncheckedUpdateManyWithoutServiceNestedInput
-    researchAdvisoryStockList?: ResearchAdvisoryStockListUncheckedUpdateManyWithoutServiceNestedInput
-    researchAdvisoryModelPortfolioStockList?: ResearchAdvisoryModelPortfolioStockListUncheckedUpdateManyWithoutServiceNestedInput
-    researchAdvisoryMutualFundStockList?: ResearchAdvisoryMutualFundStockListUncheckedUpdateManyWithoutServiceNestedInput
-    servicePlatinaWealth?: ServicePlatinaWealthUncheckedUpdateOneWithoutServiceNestedInput
-    complimentaryService?: ComplimentaryServiceUncheckedUpdateManyWithoutServiceNestedInput
-    complimentaryIncludedIn?: ComplimentaryServiceUncheckedUpdateManyWithoutComplimentaryServiceNestedInput
-    purchasedServices?: UserPurchasedServicesUncheckedUpdateManyWithoutServiceNestedInput
-    Transaction?: TransactionUncheckedUpdateManyWithoutServiceNestedInput
-    coupon?: CouponUncheckedUpdateManyWithoutServiceNestedInput
-  }
-
-  export type AgreementUpsertWithoutServiceAgreementsInput = {
-    update: XOR<AgreementUpdateWithoutServiceAgreementsInput, AgreementUncheckedUpdateWithoutServiceAgreementsInput>
-    create: XOR<AgreementCreateWithoutServiceAgreementsInput, AgreementUncheckedCreateWithoutServiceAgreementsInput>
-    where?: AgreementWhereInput
-  }
-
-  export type AgreementUpdateToOneWithWhereWithoutServiceAgreementsInput = {
-    where?: AgreementWhereInput
-    data: XOR<AgreementUpdateWithoutServiceAgreementsInput, AgreementUncheckedUpdateWithoutServiceAgreementsInput>
-  }
-
-  export type AgreementUpdateWithoutServiceAgreementsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    version?: IntFieldUpdateOperationsInput | number
-    hash?: StringFieldUpdateOperationsInput | string
-    type?: EnumAgreementTypeFieldUpdateOperationsInput | $Enums.AgreementType
-    policyType?: NullableEnumPolicyTypeFieldUpdateOperationsInput | $Enums.PolicyType | null
-    signatoryPerson?: NullableStringFieldUpdateOperationsInput | string | null
-    companyName?: NullableStringFieldUpdateOperationsInput | string | null
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type AgreementUncheckedUpdateWithoutServiceAgreementsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    version?: IntFieldUpdateOperationsInput | number
-    hash?: StringFieldUpdateOperationsInput | string
-    type?: EnumAgreementTypeFieldUpdateOperationsInput | $Enums.AgreementType
-    policyType?: NullableEnumPolicyTypeFieldUpdateOperationsInput | $Enums.PolicyType | null
-    signatoryPerson?: NullableStringFieldUpdateOperationsInput | string | null
-    companyName?: NullableStringFieldUpdateOperationsInput | string | null
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  export type TransactionAgreementUpdateManyWithWhereWithoutAgreementInput = {
+    where: TransactionAgreementScalarWhereInput
+    data: XOR<TransactionAgreementUpdateManyMutationInput, TransactionAgreementUncheckedUpdateManyWithoutAgreementInput>
   }
 
   export type ServiceCreateWithoutComplimentaryServiceInput = {
@@ -49241,6 +52756,238 @@ export namespace Prisma {
     coupon?: CouponUncheckedUpdateManyWithoutServicePlanNestedInput
   }
 
+  export type ServiceCreateWithoutAgreementsInput = {
+    id?: string
+    name: string
+    slug: string
+    order?: number
+    tag?: string | null
+    label?: string | null
+    serviceClass?: string | null
+    description?: string | null
+    chart?: NullableJsonNullValueInput | InputJsonValue
+    comparisonTitle?: string | null
+    philosophy?: NullableJsonNullValueInput | InputJsonValue
+    recommendedService?: ServiceCreaterecommendedServiceInput | string[]
+    taxPercent?: number | null
+    features?: NullableJsonNullValueInput | InputJsonValue
+    faq?: NullableJsonNullValueInput | InputJsonValue
+    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
+    active?: boolean
+    type: $Enums.ServiceType
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    afterPurchaseFeaturesDelta?: NullableJsonNullValueInput | InputJsonValue
+    detailMutualFundPageDelta?: NullableJsonNullValueInput | InputJsonValue
+    plans?: ServicePlanCreateNestedManyWithoutServiceInput
+    researchAdvisoryStockList?: ResearchAdvisoryStockListCreateNestedManyWithoutServiceInput
+    researchAdvisoryModelPortfolioStockList?: ResearchAdvisoryModelPortfolioStockListCreateNestedManyWithoutServiceInput
+    researchAdvisoryMutualFundStockList?: ResearchAdvisoryMutualFundStockListCreateNestedManyWithoutServiceInput
+    servicePlatinaWealth?: ServicePlatinaWealthCreateNestedOneWithoutServiceInput
+    complimentaryService?: ComplimentaryServiceCreateNestedManyWithoutServiceInput
+    complimentaryIncludedIn?: ComplimentaryServiceCreateNestedManyWithoutComplimentaryServiceInput
+    purchasedServices?: UserPurchasedServicesCreateNestedManyWithoutServiceInput
+    Transaction?: TransactionCreateNestedManyWithoutServiceInput
+    coupon?: CouponCreateNestedManyWithoutServiceInput
+  }
+
+  export type ServiceUncheckedCreateWithoutAgreementsInput = {
+    id?: string
+    name: string
+    slug: string
+    order?: number
+    tag?: string | null
+    label?: string | null
+    serviceClass?: string | null
+    description?: string | null
+    chart?: NullableJsonNullValueInput | InputJsonValue
+    comparisonTitle?: string | null
+    philosophy?: NullableJsonNullValueInput | InputJsonValue
+    recommendedService?: ServiceCreaterecommendedServiceInput | string[]
+    taxPercent?: number | null
+    features?: NullableJsonNullValueInput | InputJsonValue
+    faq?: NullableJsonNullValueInput | InputJsonValue
+    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
+    active?: boolean
+    type: $Enums.ServiceType
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    afterPurchaseFeaturesDelta?: NullableJsonNullValueInput | InputJsonValue
+    detailMutualFundPageDelta?: NullableJsonNullValueInput | InputJsonValue
+    plans?: ServicePlanUncheckedCreateNestedManyWithoutServiceInput
+    researchAdvisoryStockList?: ResearchAdvisoryStockListUncheckedCreateNestedManyWithoutServiceInput
+    researchAdvisoryModelPortfolioStockList?: ResearchAdvisoryModelPortfolioStockListUncheckedCreateNestedManyWithoutServiceInput
+    researchAdvisoryMutualFundStockList?: ResearchAdvisoryMutualFundStockListUncheckedCreateNestedManyWithoutServiceInput
+    servicePlatinaWealth?: ServicePlatinaWealthUncheckedCreateNestedOneWithoutServiceInput
+    complimentaryService?: ComplimentaryServiceUncheckedCreateNestedManyWithoutServiceInput
+    complimentaryIncludedIn?: ComplimentaryServiceUncheckedCreateNestedManyWithoutComplimentaryServiceInput
+    purchasedServices?: UserPurchasedServicesUncheckedCreateNestedManyWithoutServiceInput
+    Transaction?: TransactionUncheckedCreateNestedManyWithoutServiceInput
+    coupon?: CouponUncheckedCreateNestedManyWithoutServiceInput
+  }
+
+  export type ServiceCreateOrConnectWithoutAgreementsInput = {
+    where: ServiceWhereUniqueInput
+    create: XOR<ServiceCreateWithoutAgreementsInput, ServiceUncheckedCreateWithoutAgreementsInput>
+  }
+
+  export type AgreementCreateWithoutServiceAgreementsInput = {
+    id?: string
+    name: string
+    content: string
+    version: number
+    hash: string
+    type?: $Enums.AgreementType
+    policyType?: $Enums.PolicyType | null
+    signatoryPerson?: string | null
+    companyName?: string | null
+    updatedAt?: Date | string
+    createdAt?: Date | string
+    transactionAgreements?: TransactionAgreementCreateNestedManyWithoutAgreementInput
+  }
+
+  export type AgreementUncheckedCreateWithoutServiceAgreementsInput = {
+    id?: string
+    name: string
+    content: string
+    version: number
+    hash: string
+    type?: $Enums.AgreementType
+    policyType?: $Enums.PolicyType | null
+    signatoryPerson?: string | null
+    companyName?: string | null
+    updatedAt?: Date | string
+    createdAt?: Date | string
+    transactionAgreements?: TransactionAgreementUncheckedCreateNestedManyWithoutAgreementInput
+  }
+
+  export type AgreementCreateOrConnectWithoutServiceAgreementsInput = {
+    where: AgreementWhereUniqueInput
+    create: XOR<AgreementCreateWithoutServiceAgreementsInput, AgreementUncheckedCreateWithoutServiceAgreementsInput>
+  }
+
+  export type ServiceUpsertWithoutAgreementsInput = {
+    update: XOR<ServiceUpdateWithoutAgreementsInput, ServiceUncheckedUpdateWithoutAgreementsInput>
+    create: XOR<ServiceCreateWithoutAgreementsInput, ServiceUncheckedCreateWithoutAgreementsInput>
+    where?: ServiceWhereInput
+  }
+
+  export type ServiceUpdateToOneWithWhereWithoutAgreementsInput = {
+    where?: ServiceWhereInput
+    data: XOR<ServiceUpdateWithoutAgreementsInput, ServiceUncheckedUpdateWithoutAgreementsInput>
+  }
+
+  export type ServiceUpdateWithoutAgreementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    tag?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceClass?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    chart?: NullableJsonNullValueInput | InputJsonValue
+    comparisonTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    philosophy?: NullableJsonNullValueInput | InputJsonValue
+    recommendedService?: ServiceUpdaterecommendedServiceInput | string[]
+    taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
+    features?: NullableJsonNullValueInput | InputJsonValue
+    faq?: NullableJsonNullValueInput | InputJsonValue
+    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
+    active?: BoolFieldUpdateOperationsInput | boolean
+    type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    afterPurchaseFeaturesDelta?: NullableJsonNullValueInput | InputJsonValue
+    detailMutualFundPageDelta?: NullableJsonNullValueInput | InputJsonValue
+    plans?: ServicePlanUpdateManyWithoutServiceNestedInput
+    researchAdvisoryStockList?: ResearchAdvisoryStockListUpdateManyWithoutServiceNestedInput
+    researchAdvisoryModelPortfolioStockList?: ResearchAdvisoryModelPortfolioStockListUpdateManyWithoutServiceNestedInput
+    researchAdvisoryMutualFundStockList?: ResearchAdvisoryMutualFundStockListUpdateManyWithoutServiceNestedInput
+    servicePlatinaWealth?: ServicePlatinaWealthUpdateOneWithoutServiceNestedInput
+    complimentaryService?: ComplimentaryServiceUpdateManyWithoutServiceNestedInput
+    complimentaryIncludedIn?: ComplimentaryServiceUpdateManyWithoutComplimentaryServiceNestedInput
+    purchasedServices?: UserPurchasedServicesUpdateManyWithoutServiceNestedInput
+    Transaction?: TransactionUpdateManyWithoutServiceNestedInput
+    coupon?: CouponUpdateManyWithoutServiceNestedInput
+  }
+
+  export type ServiceUncheckedUpdateWithoutAgreementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    tag?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceClass?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    chart?: NullableJsonNullValueInput | InputJsonValue
+    comparisonTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    philosophy?: NullableJsonNullValueInput | InputJsonValue
+    recommendedService?: ServiceUpdaterecommendedServiceInput | string[]
+    taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
+    features?: NullableJsonNullValueInput | InputJsonValue
+    faq?: NullableJsonNullValueInput | InputJsonValue
+    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
+    active?: BoolFieldUpdateOperationsInput | boolean
+    type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    afterPurchaseFeaturesDelta?: NullableJsonNullValueInput | InputJsonValue
+    detailMutualFundPageDelta?: NullableJsonNullValueInput | InputJsonValue
+    plans?: ServicePlanUncheckedUpdateManyWithoutServiceNestedInput
+    researchAdvisoryStockList?: ResearchAdvisoryStockListUncheckedUpdateManyWithoutServiceNestedInput
+    researchAdvisoryModelPortfolioStockList?: ResearchAdvisoryModelPortfolioStockListUncheckedUpdateManyWithoutServiceNestedInput
+    researchAdvisoryMutualFundStockList?: ResearchAdvisoryMutualFundStockListUncheckedUpdateManyWithoutServiceNestedInput
+    servicePlatinaWealth?: ServicePlatinaWealthUncheckedUpdateOneWithoutServiceNestedInput
+    complimentaryService?: ComplimentaryServiceUncheckedUpdateManyWithoutServiceNestedInput
+    complimentaryIncludedIn?: ComplimentaryServiceUncheckedUpdateManyWithoutComplimentaryServiceNestedInput
+    purchasedServices?: UserPurchasedServicesUncheckedUpdateManyWithoutServiceNestedInput
+    Transaction?: TransactionUncheckedUpdateManyWithoutServiceNestedInput
+    coupon?: CouponUncheckedUpdateManyWithoutServiceNestedInput
+  }
+
+  export type AgreementUpsertWithoutServiceAgreementsInput = {
+    update: XOR<AgreementUpdateWithoutServiceAgreementsInput, AgreementUncheckedUpdateWithoutServiceAgreementsInput>
+    create: XOR<AgreementCreateWithoutServiceAgreementsInput, AgreementUncheckedCreateWithoutServiceAgreementsInput>
+    where?: AgreementWhereInput
+  }
+
+  export type AgreementUpdateToOneWithWhereWithoutServiceAgreementsInput = {
+    where?: AgreementWhereInput
+    data: XOR<AgreementUpdateWithoutServiceAgreementsInput, AgreementUncheckedUpdateWithoutServiceAgreementsInput>
+  }
+
+  export type AgreementUpdateWithoutServiceAgreementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    hash?: StringFieldUpdateOperationsInput | string
+    type?: EnumAgreementTypeFieldUpdateOperationsInput | $Enums.AgreementType
+    policyType?: NullableEnumPolicyTypeFieldUpdateOperationsInput | $Enums.PolicyType | null
+    signatoryPerson?: NullableStringFieldUpdateOperationsInput | string | null
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transactionAgreements?: TransactionAgreementUpdateManyWithoutAgreementNestedInput
+  }
+
+  export type AgreementUncheckedUpdateWithoutServiceAgreementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    hash?: StringFieldUpdateOperationsInput | string
+    type?: EnumAgreementTypeFieldUpdateOperationsInput | $Enums.AgreementType
+    policyType?: NullableEnumPolicyTypeFieldUpdateOperationsInput | $Enums.PolicyType | null
+    signatoryPerson?: NullableStringFieldUpdateOperationsInput | string | null
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transactionAgreements?: TransactionAgreementUncheckedUpdateManyWithoutAgreementNestedInput
+  }
+
   export type ServiceCreateWithoutPlansInput = {
     id?: string
     name: string
@@ -49320,16 +53067,15 @@ export namespace Prisma {
     id?: string
     purchaseDate?: Date | string
     expiryDate?: Date | string | null
-    agreementAcceptedAt?: Date | string | null
-    agreementData?: NullableJsonNullValueInput | InputJsonValue
     grantType?: $Enums.GrantType
     grantedBy?: string | null
     grantReason?: string | null
     parentServiceId?: string | null
-    transactionId?: string | null
     isActive?: boolean
     grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
     portfolioReview?: PortfolioReviewCreateNestedOneWithoutUserPurchasedServiceInput
+    transaction?: TransactionCreateNestedOneWithoutUserPurchasedServicesInput
     user: UserCreateNestedOneWithoutPurchasedServicesInput
     service?: ServiceCreateNestedOneWithoutPurchasedServicesInput
   }
@@ -49340,15 +53086,14 @@ export namespace Prisma {
     serviceId: string
     purchaseDate?: Date | string
     expiryDate?: Date | string | null
-    agreementAcceptedAt?: Date | string | null
-    agreementData?: NullableJsonNullValueInput | InputJsonValue
     grantType?: $Enums.GrantType
     grantedBy?: string | null
     grantReason?: string | null
-    parentServiceId?: string | null
     transactionId?: string | null
+    parentServiceId?: string | null
     isActive?: boolean
     grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
     portfolioReview?: PortfolioReviewUncheckedCreateNestedOneWithoutUserPurchasedServiceInput
   }
 
@@ -49375,6 +53120,11 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: Date | string | null
+    userPurchasedServices?: UserPurchasedServicesCreateNestedManyWithoutTransactionInput
+    transactionAgreements?: TransactionAgreementCreateNestedManyWithoutTransactionInput
+    aadhaarOtp?: AadhaarOtpCreateNestedOneWithoutTransactionInput
     user: UserCreateNestedOneWithoutTransactionInput
     service?: ServiceCreateNestedOneWithoutTransactionInput
     coupon?: CouponCreateNestedOneWithoutTransactionsInput
@@ -49396,6 +53146,11 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: Date | string | null
+    userPurchasedServices?: UserPurchasedServicesUncheckedCreateNestedManyWithoutTransactionInput
+    transactionAgreements?: TransactionAgreementUncheckedCreateNestedManyWithoutTransactionInput
+    aadhaarOtp?: AadhaarOtpUncheckedCreateNestedOneWithoutTransactionInput
   }
 
   export type TransactionCreateOrConnectWithoutServicePlanInput = {
@@ -49877,16 +53632,15 @@ export namespace Prisma {
     id?: string
     purchaseDate?: Date | string
     expiryDate?: Date | string | null
-    agreementAcceptedAt?: Date | string | null
-    agreementData?: NullableJsonNullValueInput | InputJsonValue
     grantType?: $Enums.GrantType
     grantedBy?: string | null
     grantReason?: string | null
     parentServiceId?: string | null
-    transactionId?: string | null
     isActive?: boolean
     grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
     portfolioReview?: PortfolioReviewCreateNestedOneWithoutUserPurchasedServiceInput
+    transaction?: TransactionCreateNestedOneWithoutUserPurchasedServicesInput
     user: UserCreateNestedOneWithoutPurchasedServicesInput
     servicePlan?: ServicePlanCreateNestedOneWithoutUserPurchasedServicesInput
   }
@@ -49894,18 +53648,17 @@ export namespace Prisma {
   export type UserPurchasedServicesUncheckedCreateWithoutServiceInput = {
     id?: string
     userId: string
+    servicePlanId?: string | null
     purchaseDate?: Date | string
     expiryDate?: Date | string | null
-    servicePlanId?: string | null
-    agreementAcceptedAt?: Date | string | null
-    agreementData?: NullableJsonNullValueInput | InputJsonValue
     grantType?: $Enums.GrantType
     grantedBy?: string | null
     grantReason?: string | null
-    parentServiceId?: string | null
     transactionId?: string | null
+    parentServiceId?: string | null
     isActive?: boolean
     grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
     portfolioReview?: PortfolioReviewUncheckedCreateNestedOneWithoutUserPurchasedServiceInput
   }
 
@@ -49932,6 +53685,11 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: Date | string | null
+    userPurchasedServices?: UserPurchasedServicesCreateNestedManyWithoutTransactionInput
+    transactionAgreements?: TransactionAgreementCreateNestedManyWithoutTransactionInput
+    aadhaarOtp?: AadhaarOtpCreateNestedOneWithoutTransactionInput
     user: UserCreateNestedOneWithoutTransactionInput
     servicePlan?: ServicePlanCreateNestedOneWithoutTransactionsInput
     coupon?: CouponCreateNestedOneWithoutTransactionsInput
@@ -49953,6 +53711,11 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: Date | string | null
+    userPurchasedServices?: UserPurchasedServicesUncheckedCreateNestedManyWithoutTransactionInput
+    transactionAgreements?: TransactionAgreementUncheckedCreateNestedManyWithoutTransactionInput
+    aadhaarOtp?: AadhaarOtpUncheckedCreateNestedOneWithoutTransactionInput
   }
 
   export type TransactionCreateOrConnectWithoutServiceInput = {
@@ -50262,15 +54025,14 @@ export namespace Prisma {
     id?: string
     purchaseDate?: Date | string
     expiryDate?: Date | string | null
-    agreementAcceptedAt?: Date | string | null
-    agreementData?: NullableJsonNullValueInput | InputJsonValue
     grantType?: $Enums.GrantType
     grantedBy?: string | null
     grantReason?: string | null
     parentServiceId?: string | null
-    transactionId?: string | null
     isActive?: boolean
     grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    transaction?: TransactionCreateNestedOneWithoutUserPurchasedServicesInput
     user: UserCreateNestedOneWithoutPurchasedServicesInput
     service?: ServiceCreateNestedOneWithoutPurchasedServicesInput
     servicePlan?: ServicePlanCreateNestedOneWithoutUserPurchasedServicesInput
@@ -50280,18 +54042,17 @@ export namespace Prisma {
     id?: string
     userId: string
     serviceId: string
+    servicePlanId?: string | null
     purchaseDate?: Date | string
     expiryDate?: Date | string | null
-    servicePlanId?: string | null
-    agreementAcceptedAt?: Date | string | null
-    agreementData?: NullableJsonNullValueInput | InputJsonValue
     grantType?: $Enums.GrantType
     grantedBy?: string | null
     grantReason?: string | null
-    parentServiceId?: string | null
     transactionId?: string | null
+    parentServiceId?: string | null
     isActive?: boolean
     grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
   }
 
   export type UserPurchasedServicesCreateOrConnectWithoutPortfolioReviewInput = {
@@ -50314,15 +54075,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    agreementData?: NullableJsonNullValueInput | InputJsonValue
     grantType?: EnumGrantTypeFieldUpdateOperationsInput | $Enums.GrantType
     grantedBy?: NullableStringFieldUpdateOperationsInput | string | null
     grantReason?: NullableStringFieldUpdateOperationsInput | string | null
     parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
-    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transaction?: TransactionUpdateOneWithoutUserPurchasedServicesNestedInput
     user?: UserUpdateOneRequiredWithoutPurchasedServicesNestedInput
     service?: ServiceUpdateOneWithoutPurchasedServicesNestedInput
     servicePlan?: ServicePlanUpdateOneWithoutUserPurchasedServicesNestedInput
@@ -50332,18 +54092,17 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     serviceId?: StringFieldUpdateOperationsInput | string
+    servicePlanId?: NullableStringFieldUpdateOperationsInput | string | null
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    servicePlanId?: NullableStringFieldUpdateOperationsInput | string | null
-    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    agreementData?: NullableJsonNullValueInput | InputJsonValue
     grantType?: EnumGrantTypeFieldUpdateOperationsInput | $Enums.GrantType
     grantedBy?: NullableStringFieldUpdateOperationsInput | string | null
     grantReason?: NullableStringFieldUpdateOperationsInput | string | null
-    parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ServiceCreateWithoutResearchAdvisoryStockListInput = {
@@ -52297,18 +56056,17 @@ export namespace Prisma {
   export type UserPurchasedServicesCreateManyUserInput = {
     id?: string
     serviceId: string
+    servicePlanId?: string | null
     purchaseDate?: Date | string
     expiryDate?: Date | string | null
-    servicePlanId?: string | null
-    agreementAcceptedAt?: Date | string | null
-    agreementData?: NullableJsonNullValueInput | InputJsonValue
     grantType?: $Enums.GrantType
     grantedBy?: string | null
     grantReason?: string | null
-    parentServiceId?: string | null
     transactionId?: string | null
+    parentServiceId?: string | null
     isActive?: boolean
     grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
   }
 
   export type TransactionCreateManyUserInput = {
@@ -52327,6 +56085,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: Date | string | null
   }
 
   export type UserRiskProfileResponseCreateManyUserInput = {
@@ -52420,16 +56180,15 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    agreementData?: NullableJsonNullValueInput | InputJsonValue
     grantType?: EnumGrantTypeFieldUpdateOperationsInput | $Enums.GrantType
     grantedBy?: NullableStringFieldUpdateOperationsInput | string | null
     grantReason?: NullableStringFieldUpdateOperationsInput | string | null
     parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
-    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     portfolioReview?: PortfolioReviewUpdateOneWithoutUserPurchasedServiceNestedInput
+    transaction?: TransactionUpdateOneWithoutUserPurchasedServicesNestedInput
     service?: ServiceUpdateOneWithoutPurchasedServicesNestedInput
     servicePlan?: ServicePlanUpdateOneWithoutUserPurchasedServicesNestedInput
   }
@@ -52437,36 +56196,34 @@ export namespace Prisma {
   export type UserPurchasedServicesUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     serviceId?: StringFieldUpdateOperationsInput | string
+    servicePlanId?: NullableStringFieldUpdateOperationsInput | string | null
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    servicePlanId?: NullableStringFieldUpdateOperationsInput | string | null
-    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    agreementData?: NullableJsonNullValueInput | InputJsonValue
     grantType?: EnumGrantTypeFieldUpdateOperationsInput | $Enums.GrantType
     grantedBy?: NullableStringFieldUpdateOperationsInput | string | null
     grantReason?: NullableStringFieldUpdateOperationsInput | string | null
-    parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     portfolioReview?: PortfolioReviewUncheckedUpdateOneWithoutUserPurchasedServiceNestedInput
   }
 
   export type UserPurchasedServicesUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     serviceId?: StringFieldUpdateOperationsInput | string
+    servicePlanId?: NullableStringFieldUpdateOperationsInput | string | null
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    servicePlanId?: NullableStringFieldUpdateOperationsInput | string | null
-    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    agreementData?: NullableJsonNullValueInput | InputJsonValue
     grantType?: EnumGrantTypeFieldUpdateOperationsInput | $Enums.GrantType
     grantedBy?: NullableStringFieldUpdateOperationsInput | string | null
     grantReason?: NullableStringFieldUpdateOperationsInput | string | null
-    parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TransactionUpdateWithoutUserInput = {
@@ -52482,6 +56239,11 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    userPurchasedServices?: UserPurchasedServicesUpdateManyWithoutTransactionNestedInput
+    transactionAgreements?: TransactionAgreementUpdateManyWithoutTransactionNestedInput
+    aadhaarOtp?: AadhaarOtpUpdateOneWithoutTransactionNestedInput
     service?: ServiceUpdateOneWithoutTransactionNestedInput
     servicePlan?: ServicePlanUpdateOneWithoutTransactionsNestedInput
     coupon?: CouponUpdateOneWithoutTransactionsNestedInput
@@ -52503,6 +56265,11 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    userPurchasedServices?: UserPurchasedServicesUncheckedUpdateManyWithoutTransactionNestedInput
+    transactionAgreements?: TransactionAgreementUncheckedUpdateManyWithoutTransactionNestedInput
+    aadhaarOtp?: AadhaarOtpUncheckedUpdateOneWithoutTransactionNestedInput
   }
 
   export type TransactionUncheckedUpdateManyWithoutUserInput = {
@@ -52521,6 +56288,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserRiskProfileResponseUpdateWithoutUserInput = {
@@ -52669,6 +56438,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: Date | string | null
   }
 
   export type TransactionUpdateWithoutCouponInput = {
@@ -52684,6 +56455,11 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    userPurchasedServices?: UserPurchasedServicesUpdateManyWithoutTransactionNestedInput
+    transactionAgreements?: TransactionAgreementUpdateManyWithoutTransactionNestedInput
+    aadhaarOtp?: AadhaarOtpUpdateOneWithoutTransactionNestedInput
     user?: UserUpdateOneRequiredWithoutTransactionNestedInput
     service?: ServiceUpdateOneWithoutTransactionNestedInput
     servicePlan?: ServicePlanUpdateOneWithoutTransactionsNestedInput
@@ -52705,6 +56481,11 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    userPurchasedServices?: UserPurchasedServicesUncheckedUpdateManyWithoutTransactionNestedInput
+    transactionAgreements?: TransactionAgreementUncheckedUpdateManyWithoutTransactionNestedInput
+    aadhaarOtp?: AadhaarOtpUncheckedUpdateOneWithoutTransactionNestedInput
   }
 
   export type TransactionUncheckedUpdateManyWithoutCouponInput = {
@@ -52723,11 +56504,104 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type UserPurchasedServicesCreateManyTransactionInput = {
+    id?: string
+    userId: string
+    serviceId: string
+    servicePlanId?: string | null
+    purchaseDate?: Date | string
+    expiryDate?: Date | string | null
+    grantType?: $Enums.GrantType
+    grantedBy?: string | null
+    grantReason?: string | null
+    parentServiceId?: string | null
+    isActive?: boolean
+    grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type TransactionAgreementCreateManyTransactionInput = {
+    id?: string
+    agreementId: string
+  }
+
+  export type UserPurchasedServicesUpdateWithoutTransactionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    grantType?: EnumGrantTypeFieldUpdateOperationsInput | $Enums.GrantType
+    grantedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    grantReason?: NullableStringFieldUpdateOperationsInput | string | null
+    parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    portfolioReview?: PortfolioReviewUpdateOneWithoutUserPurchasedServiceNestedInput
+    user?: UserUpdateOneRequiredWithoutPurchasedServicesNestedInput
+    service?: ServiceUpdateOneWithoutPurchasedServicesNestedInput
+    servicePlan?: ServicePlanUpdateOneWithoutUserPurchasedServicesNestedInput
+  }
+
+  export type UserPurchasedServicesUncheckedUpdateWithoutTransactionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    serviceId?: StringFieldUpdateOperationsInput | string
+    servicePlanId?: NullableStringFieldUpdateOperationsInput | string | null
+    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    grantType?: EnumGrantTypeFieldUpdateOperationsInput | $Enums.GrantType
+    grantedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    grantReason?: NullableStringFieldUpdateOperationsInput | string | null
+    parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    portfolioReview?: PortfolioReviewUncheckedUpdateOneWithoutUserPurchasedServiceNestedInput
+  }
+
+  export type UserPurchasedServicesUncheckedUpdateManyWithoutTransactionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    serviceId?: StringFieldUpdateOperationsInput | string
+    servicePlanId?: NullableStringFieldUpdateOperationsInput | string | null
+    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    grantType?: EnumGrantTypeFieldUpdateOperationsInput | $Enums.GrantType
+    grantedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    grantReason?: NullableStringFieldUpdateOperationsInput | string | null
+    parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TransactionAgreementUpdateWithoutTransactionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agreement?: AgreementUpdateOneRequiredWithoutTransactionAgreementsNestedInput
+  }
+
+  export type TransactionAgreementUncheckedUpdateWithoutTransactionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agreementId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TransactionAgreementUncheckedUpdateManyWithoutTransactionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agreementId?: StringFieldUpdateOperationsInput | string
   }
 
   export type ServiceAgreementCreateManyAgreementInput = {
     id?: string
     serviceId: string
+  }
+
+  export type TransactionAgreementCreateManyAgreementInput = {
+    id?: string
+    transactionId: string
   }
 
   export type ServiceAgreementUpdateWithoutAgreementInput = {
@@ -52745,21 +56619,35 @@ export namespace Prisma {
     serviceId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type TransactionAgreementUpdateWithoutAgreementInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    transaction?: TransactionUpdateOneRequiredWithoutTransactionAgreementsNestedInput
+  }
+
+  export type TransactionAgreementUncheckedUpdateWithoutAgreementInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    transactionId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TransactionAgreementUncheckedUpdateManyWithoutAgreementInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    transactionId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type UserPurchasedServicesCreateManyServicePlanInput = {
     id?: string
     userId: string
     serviceId: string
     purchaseDate?: Date | string
     expiryDate?: Date | string | null
-    agreementAcceptedAt?: Date | string | null
-    agreementData?: NullableJsonNullValueInput | InputJsonValue
     grantType?: $Enums.GrantType
     grantedBy?: string | null
     grantReason?: string | null
-    parentServiceId?: string | null
     transactionId?: string | null
+    parentServiceId?: string | null
     isActive?: boolean
     grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
   }
 
   export type TransactionCreateManyServicePlanInput = {
@@ -52778,6 +56666,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: Date | string | null
   }
 
   export type ComplimentaryServiceCreateManyComplimentaryPlanInput = {
@@ -52801,16 +56691,15 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    agreementData?: NullableJsonNullValueInput | InputJsonValue
     grantType?: EnumGrantTypeFieldUpdateOperationsInput | $Enums.GrantType
     grantedBy?: NullableStringFieldUpdateOperationsInput | string | null
     grantReason?: NullableStringFieldUpdateOperationsInput | string | null
     parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
-    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     portfolioReview?: PortfolioReviewUpdateOneWithoutUserPurchasedServiceNestedInput
+    transaction?: TransactionUpdateOneWithoutUserPurchasedServicesNestedInput
     user?: UserUpdateOneRequiredWithoutPurchasedServicesNestedInput
     service?: ServiceUpdateOneWithoutPurchasedServicesNestedInput
   }
@@ -52821,15 +56710,14 @@ export namespace Prisma {
     serviceId?: StringFieldUpdateOperationsInput | string
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    agreementData?: NullableJsonNullValueInput | InputJsonValue
     grantType?: EnumGrantTypeFieldUpdateOperationsInput | $Enums.GrantType
     grantedBy?: NullableStringFieldUpdateOperationsInput | string | null
     grantReason?: NullableStringFieldUpdateOperationsInput | string | null
-    parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     portfolioReview?: PortfolioReviewUncheckedUpdateOneWithoutUserPurchasedServiceNestedInput
   }
 
@@ -52839,15 +56727,14 @@ export namespace Prisma {
     serviceId?: StringFieldUpdateOperationsInput | string
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    agreementData?: NullableJsonNullValueInput | InputJsonValue
     grantType?: EnumGrantTypeFieldUpdateOperationsInput | $Enums.GrantType
     grantedBy?: NullableStringFieldUpdateOperationsInput | string | null
     grantReason?: NullableStringFieldUpdateOperationsInput | string | null
-    parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TransactionUpdateWithoutServicePlanInput = {
@@ -52863,6 +56750,11 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    userPurchasedServices?: UserPurchasedServicesUpdateManyWithoutTransactionNestedInput
+    transactionAgreements?: TransactionAgreementUpdateManyWithoutTransactionNestedInput
+    aadhaarOtp?: AadhaarOtpUpdateOneWithoutTransactionNestedInput
     user?: UserUpdateOneRequiredWithoutTransactionNestedInput
     service?: ServiceUpdateOneWithoutTransactionNestedInput
     coupon?: CouponUpdateOneWithoutTransactionsNestedInput
@@ -52884,6 +56776,11 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    userPurchasedServices?: UserPurchasedServicesUncheckedUpdateManyWithoutTransactionNestedInput
+    transactionAgreements?: TransactionAgreementUncheckedUpdateManyWithoutTransactionNestedInput
+    aadhaarOtp?: AadhaarOtpUncheckedUpdateOneWithoutTransactionNestedInput
   }
 
   export type TransactionUncheckedUpdateManyWithoutServicePlanInput = {
@@ -52902,6 +56799,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ComplimentaryServiceUpdateWithoutComplimentaryPlanInput = {
@@ -53027,18 +56926,17 @@ export namespace Prisma {
   export type UserPurchasedServicesCreateManyServiceInput = {
     id?: string
     userId: string
+    servicePlanId?: string | null
     purchaseDate?: Date | string
     expiryDate?: Date | string | null
-    servicePlanId?: string | null
-    agreementAcceptedAt?: Date | string | null
-    agreementData?: NullableJsonNullValueInput | InputJsonValue
     grantType?: $Enums.GrantType
     grantedBy?: string | null
     grantReason?: string | null
-    parentServiceId?: string | null
     transactionId?: string | null
+    parentServiceId?: string | null
     isActive?: boolean
     grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
   }
 
   export type TransactionCreateManyServiceInput = {
@@ -53057,6 +56955,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: Date | string | null
   }
 
   export type CouponCreateManyServiceInput = {
@@ -53283,16 +57183,15 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    agreementData?: NullableJsonNullValueInput | InputJsonValue
     grantType?: EnumGrantTypeFieldUpdateOperationsInput | $Enums.GrantType
     grantedBy?: NullableStringFieldUpdateOperationsInput | string | null
     grantReason?: NullableStringFieldUpdateOperationsInput | string | null
     parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
-    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     portfolioReview?: PortfolioReviewUpdateOneWithoutUserPurchasedServiceNestedInput
+    transaction?: TransactionUpdateOneWithoutUserPurchasedServicesNestedInput
     user?: UserUpdateOneRequiredWithoutPurchasedServicesNestedInput
     servicePlan?: ServicePlanUpdateOneWithoutUserPurchasedServicesNestedInput
   }
@@ -53300,36 +57199,34 @@ export namespace Prisma {
   export type UserPurchasedServicesUncheckedUpdateWithoutServiceInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    servicePlanId?: NullableStringFieldUpdateOperationsInput | string | null
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    servicePlanId?: NullableStringFieldUpdateOperationsInput | string | null
-    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    agreementData?: NullableJsonNullValueInput | InputJsonValue
     grantType?: EnumGrantTypeFieldUpdateOperationsInput | $Enums.GrantType
     grantedBy?: NullableStringFieldUpdateOperationsInput | string | null
     grantReason?: NullableStringFieldUpdateOperationsInput | string | null
-    parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     portfolioReview?: PortfolioReviewUncheckedUpdateOneWithoutUserPurchasedServiceNestedInput
   }
 
   export type UserPurchasedServicesUncheckedUpdateManyWithoutServiceInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    servicePlanId?: NullableStringFieldUpdateOperationsInput | string | null
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    servicePlanId?: NullableStringFieldUpdateOperationsInput | string | null
-    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    agreementData?: NullableJsonNullValueInput | InputJsonValue
     grantType?: EnumGrantTypeFieldUpdateOperationsInput | $Enums.GrantType
     grantedBy?: NullableStringFieldUpdateOperationsInput | string | null
     grantReason?: NullableStringFieldUpdateOperationsInput | string | null
-    parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    parentServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     grantMetadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TransactionUpdateWithoutServiceInput = {
@@ -53345,6 +57242,11 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    userPurchasedServices?: UserPurchasedServicesUpdateManyWithoutTransactionNestedInput
+    transactionAgreements?: TransactionAgreementUpdateManyWithoutTransactionNestedInput
+    aadhaarOtp?: AadhaarOtpUpdateOneWithoutTransactionNestedInput
     user?: UserUpdateOneRequiredWithoutTransactionNestedInput
     servicePlan?: ServicePlanUpdateOneWithoutTransactionsNestedInput
     coupon?: CouponUpdateOneWithoutTransactionsNestedInput
@@ -53366,6 +57268,11 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    userPurchasedServices?: UserPurchasedServicesUncheckedUpdateManyWithoutTransactionNestedInput
+    transactionAgreements?: TransactionAgreementUncheckedUpdateManyWithoutTransactionNestedInput
+    aadhaarOtp?: AadhaarOtpUncheckedUpdateOneWithoutTransactionNestedInput
   }
 
   export type TransactionUncheckedUpdateManyWithoutServiceInput = {
@@ -53384,6 +57291,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     extraData?: NullableJsonNullValueInput | InputJsonValue
+    agreementSummary?: NullableJsonNullValueInput | InputJsonValue
+    agreementAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CouponUpdateWithoutServiceInput = {

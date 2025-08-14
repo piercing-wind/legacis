@@ -14,14 +14,14 @@ import { formatHumanDate } from "@/lib/utils";
 import { selectPlan, setAgreement, setAgreementSummary, setCoupon } from "@/lib/slices/checkoutSlice";
 import { useSession } from "next-auth/react";
 
-export const CheckoutForm=({ service, agreement} :{service: Service | null, agreement: Agreement[] | null})=>{
+export const CheckoutForm=({ service, agreement, complimentaryServices} :{service: Service | null, agreement: Agreement[] | null, complimentaryServices?: Service[]})=>{
    const drawerCloseRef = useRef<HTMLButtonElement>(null);
    const [loading, setLoading] = useState(false);
    const [couponCode, setCouponCode] = useState("");
    const [couponLoading, setCouponLoading] = useState(false);
    const {data} = useSession()
    const user = data?.user as User;
-
+   console.log("Complimentary Services:", complimentaryServices);
    const selectedPlan = useAppSelector((state) => state.checkout.service.selectedPlan);
    const appliedCoupon = useAppSelector((state) => state.checkout.coupon);
    
@@ -43,6 +43,11 @@ export const CheckoutForm=({ service, agreement} :{service: Service | null, agre
       );
    }
 
+  const comps = Array.isArray(complimentaryServices) ? complimentaryServices : [];
+  const complimentaryServicesNames =
+     comps.length > 0
+       ? `${service?.name} + ${comps.map((s) => s.name).join(", ")}`
+       : '';
 
    const months = Math.round(selectedPlan.durationInDays / 30) || 1;
    const basePrice = selectedPlan.price;
@@ -58,12 +63,14 @@ export const CheckoutForm=({ service, agreement} :{service: Service | null, agre
    const taxAmount = Math.round(taxableAmount * (taxPercent / 100));
    const total = taxableAmount + taxAmount;
 
+   
 
    const agreementSummary : ServiceAgreement = {
       clientName: user?.name || user?.email || "Unknown User",
       clientPhoneNumber: user?.phone || "Unknown Phone",
       clientpanNumber: user?.pan || "Unknown PAN",
       serviceName: service?.name || "Unknown Service",
+      complimentaryServicesNames: complimentaryServicesNames,
       subscriptionStartDate: formatHumanDate(new Date()),
       subscriptionFrequency: isPortfolioReview ? "One-time Service" : `${months} ${months === 1 ? 'Month' : 'Months'}`,
       subscriptionPrice: `₹${String(total)} /-`,

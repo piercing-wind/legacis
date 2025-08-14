@@ -52,7 +52,9 @@ export function formatHumanDate(date: string | Date): string {
  * @returns A formatted date string (e.g., "11-07-2025 14:30:00")
  */
 export function formatDateWithTime(date: string | Date): string {
+  if (!date) return "";
   const d = typeof date === "string" ? new Date(date) : date;
+  if (!(d instanceof Date) || isNaN(d.getTime())) return "";
   return d.toLocaleString("en-GB", {
     day: "2-digit",
     month: 'short',
@@ -60,7 +62,7 @@ export function formatDateWithTime(date: string | Date): string {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
-  }).replace(',', ''); // Removes the comma between date and time
+  }).replace(',', '');
 }
 
 

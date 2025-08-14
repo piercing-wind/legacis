@@ -89,6 +89,7 @@ export type ServiceAgreement = {
    clientpanNumber : string;
    clientPhoneNumber : string;
    serviceName : string;
+   complimentaryServicesNames?: string;
    subscriptionStartDate: string;
    subscriptionFrequency: string;
    subscriptionPrice: string;
@@ -103,4 +104,19 @@ export type SerializableCoupon = Omit<Coupon, 'expiryDate' | 'createdAt' | 'upda
   expiryDate: string;
   createdAt: string;
   updatedAt: string;
+};
+
+export type AgreementSummary = {
+  clientName: string;
+  serviceName: string;
+  agreementNames: string;
+  clientpanNumber: string;
+  clientPhoneNumber: string;
+  subscriptionPrice: string;
+  subscriptionFrequency: string;
+  subscriptionStartDate: string;
+  aadhaarNumber: string;
+  agreementIds: string[];
+  complimentaryServicesNames?: string;
+  agreementHashes: string[];
 };

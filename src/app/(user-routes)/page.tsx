@@ -81,7 +81,7 @@ export default async function Home() {
                   </h1>
                   <div className="order-3 space-y-6 hidden md:block">
                      <p className="text-sm lg:text-lg">From in-depth research to discovering market’s hidden opportunities, we help you invest with confidence and aim for enduring growth.</p>
-                     <Button asChild variant={'default'} className="max-w-80 shadow shadow-neutral-200 dark:shadow-neutral-600 px-2 font-normal text-base sm:text-xl h-auto py-3 rounded-sm w-full">
+                     <Button asChild variant={'default'} className="max-w-80 shadow bg-gray-600 dark:bg-neutral-300 shadow-neutral-200 dark:shadow-neutral-600 px-2 font-normal text-base sm:text-xl h-auto py-3 rounded-sm w-full">
                         <Link href={'/services'} className="gap-4 hover:!text-white dark:hover:!text-neutral-800">
                             Explore Plans
                         </Link>  
@@ -90,7 +90,7 @@ export default async function Home() {
                </div>
                <div className="order-3 space-y-6 md:hidden">
                   <p className="text-sm lg:text-lg">From in-depth research to discovering market’s hidden opportunities, we help you invest with confidence and aim for enduring growth.</p>
-                  <Button asChild variant={'default'} className="max-w-80 shadow shadow-neutral-200 dark:shadow-neutral-600 px-2 font-normal text-base sm:text-xl h-auto py-3 rounded-sm w-full">
+                  <Button asChild variant={'default'} className="max-w-80 shadow bg-gray-600 dark:bg-neutral-300 shadow-neutral-200 dark:shadow-neutral-600 px-2 font-normal text-base sm:text-xl h-auto py-3 rounded-sm w-full">
                      <Link href={'/services'} className="gap-4 hover:!text-white dark:hover:!text-neutral-800">
                          Explore Plans
                      </Link>  
@@ -139,7 +139,7 @@ export default async function Home() {
                   <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 w-full">
                      <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 h-36 sm:h-auto sm:col-span-3 lg:col-span-2 border sm:border-0 rounded-xl p-4 sm:p-0">
                         <div className="sm:w-72">
-                           <div className="flex flex-col sm:flex-row text-xs sm:text-base items-center sm:items-end gap-2 hover:scale-[1.01] backdrop-blur-xs transition-all duration-300 ease-in-out rounded-full sm:border border-neutral-100 dark:border-neutral-700 sm:px-4 sm:py-3 font-medium">
+                           <div className="flex flex-col sm:flex-row text-xs sm:text-base items-center sm:items-end gap-2 hover:scale-[1.01] backdrop-blur-xs transition-all duration-300 ease-in-out rounded-full sm:border border-neutral-100 dark:border-neutral-700 sm:px-4 sm:py-3 font-medium sm:font-normal">
                               <span className="flex items-baseline gap-1">
                                  <NumberTicker
                                     value={100}
@@ -151,7 +151,7 @@ export default async function Home() {
                            </div>
                         </div>
                         <Link href={"https://x.com/raghavwadhwa"} target="_blank">
-                           <div className="flex flex-col sm:flex-row text-xs items-center sm:text-base sm:items-end gap-2 hover:scale-[1.01] backdrop-blur-xs transition-all duration-300 ease-in-out rounded-full sm:border border-neutral-100 dark:border-neutral-700 sm:px-4 sm:py-2 font-medium">
+                           <div className="flex flex-col sm:flex-row text-xs items-center sm:text-base sm:items-end gap-2 hover:scale-[1.01] backdrop-blur-xs transition-all duration-300 ease-in-out rounded-full sm:border border-neutral-100 dark:border-neutral-700 sm:px-4 sm:py-2 font-medium sm:font-normal">
                               <Image
                                  src="/raghav-wadhwa.jpg"
                                  alt="Raghav Wadhwa"
@@ -328,9 +328,9 @@ export default async function Home() {
          </div>
          
          {/* Testimonials */}
-         <section className="px-4 py-16 lg:py-24 flex flex-col items-center justify-center h-full bg-neutral-100 dark:bg-zinc-900 rounded-2xl">
+         {/* <section className="px-4 py-16 lg:py-24 flex flex-col items-center justify-center h-full bg-neutral-100 dark:bg-zinc-900 rounded-2xl">
             <Testimonial/>
-         </section>
+         </section> */}
          {/* Recent Blogs  */}
          <section className="px-4 py-16 lg:py-24 flex flex-col items-center justify-center h-full bg-neutral-100 dark:bg-neutral-800 rounded-2xl mt-16">
             <h6 className="inline-block rounded-lg shadow shadow-neutral-200 dark:shadow-neutral-600 px-2 py-1 text-legacisPurple dark:text-legacisGreen font-medium xl:text-2xl">Blogs</h6>

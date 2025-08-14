@@ -1,18 +1,18 @@
-packages:
-  - "."
-  - "legacis_dashboard"
-
 ignoredBuiltDependencies:
-  - esbuild
-
-onlyBuiltDependencies:
   - '@prisma/client'
   - '@prisma/engines'
   - '@tailwindcss/oxide'
   - canvas
   - prisma
   - sharp
+  - unrs-resolver
 
-# pnpm configuration for hoisting
-public-hoist-pattern:
-  - "pdfjs-dist"
+onlyBuiltDependencies:
+  - '@prisma/client'
+  - '@prisma/engines'
+  - '@tailwindcss/oxide'
+  - canvas
+  - core-js
+  - prisma
+  - sharp
+  - unrs-resolver

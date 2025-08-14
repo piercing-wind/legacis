@@ -120,6 +120,11 @@ export const getUserTransactions = async (userId: string) => {
       include: { 
          service: true,
          servicePlan: true,
+         transactionAgreements: {
+            include : {
+               agreement: true, // Include the actual agreement details
+            }
+         }
       },
       orderBy: { createdAt: "desc" },
    });

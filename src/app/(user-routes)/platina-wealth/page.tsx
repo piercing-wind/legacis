@@ -70,6 +70,10 @@ export default async function Page() {
    if(recommendedServicesIds.length > 0) {
       recommendedServices = await findServicesByIds(recommendedServicesIds);
    }
+   
+   const complimentaryServices = (service?.complimentaryService ?? [])
+     .map((item: any) => item?.complimentaryService ?? item)
+     .filter(Boolean);
 
    return (
       <main className='w-full px-5 lg:px-10 xl:px-24 py-8'>
@@ -175,23 +179,23 @@ export default async function Page() {
                <p className="text-sm sm:text-base">Exclusive access to our flagship research services for idea flow and market insights</p>
                <div className="mt-4 sm:mt-8 border-t-2 w-1/2 border-purple-300/80 dark:border-purple-200/80"/>
                <div className="w-full mt-6 sm:mt-12 grid sm:grid-cols-3 gap-6 place-items-center relative">
-                  {service?.complimentaryService.map((item, idx) => {                    
+                  {complimentaryServices.map((item, idx) => {
                      return(
-                        <div key={item.complimentaryService.id + idx} className="flex flex-col w-full items-center justify-center gap-2 p-4 rounded-xl bg-white border border-purple-200/50 dark:bg-[#e3d4f9] transition shadow-2xl hover:shadow-lg shadow-neutral-100 dark:shadow-purple-500/10 self-stretch">
-                           <Link href={getServiceLink(item.complimentaryService.type, item.complimentaryService.slug)} className="flex items-start gap-1 sm:gap-3 w-full sm:min-h-28">
+                        <div key={item.id + idx} className="flex flex-col w-full items-center justify-center gap-2 p-4 rounded-xl bg-white border border-purple-200/50 dark:bg-[#e3d4f9] transition shadow-2xl hover:shadow-lg shadow-neutral-100 dark:shadow-purple-500/10 self-stretch">
+                           <Link href={getServiceLink(item.type, item.slug)} className="flex items-start gap-1 sm:gap-3 w-full sm:min-h-28">
                               <Image
                                  src="/icons/favicon.ico"
-                                 alt={item.complimentaryService.name || "Service Icon"}
+                                 alt={item.name || "Service Icon"}
                                  width={40}
                                  height={40}
                                  className="rounded-full sm:mt-1"
                               />
                               <div>
                                  <h3 className="text-base font-medium text-neutral-700">
-                                    {item.complimentaryService.name.substring(0, 44)}
+                                    {item.name.substring(0, 44)}
                                  </h3>
                                  <span className="text-xs sm:text-sm text-neutral-700 text-center">
-                                    {(item.complimentaryService.tag || "").substring(0, 75)}
+                                    {(item.tag || "").substring(0, 75)}
                                  </span>
                               </div>
                            </Link>
@@ -304,7 +308,8 @@ export default async function Page() {
                <div className="flex-1 min-w-0 flex flex-col">
                   <CheckoutForm
                      service={service}
-                     agreement={agreement}   
+                     agreement={agreement}
+                     complimentaryServices={complimentaryServices}
                   />
                </div>
                </div>

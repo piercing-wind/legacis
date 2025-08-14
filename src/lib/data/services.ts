@@ -246,6 +246,11 @@ export const findServiceByCategory = async (category: ServiceType) => {
          type: category,
       },
       include: {
+         complimentaryService : {
+            include: {
+               complimentaryService: true,
+            },
+         },
          plans: true
       },
       orderBy: {

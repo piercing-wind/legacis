@@ -13,6 +13,9 @@ import { IncrementBlogView } from "@/components/IncrementBlogView";
 import { auth } from "@/auth";
 import { Metadata } from "next";
 
+export const revalidate = 1800; // 30 minutes
+
+
 function extractHeadings(delta: any) {
   if (!delta || !Array.isArray(delta.ops)) return [];
   const headings: { text: string; level: number; id: string }[] = [];
@@ -135,7 +138,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
       <div className="flex gap-8 ">
          {/* TOC */}
-         <nav className="hidden lg:block max-w-80 max-h-[80vh] overflow-y-auto flex-shrink-0 sticky top-24 self-start">
+         <nav className="hidden lg:block max-w-80 max-h-[80vh] overflow-y-auto flex-shrink-0 sticky top-28 self-start">
             <div className="bg-white dark:bg-neutral-800 rounded-xl p-4">
             <h2 className="text-lg font-semibold mb-4">On this page</h2>
             {headings.length > 0 ? (
@@ -205,7 +208,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
             <QuillHtmlViewer delta={delta} />
             </section>
          </article>
-         <nav className="hidden lg:block max-w-80 flex-shrink-0 sticky top-24 self-start">
+         <nav className="hidden lg:block max-w-80 flex-shrink-0 sticky top-28 self-start">
             {recent.length > 0 && (
                <Card className="w-full flex-1 flex flex-col bg-card dark:bg-neutral-800 rounded-xl border-0 shadow-none p-4">
                <h3 className="font-medium text-lg">Recent Blogs</h3>

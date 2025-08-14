@@ -3,6 +3,7 @@ import { findServiceById } from "@/lib/data/services";
 import { cashfree } from "@/lib/payment/cashfree";
 import { db } from "@/lib/db";
 import { findCouponByCode } from "@/lib/data/coupon";
+import { AgreementSummary } from "@/types/global";
 
 
 export const GET = (request: Request) => {
@@ -15,14 +16,11 @@ export const POST = auth(async (request)=> {
 
       const user = request.auth.user;
 
-      const { serviceId, selectedPlan, coupon, agreementSummary } = await request.json();
+      const { serviceId, selectedPlan, coupon, agreementSummary, aadhaarOtpRecordId } = await request.json();
 
-      if (!serviceId) {
-         throw new Error("ServiceId must be present!");
-      }
-      if (!selectedPlan) {
-         throw new Error("Selected tenure is required!");
-      }
+      if (!serviceId) throw new Error("ServiceId must be present!");
+      if (!selectedPlan) throw new Error("Selected tenure is required!");
+      if (!aadhaarOtpRecordId) throw new Error("Aadhaar OTP Record ID is required!");
 
       let service = await findServiceById(serviceId);
       if (!service) throw new Error("Service not found");
@@ -35,8 +33,8 @@ export const POST = auth(async (request)=> {
       // Calculate pricing using ServicePlan model
       let basePrice = validPlan.price;
       let planDiscountAmount = validPlan.discount 
-         ? Math.round(basePrice * validPlan.discount) 
-         : 0;
+                              ? Math.round(basePrice * validPlan.discount) 
+                              : 0;
       let finalPrice = basePrice - planDiscountAmount;
       
       
@@ -71,7 +69,8 @@ export const POST = auth(async (request)=> {
             customer_email: user.email || "",
          },
          order_meta: {
-            return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment/callback`,
+            return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/thank-you?orderId=${order_id}`,
+            notify_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/payment/notify`,
          },
          order_tags : {
             serviceId: serviceId ? String(serviceId) : "",
@@ -79,31 +78,44 @@ export const POST = auth(async (request)=> {
             coupon: coupon?.id || "",
             plan : service.type  === 'PORTFOLIO_REVIEW' ? `Portfolio review upto ${validPlan.stockLimit}` : Math.round(Number(validPlan.durationInDays)/ 30) + "Months",
             agreement: (agreementSummary.agreementNames).slice(0, 256),
+            aadhaarOtpRecordId: aadhaarOtpRecordId || ""
          }
       }
 
       const order = await cashfree.PGCreateOrder(requestBody);
       if (order.status !== 200) throw new Error(`Failed to create order: ${order.statusText}`);
       
+      console.log("Order created successfully:", order.data);
 
       await db.transaction.create({
        data: {
           orderId: order.data.order_id,
           userId: user.id,
           couponId : coupon?.id || null,
-          serviceId,
+          serviceId: serviceId,
           amount: order.data.order_amount || 0,
           servicePlanId: validPlan.id,
           status: "PENDING", // Store the entire tenure object
           paymentGateway: "CASHFREE",
           extraData : {
              couponCode: coupon,
-             agreementSummary: agreementSummary,
-          }
+            },
+          agreementSummary: agreementSummary,
+          aadhaarOtp : {
+            connect : {id: aadhaarOtpRecordId}
+          },
+          agreementAcceptedAt: new Date(),
+         transactionAgreements: {
+            create: (agreementSummary as AgreementSummary).agreementIds.map(id => ({
+               agreementId: id
+            }))
+         }
        }
       })
+
+
       return new Response(JSON.stringify(order.data), { status: 200 });
-   
+
    }catch(error){
       console.log("Error creating order:", error);
       if (typeof error === "object" && error !== null && "response" in error) {

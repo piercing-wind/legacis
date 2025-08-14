@@ -13,6 +13,12 @@ import Loading from './loading';
 import { setModalOpen } from '@/lib/slices/profile';
 import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from './ui/form';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { AadhaarOtp } from '@/prisma/generated/client';
+import { AgreementSummary } from '@/types/global';
 
 function slugify(text: string) {
   return text
@@ -75,20 +81,35 @@ type CashfreeInstance = {
 };
 
 
+const otpFormSchema = z.object({
+  otp: z.string().min(4, "OTP must be at least 4 characters long"),
+});
+const aadhaarFormSchema = z.object({
+   aadhaar : z.string().min(12, "Aadhaar number must be 12 digits"),
+});
+
+export type OTPFormValues = z.infer<typeof otpFormSchema>;
+export type AadhaarFormValues = z.infer<typeof aadhaarFormSchema>;
+
 export const AgreementViewer = () => {
    const {service, agreement, agreementSummary, coupon} = useAppSelector((state) => state.checkout);
+  
    const cashfreeRef = useRef<CashfreeInstance | null>(null);
-   const agreementContent = agreement;
    const plan = service.selectedPlan;
    const serviceId = service.serviceId;
    const router = useRouter();
    const dispatch = useAppDispatch();
-   const [otp, setOTP] = useState<string>(''); 
-   const [otpSent, setOTPSent] = useState<boolean>(false);
-   const [isPending, startTransition] = useTransition();
+   
    const [showLoadingModal, setShowLoadingModal] = useState<boolean>(false);
    const [showAgreementModal, setShowAgreementModal] = useState(true);
-   const signatureAgreement = agreementContent?.find(
+   const [showOTForm, setShowOTPForm] = useState<boolean>(false);
+
+   const [pending, setPending] = useState(false);
+   const [otpRefId, setOtpRefId] = useState<string | null>(null);
+   const [aadhaarOtpRecord, setAadhaarOtpRecord] = useState<AadhaarOtp | null>(null);
+
+
+   const signatureAgreement = agreement?.find(
     (agreement) => agreement.signatoryPerson || agreement.companyName
    );
    
@@ -97,107 +118,149 @@ export const AgreementViewer = () => {
       cashfreeRef.current = cf;
     });
    }, []);
-   if (!agreementContent || agreementContent.length === 0) {
+
+   // Always call hooks at the top level
+   const aadhaarForm = useForm<AadhaarFormValues>({
+     resolver: zodResolver(aadhaarFormSchema),
+     defaultValues: {
+       aadhaar: "",
+     },
+   });
+
+   const otpForm = useForm<OTPFormValues>({
+     resolver: zodResolver(otpFormSchema),
+     defaultValues: {
+       otp: "",
+     },
+   });
+
+   if (!agreement || agreement.length === 0) {
       return <div className="text-center">No agreement available</div>;
    }
+   
 
-   function sendotp() {
-      startTransition(() => {
-          sendOTP({identifier : agreementSummary?.clientPhoneNumber || "", verificationType : 'AGREEMENT_ACCEPTANCE'})
-           .then((res) => {
-             if (!res.success) throw new Error(res.message);
-             setOTPSent(true);
-             toast.success(<h6>OTP Sent!</h6>,{
-                duration: 10000,
-                action: {
-                   label: "Close",
-                   onClick: () => toast.dismiss(),
-                },
-                description: `${res.message}`,
-             });
-          }).catch((error)=> {
-             setOTPSent(false);
-             toast.error(<h6 style={{color:"red"}}>Failed to send Code!</h6>,{
-                duration: 10000,
-                action: {
-                   label: "Close",
-                   onClick: () => toast.dismiss(),
-                },
-                description: `${(error as Error).message}`,
-             });
-          });
-          
-      })
+   async function sendotp(values: AadhaarFormValues) {
+      setPending(true);
+      const aadhaar = values.aadhaar.replaceAll(" ", "");
+
+      const response = await fetch('/api/aadhaar-otp', {
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/json',
+         },
+         body: JSON.stringify({
+            aadhaar_number: aadhaar|| "", 
+         }),
+      });
+
+      const result = await response.json();
+
+      if (!result.success || !response.ok) {
+        toast.error(`Failed to Send OTP: ${result.error.message}`, {
+          duration: 15000,
+        });
+        return;
+      }
+
+      setShowOTPForm(true);
+      setOtpRefId(result.data?.ref_id || null);
+      setAadhaarOtpRecord(result.aadhaarOtpRecord || null);
+
+      toast.success(<h6>{result.data?.message}</h6>, {
+         duration: 15000,
+         action: {
+            label: "Close",
+            onClick: () => toast.dismiss(),
+         },
+         description: `OTP has been sent to the registered phone number associated with the Aadhaar number.`,
+      });
+      setPending(false);
    }
 
-   async function verify() {
-      if(otp === "" || otp.length < 4) {
-         setOTPSent(false);
-         toast.error(<h6 style={{color:"red"}}>Please enter the OTP!</h6> )
-         return;  
+   async function verify(values: OTPFormValues) {
+      setPending(true);
+      const otp = values.otp.replace(" ", "");
+      const response = await fetch('/api/aadhaar-otp-verify', {
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/json',
+         },
+         body: JSON.stringify({
+            otp: otp || "",
+            ref_id : otpRefId || "",
+            aadhaarOtpRecordId: aadhaarOtpRecord?.id || "",
+         })
+      })
+ 
+      const result = await response.json();
+
+      if (!result.success || !response.ok) {
+         toast.error(`Failed to verify OTP: ${result.error.message}`)
+         return;
       }
-      setOTPSent(false);
+
+      const aadhaarOtpRecordId = result.aadhaarOtpRecord?.id || null;
+
+      if (!aadhaarOtpRecordId) {
+         toast.error("Failed to verify OTP. Please try again.");
+         return;
+      }
+
+      toast.success(
+      "OTP verified successfully! Your agreement has been accepted. Please proceed to complete the payment to activate your service.",
+         {
+            duration: 10000,
+         }
+      );
+
+      const data = await handleCreateOrder(result.aadhaarOtpRecord);
+      if (!data.payment_session_id) throw new Error("Payment session ID not received from server.");
+      setShowLoadingModal(false);
+      setPending(false);
+      await handlePayment(data.payment_session_id, data.order_id);
       setShowLoadingModal(true);
       setShowAgreementModal(false);
 
-      try{
-         const res = await verifyOTP({identifier : agreementSummary?.clientPhoneNumber || "", otp: otp});
-         if (!res.success) throw new Error(res.message);
-         toast.success(<h6>OTP Verified!</h6>, {
-            duration: 10000,
-            action: {
-               label: "Close",
-               onClick: () => toast.dismiss(),
-            },
-            description: `${res.message}`,
-         });
-         
-         const data = await handleCreateOrder();
-         if (!data.payment_session_id) throw new Error("Payment session ID not received from server.");
-         setShowLoadingModal(false);
-         await handlePayment(data.payment_session_id, data.order_id);
-      }catch(error){
-         setShowLoadingModal(false);
-         setShowAgreementModal(true);
-         toast.error(<h6 style={{color:"red"}}>Failed to verify OTP!</h6>, {
-            duration: 10000,
-            action: {
-               label: "Close",
-               onClick: () => toast.dismiss(),
-            },
-            description: `${(error as Error).message}`,
-         });
-         console.log("Error verifying OTP:", error);
-      }
-   
    }
 
-   const handleCreateOrder = async () : Promise<CreateOrderResponse>=>{
-      const agreementNames = agreementContent.map(a => a.name).join(", ");
-      const agreementIds = agreementContent.map(a => a.id);
-      const agreementHashes = agreementContent.map(a => a.hash); // Hash already stored in db when creating the agreement
+   const handleCreateOrder = async (aadhaarOtpRecord: AadhaarOtp) : Promise<CreateOrderResponse>=>{
+      const agreementNames = agreement.map(a => a.name).join(", ");
+      const agreementIds = agreement.map(a => a.id);
+      const agreementHashes = agreement.map(a => a.hash);
 
-      const agreementSummaryWithName = {
-        ...agreementSummary,
-        agreementNames, 
-        agreementIds,
-        agreementHashes,
+      const agreementSummaryWithDetails: AgreementSummary = {
+         clientName: agreementSummary?.clientName ?? "",
+         clientpanNumber: agreementSummary?.clientpanNumber ?? "",
+         clientPhoneNumber: agreementSummary?.clientPhoneNumber ?? "",
+         complimentaryServicesNames: agreementSummary?.complimentaryServicesNames ?? "",
+         serviceName: agreementSummary?.serviceName ?? "",
+         subscriptionStartDate: agreementSummary?.subscriptionStartDate ?? "",
+         subscriptionFrequency: agreementSummary?.subscriptionFrequency ?? "",
+         subscriptionPrice: agreementSummary?.subscriptionPrice ?? "",
+         aadhaarNumber : aadhaarOtpRecord?.aadhaarNumber || "",
+         agreementNames,
+         agreementIds,
+         agreementHashes,
       };
+      
       const orderRes = await fetch('/api/payment/create-order',{
-       method: 'POST',
-       headers: {
-          'Content-Type': 'application/json',
-       },
-       body: JSON.stringify({
-          serviceId,
-          selectedPlan : plan,
-          coupon : coupon || null,
-          agreementSummary : agreementSummaryWithName,
-       })
-    })
-    if (!orderRes.ok) throw new Error(`Failed to create order: ${orderRes.statusText}`);
-     return await orderRes.json() as CreateOrderResponse;
-    }
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/json',
+         },
+         body: JSON.stringify({
+            serviceId,
+            selectedPlan : plan,
+            coupon : coupon || null,
+            agreementSummary : agreementSummaryWithDetails,
+            aadhaarOtpRecordId : aadhaarOtpRecord.id,
+         })
+      })
+
+      if (!orderRes.ok) throw new Error(`Failed to create order: ${orderRes.statusText}`);
+      
+      return await orderRes.json() as CreateOrderResponse;
+   }
 
    const handlePayment = async (paymentSessionId: string, orderId: string | undefined) => {
       if (cashfreeRef.current) {
@@ -241,7 +304,7 @@ export const AgreementViewer = () => {
          )}
          {showAgreementModal && (
             <div className="quill-content text-xs dark:!text-neutral-50 max-w-4xl w-full h-[80vh] overflow-x-hidden overflow-y-auto rounded-2xl lg:px-8 p-4 bg-white dark:bg-neutral-800">
-               {agreementContent.map((agreement) => {
+               {agreement.map((agreement) => {
                   
                   let delta: any = agreement.content;
                   if (typeof delta === "string") {
@@ -271,6 +334,9 @@ export const AgreementViewer = () => {
                      { label: "Client PAN Number", value: agreementSummary.clientpanNumber },
                      { label: "Client Phone Number", value: agreementSummary.clientPhoneNumber },
                      { label: "Service Name", value: agreementSummary.serviceName },
+                      ...(agreementSummary.complimentaryServicesNames
+                      ? [{ label: "Complimentary Services", value: agreementSummary.complimentaryServicesNames }]
+                      : []),
                      { label: "Subscription Start Date", value: agreementSummary.subscriptionStartDate },
                      { label: "Subscription Frequency", value: agreementSummary.subscriptionFrequency },
                      { label: "Subscription Price", value: <span className='font-urbanist'>{agreementSummary.subscriptionPrice}</span> },
@@ -287,7 +353,7 @@ export const AgreementViewer = () => {
                </div>
             )}
 
-            <div className='flex flex-col gap-y-8 md:flex-row items-start justify-between mt-8 p-4 border-t border-dashed'>
+            <div className='flex flex-col gap-y-8 md:flex-row items-start md:items-end justify-between mt-8 p-4 border-t border-dashed'>
                {signatureAgreement && (signatureAgreement.signatoryPerson || signatureAgreement.companyName) && (
                   <div className="flex flex-col items-start">
                      {signatureAgreement.signatoryPerson && (
@@ -300,29 +366,82 @@ export const AgreementViewer = () => {
                )}
                <div>
                   <div className=''>
-                     <span className='!text-sm'>{agreementSummary?.clientName}</span>
+                     {/* <span className='!text-sm'>{agreementSummary?.clientName}</span> */}
                   </div>
                   <div className="flex items-center gap-2">
-                     <Input
-                        type="text"
-                        placeholder="Enter OTP"
-                        value={otp}
-                        onChange={(e) => setOTP(e.target.value)}
-                        className=" min-w-20 w-full h-auto max-w-xs border p-1 rounded-lg"
-                     />
-                     {otpSent ? (
-                       <Button onClick={verify} disabled={isPending || showLoadingModal} className="!text-sm h-auto">
-                         {isPending ? 'verifying' : 'Verify'}
-                       </Button>
-                     ):(
-                        <Button onClick={sendotp} disabled={isPending} size={'sm'} className="!text-sm">Send OTP</Button>
-                     )}
+                     {showOTForm ? (
+                        <Form {...otpForm} key={"otp-form"}>
+                           <form
+                           className=" flex items-end gap-2"
+                           onSubmit={otpForm.handleSubmit((data) => {
+                              verify(data);
+                           })}
+                           >
+                              <FormField
+                                 control={otpForm.control}
+                                 name="otp"
+                                 render={({ field }) => (
+                                    <FormItem>
+                                    <FormControl>
+                                       <Input placeholder="Enter OTP" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                    </FormItem>
+                                 )}
+                              />
+                              <Button
+                                 type="submit"
+                                 size={'sm'}
+                                 className=""
+                                 disabled={pending}
+                              >
+                                 Verify & Agree
+                              </Button>
+                           </form>
+                        </Form>
+                     ) : (
+                        <Form {...aadhaarForm} key={"aadhaar-form"}>
+                           <form
+                           className="flex items-end gap-2"
+                           onSubmit={aadhaarForm.handleSubmit((data) => {
+                              sendotp(data);
+                           })}
+                           >
+                              <FormField
+                                 control={aadhaarForm.control}
+                                 name="aadhaar"
+                                 render={({ field }) => (
+                                    <FormItem>
+                                    <FormControl>
+                                    <Input
+                                       placeholder="Enter Aadhaar Number"
+                                       className="placeholder:text-xs"
+                                       maxLength={14}
+                                       value={
+                                             field.value
+                                                ? field.value.replace(/(.{4})/g, "$1 ").trim() // Format for display
+                                                : ""
+                                          }
+                                       onChange={(e) => {
+                                          let raw = e.target.value.replace(/\D/g, "").slice(0, 12); // Max 12 digits
+                                          field.onChange(raw);
+                                       }}
+                                    />
+                                    </FormControl>
+                                    <FormMessage />
+                                    </FormItem>
+                                 )}
+                              />
+                              <Button type='submit' disabled={pending} className='' size={'sm'}>Send OTP</Button>
+                           </form>
+                        </Form>
+                     ) }
                   </div>
                </div>
 
             </div>
                <span className='text-[10px] opacity-50 mt-4'>
-               * Agreements are signed electronically using OTP verification. Please ensure you have access to the registered phone number to receive the OTP.
+               * Agreements are signed electronically using Aadhaar OTP &40;UIDAI&41;. Please ensure you have access to the aadhaar registered phone number to receive the OTP.
                </span>
             </div>
          )}

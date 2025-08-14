@@ -173,6 +173,17 @@ exports.Prisma.OtpScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.AadhaarOtpScalarFieldEnum = {
+  id: 'id',
+  aadhaarNumber: 'aadhaarNumber',
+  ref_id: 'ref_id',
+  otpStatus: 'otpStatus',
+  generatedOTPResponse: 'generatedOTPResponse',
+  verifiedOTPResponse: 'verifiedOTPResponse',
+  transactionId: 'transactionId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.PanVerificationDataScalarFieldEnum = {
   userId: 'userId',
   provider: 'provider',
@@ -186,18 +197,17 @@ exports.Prisma.UserPurchasedServicesScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   serviceId: 'serviceId',
+  servicePlanId: 'servicePlanId',
   purchaseDate: 'purchaseDate',
   expiryDate: 'expiryDate',
-  servicePlanId: 'servicePlanId',
-  agreementAcceptedAt: 'agreementAcceptedAt',
-  agreementData: 'agreementData',
   grantType: 'grantType',
   grantedBy: 'grantedBy',
   grantReason: 'grantReason',
-  parentServiceId: 'parentServiceId',
   transactionId: 'transactionId',
+  parentServiceId: 'parentServiceId',
   isActive: 'isActive',
-  grantMetadata: 'grantMetadata'
+  grantMetadata: 'grantMetadata',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.CouponScalarFieldEnum = {
@@ -228,7 +238,15 @@ exports.Prisma.TransactionScalarFieldEnum = {
   webhookResponse: 'webhookResponse',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  extraData: 'extraData'
+  extraData: 'extraData',
+  agreementSummary: 'agreementSummary',
+  agreementAcceptedAt: 'agreementAcceptedAt'
+};
+
+exports.Prisma.TransactionAgreementScalarFieldEnum = {
+  id: 'id',
+  transactionId: 'transactionId',
+  agreementId: 'agreementId'
 };
 
 exports.Prisma.AgreementScalarFieldEnum = {
@@ -245,17 +263,17 @@ exports.Prisma.AgreementScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
-exports.Prisma.ServiceAgreementScalarFieldEnum = {
-  id: 'id',
-  serviceId: 'serviceId',
-  agreementId: 'agreementId'
-};
-
 exports.Prisma.ComplimentaryServiceScalarFieldEnum = {
   id: 'id',
   serviceId: 'serviceId',
   complimentaryServiceId: 'complimentaryServiceId',
   complimentaryServicePlanId: 'complimentaryServicePlanId'
+};
+
+exports.Prisma.ServiceAgreementScalarFieldEnum = {
+  id: 'id',
+  serviceId: 'serviceId',
+  agreementId: 'agreementId'
 };
 
 exports.Prisma.ServicePlanScalarFieldEnum = {
@@ -504,12 +522,12 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
-exports.Prisma.JsonNullValueInput = {
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull
 };
 
-exports.Prisma.NullableJsonNullValueInput = {
-  DbNull: Prisma.DbNull,
+exports.Prisma.JsonNullValueInput = {
   JsonNull: Prisma.JsonNull
 };
 
@@ -632,13 +650,15 @@ exports.Prisma.ModelName = {
   User: 'User',
   Account: 'Account',
   Otp: 'Otp',
+  AadhaarOtp: 'AadhaarOtp',
   panVerificationData: 'panVerificationData',
   UserPurchasedServices: 'UserPurchasedServices',
   Coupon: 'Coupon',
   Transaction: 'Transaction',
+  TransactionAgreement: 'TransactionAgreement',
   Agreement: 'Agreement',
-  ServiceAgreement: 'ServiceAgreement',
   ComplimentaryService: 'ComplimentaryService',
+  ServiceAgreement: 'ServiceAgreement',
   ServicePlan: 'ServicePlan',
   Service: 'Service',
   PortfolioReview: 'PortfolioReview',

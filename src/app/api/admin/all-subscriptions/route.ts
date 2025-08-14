@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
+import { formatDateWithTime } from "@/lib/utils";
 import ExcelJS from "exceljs";
 
 
@@ -57,59 +58,80 @@ worksheet.columns = [
     { header: 'Purchase Date', key: 'purchaseDate', width: 18 },
     { header: 'Expiry Date', key: 'expiryDate', width: 18 },
     { header: 'Status', key: 'status', width: 12 },
+    { header: 'Order ID', key: 'orderId', width: 18 }, 
     { header: 'Amount Paid (₹)', key: 'amountPaid', width: 16 },
-    { header: 'Transaction ID', key: 'transactionId', width: 18 }, 
     { header: 'Coupon Used', key: 'couponUsed', width: 16 },
     { header: 'Discount %', key: 'discount', width: 12 },
     { header: 'Grant Reason', key: 'grantReason', width: 20 },
     { header: 'Parent Service (main)', key: 'parentService', width: 20 },
+    { header: 'Subscription ID', key: 'subscriptionId', width: 36 },
+    { header: 'Granted By (Admin ID)', key: 'grantedBy', width: 24 },
+    { header: 'Transaction ID', key: 'transactionId', width: 36 },
+    { header: 'Payment ID', key: 'paymentId', width: 24 },
+    { header: 'Payment Gateway', key: 'paymentGateway', width: 18 },
+    { header: 'Currency', key: 'currency', width: 10 },
+    { header: 'Created At', key: 'createdAt', width: 18 },
+    { header: 'Coupon Description', key: 'couponDescription', width: 24 },
   ];
 
    subscriptions.forEach((sub, idx) => {
 
-   let amountPaid = null, couponUsed = null, discount = null, transactionId = null;
-   if (sub.grantType === 'PURCHASED') {
-      const tx = transactionMap.get(`${sub.userId}-${sub.serviceId}`);
-      amountPaid = tx?.amount ?? '';
-      couponUsed = tx?.coupon?.code ?? '';
-      discount = tx?.coupon?.percentOff ?? '';
-      transactionId = tx?.id ?? '';
-   }
+      let amountPaid = null, couponUsed = null, discount = null, orderId = null, transactionId = null, paymentId = null, paymentGateway = null, currency = null, couponDescription = null, createdAt = null;
+      if (sub.grantType === 'PURCHASED') {
+         const tx = transactionMap.get(`${sub.userId}-${sub.serviceId}`);
+         amountPaid = tx?.amount ?? '';
+         couponUsed = tx?.coupon?.code ?? '';
+         discount = tx?.coupon?.percentOff ?? '';
+         orderId = tx?.orderId ?? '';
+         transactionId = tx?.id ?? '';
+         paymentId = tx?.paymentId ?? '';
+         paymentGateway = tx?.paymentGateway ?? '';
+         currency = tx?.currency ?? '';
+         couponDescription = tx?.coupon?.description ?? '';
+         createdAt = tx?.createdAt ? new Date(tx.createdAt).toLocaleDateString() : '';
+      }
 
-     // Decide plan name and plan days
-  // Use ServicePlan info instead of tenure
-  let plan = '';
-  let planDays = '';
-  if (sub.service?.type === 'PORTFOLIO_REVIEW') {
-    plan = sub.servicePlan?.stockLimit ? `${sub.servicePlan.stockLimit} stocks` : '';
-    planDays = ''; // Portfolio Review doesn't use days
-  } else {
-    plan = sub.servicePlan?.label ? `${sub.servicePlan.label}` : '';
-    planDays = sub.servicePlan?.durationInDays ? `${sub.servicePlan.durationInDays}` : '';
-  }
+      // Decide plan name and plan days
+      // Use ServicePlan info instead of tenure
+      let plan = '';
+      let planDays = '';
+      if (sub.service?.type === 'PORTFOLIO_REVIEW') {
+         plan = sub.servicePlan?.stockLimit ? `${sub.servicePlan.stockLimit} stocks` : '';
+         planDays = ''; // Portfolio Review doesn't use days
+      } else {
+         plan = sub.servicePlan?.label ? `${sub.servicePlan.label}` : '';
+         planDays = sub.servicePlan?.durationInDays ? `${sub.servicePlan.durationInDays}` : '';
+      }
 
 
-   worksheet.addRow({
-      sno: idx + 1,
-      userName: sub.user?.name || 'N/A',
-      userEmail: sub.user?.email || 'N/A',
-      userPhone: sub.user?.phone || 'N/A', // Added
-      serviceName: sub.service?.name || 'N/A',
-      serviceType: sub.service?.type?.replace(/_/g, ' ') || 'N/A', 
-      grantType: sub.grantType?.replace(/_/g, ' ') || 'N/A',
-      plan,
-      planDays,
-      purchaseDate: sub.purchaseDate?.toLocaleDateString() || '',
-      expiryDate: sub.expiryDate?.toLocaleDateString() || '',
-      agreementAcceptedAt: sub.agreementAcceptedAt ? new Date(sub.agreementAcceptedAt).toLocaleDateString() : '', // Added
-      status: sub.isActive ? 'Active' : 'Expired',
-      amountPaid,
-      transactionId, // Added
-      couponUsed,
-      discount,
-      grantReason: sub.grantReason || '',
-      parentService: sub.parentServiceId || '' ,
-   });
+      worksheet.addRow({
+         sno: idx + 1,
+         userName: sub.user?.name || 'N/A',
+         userEmail: sub.user?.email || 'N/A',
+         userPhone: sub.user?.phone || 'N/A',
+         serviceName: sub.service?.name || 'N/A',
+         serviceType: sub.service?.type?.replace(/_/g, ' ') || 'N/A',
+         grantType: sub.grantType?.replace(/_/g, ' ') || 'N/A',
+         plan,
+         planDays,
+         purchaseDate: sub.purchaseDate ? formatDateWithTime(sub.purchaseDate) : '',
+         expiryDate: sub.expiryDate ? formatDateWithTime(sub.expiryDate) : '',
+         status: sub.isActive ? 'Active' : 'Expired',
+         amountPaid,
+         orderId,
+         couponUsed,
+         discount,
+         grantReason: sub.grantReason || '',
+         parentService: sub.parentServiceId || '',
+         subscriptionId: sub.id || '',
+         grantedBy: sub.grantedBy || '',
+         transactionId,
+         paymentId,
+         paymentGateway,
+         currency,
+         createdAt: sub.createdAt ? formatDateWithTime(sub.createdAt) : '',
+         couponDescription,
+      });
    });
   const buffer = await workbook.xlsx.writeBuffer();
   return new Response(buffer, {

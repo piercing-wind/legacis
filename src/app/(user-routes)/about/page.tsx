@@ -5,9 +5,10 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ZoomIn } from '@/components/animation/zoom';
 import { GradientLineVertical } from '@/components/icon';
-import { EyeIcon, TrendingUp, DollarSign, ArrowUpRightIcon } from 'lucide-react';
+import { EyeIcon, TrendingUp, DollarSign, ArrowUpRightIcon, IndianRupee, Youtube, Play, BarChart2, Layers, LineChart, GraduationCap, Shield } from 'lucide-react';
 import { chunkArray, cn } from '@/lib/utils';
 import { Metadata } from 'next';
+import { m } from 'framer-motion';
 
 export const metadata: Metadata = {
     title: "About Us",
@@ -32,7 +33,7 @@ const Page = () => {
       link: '#',
     },
     {
-      icon: DollarSign,
+      icon: IndianRupee,
       title: 'Clarity Over Complexity',
       description: 'We simplify financial concepts into clear, actionable insights—because understanding your money shouldn’t require a finance degree.',
       step: '03',
@@ -46,55 +47,73 @@ const Page = () => {
       step: '04',
     },
   ]
-  const howItWorksChunks = chunkArray(howItWorks, 2);
+   const howItWorksChunks = chunkArray(howItWorks, 2);
    const ourTeam = [
       {
-         name : 'Raghav Wadhwa',
-         role: 'Founder & CEO',
-         image: '/raghav-wadhwa.png',
-         social : {
-            x: 'https://x.com/raghavwadhwa',
-            linkedin: 'https://www.linkedin.com/in/raghavwadhwa/'
+         name: 'Bharat Arora, CFA',
+         role: 'Equity Research Analyst',
+         image: '/team/bharat-arora.png',
+         social: {
+            linkedin: 'https://www.linkedin.com/in/bharat-arora-586590129'
          }
       },
       {
-         name : 'Raghav Wadhwa',
-         role: 'Founder & CEO',
-         image: '/raghav-wadhwa.png',
-         social : {
-            x: 'https://x.com/raghavwadhwa',
-            linkedin: 'https://www.linkedin.com/in/raghavwadhwa/'
+         name: 'CA Harpreet Kaur',
+         role: 'Equity Research Analyst',
+         image: '/team/ca-harpreet-kaur.png',
+         social: {
+            linkedin: 'https://www.linkedin.com/in/ca-harpreet-kaur/'
          }
       },
       {
-         name : 'Raghav Wadhwa',
-         role: 'Founder & CEO',
-         image: '/raghav-wadhwa.png',
-         social : {
-            x: 'https://x.com/raghavwadhwa',
-            linkedin: 'https://www.linkedin.com/in/raghavwadhwa/'
+         name: 'Garima Sharma',
+         role: 'Manager – Business Operations & Client Relations',
+         image: '/team/garima-sharma.png',
+         social: {
+            linkedin: 'https://www.linkedin.com/in/garima-sharma-872512280?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app'
          }
       },
       {
-         name : 'Raghav Wadhwa',
-         role: 'Founder & CEO',
-         image: '/raghav-wadhwa.png',
-         social : {
-            x: 'https://x.com/raghavwadhwa',
-            linkedin: 'https://www.linkedin.com/in/raghavwadhwa/'
+         name: 'Kawaljit Kaur',
+         role: 'Manager – Investment Operations & Research',
+         image: '/team/kawaljit-kaur.png',
+         social: {
+            linkedin: 'https://www.linkedin.com/in/kawaljit-kaur-95140825b/'
          }
       },
       {
-         name : 'Raghav Wadhwa',
-         role: 'Founder & CEO',
-         image: '/raghav-wadhwa.png',
-         social : {
-            x: 'https://x.com/raghavwadhwa',
-            linkedin: 'https://www.linkedin.com/in/raghavwadhwa/'
+         name: 'Navpreet Kaur',
+         role: 'Senior Equity Research Analyst',
+         image: '/team/navpreet-kaur.png',
+         social: {
+            linkedin: 'https://www.linkedin.com/in/navpreet-kaur-33852223a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app'
          }
       },
-   ]
-
+      {
+         name: 'Priyanka Sharma',
+         role: 'Manager – Marketing & Operations',
+         image: '/team/priyanka-sharma.png',
+         social: {
+            linkedin: 'https://www.linkedin.com/in/priyanka-sharma-7618a2361/'
+         }
+      },
+      {
+         name: 'Sania Sodhi',
+         role: 'Manager – Accounting & Compliance',
+         image: '/team/sania-sodhi.png',
+         social: {
+            linkedin: 'https://www.linkedin.com/in/sania-sodhi-5792a637a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app'
+         }
+      },
+      {
+         name: 'Shrina Nanda',
+         role: 'Associate – Derivative Research & Data Analytics',
+         image: '/team/shrina-nanda.png',
+         social: {
+            linkedin: 'https://www.linkedin.com/in/shrina-nanda-45847616b'
+         }
+      }
+];
   return (
     <main className="w-full h-full px-5 lg:px-10 xl:px-24 py-14">
       <section className='w-full grid grid-cols-1 lg:grid-cols-2 place-items-start gap-12 min-h-[50vh] mb-24'>
@@ -167,11 +186,11 @@ const Page = () => {
          </p>
          {/* Team component can be added here */}
          <h2 className='text-xl sm:text-2xl mb-6 font-semibold mt-20'>Founders</h2>
-         <div className='mt-8 flex flex-col lg:flex-row items-stretch gap-8'>
+         <div className='mt-8 flex flex-col lg:flex-row sm:items-stretch gap-8'>
             <div className='max-w-sm w-full flex-1 shrink-0 p-4 rounded-lg shadow-2xl shadow-neutral-200 dark:shadow-neutral-800'>
               <div className='flex flex-col items-center'>
                   <Image
-                     src="/raghav-wadhwa.png"
+                     src="/team/raghav-wadhwa.png"
                      alt="Team Image"
                      width={600}
                      height={400}
@@ -218,14 +237,72 @@ const Page = () => {
                <p className='pl-5 '>
                   Raghav believes in data-backed investing, where every decision is rooted in deep financial analysis and market intelligence. With a focus on clean, well-managed businesses and a proven strategy of Growth, Value, and Momentum, Raghav has consistently delivered impressive returns for his clients
                </p>
+               <Link
+                  href="https://www.youtube.com/@raghav.wadhwa"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-xl max-w-2xl sm:h-52 overflow-hidden shadow-2xl hover:shadow-lg shadow-neutral-200 dark:shadow-neutral-800 flex flex-col sm:flex-row items-center relative"
+               >
+                  <div className="relative w-80 h-80 sm:w-52 sm:h-52  aspect-video flex items-center justify-center">
+                     <Image
+                        src="/raghav-wadhwa.png"
+                        alt="Raghav Wadhwa YouTube Channel"
+                        fill
+                        className="object-cover"
+                        style={{ objectFit: "cover" }}
+                     />
+                     <div className="absolute bottom-0 w-full sm:rounded-b-xl flex flex-col items-center gap-1 bg-black/70 px-3 py-2">
+                        
+                        <div className='flex items-center gap-2'>
+                           <svg height="28px" version="1.1" viewBox="0 0 512 512" width="28px" xmlSpace="preserve" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
+                              <g id="_x33_95-youtube">
+                                 <g>
+                                    <path d="M476.387,144.888c-5.291-19.919-20.878-35.608-40.67-40.933C399.845,94.282,256,94.282,256,94.282 s-143.845,0-179.719,9.674c-19.791,5.325-35.378,21.013-40.668,40.933c-9.612,36.105-9.612,111.438-9.612,111.438 s0,75.334,9.612,111.438c5.29,19.92,20.877,34.955,40.668,40.281C112.155,417.719,256,417.719,256,417.719 s143.845,0,179.717-9.674c19.792-5.326,35.379-20.361,40.67-40.281c9.612-36.104,9.612-111.438,9.612-111.438 S485.999,180.994,476.387,144.888z" style={{ fill: "#FF0000" }} />
+                                    <polygon points="208.954,324.723 208.954,187.93 329.18,256.328" style={{ fill: "#FFFFFF" }} />
+                                 </g>
+                              </g>
+                              <g id="Layer_1" />
+                           </svg>
+                           <span className="font-semibold text-sm text-neutral-100">Raghav Wadhwa</span>
+                        </div>
+                        <span className="text-xs text-neutral-300">@raghav.wadhwa</span>
+                     </div>
+
+                  </div>
+                  <div className="w-full px-6 py-4 flex flex-col items-center !text-neutral-800 dark:!text-neutral-100 hover:dark:!text-neutral-100 hover:!text-neutral-800">
+                     <h4 className="text-sm font-medium mb-4 text-inherit">Investment Insights On YouTube</h4>
+                     <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
+                        <li className="flex items-center gap-3">
+                           <BarChart2 className="w-5 h-5 text-legacisGreen" />
+                           <span className="text-xs text-inherit">Equity Market Research</span>
+                        </li>
+                        <li className="flex items-center gap-3">
+                           <Layers className="w-5 h-5 text-legacisGreen" />
+                           <span className="text-xs text-inherit">Stock Selection & Portfolio Construction</span>
+                        </li>
+                        <li className="flex items-center gap-3">
+                           <LineChart className="w-5 h-5 text-legacisGreen" />
+                           <span className="text-xs text-inherit">Technical Analysis & Chart Interpretation</span>
+                        </li>
+                        <li className="flex items-center gap-3">
+                           <GraduationCap className="w-5 h-5 text-legacisGreen" />
+                           <span className="text-xs text-inherit">Investment Education</span>
+                        </li>
+                        <li className="flex items-center gap-3">
+                           <Shield className="w-5 h-5 text-legacisGreen" />
+                           <span className="text-xs text-inherit">Risk Management & Due Diligence</span>
+                        </li>
+                     </ul>
+                  </div>
+               </Link>
             </div>
          </div>
          {/* Rest of the members */}
          <h2 className='text-xl sm:text-2xl mb-6 font-semibold mt-20'>Your Team</h2>
-         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8'>
+         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8 items-center justify-items-center'>
             {ourTeam.map((member, index) => (
                <div key={index} className='max-w-sm w-full p-4 rounded-lg flex flex-col items-center'>
-                  <div className='relative w-72 rounded-full overflow-clip bg-legacisPink/5 dark:bg-purple-100/50 h-72'>
+                  <div className='relative w-72 h-72 xl:w-60 xl:h-60 2xl:w-72 2xl:h-72 rounded-full overflow-clip bg-pink-300/5 dark:bg-purple-100/5 '>
                      <Image
                         src={member.image}
                         alt={`${member.name} Image`}
@@ -233,21 +310,10 @@ const Page = () => {
                         className="w-full h-auto rounded-lg mb-4 outlined hover:scale-105 transition-all duration-500"
                      />
                   </div>
-                  <div className='p-4 shadow-xl shadow-neutral-100 dark:shadow-neutral-800 rounded-lg mt-4 w-full'>
-                     <div className='flex items-end justify-between'>
-                        <p className='text-sm text-neutral-600 dark:text-neutral-400 font-medium tracking-wide'>{member.role}</p>
+                  <div className='p-4 shadow-xl shadow-neutral-100 dark:shadow-neutral-800 rounded-lg mt-4 w-full min-h-28'>
+                     <div className='flex items-start justify-between gap-2'>
+                        <p className='text-xs text-neutral-600 dark:text-neutral-400 font-medium tracking-wide'>{member.role}</p>
                         <div className='flex gap-5'>
-                           <Link href={member.social.x} target="_blank">
-                              <svg xmlns="http://www.w3.org/2000/svg" 
-                                 width="20" 
-                                 height="20" 
-                                 className='hover:scale-110 transition-all duration-200 '
-                                 viewBox="0 0 1200 1227" 
-                                 fill="none">
-                                 <g clipPath="url(#clip0_1_2)">
-                                 <path d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.137 519.284H714.163ZM569.165 687.828L521.697 619.934L144.011 79.6944H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.854V687.828Z" 
-                                 fill="currentColor"/></g><defs><clipPath id="clip0_1_2"><rect width="1200" height="1227" fill="white"/></clipPath></defs></svg>
-                           </Link>
                            <Link href={member.social.linkedin} target="_blank">
                               <svg 
                                 height="22" 

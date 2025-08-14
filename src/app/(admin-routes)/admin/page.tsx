@@ -1,5 +1,5 @@
-import { findAllUserPurchasedServices, getUsersForGrantAccess, getServicesForGrantAccess, UserPurchasedService, Service } from "@/lib/data/admin/userPurchasedServices"
-import { formatHumanDate } from "@/lib/utils"
+import { findAllUserPurchasedServices, getUsersForGrantAccess, getServicesForGrantAccess, UserPurchasedWithRelations } from "@/lib/data/admin/userPurchasedServices"
+import { formatHumanDate, formatDateWithTime } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { 
@@ -10,7 +10,7 @@ import {
   TableHeader, 
   TableRow 
 } from "@/components/ui/table"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { CheckCircle, XCircle, Calendar, DollarSign, Users, Tag, CreditCard, Gift, Crown, HelpCircle } from "lucide-react"
 import { SubscriptionActions } from "@/components/admin/subscriptionManage"
 import { GrantAccessDialog } from "@/components/admin/grant-access-service"
@@ -36,7 +36,8 @@ import {
 } from "@/components/ui/pagination";
 
 import Link from "next/link";
-import { ServiceType } from "@/prisma/generated/client"
+import { Service, ServiceType, UserPurchasedServices } from "@/prisma/generated/client"
+import { AgreementDialog } from "@/components/agreementdialog"
 
 const getInitials = (name: string | null | undefined) => {
   if (!name) return 'U'
@@ -69,8 +70,69 @@ const getIconComponent = (iconName: string) => {
   return iconMap[iconName as keyof typeof iconMap] || HelpCircle;
 };
 
-const getGrantTypeBadge = (purchase: UserPurchasedService) => {
-  const { type, badge, iconName } = purchase.displayInfo;
+export interface GrantMetadata {
+  finalPrice?: number;
+  pricing?: {
+    finalPrice: number;
+  };
+}
+
+const parseGrantMetadata = (metadata: any): GrantMetadata | null => {
+  if (!metadata) return null;
+  
+  try {
+    // If it's already an object, return it
+    if (typeof metadata === 'object' && metadata !== null) {
+      return metadata as GrantMetadata;
+    }
+    
+    // If it's a string, try to parse it
+    if (typeof metadata === 'string') {
+      return JSON.parse(metadata) as GrantMetadata;
+    }
+    
+    return null;
+  } catch (error) {
+    console.log('Error parsing grantMetadata:', error);
+    return null;
+  }
+};
+
+export const getGrantTypeDisplay = (subscription: UserPurchasedWithRelations) => {
+  switch (subscription.grantType) {
+    case 'PURCHASED':
+      return {
+        type: 'Purchased',
+        badge: 'bg-blue-100 text-blue-800',
+        iconName: 'CreditCard',
+        description: 'User paid for this service'
+      };
+    case 'COMPLIMENTARY':
+      return {
+        type: 'Complimentary',
+        badge: 'bg-green-100 text-green-800',
+        iconName: 'Gift',
+        description: 'Acquired with another service'
+      };
+    case 'ADMIN_GRANTED':
+      return {
+        type: 'Admin Granted',
+        badge: 'bg-purple-100 text-purple-800',
+        iconName: 'Crown',
+        description: subscription.grantReason || 'Manually granted by admin'
+      };
+    default:
+      return {
+        type: 'Unknown',
+        badge: 'bg-gray-100 text-gray-800',
+        iconName: 'HelpCircle',
+        description: 'Unknown grant type'
+      };
+  }
+};
+
+const getGrantTypeBadge = (subscription : UserPurchasedWithRelations) => {
+  const { type, badge, iconName } = getGrantTypeDisplay(subscription);
   const IconComponent = getIconComponent(iconName);
   
   return (
@@ -81,13 +143,14 @@ const getGrantTypeBadge = (purchase: UserPurchasedService) => {
   );
 };
 
-const getPlanDisplay = (purchase: UserPurchasedService) => {
-//   if (purchase.servicePlan) {
-//     return purchase.servicePlan.label;
-//   }
-  
+
+const getPlanDisplay = (subscription : UserPurchasedWithRelations) => {
+   //   if (purchase.servicePlan) {
+   //     return purchase.servicePlan.label;
+   //   }
+   
   // Fallback to metadata if available
-  const metadata = purchase.grantMetadata as any;
+  const metadata = subscription.grantMetadata as any;
   if (metadata?.selectedPlan?.label) {
     return metadata.selectedPlan.label;
   }
@@ -95,30 +158,30 @@ const getPlanDisplay = (purchase: UserPurchasedService) => {
   return "-";
 }
 
-const SubscriptionRow = ({ purchase, service, index }: { purchase: UserPurchasedService, service : Service | null, index: number }) => {
-  const isActive = purchase.isActive && (!purchase.expiryDate || new Date(purchase.expiryDate) > new Date());
+const SubscriptionRow = ({ subscription, service, transaction, index }: { subscription: UserPurchasedWithRelations, service : UserPurchasedWithRelations['service'] | null, transaction: UserPurchasedWithRelations['transaction'] | null, index: number }) => {
+  const isActive = subscription.isActive && (!subscription.expiryDate || new Date(subscription.expiryDate) > new Date());
   
   // Get plan information
-  const planInfo = purchase.servicePlan || (purchase.grantMetadata as any)?.selectedPlan;
+  const planInfo = subscription.servicePlan || (subscription.grantMetadata as any)?.selectedPlan;
   const isPortfolioReview = service?.type === 'PORTFOLIO_REVIEW';
-
+  const metadata = parseGrantMetadata(subscription.grantMetadata);
   // Handle amount display based on grant type
   const getAmountDisplay = () => {
-    switch (purchase.grantType) {
+    switch (subscription.grantType) {
       case 'PURCHASED':
-        if (purchase.actualAmountPaid) {
+        if (transaction?.amount) {
           return (
-            <div className="space-y-1">
+            <div className="space-y-1 w-full flex flex-col items-end">
               <div className="font-semibold text-lg">
-                ₹{purchase.actualAmountPaid.toLocaleString()}
+                ₹{transaction?.amount.toLocaleString()}
               </div>
               <div className="text-xs text-muted-foreground">
                 Base: ₹{planInfo?.price?.toLocaleString() || 'N/A'}
               </div>
-              {purchase.couponUsed && (
+              {transaction?.coupon && (
                 <div className="flex items-center gap-1 text-xs text-green-600 font-medium">
                   <Tag className="w-3 h-3" />
-                  {purchase.couponUsed.code} (- {purchase.couponUsed.percentOff * 100}%)
+                  {transaction.coupon.code} (- {transaction.coupon.percentOff * 100}%)
                 </div>
               )}
             </div>
@@ -142,10 +205,10 @@ const SubscriptionRow = ({ purchase, service, index }: { purchase: UserPurchased
         );
 
       case 'COMPLIMENTARY':
-        const complimentaryValue = purchase.grantMetadata?.finalPrice || planInfo?.price || 0;
+        const complimentaryValue = metadata?.finalPrice || planInfo?.price || 0;
         return (
-          <div className="space-y-1">
-            <div className="font-medium text-green-600">COMPLIMENTARY</div>
+          <div className="space-y-1 w-full flex flex-col items-end">
+            <h5 className="font-medium text-green-600">COMPLIMENTARY</h5>
             <div className="text-xs text-muted-foreground">
               Value: ₹{complimentaryValue.toLocaleString()}
             </div>
@@ -156,10 +219,10 @@ const SubscriptionRow = ({ purchase, service, index }: { purchase: UserPurchased
         );
 
       case 'ADMIN_GRANTED':
-        const storedPrice = purchase.grantMetadata?.finalPrice || purchase.grantMetadata?.pricing?.finalPrice || planInfo?.price || 0;
+        const storedPrice = metadata?.finalPrice || metadata?.pricing?.finalPrice || planInfo?.price || 0;
         return (
-          <div className="space-y-1">
-            <div className="font-medium text-purple-600">GRANTED</div>
+          <div className="space-y-1 w-full flex flex-col items-end">
+            <h6 className="font-medium text-purple-600">GRANTED</h6>
             <div className="text-xs text-muted-foreground">
               Value: ₹{storedPrice.toLocaleString()}
             </div>
@@ -175,14 +238,14 @@ const SubscriptionRow = ({ purchase, service, index }: { purchase: UserPurchased
   };
 
   const pricingDetail = () => {
-    if (purchase.grantType !== 'PURCHASED') return '-';
+    if (subscription.grantType !== 'PURCHASED') return '-';
     
     const basePrice = planInfo?.price || 0;
     const planDiscount = planInfo?.discount ? Math.round(basePrice * planInfo.discount) : 0;
     const priceAfterPlanDiscount = basePrice - planDiscount;
-    
-    const couponDiscount = purchase.couponUsed?.percentOff 
-      ? Math.round(priceAfterPlanDiscount * purchase.couponUsed.percentOff)
+
+    const couponDiscount = transaction?.coupon?.percentOff
+      ? Math.round(priceAfterPlanDiscount * transaction.coupon.percentOff)
       : 0;
     
     const priceAfterCouponDiscount = priceAfterPlanDiscount - couponDiscount;
@@ -206,16 +269,16 @@ const SubscriptionRow = ({ purchase, service, index }: { purchase: UserPurchased
                   <div><strong>After Plan Discount:</strong> ₹{priceAfterPlanDiscount.toLocaleString()}</div>
                 </>
               )}
-              {purchase.couponUsed && (
+              {transaction?.coupon && (
                 <>
-                  <div><strong>Coupon ({purchase.couponUsed.code}):</strong> {purchase.couponUsed.percentOff * 100}% (₹{couponDiscount.toLocaleString()})</div>
+                  <div><strong>Coupon ({transaction.coupon.code}):</strong> {transaction.coupon.percentOff * 100}% (₹{couponDiscount.toLocaleString()})</div>
                   <div><strong>After Coupon:</strong> ₹{priceAfterCouponDiscount.toLocaleString()}</div>
                 </>
               )}
               <div><strong>Tax ({taxPercent}%):</strong> ₹{taxAmount.toLocaleString()}</div>
               <div className="border-t pt-2"><strong>Final Price:</strong> ₹{finalPrice.toLocaleString()}</div>
-              {purchase.actualAmountPaid && (
-                <div><strong>Actually Paid:</strong> ₹{purchase.actualAmountPaid.toLocaleString()}</div>
+              {transaction?.amount && (
+                <div><strong>Actually Paid:</strong> ₹{transaction.amount.toLocaleString()}</div>
               )}
             </div>
           </div>
@@ -225,29 +288,30 @@ const SubscriptionRow = ({ purchase, service, index }: { purchase: UserPurchased
   };
 
   return (
-    <TableRow key={purchase.id}>
+    <TableRow key={subscription.id}>
       <TableCell>{index + 1}</TableCell>
       
       <TableCell>
         <div className="flex items-center gap-3">
           <Avatar className="h-8 w-8">
+            <AvatarImage src={subscription.user?.image!} alt={getInitials(subscription.user?.name)} />
             <AvatarFallback className="text-xs">
-              {getInitials(purchase.user?.name)}
+              {getInitials(subscription.user?.name)}
             </AvatarFallback>
           </Avatar>
           <div>
-            <div className="font-medium">{purchase.user?.name || 'N/A'}</div>
-            <div className="text-xs text-muted-foreground">{purchase.user?.email}</div>
+            <div className="font-medium">{subscription.user?.name || 'N/A'}</div>
+            <div className="text-xs text-muted-foreground">{subscription.user?.email}</div>
           </div>
         </div>
       </TableCell>
 
       <TableCell>
         <div className="space-y-2">
-          <div className="font-medium">{purchase.service?.name}</div>
+          <div className="font-medium">{subscription.service?.name}</div>
           <div className="flex flex-wrap gap-1">
-            {getServiceTypeBadge(purchase.service?.type)}
-            {getGrantTypeBadge(purchase)}
+            {getServiceTypeBadge(subscription.service?.type)}
+            {getGrantTypeBadge(subscription)}
           </div>
         </div>
       </TableCell>
@@ -256,30 +320,30 @@ const SubscriptionRow = ({ purchase, service, index }: { purchase: UserPurchased
         <div className="space-y-1">
           <div className="flex items-center gap-1 text-sm">
             <Calendar className="w-3 h-3 text-muted-foreground" />
-            {formatHumanDate(purchase.purchaseDate)}
+            {formatHumanDate(subscription.purchaseDate)}
           </div>
           <div className="text-xs text-muted-foreground font-medium">
-            {getPlanDisplay(purchase)}
+            {getPlanDisplay(subscription)}
           </div>
-          {purchase.grantType === 'ADMIN_GRANTED' && purchase.grantReason && (
+          {subscription.grantType === 'ADMIN_GRANTED' && subscription.grantReason && (
             <div className="text-xs text-purple-600 italic max-w-[200px] truncate">
-              &quot;{purchase.grantReason}&quot;
+              &quot;{subscription.grantReason}&quot;
             </div>
           )}
         </div>
       </TableCell>
 
-      <TableCell className={!purchase.isActive ? 'text-gray-600' : isActive ? 'text-green-600' : 'text-red-600'}>
+      <TableCell className={!subscription.isActive ? 'text-gray-600' : isActive ? 'text-green-600' : 'text-red-600'}>
         <div className="space-y-1">
           <div>
-            {purchase.expiryDate ? formatHumanDate(purchase.expiryDate) : 'No expiry'}
+            {subscription.expiryDate ? formatHumanDate(subscription.expiryDate) : 'No expiry'}
           </div>
           <SubscriptionActions 
-            subscriptionId={purchase.id}
-            currentExpiry={purchase.expiryDate}
-            userName={purchase.user?.name || 'Unknown'}
-            serviceName={purchase.service?.name || 'Unknown Service'}
-            isActive={purchase.isActive}
+            subscriptionId={subscription.id}
+            currentExpiry={subscription.expiryDate}
+            userName={subscription.user?.name || 'Unknown'}
+            serviceName={subscription.service?.name || 'Unknown Service'}
+            isActive={subscription.isActive}
           />
         </div>
       </TableCell>
@@ -291,9 +355,9 @@ const SubscriptionRow = ({ purchase, service, index }: { purchase: UserPurchased
       </TableCell>
 
       <TableCell>
-        {!purchase.isActive ? (
+        {!subscription.isActive ? (
           <Badge variant="secondary" className="bg-gray-100 text-gray-800">Deactivated</Badge>
-        ) : !purchase.expiryDate ? (
+        ) : !subscription.expiryDate ? (
           <Badge className="bg-purple-100 text-purple-800">No Expiry</Badge>
         ) : isActive ? (
           <Badge className="bg-green-100 text-green-800">Active</Badge>
@@ -304,6 +368,73 @@ const SubscriptionRow = ({ purchase, service, index }: { purchase: UserPurchased
 
       <TableCell className="text-right">
         {getAmountDisplay()}
+      </TableCell>
+      <TableCell className="text-center">
+         {transaction ? (
+         <Dialog>
+            <DialogTrigger className="border p-1 px-4 rounded-sm text-xs">
+                     See
+            </DialogTrigger>
+            <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+               <DialogHeader>
+                  <DialogTitle>Aadhaar {transaction?.aadhaarOtp?.aadhaarNumber}</DialogTitle>
+                  {transaction?.aadhaarOtp ? (
+                     <div className="text-xs">
+                          <h6 className="font-medium text-sm mb-2">Generated OTP</h6>
+                          <pre className="font-mono text-xs bg-neutral-100 dark:bg-neutral-800 p-3 rounded-md max-w-full whitespace-pre-wrap break-words">{JSON.stringify(transaction.aadhaarOtp.generatedOTPResponse, null, 2)}</pre>
+                     </div>
+                  ):(
+                     <div className="text-sm text-muted-foreground">No Aadhaar Generated OTP details available</div>
+                  )}
+                  {transaction?.aadhaarOtp ? (
+                     <div className="text-xs">
+                           <h6 className="font-medium text-sm mb-2">Verified OTP</h6>
+                          <pre className="font-mono text-xs bg-neutral-100 dark:bg-neutral-800 p-3 rounded-md max-w-full whitespace-pre-wrap break-words">{JSON.stringify(transaction.aadhaarOtp.verifiedOTPResponse, null, 2)}</pre>
+                     </div>
+                  ):(
+                     <div className="text-sm text-muted-foreground">No Aadhaar Verified OTP details available</div>
+                  )}
+               </DialogHeader>
+            </DialogContent>
+         </Dialog>
+         ) : (
+            <span className="text-xs">- -</span>
+         )}
+      </TableCell>
+      <TableCell className="text-center">
+         {transaction ? (
+         <Dialog>
+            <DialogTrigger className="border p-1 px-4 rounded-sm text-xs">
+               View Summary
+            </DialogTrigger>
+            <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+               <DialogHeader>
+                  <DialogTitle>Agreement Summary</DialogTitle>
+                  {transaction?.agreementSummary ? (
+                     <div className="text-xs">
+                          <h6 className="font-medium text-sm">Summary</h6>
+                          <span className="mb-2 font-medium">Signed on: {formatDateWithTime(transaction?.agreementAcceptedAt!)}</span>
+                          <pre className="font-mono mt-2 text-sm bg-neutral-100 dark:bg-neutral-800 p-3 rounded-md max-w-full whitespace-pre-wrap break-words">{JSON.stringify(transaction.agreementSummary, null, 2)}</pre>
+                     </div>
+                  ):(
+                     <div className="text-sm text-muted-foreground">No Agreement Summary details available</div>
+                  )}
+         
+               </DialogHeader>
+            </DialogContent>
+         </Dialog>
+         ):(
+            <span className="text-xs">- -</span>
+         )}
+      </TableCell>
+      <TableCell className="text-center">
+         {transaction ? (
+            <AgreementDialog 
+               txn={transaction} 
+               btnText="View" />
+         ):(
+            <span className="text-xs">- -</span>
+         )}
       </TableCell>
     </TableRow>
   );
@@ -457,14 +588,18 @@ export default async function Page({ searchParams }: PageProps) {
                   <TableHead>Pricing Detail</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead className="text-right">Amount Paid</TableHead>
+                  <TableHead className="text-right">Aadhaar Details</TableHead>
+                  <TableHead className="w-[100px]">Agreement Details</TableHead>
+                  <TableHead className="w-[100px]">Agreement</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {data.active.map((purchase, index) => (
+                {data.active.map((subscription, index) => (
                   <SubscriptionRow 
-                    key={purchase.id} 
-                    purchase={purchase} 
-                    service={purchase.service}
+                    key={subscription.id} 
+                    subscription={subscription} 
+                    service={subscription.service}
+                    transaction={subscription.transaction}
                     index={index} 
                   />
                 ))}
@@ -501,14 +636,19 @@ export default async function Page({ searchParams }: PageProps) {
                   <TableHead>Pricing Details</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead className="text-right">Amount Paid</TableHead>
+                  <TableHead className="text-right">Aadhaar Details</TableHead>
+                  <TableHead className="text-right">Agreement Details</TableHead>
+                  <TableHead className="text-right">Agreement</TableHead>
+
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {data.expired.map((purchase, index) => (
+                {data.expired.map((subscription, index) => (
                   <SubscriptionRow 
-                    key={purchase.id} 
-                    purchase={purchase} 
-                    service={purchase.service}
+                    key={subscription.id} 
+                    subscription={subscription} 
+                    service={subscription.service}
+                    transaction={subscription.transaction}
                     index={index} 
                   />
                 ))}

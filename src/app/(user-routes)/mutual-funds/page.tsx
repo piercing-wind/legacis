@@ -104,7 +104,8 @@ function ServiceCard({
   purchasedService, 
   highlights, 
   plans, 
-  agreement 
+  agreement,
+  complimentaryServices 
 }: {
   service: any;
   idx: number;
@@ -112,7 +113,9 @@ function ServiceCard({
   highlights: { name: string; value: string; }[];
   plans: ServicePlan[];
   agreement: any;
+   complimentaryServices?: Service[];
 }) {
+
   return (
     <div key={service.id + idx} className="xl:max-w-xl w-full flex-1 rounded-2xl p-6 flex flex-col gap-2 border">
       <h1 className="!text-xl font-medium">{service?.name}</h1>
@@ -165,7 +168,7 @@ function ServiceCard({
                />
               </div>
               <div className="flex-1 min-w-0 flex flex-col">
-                <CheckoutForm service={service} agreement={agreement} />
+                <CheckoutForm service={service} agreement={agreement} complimentaryServices={complimentaryServices} />
               </div>
             </div>
           </DrawerContent>
@@ -236,13 +239,16 @@ export default async function Page() {
         ...(features?.highlights ?? []),
         { name: "Subscription Starting", value: `₹${displayPrice}/mo` }
       ];
-
+      const complimentaryServices = (service?.complimentaryService ?? [])
+         .map((item: any) => item?.complimentaryService ?? item)
+         .filter(Boolean);
       return {
         service,
         purchasedService,
         highlights,
         plans: service.plans,
-        agreement
+        agreement,
+        complimentaryServices
       };
     })
   ]);
@@ -267,6 +273,7 @@ export default async function Page() {
       recommendedServices = await findServicesByIds(recommendedServicesIds);
    }
   
+
   return (
     <main className='w-full px-5 lg:px-10 xl:px-24 py-8'>
 
@@ -287,6 +294,7 @@ export default async function Page() {
             highlights={serviceData.highlights}
             plans={serviceData.plans}
             agreement={serviceData.agreement}
+            complimentaryServices={serviceData.complimentaryServices}
           />
         ))}
       </section>

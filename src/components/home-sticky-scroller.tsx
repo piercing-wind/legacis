@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { Button } from './ui/button';
 import Link from 'next/link';
 import { GradientLineVertical } from './icon';
-import { ArrowUpRight, ArrowUpRightIcon, DollarSign, LogIn, TrendingUp, ChevronLeft, ChevronRight, Frown, Smile } from "lucide-react";
+import { ArrowUpRight, ArrowUpRightIcon, DollarSign, LogIn, TrendingUp, ChevronLeft, ChevronRight, Frown, Smile, IndianRupee } from "lucide-react";
 import { homeWhyChooseUs, homeService } from '@/lib/data/static-data';
 import { chunkArray, cn } from '@/lib/utils';
 
@@ -31,7 +31,7 @@ function HomeStickyScroller() {
       link: '/services',
     },
     {
-      icon: DollarSign,
+      icon: IndianRupee,
       title: 'Start Investing',
       description: 'Invest with confidence and track your portfolio.',
       step: '03',
@@ -52,7 +52,7 @@ function HomeStickyScroller() {
     {
       id: 'ready-to-invest',
       content: (
-        <div className="min-w-[340px] sm:min-w-4xl lg:min-w-full flex-shrink-0 bg-gray-600 p-4 rounded-2xl min-h-[70vh] grid grid-cols-1 lg:grid-cols-2 place-items-center gap-8 py-8 sm:py-0 sm:p-8 2xl:px-20 2xl:p-12 shadow-lg w-full">
+        <div className="min-w-[340px] sm:min-w-4xl lg:min-w-full flex-shrink-0 bg-gray-600 p-4 rounded-2xl min-h-[70vh] grid grid-cols-1 lg:grid-cols-2 place-items-center gap-8 py-8 sm:py-12 sm:p-8 2xl:px-20 2xl:p-12 shadow-lg w-full">
           <div className="flex flex-col items-start justify-center gap-4 sm:gap-6 flex-1  lg:w-full">
             <h6 className="rounded-lg shadow shadow-neutral-700 px-2 py-1 text-legacisGreen font-medium xl:text-2xl">Ready to Invest?</h6>
             <h2 className="text-2xl lg:text-4xl 2xl:text-5xl font-medium leading-8 sm:leading-14 text-neutral-50">
@@ -108,7 +108,7 @@ function HomeStickyScroller() {
       content: (
         <div 
             style={{ boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)' }}
-            className="relative min-w-[340px] sm:min-w-4xl lg:min-w-full flex-shrink-0 bg-gray-600 px-4 p-4 rounded-2xl min-h-[70vh] gap-8 py-8 sm:py-0 sm:p-8 2xl:px-20 2xl:p-12 shadow-lg grid grid-cols-1 lg:grid-cols-2 place-items-center w-full"
+            className="relative min-w-[340px] sm:min-w-4xl lg:min-w-full flex-shrink-0 bg-gray-600 px-4 p-4 rounded-2xl min-h-[70vh] gap-8 py-8 sm:py-12 sm:p-8 2xl:px-20 2xl:p-12 shadow-lg grid grid-cols-1 lg:grid-cols-2 place-items-center w-full"
          >
             <div className="flex-1 flex flex-col gap-8 w-full">
                <h6 className="self-start rounded-lg shadow shadow-neutral-700 px-2 py-1 text-legacisGreen font-medium xl:text-2xl">Portfolio in Your Pocket</h6>
@@ -136,7 +136,7 @@ function HomeStickyScroller() {
       content: (
         <div 
          style={{ boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)' }}
-         className="relative min-w-[340px] sm:min-w-4xl lg:min-w-full flex-shrink-0 p-4 bg-gray-600 rounded-2xl min-h-[70vh] flex flex-col items-center gap-8 justify-center py-8 sm:py-0 sm:p-8 2xl:px-20 2xl:p-12 shadow-lg">
+         className="relative min-w-[340px] sm:min-w-4xl lg:min-w-full flex-shrink-0 p-4 bg-gray-600 rounded-2xl min-h-[70vh] flex flex-col items-center gap-8 justify-center py-8 sm:py-12 sm:p-8 2xl:px-20 2xl:p-12 shadow-lg">
          <h6 className="self-start rounded-lg shadow shadow-neutral-700 px-2 py-1 text-legacisGreen font-medium xl:text-2xl">From Problem to Solution</h6>
 
          <h2 className="self-start text-2xl lg:text-4xl 2xl:text-5xl font-medium leading-8 sm:leading-14 text-neutral-50">
@@ -162,7 +162,7 @@ function HomeStickyScroller() {
       content: (
         <div 
           style={{ boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)' }}
-          className="min-w-[340px] sm:min-w-4xl lg:min-w-full flex-shrink-0 bg-gray-600 p-4 rounded-2xl min-h-[70vh] grid grid-cols-1 lg:grid-cols-2  items-center justify-center gap-8 py-8 sm:py-0 sm:p-8 2xl:px-20 2xl:p-12 shadow-lg">
+          className="min-w-[340px] sm:min-w-4xl lg:min-w-full flex-shrink-0 bg-gray-600 p-4 rounded-2xl min-h-[70vh] grid grid-cols-1 lg:grid-cols-2  items-center justify-center gap-8 py-8 sm:py-12 sm:p-8 2xl:px-20 2xl:p-12 shadow-lg">
           <div className="flex flex-col items-start justify-center gap-2 lg:gap-6 flex-1 lg:w-full py-4">
             <h6 className="self-start rounded-lg shadow shadow-neutral-700 px-2 py-1 text-legacisGreen font-medium xl:text-2xl">Get Started</h6>
             <h2 className="text-2xl lg:text-4xl 2xl:text-5xl font-medium leading-8 sm:leading-14 text-neutral-50">
@@ -208,15 +208,21 @@ function HomeStickyScroller() {
     }
   };
 
-  const nextSection = () => {
-    const nextIndex = (currentIndex + 1) % sections.length;
-    scrollToSection(nextIndex);
-  };
+  const nextSection = React.useCallback(() => {
+    setCurrentIndex((prevIndex) => {
+      const nextIndex = (prevIndex + 1) % sections.length;
+      scrollToSection(nextIndex);
+      return nextIndex;
+    });
+  }, [sections.length, scrollToSection]);
 
-  const prevSection = () => {
-    const prevIndex = currentIndex === 0 ? sections.length - 1 : currentIndex - 1;
-    scrollToSection(prevIndex);
-  };
+  const prevSection = React.useCallback(() => {
+    setCurrentIndex((prevIndex) => {
+      const prevIdx = prevIndex === 0 ? sections.length - 1 : prevIndex - 1;
+      scrollToSection(prevIdx);
+      return prevIdx;
+    });
+  }, [sections.length, scrollToSection]);
 
   // Auto scroll functionality
   useEffect(() => {

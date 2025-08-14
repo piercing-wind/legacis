@@ -62,11 +62,11 @@ const Footer = ({className}:{className?:string}) => {
       <div className='grid grid-cols-2 sm:grid-cols-3 gap-8 lg:gap-16 col-span-3 sm:px-4'>
          <div className='flex flex-col gap-4 text-sm px-4 sm:px-0'>
             <span className='text-lg font-semibold'>Services</span>
-            <Link href="/services?type=RESEARCH_ADVIOSRY" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Equity Direct</Link>
+            <Link href="/services?type=RESEARCH_ADVISORY" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Equity Direct</Link>
             <Link href="/services?type=SMALLCASE" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Equity Smallcase</Link>
-            <Link href="/services?type=RESEARCH_ADVIOSRY_MUTUAL_FUNDS" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Mutual Funds</Link>
+            <Link href="/services?type=RESEARCH_ADVISORY_MUTUAL_FUNDS" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Mutual Funds</Link>
             <Link href="/services?type=PORTFOLIO_REVIEW" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Portfolio Review</Link>
-            <Link href="/services?type=PLATINA_WEALTH" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Platina Wealth</Link>
+            <Link href="/services?type=PLATINA_WEALTH" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Platina Wealth - HNI</Link>
          </div>
          <div className='flex flex-col gap-4 text-sm px-4 sm:px-0'>
             <span className='text-lg font-semibold'>Quick Links</span>
@@ -78,7 +78,7 @@ const Footer = ({className}:{className?:string}) => {
          </div>
          <div className='flex flex-col col-span-2 sm:col-span-1 gap-4 text-sm px-4 sm:px-0'>
             <span className='text-lg font-semibold'>Company</span>
-            <Link href="/about#our-team" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Our Team</Link>
+            <Link href="/about#our-team" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Your Team</Link>
             <Link href="/privacy-policy" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Privacy Policy</Link>
             <Link href="/terms-and-conditions" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Terms & Conditions</Link>
             <Link href="/disclosure-ia" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Disclosure - IA</Link>

@@ -158,7 +158,7 @@ export const RegularServiceCard = ({
         </div>
       )}
       <GradientLine color={color_l} height="2px" width="100%" />
-      {parsedFeatures?.highlights && parsedFeatures.highlights.length > 0 && (
+      {parsedFeatures?.highlights && parsedFeatures.highlights.length > 0 ? (
          <div className="w-full flex flex-row flex-nowrap items-stretch text-nowrap gap-2 my-2 h-20 sm:min-h-20">
          {parsedFeatures?.highlights?.slice(0, 3).map((item, idx, arr) => (
             <React.Fragment key={item.name + idx}>
@@ -177,6 +177,8 @@ export const RegularServiceCard = ({
             </React.Fragment>
          ))}
          </div>
+      ) : (
+         <div className="mb-4"/>
       )}
       <Button
         variant={"outline"}
@@ -196,7 +198,7 @@ export const MutualFundServiceCard = () => {
    return (
       <Link 
          href={getServiceLink('RESEARCH_ADVISORY_MUTUAL_FUNDS', '/mutual-funds')} target="_blank"
-         className={cn('border w-full rounded-2xl p-6 hover:shadow-neutral-50 dark:hover:shadow-neutral-800', card_tw)}>
+         className={cn('border w-full rounded-2xl p-6 hover:shadow-neutral-50 dark:hover:shadow-neutral-800 items-stretch h-full flex flex-col', card_tw)}>
          <h2 className="text-xl font-semibold text-neutral-800 dark:text-neutral-100">Legacis - Mutual Funds Portfolios</h2>
          <p className="text-base text-purple-800 my-4 ">Explore our curated mutual fund portfolios designed to meet your investment goals.</p>
          <GradientLine color={color_l} height="2px" width="100%"/>
@@ -204,7 +206,7 @@ export const MutualFundServiceCard = () => {
          <GradientLine color={color_l} height="2px" width="100%"/>
          <Button 
             variant={'outline'} 
-            className={cn(`w-full tracking-wider text-base text-neutral-700 dark:text-neutral-900 p-2 h-14 border uppercase rounded-full mt-4 dark:hover:!text-white`, btn_tw)}
+            className={cn(`w-full mt-auto tracking-wider text-base text-neutral-700 dark:text-neutral-900 p-2 h-14 border uppercase rounded-full dark:hover:!text-white`, btn_tw)}
             >
             Explore More
          </Button>
@@ -217,7 +219,7 @@ export const PortfolioReviewServiceCard = () => {
    return (
       <Link 
          href={getServiceLink('PORTFOLIO_REVIEW', '/portfolio-review')} target="_blank"
-         className={cn('border w-full rounded-2xl p-6 hover:shadow-neutral-50 dark:hover:shadow-neutral-800', card_tw)}>
+         className={cn('border w-full rounded-2xl p-6 hover:shadow-neutral-50 dark:hover:shadow-neutral-800 items-stretch h-full flex flex-col', card_tw)}>
          <h2 className="text-xl font-semibold text-neutral-800 dark:text-neutral-100">Legacis - Portfolio Review</h2>
          <p className="text-base text-purple-800 my-4 ">Get expert analysis of your stock portfolio with clear advice on which stocks to hold or sell for better returns.</p>
          <GradientLine color={color_l} height="2px" width="100%"/>
@@ -225,7 +227,7 @@ export const PortfolioReviewServiceCard = () => {
          <GradientLine color={color_l} height="2px" width="100%"/>
          <Button 
             variant={'outline'} 
-            className={cn(`w-full tracking-wider text-base text-neutral-700 dark:text-neutral-900 p-2 h-14 border uppercase rounded-full mt-4 dark:hover:!text-white`, btn_tw)}
+            className={cn(`w-full mt-auto tracking-wider text-base text-neutral-700 dark:text-neutral-900 p-2 h-14 border uppercase rounded-full dark:hover:!text-white`, btn_tw)}
             >
             Explore More
          </Button>

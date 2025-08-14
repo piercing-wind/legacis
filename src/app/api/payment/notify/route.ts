@@ -104,8 +104,6 @@ export async function POST(request: Request) {
                   grantType: 'PURCHASED',
                   paymentId: payment.cf_payment_id,
                   transactionId: transaction.id, // Link to the transaction record
-                  agreementData: extraData.agreementSummary, // Store agreement data
-                  agreementAcceptedAt: new Date(),
                });
 
                // Grant access to all complimentary services
@@ -121,8 +119,6 @@ export async function POST(request: Request) {
                      paymentId: payment.cf_payment_id,
                      transactionId: transaction.id,
                      parentServiceId: mainService.id, // Link to the main service that triggered this
-                     agreementData: extraData.agreementSummary,
-                     agreementAcceptedAt: new Date(),
 
                   });
                  } else {
@@ -135,8 +131,6 @@ export async function POST(request: Request) {
                         paymentId: payment.cf_payment_id,
                         transactionId: transaction.id,
                         parentServiceId: mainService.id,
-                        agreementData: extraData.agreementSummary,
-                        agreementAcceptedAt: new Date(),
                      });
                 }
             }

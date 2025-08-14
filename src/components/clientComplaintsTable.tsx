@@ -4,7 +4,7 @@ export function ClientComplaintsTable() {
   return (
     <Table className="rounded-xl overflow-hidden border border-neutral-300">
       <TableHeader>
-        <TableRow className="bg-neutral-100">
+        <TableRow className="bg-neutral-100 dark:bg-neutral-800">
           <TableHead className="text-center">RECEIVED FORM</TableHead>
           <TableHead className="text-center">PENDING AT THE END OF LAST MONTH</TableHead>
           <TableHead className="text-center">RECEIVED</TableHead>

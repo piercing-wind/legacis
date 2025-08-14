@@ -1,3 +1,5 @@
+
+"use client";
 import React from "react";
 import {
   Table,
@@ -8,12 +10,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Service, ServicePlan, Transaction as UserTransaction } from "@/prisma/generated/client";
+import { Agreement, Service, ServicePlan, Transaction as UserTransaction } from "@/prisma/generated/client";
 import { formatDateWithTime } from "@/lib/utils";
+import { AgreementSummary } from "@/types/global";
+import { AgreementDialog } from "../agreementdialog";
 
-type TransactionWithDetails = UserTransaction & { 
+type TransactionWithDetails = UserTransaction & {
   service: Service | null;
   servicePlan: ServicePlan | null;
+  transactionAgreements: {
+    agreement: Agreement;
+  }[];
 };
 
 const Transaction = ({
@@ -46,13 +53,14 @@ const Transaction = ({
     return months >= 1 ? `${months} month${months > 1 ? 's' : ''}` : `${days} days`;
   };
 
+
   return (
     <section id="transactions" className="w-full p-4 border rounded-2xl my-8">
       {/* Mobile Card View */}
       <div className="flex flex-col gap-4 sm:hidden">
         {userTransactions.map((txn) => {
           const planDisplay = getPlanDisplay(txn);
-           
+
           return(
             <div key={txn.id} className="border rounded-xl p-4 flex flex-col gap-2 bg-white dark:bg-neutral-900">
               <div className="flex justify-between items-center">
@@ -74,6 +82,8 @@ const Transaction = ({
               <div className="text-xs">Method: {txn.paymentGateway}</div>
               <div className="text-xs">Date: {formatDateWithTime(txn.createdAt)}</div>
               <div className="text-right font-bold">{txn.currency} {txn.amount?.toFixed(2) || '0.00'}</div>
+              <AgreementDialog txn={txn} />
+
             </div>
           );
         })}
@@ -90,14 +100,14 @@ const Transaction = ({
               <TableHead>Plan</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Method</TableHead>
-              <TableHead>Date</TableHead>
+              <TableHead>Transaction Date</TableHead>
               <TableHead className="text-right">Amount</TableHead>
+              <TableHead className="text-center">Agreement</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {userTransactions.map((txn) => {
               const planDisplay = getPlanDisplay(txn);
-           
               return(
                 <TableRow key={txn.id}>
                   <TableCell className="font-medium">
@@ -135,6 +145,9 @@ const Transaction = ({
                   </TableCell>
                   <TableCell className="text-right">
                     {txn.currency} {txn.amount?.toFixed(2) || '0.00'}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    <AgreementDialog txn={txn} btnText="View" />
                   </TableCell>
                 </TableRow>
               );

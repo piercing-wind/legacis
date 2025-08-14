@@ -1,10 +1,8 @@
-import { GradientLine } from '@/components/icon'
-import { ChartDummy, ServiceCard } from '@/components/services/serviceCard'
+import { ServiceCard } from '@/components/services/serviceCard'
 import { ServicesSearchBar } from '@/components/servicesSearchBar'
 import { Button } from '@/components/ui/button'
 import { findServices } from '@/lib/data/services'
 import { cn, getServiceLink, getUniqueSpecialServices } from '@/lib/utils'
-import { getColorForCardByServiceType } from '@/lib/utils/serviceCardColorGenerator'
 import { getServiceDisplayPrice } from '@/lib/utils/servicePricingDisplay'
 import { Metadata } from 'next'
 import Link from 'next/link'
@@ -57,7 +55,7 @@ const Page = async ({ searchParams }: PageProps) => {
          q={query}
          type={type}
       />
-      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-start gap-12 mt-16">
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-stretch gap-12 mt-16">
          {services.length === 0 && (
             <div className="col-span-3 text-center">
                <p className="text-lg text-gray-600">No services found.</p>

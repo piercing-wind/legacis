@@ -10,7 +10,7 @@ export function AnnualDisposalTable() {
     <div className="w-full overflow-x-auto">
       <Table className="rounded-xl overflow-hidden border border-neutral-300 min-w-[700px]">
         <TableHeader>
-          <TableRow className="bg-neutral-100">
+          <TableRow className="bg-neutral-100 dark:bg-neutral-800">
             <TableHead className="text-center">Year</TableHead>
             <TableHead className="text-center">Carried forward from previous year</TableHead>
             <TableHead className="text-center">RECEIVED</TableHead>
