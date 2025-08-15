@@ -67,7 +67,7 @@ export const Authentication = () => {
                onClick={() => signIn('google', { callbackUrl: callbackUrl })}
                className="px-8 mx-8 rounded-full cursor-pointer mt-2 w-full flex items-center justify-center gap-8"
             >
-              <Image src="./Google.svg" alt="google icon" width={24} height={24} />
+              <Image src="google.svg" alt="google icon" width={24} height={24} />
             Continue with Google
           </Button>
         )}

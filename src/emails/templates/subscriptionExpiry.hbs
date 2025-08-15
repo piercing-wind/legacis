@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Subscription Expired - {{serviceName}}</title>
+  <style>
+    :root {
+      --legacisPurple: #6104C0;
+      --legacisLightGreen: #E2FFE9;
+      --legacisPink: #FA2EF3;
+      --legacisGreen: #4AEDB9;
+      --legacisBlue: #8036F2;
+      --legacisLight: #F1FFFA;
+    }
+    body { font-family: 'Lato', Helvetica, Arial, sans-serif !important; }
+    td, th {
+      font-size: 16px !important;
+      color: #374151 !important;
+      line-height: 1.5 !important;
+    }
+    p { font-size: 16px !important; }
+    a.text-link {
+      color: #8036F2 !important;
+      font-weight: 500;
+      transition: color 0.2s;
+      text-decoration: none !important;
+    }
+    a.text-link:hover {
+      color: #6104C0 !important;
+      text-decoration: underline !important;
+    }
+   .btn {
+      display: inline-block;
+      background: #374151 !important; /* Gray background */
+      color: #fff !important;         /* White text */
+      padding: 14px 36px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1rem;
+      margin-top: 24px;
+      box-shadow: 0 2px 8px var(--legacisLightGreen);
+      letter-spacing: 1px;
+      transition: background 0.2s, box-shadow 0.2s;
+      border: none;
+   }
+   .btn:hover {
+      background: #111827 !important; /* Darker gray on hover */
+      color: #fff !important;
+      box-shadow: 0 4px 16px var(--legacisLightGreen);
+   }
+    .details-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+    }
+    .details-table th, .details-table td {
+      text-align: left;
+      padding: 8px 12px;
+      border-bottom: 1px solid #f3f4f6;
+    }
+    .details-table th {
+      background: #f9fafb;
+      color: #374151;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body style="margin:0; border-radius:10px; background-color: #fef5ff; padding: 24px; font-family: Lato, 'Helvetica Neue', Arial, 'sans-serif';">
+  <div style="max-width: 600px; margin: 0 auto; border-radius:10px; background-color: #fff; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);">
+    {{> header}}
+    <div style="padding: 24px;">
+      <h2 style="margin-top:0; color: #6104C0;">Subscription Expired</h2>
+      <h3 style="margin-top:0; color: #374151;">Hello {{customerName}},</h3>
+      <p>
+        We hope you enjoyed the benefits of <strong>{{serviceName}}</strong>. Your subscription expired on <strong>{{expiryDate}}</strong>.
+      </p>
+      <table class="details-table">
+        <tr>
+          <th>Service</th>
+          <td><a href="{{serviceUrl}}" class="text-link">{{serviceName}}</a></td>
+        </tr>
+        <tr>
+          <th>Expiry Date</th>
+          <td>{{expiryDate}}</td>
+        </tr>
+      </table>
+      <p style="margin: 16px 0;">
+        To continue enjoying all the exclusive benefits and features, please <strong>subscribe again</strong> to <a href="{{serviceUrl}}" class="text-link">{{serviceName}}</a>.
+      </p>
+      <div style="display: flex; justify-content: center; margin: 32px 0; width: 100%;">
+        <a href="{{serviceUrl}}" class="btn">Renew Subscription</a>
+      </div>
+      <p style="margin: 16px 0;">
+        You can also manage your subscriptions and view more details in your <a href="{{dashboardUrl}}" class="text-link">dashboard</a>.
+      </p>
+      <p style="margin-top:32px;">
+        If you have any questions, please <a href="mailto:help@legaciscapital.com" class="text-link">contact our support team</a>.
+      </p>
+    </div>
+    {{> footer}}
+  </div>
+</body>
+</html>

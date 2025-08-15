@@ -101,26 +101,25 @@ export const chartDataForServiceCard =[
   }
 ]
 
-export const dashboardWhyChooseUs = [
+export const dashboardWhyChooseUs = [ 
    {
-      title : "Expert Research",
-      description : "We combine expert research with advanced analytics to help you make informed investment decisions.",
-      image : "/icons/why-choose-us/1.svg",
-      color : "bg-legacisPink/10 dark:bg-pink-200"
+      title: "Expert Research",
+      description: "Our analysts bring years of market experience, combining in-depth research with actionable insights tailored to your goals.",
+      image: "/icons/why-choose-us/1.svg",
+      color: "bg-legacisPink/10 dark:bg-pink-200"
    },
    {
-      title : "Expert Research",
-      description : "We combine expert research with advanced analytics to help you make informed investment decisions.",
-      image : "/icons/why-choose-us/2.svg",
-      color : "bg-legacisGreen/10 dark:bg-green-100"
-
+      title: "Advanced Analytics",
+      description: "We leverage cutting-edge tools and AI-driven analytics to uncover opportunities and manage risk effectively.",
+      image: "/icons/why-choose-us/2.svg",
+      color: "bg-legacisGreen/10 dark:bg-green-100"
    },
    {
-      title : "Expert Research",
-      description : "We combine expert research with advanced analytics to help you make informed investment decisions.",
-      image : "/icons/why-choose-us/3.svg",
-      color : "bg-legacisPurple/10 dark:bg-purple-200"
-   },
+      title: "Trusted Compliance",
+      description: "We operate under strict SEBI compliance, ensuring your investments are transparent, ethical, and secure.",
+      image: "/icons/why-choose-us/3.svg",
+      color: "bg-legacisPurple/10 dark:bg-purple-200"
+   }
 ]
 
 export const homeWhyChooseUs = [

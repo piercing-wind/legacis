@@ -3,7 +3,7 @@
 import nodemailer from "nodemailer";
 import hbs from "nodemailer-express-handlebars";
 import path from "path";
-import { MailType, OtpMailContext, SubscriptionMailContext, UpdateMailContext, SuccessPurchaseMailContext } from "./types";
+import { MailType, OtpMailContext, SubscriptionExpiryMailContext, UpdateMailContext, SuccessPurchaseMailContext } from "./types";
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
@@ -32,7 +32,7 @@ transporter.use(
 type MailContext =
   | { template: 'otp'; context: OtpMailContext }
   | { template: 'serviceUpdate'; context: UpdateMailContext }
-  | { template: 'subscription'; context: SubscriptionMailContext }
+  | { template: 'subscriptionExpiry'; context: SubscriptionExpiryMailContext }
   | { template: 'successPurchase'; context : SuccessPurchaseMailContext };
 
 

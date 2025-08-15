@@ -441,7 +441,7 @@ export const AgreementViewer = () => {
 
             </div>
                <span className='text-[10px] opacity-50 mt-4'>
-               * Agreements are signed electronically using Aadhaar OTP &40;UIDAI&41;. Please ensure you have access to the aadhaar registered phone number to receive the OTP.
+               * Agreements are signed electronically using Aadhaar OTP (UIDAI). Please ensure you have access to the aadhaar registered phone number to receive the OTP.
                </span>
             </div>
          )}

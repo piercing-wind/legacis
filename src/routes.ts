@@ -14,6 +14,7 @@ export const publicRoutes = [
    "/investor-charter",
    "/blog/:path*",
    "/api/payment/notify",
+   "/api/cron/expiry-notify",
 
 ]
 

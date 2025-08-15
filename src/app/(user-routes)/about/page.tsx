@@ -200,7 +200,7 @@ const Page = () => {
               <div className='py-4'>
                   <div className='flex items-end justify-between'>
                      <p className='text-sm text-neutral-600 dark:text-neutral-400 font-medium tracking-wide'>Founder & CEO</p>
-                     <div className='flex gap-5'>
+                     <div className='flex gap-5 items-start'>
                         <Link href="https://x.com/raghavwadhwa" target="_blank">
                            <svg xmlns="http://www.w3.org/2000/svg" 
                               width="20" 
@@ -213,14 +213,16 @@ const Page = () => {
                               fill="currentColor"/></g><defs><clipPath id="clip0_1_2"><rect width="1200" height="1227" fill="white"/></clipPath></defs></svg>
                         </Link>
                         <Link href="https://www.linkedin.com/in/raghav-wadhwa-72378ab1/" target="_blank">
-                           <svg 
-                             height="22" 
-                             width="22"
-                             className='hover:scale-110 transition-all duration-200'
-                             fill='currentColor'
-                             style={{fillRule:"evenodd", clipRule:"evenodd", strokeLinejoin:"round", strokeMiterlimit:"2"}} 
-                             version="1.1" viewBox="0 0 512 512" xmlSpace="preserve" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"><path d="M473.305,-1.353c20.88,0 37.885,16.533 37.885,36.926l0,438.251c0,20.393 -17.005,36.954 -37.885,36.954l-436.459,0c-20.839,0 -37.773,-16.561 -37.773,-36.954l0,-438.251c0,-20.393 16.934,-36.926 37.773,-36.926l436.459,0Zm-37.829,436.389l0,-134.034c0,-65.822 -14.212,-116.427 -91.12,-116.427c-36.955,0 -61.739,20.263 -71.867,39.476l-1.04,0l0,-33.411l-72.811,0l0,244.396l75.866,0l0,-120.878c0,-31.883 6.031,-62.773 45.554,-62.773c38.981,0 39.468,36.461 39.468,64.802l0,118.849l75.95,0Zm-284.489,-244.396l-76.034,0l0,244.396l76.034,0l0,-244.396Zm-37.997,-121.489c-24.395,0 -44.066,19.735 -44.066,44.047c0,24.318 19.671,44.052 44.066,44.052c24.299,0 44.026,-19.734 44.026,-44.052c0,-24.312 -19.727,-44.047 -44.026,-44.047Z" 
-                             style={{fillRule:"nonzero"}}/></svg>
+                           <svg
+                              width="24"
+                              height="22"
+                              fill="currentColor"
+                              viewBox="0 0 24 24"
+                              className="hover:scale-110 transition-all duration-200"
+                              xmlns="http://www.w3.org/2000/svg"
+                           >
+                              <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.761 0 5-2.239 5-5v-14c0-2.761-2.239-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.268c-.966 0-1.75-.784-1.75-1.75s.784-1.75 1.75-1.75 1.75.784 1.75 1.75-.784 1.75-1.75 1.75zm13.5 11.268h-3v-5.604c0-1.337-.026-3.063-1.868-3.063-1.868 0-2.154 1.459-2.154 2.967v5.7h-3v-10h2.881v1.367h.041c.401-.761 1.381-1.563 2.841-1.563 3.039 0 3.602 2.001 3.602 4.601v5.595z"/>
+                           </svg>
                         </Link>
                      </div>
                   </div>
@@ -315,14 +317,16 @@ const Page = () => {
                         <p className='text-xs text-neutral-600 dark:text-neutral-400 font-medium tracking-wide'>{member.role}</p>
                         <div className='flex gap-5'>
                            <Link href={member.social.linkedin} target="_blank">
-                              <svg 
-                                height="22" 
-                                width="22"
-                                 className='hover:scale-110 transition-all duration-200'
-                                 fill='currentColor'
-                                 style={{fillRule:"evenodd", clipRule:"evenodd", strokeLinejoin:"round", strokeMiterlimit:"2"}}
-                                 version="1.1" viewBox="0 0 512 512" xmlSpace="preserve" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"><path d="M473.305,-1.353c20.88,0 37.885,16.533 37.885,36.926l0,438.251c0,20.393 -17.005,36.954 -37.885,36.954l-436.459,0c-20.839,0 -37.773,-16.561 -37.773,-36.954l0,-438.251c0,-20.393 16.934,-36.926 37.773,-36.926l436.459,0Zm-37.829,436.389l0,-134.034c0,-65.822 -14.212,-116.427 -91.12,-116.427c-36.955,0 -61.739,20.263 -71.867,39.476l-1.04,0l0,-33.411l-72.811,0l0,244.396l75.866,0l0,-120.878c0,-31.883 6.031,-62.773 45.554,-62.773c38.981,0 39.468,36.461 39.468,64.802l0,118.849l75.95,0Zm-284.489,-244.396l-76.034,0l0,244.396l76.034,0l0,-244.396Zm-37.997,-121.489c-24.395,0 -44.066,19.735 -44.066,44.047c0,24.318 19.671,44.052 44.066,44.052c24.299,0 44.026,-19.734 44.026,-44.052c0,-24.312 -19.727,-44.047 -44.-026,-44.-047Z"
-                                 style={{fillRule:"nonzero"}}/></svg>
+                              <svg
+                                 width="24"
+                                 height="24"
+                                 fill="currentColor"
+                                 viewBox="0 0 24 24"
+                                 className="hover:scale-110 transition-all duration-200"
+                                 xmlns="http://www.w3.org/2000/svg"
+                              >
+                                 <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.761 0 5-2.239 5-5v-14c0-2.761-2.239-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.268c-.966 0-1.75-.784-1.75-1.75s.784-1.75 1.75-1.75 1.75.784 1.75 1.75-.784 1.75-1.75 1.75zm13.5 11.268h-3v-5.604c0-1.337-.026-3.063-1.868-3.063-1.868 0-2.154 1.459-2.154 2.967v5.7h-3v-10h2.881v1.367h.041c.401-.761 1.381-1.563 2.841-1.563 3.039 0 3.602 2.001 3.602 4.601v5.595z"/>
+                              </svg>
                            </Link>
                         </div>
                      </div>

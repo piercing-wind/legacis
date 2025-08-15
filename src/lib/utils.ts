@@ -46,25 +46,26 @@ export function formatHumanDate(date: string | Date): string {
   // "20 May 2025"
 }
 
-/**
- * Formats a date string or Date object into "day-month-year-time" format.
- * @param date - The date string or Date object to format
- * @returns A formatted date string (e.g., "11-07-2025 14:30:00")
- */
 export function formatDateWithTime(date: string | Date): string {
   if (!date) return "";
   const d = typeof date === "string" ? new Date(date) : date;
   if (!(d instanceof Date) || isNaN(d.getTime())) return "";
-  return d.toLocaleString("en-GB", {
+
+  // Convert to IST (UTC+5:30)
+  const istOffset = 5.5 * 60; // in minutes
+  const istDate = new Date(d.getTime() + istOffset * 60 * 1000);
+
+  return istDate.toLocaleString("en-GB", {
     day: "2-digit",
-    month: 'short',
+    month: "short",
     year: "numeric",
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
+    hour12: false,
+    timeZone: "Asia/Kolkata"
   }).replace(',', '');
 }
-
 
 
 /**

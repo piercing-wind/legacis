@@ -12,8 +12,12 @@ export type UpdateMailContext = {
   year: number;
 };
 
-export type SubscriptionMailContext = {
-  name: string;
+export type SubscriptionExpiryMailContext = {
+  customerName: string;
+  serviceName: string;
+  expiryDate: string;
+  serviceUrl: string;
+  dashboardUrl: string;
   year: number;
   title: string;
   // add more fields as needed
@@ -36,4 +40,4 @@ export type SuccessPurchaseMailContext = {
 };
 
 
-export type MailType = 'otp' | 'update' | 'subscription' | 'successPurchase';
+export type MailType = 'otp' | 'update' | 'subscriptionExpiry' | 'successPurchase';
