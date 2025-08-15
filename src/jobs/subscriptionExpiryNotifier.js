@@ -3,8 +3,7 @@ const cron = require("node-cron");
 const fs = require("fs");
 const path = require("path");
 
-async function startCronJob() {
-  const fetch = (await import("node-fetch")).default; 
+function startCronJob() {
   const apiUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/cron/expiry-notify`;
   const authToken = process.env.CRON_AUTH_TOKEN;
   const logFile = path.resolve(
