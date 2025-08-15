@@ -24,7 +24,7 @@ export async function GET(request: Request) {
       },
    });
    const expiredIds: string[] = [];
-   let emailsSent = expiredSubs.length;
+   let emailsSent = 0;
    let subsUpdated = 0;
 
    for (const sub of expiredSubs) {
@@ -53,6 +53,7 @@ export async function GET(request: Request) {
             },
          });
          expiredIds.push(sub.id);
+         emailsSent++;
          } else {
             console.log(
                `⚠️  Skipping subscription ${sub.id} - missing required data`

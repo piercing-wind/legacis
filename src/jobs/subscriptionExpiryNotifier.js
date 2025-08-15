@@ -2,9 +2,10 @@ require("dotenv").config();
 const cron = require("node-cron");
 const fs = require("fs");
 const path = require("path");
+const fetch = require("node-fetch");
 
 function startCronJob() {
-  const apiUrl = `http://localhost:3000/api/cron/expiry-notify`;
+  const apiUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/cron/expiry-notify`;
   const authToken = process.env.CRON_AUTH_TOKEN;
   const logFile = path.resolve(
     process.env.HOME || process.env.USERPROFILE,
