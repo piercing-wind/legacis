@@ -184,7 +184,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                   alt={blog.author?.name || "Author"}
                   width={40}
                   height={40}
-                  className="rounded-full border"
+                  className="rounded-full border shrink-0 items-stretch"
                />
                <span className="font-medium text-gray-800 dark:text-gray-200">{blog.author?.name || "Legacis Author"}</span>
             </div>
@@ -246,7 +246,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
          </nav>
       </div>
       {featured.length > 0 && (
-        <section className="w-full mt-20 bg-pink-100 dark:bg-neutral-800 rounded-2xl p-4 md:p-8">
+        <section className="w-full mt-20 bg-pink-50/50 dark:bg-neutral-800 rounded-2xl p-4 md:p-8">
           <h3 className="font-medium mb-3 text-2xl">Featured Blogs</h3>
           <div className="overflow-x-auto pb-2  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featured.map((blog) => (

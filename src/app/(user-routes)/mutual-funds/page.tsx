@@ -16,11 +16,13 @@ import { CheckoutForm } from "@/components/services/checkoutForm"
 import { redirect } from "next/navigation"
 import { ZoomIn } from "@/components/animation/zoom"
 import Image from "next/image"
-import { Service, ServicePlan } from "@/prisma/generated/client"
+import { Service, ServicePlan, UserRiskProfile } from "@/prisma/generated/client"
 import { QuillHtmlViewer } from "@/components/richTextViewer"
 import { ServiceCard as ServiceCardOg } from "@/components/services/serviceCard"
 import { getServiceDisplayPrice } from "@/lib/utils/servicePricingDisplay"
 import { Metadata } from "next"
+import MutualFundSubscribeNow from "@/components/mutual-fund-subscribe-now"
+import { getUserRiskProfileById } from "@/lib/data/admin/risk-profile"
 
 
 export const metadata: Metadata = {
@@ -105,6 +107,7 @@ function ServiceCard({
   highlights, 
   plans, 
   agreement,
+  riskProfile,
   complimentaryServices 
 }: {
   service: any;
@@ -113,7 +116,8 @@ function ServiceCard({
   highlights: { name: string; value: string; }[];
   plans: ServicePlan[];
   agreement: any;
-   complimentaryServices?: Service[];
+  riskProfile: UserRiskProfile | null;
+  complimentaryServices?: Service[];
 }) {
 
   return (
@@ -152,27 +156,36 @@ function ServiceCard({
           <span className="text-xs">Expiring On: {formatHumanDate(purchasedService.expiryDate)}</span>
         </Button>
       ) : (
-        <Drawer>
-          <DrawerTrigger asChild>
-            <Button className="w-full mt-auto p-2 h-10 lg:h-14 uppercase rounded-full">Subscribe Now</Button>
-          </DrawerTrigger>
-          <DrawerContent>
-            <div className="mx-auto w-full max-w-7xl p-4 pb-24 overflow-x-hidden overflow-y-auto flex flex-col lg:flex-row items-stretch justify-between gap-4">
-              <div className="rounded-2xl border flex-1 min-w-0 flex flex-col mb-4 lg:mb-0">
-                <DrawerHeader>
-                  <DrawerTitle className="!text-2xl lg:!text-3xl">Subscription Plans</DrawerTitle>
-                </DrawerHeader>
-                <Plans 
-                  service={service}
-                  plans={plans}
-               />
-              </div>
-              <div className="flex-1 min-w-0 flex flex-col">
-                <CheckoutForm service={service} agreement={agreement} complimentaryServices={complimentaryServices} />
-              </div>
-            </div>
-          </DrawerContent>
-        </Drawer>
+         <MutualFundSubscribeNow
+            service={service}
+            plans={plans}
+            agreement={agreement}
+            riskProfile={riskProfile}
+            complimentaryServices={complimentaryServices}
+         />
+
+         
+      //   <Drawer>
+      //     <DrawerTrigger asChild>
+      //       <Button className="w-full mt-auto p-2 h-10 lg:h-14 uppercase rounded-full">Subscribe Now</Button>
+      //     </DrawerTrigger>
+      //     <DrawerContent>
+      //       <div className="mx-auto w-full max-w-7xl p-4 pb-24 overflow-x-hidden overflow-y-auto flex flex-col lg:flex-row items-stretch justify-between gap-4">
+      //         <div className="rounded-2xl border flex-1 min-w-0 flex flex-col mb-4 lg:mb-0">
+      //           <DrawerHeader>
+      //             <DrawerTitle className="!text-2xl lg:!text-3xl">Subscription Plans</DrawerTitle>
+      //           </DrawerHeader>
+      //           <Plans 
+      //             service={service}
+      //             plans={plans}
+      //          />
+      //         </div>
+      //         <div className="flex-1 min-w-0 flex flex-col">
+      //           <CheckoutForm service={service} agreement={agreement} complimentaryServices={complimentaryServices} />
+      //         </div>
+      //       </div>
+      //     </DrawerContent>
+      //   </Drawer>
       )}
     </div>
   );
@@ -214,7 +227,11 @@ export default async function Page() {
   const user: User = session?.user;
   if (!user) redirect('/authenticate?callbackurl=/mutual-funds');
 
-  const services = await findServiceByCategory('RESEARCH_ADVISORY_MUTUAL_FUNDS');
+  const [riskProfile, services] = await Promise.all([
+      getUserRiskProfileById(user.id),
+      findServiceByCategory('RESEARCH_ADVISORY_MUTUAL_FUNDS')
+  ])
+
   if (!services || services.length === 0) {
     return <div>No services found</div>;
   }
@@ -294,6 +311,7 @@ export default async function Page() {
             highlights={serviceData.highlights}
             plans={serviceData.plans}
             agreement={serviceData.agreement}
+            riskProfile={riskProfile}
             complimentaryServices={serviceData.complimentaryServices}
           />
         ))}

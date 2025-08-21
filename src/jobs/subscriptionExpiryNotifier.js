@@ -11,7 +11,7 @@ function startCronJob() {
     "Documents",
     "cron-response.log"
   );
-
+  // 0 18 * * * means every day at 12 AM IST (18:00 UTC)
   cron.schedule("0 18 * * *", async () => {
     try {
       const response = await fetch(apiUrl, {

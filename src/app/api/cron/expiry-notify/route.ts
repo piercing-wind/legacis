@@ -64,7 +64,7 @@ export async function GET(request: Request) {
       }
    }
 
-      // Bulk update all expired subscriptions to inactive
+      // Bulk update all expired subscriptions to inactive 
       if (expiredIds.length > 0) {
          const updateResult = await db.userPurchasedServices.updateMany({
             where: { id: { in: expiredIds } },

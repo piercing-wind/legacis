@@ -101,7 +101,7 @@ const Page = async ({ searchParams }: PageProps) => {
       {latest && (
         <div className="flex flex-col xl:flex-row gap-8 items-stretch">
           {/* Latest Blog */}
-          <Card className="lg:max-w-7xl xl:min-h-[80vh] w-full flex-1 flex flex-col p-0 dark:bg-neutral-800 shadow">
+          <Card className="lg:max-w-7xl xl:min-h-[80vh] w-full flex-1 flex flex-col p-0 dark:bg-neutral-800 border-0 shadow-xl shadow-neutral-100 dark:shadow-neutral-900">
             <Link href={`/blog/${latest.slug}`}>
               <CardContent className="flex flex-col gap-4 p-0">
                 <div className="w-full aspect-video rounded-t-xl overflow-hidden relative">
@@ -141,7 +141,7 @@ const Page = async ({ searchParams }: PageProps) => {
           
           {/* Recent Blogs Table */}
           {recent.length > 0 && (
-            <Card className="xl:max-w-2xl xl:min-h-[80vh] w-full flex-1 flex flex-col bg-card dark:bg-neutral-800 rounded-xl shadow p-4">
+            <Card className="xl:max-w-2xl xl:min-h-[80vh] w-full flex-1 flex flex-col bg-card dark:bg-neutral-800 rounded-xl border-0 shadow-xl shadow-neutral-100 dark:shadow-neutral-900 p-4 sm:p-8">
               <h3 className="font-medium text-2xl">Recent Blogs</h3>
               <Table className="w-full text-sm">
                 <TableBody className="">
@@ -194,7 +194,7 @@ const Page = async ({ searchParams }: PageProps) => {
 
       {/* Featured Blogs - Always show regardless of category filter */}
       {featured.length > 0 && (
-        <section className="w-full mt-20 bg-legacisLightGreen dark:bg-neutral-800 rounded-2xl p-4">
+        <section className="w-full mt-20 bg-pink-50/50 dark:bg-neutral-800 rounded-2xl p-4 sm:p-8">
           <h3 className="font-medium mb-3 text-2xl">Must Read</h3>
           <div className="overflow-x-auto pb-2  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featured.map((blog) => (

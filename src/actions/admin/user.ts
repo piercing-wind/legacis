@@ -3,7 +3,7 @@
 import { db } from "@/lib/db";
 import * as z from "zod";
 import { userFormSchema } from "@/lib/schema";
-import { console } from "inspector";
+import bcrypt from "bcryptjs";
 
 export const updateUser = async (formData: z.infer<typeof userFormSchema> ) => {
    try {
@@ -13,11 +13,11 @@ export const updateUser = async (formData: z.infer<typeof userFormSchema> ) => {
       const data = {
          name: parsedData.name,
          email: parsedData.email,
-         phone: parsedData.phone,
+         phone: parsedData.phone ? parsedData.phone : null,
          username: parsedData.username,
          image: parsedData.image,
          dob: parsedData.dob,
-         pan: parsedData.pan,
+         pan: parsedData.pan ? parsedData.pan : null,
          aadharNumber: parsedData.aadharNumber,
          gstin: parsedData.gstin,
          address: parsedData.address,
@@ -30,13 +30,14 @@ export const updateUser = async (formData: z.infer<typeof userFormSchema> ) => {
       }
       let res;
       if(parsedData.id) {
-        res = await db.user.update({
+         res = await db.user.update({
             where: { id: parsedData.id },
             data,
          });
       }else{
-        res = await db.user.create({
-            data : {...data, password: parsedData.password},
+         const hashedPassword = await bcrypt.hash(parsedData.password!, 10);
+         res = await db.user.create({
+            data : {...data, password: hashedPassword},
          });
       }
       return { success: true, message: "User updated successfully", user: res };

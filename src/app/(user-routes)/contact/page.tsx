@@ -19,7 +19,7 @@ export default function ContactPage() {
         <CardContent className="space-y-6">
           <div className="flex items-center gap-3">
             <Mail className="text-primary" />
-            <span className="text-base">support@legacis.com</span>
+            <span className="text-base">info@legaciscapital.com</span>
           </div>
           <div className="flex items-center gap-3">
             <Phone className="text-primary" />

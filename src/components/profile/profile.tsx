@@ -46,7 +46,7 @@ const Profile = ({user, fullUserData, riskProfile}:{user: User, fullUserData: Fu
      resolver: zodResolver(usernameSchema),
      defaultValues: {
        username: user?.username || "",
-     },
+     },  
    });
 
    const signOut = async () => {

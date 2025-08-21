@@ -583,7 +583,7 @@ const ServiceMutualFundSection = ({data} : {data : PurchasedMFServiceData[]}) =>
             </div>
          ):(
          <div className='xl:max-w-lg 2xl:max-w-xl w-full min-h-96 flex-1 xl:sticky top-24 z-10 p-4 rounded-xl border flex items-center justify-center'>
-         <span className='text-xs'>No Graph to show</span>
+          <span className='text-xs'>No Graph to show</span>
          </div>
          )
          }
@@ -690,6 +690,7 @@ const MFCardList = ({data, amount, setAmount} : {data : ResearchAdvisoryMutualFu
                 <TableRow>
                    <TableCell>-</TableCell>
                    <TableCell className="font-medium text-gray-500">Cash</TableCell>
+                   <TableCell className="font-medium text-gray-500">-</TableCell>
                    <TableCell>{unknownWeight.toFixed(2)}%</TableCell>
                    <TableCell>
                      ₹{((amount * unknownWeight) / 100).toLocaleString("en-IN", {maximumFractionDigits: 2})}
