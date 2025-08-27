@@ -2,7 +2,7 @@
 import { db } from "@/lib/db";
 import { agreementSchema, AgreementFormValues } from "@/lib/schema";
 import crypto from "crypto";
-
+import { revalidatePath } from "next/cache";
 
 function generateHash(content: any) {
   const str = typeof content === "string" ? content : JSON.stringify(content);
@@ -54,7 +54,10 @@ export const upsertAgreement = async (data: AgreementFormValues) => {
                where: { id: data.id },
                data: agreementData,
             });
-         return { success: true, agreement: result };
+            const path = result.policyType!.toLowerCase().replaceAll("_", "-");
+            revalidatePath(`/${path}`);
+
+            return { success: true, agreement: result };
          } else {
             const result = await db.agreement.create({ data: agreementData });
             return { success: true, agreement: result };

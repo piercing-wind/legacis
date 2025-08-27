@@ -3,8 +3,6 @@ import { db } from '@/lib/db'
 import React from 'react'
 import { Metadata } from 'next';
 
-export const revalidate = 1800;
-
 export const metadata: Metadata = {
     title: "Grievance Redressal",
     description: "Grievance Redressal policy and practices for Legacis Capital.",

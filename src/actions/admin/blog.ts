@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import * as z from "zod";
 import { Session } from "../session";
 import { blogSchema } from "@/lib/schema";
+import { revalidatePath } from "next/cache";
 
 
 export const createBlog = async (data: z.infer<typeof blogSchema>) => {
@@ -37,6 +38,7 @@ export const createBlog = async (data: z.infer<typeof blogSchema>) => {
             where: { id: parsedData.id },
             data: blogData,
          });
+         revalidatePath(`/blog/${result.slug}`);
       } else {
          // Create new blog
          result = await db.blog.create({

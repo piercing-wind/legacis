@@ -61,7 +61,7 @@ function AgreementForm({ agreement }: { agreement?: Agreement | null }) {
       setSaving(true);
       const res = await upsertAgreement({ ...values, id: agreement?.id });
       if (res.success) {
-         toast.success("Agreement saved!");
+         toast.success(res.agreement?.type === 'AGREEMENT' ? "Agreement saved!" : "Policy saved!");
          router.refresh();
       } else {
          toast.error("Failed: " + (res.error?.toString() ?? "Unknown error"));

@@ -4,8 +4,6 @@ import Footer from "@/components/footer";
 import Nav from "@/components/nav";
 import { findBanners } from "@/lib/data/banner";
 
-export const revalidate = 43200;
-
 export default async function RootLayout({
   children,
 }: Readonly<{

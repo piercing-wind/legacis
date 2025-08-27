@@ -16,8 +16,6 @@ import Link from "next/link";
 import React from "react";
 import { ClientComplaintsTable } from "@/components/clientComplaintsTable";
 import { AnnualDisposalTable } from "@/components/annualDisposalTable";
-export const dynamic = "force-dynamic";
-
 
 export default async function Home() {
 

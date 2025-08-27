@@ -2,6 +2,7 @@
 import { db } from "@/lib/db";
 import * as z from "zod";
 import { bannerSchema } from "@/lib/schema"; // import your schema
+import { revalidatePath } from "next/cache";
 
 export const upsertBanner = async (data: z.infer<typeof bannerSchema>) => {
   try {
@@ -43,6 +44,8 @@ export const upsertBanner = async (data: z.infer<typeof bannerSchema>) => {
         data: bannerData,
       });
     }
+   const paths = ['/', '/about', '/tools', '/services', '/contact', '/authenticate', '/privacy-policy', '/terms-and-conditions', '/disclosure-ia', '/disclosure-ra', '/grievance-redressal', '/investor-charter'];
+   paths.forEach(path => revalidatePath(path));
 
     return { success: true, banner: result };
   } catch (error) {

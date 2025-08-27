@@ -1,18 +1,15 @@
 import React from "react"
-import { GradientLine, Line } from "@/components/icon"
+import { Line } from "@/components/icon"
 import Chart from "@/components/services/chart"
 import { isServicePurchased, getServiceDataById, findServiceByCategory, findServicesByIds, ServiceWithComplimentary } from "@/lib/data/services"
 import { ChartDataPoint, FaqItem, Philosophy, ServiceFeature } from "@/types/service"
 import { Button } from "@/components/ui/button"
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer"
-import Plans from "@/components/services/plans"
 import Faq from "@/components/services/faq"
 import PurchasedServiceSection from "@/components/services/purchasedServiceSection"
 import { Session } from "@/actions/session"
 import { User } from "next-auth"
 import { formatHumanDate } from "@/lib/utils"
 import { findAgreementsByServiceId } from "@/lib/data/agreement"
-import { CheckoutForm } from "@/components/services/checkoutForm"
 import { redirect } from "next/navigation"
 import { ZoomIn } from "@/components/animation/zoom"
 import Image from "next/image"
@@ -81,7 +78,8 @@ async function extractCombinedData(services: Service[]) {
          if (
          s.detailMutualFundPageDelta &&
          typeof s.detailMutualFundPageDelta === "object" &&
-         Array.isArray((s.detailMutualFundPageDelta as any).ops)
+         Array.isArray((s.detailMutualFundPageDelta as any).ops) &&
+         (s.detailMutualFundPageDelta as any).ops.length > 0
          ) {
          return [s.detailMutualFundPageDelta];
          }
@@ -164,28 +162,6 @@ function ServiceCard({
             complimentaryServices={complimentaryServices}
          />
 
-         
-      //   <Drawer>
-      //     <DrawerTrigger asChild>
-      //       <Button className="w-full mt-auto p-2 h-10 lg:h-14 uppercase rounded-full">Subscribe Now</Button>
-      //     </DrawerTrigger>
-      //     <DrawerContent>
-      //       <div className="mx-auto w-full max-w-7xl p-4 pb-24 overflow-x-hidden overflow-y-auto flex flex-col lg:flex-row items-stretch justify-between gap-4">
-      //         <div className="rounded-2xl border flex-1 min-w-0 flex flex-col mb-4 lg:mb-0">
-      //           <DrawerHeader>
-      //             <DrawerTitle className="!text-2xl lg:!text-3xl">Subscription Plans</DrawerTitle>
-      //           </DrawerHeader>
-      //           <Plans 
-      //             service={service}
-      //             plans={plans}
-      //          />
-      //         </div>
-      //         <div className="flex-1 min-w-0 flex flex-col">
-      //           <CheckoutForm service={service} agreement={agreement} complimentaryServices={complimentaryServices} />
-      //         </div>
-      //       </div>
-      //     </DrawerContent>
-      //   </Drawer>
       )}
     </div>
   );
@@ -335,14 +311,14 @@ console.log(delta)
 
       {/* Additional Information */}
       {delta &&
-      delta.ops.length > 0 &&
-      !(
-         delta.ops.length === 3 &&
-         delta.ops.every(op => op.insert === '\n')
-      ) && (
-         <section className="prose prose-lg dark:prose-invert max-w-none text-sm !text-neutral-600 p-4 px-6 border rounded-2xl my-14 dark:bg-neutral-800">
-            <QuillHtmlViewer delta={delta} />
-         </section>
+         delta.ops.length > 0 &&
+         !(
+            delta.ops.length === 3 &&
+            delta.ops.every(op => op.insert === '\n')
+         ) && (
+            <section className="prose prose-lg dark:prose-invert max-w-none text-sm !text-neutral-600 p-4 px-6 border rounded-2xl my-14 dark:bg-neutral-800">
+               <QuillHtmlViewer delta={delta} />
+            </section>
       )}
 
 

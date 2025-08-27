@@ -10,10 +10,8 @@ import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 import { Button } from "@/components/ui/button";
 import { formatHumanDate } from "@/lib/utils";
 import { IncrementBlogView } from "@/components/IncrementBlogView";
-import { auth } from "@/auth";
 import { Metadata } from "next";
 
-export const revalidate = 1800; // 30 minutes
 
 
 function extractHeadings(delta: any) {
