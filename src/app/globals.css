@@ -250,6 +250,8 @@ a:hover {
    --sidebar-accent-foreground: oklch(0.985 0 0);
    --sidebar-border: oklch(1 0 0 / 10%);
    --sidebar-ring: oklch(0.439 0 0);
+
+   --platina : rgb(228, 213, 249);
    /* Coustom Card */
    --combo-plan: rgba(199, 162, 255, 0.4);
    --line-side: #2226;

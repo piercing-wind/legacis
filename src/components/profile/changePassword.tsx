@@ -81,7 +81,7 @@ async function onSubmit(values: z.infer<typeof ChangePasswordSchema>) {
       <form onSubmit={form.handleSubmit(onSubmit)} className={cn("space-y-4 rounded-xl max-w-md w-full shadow-legacisPurple/20 px-8 p-8 flex flex-col bg-white border dark:bg-neutral-800", className)}>
         <div className="space-y-4 gap-x-8 w-full">
          <div className="flex items-center justify-between">
-            <h5 className="pb-4 font-medium text-xl">Change Your Password!</h5>
+            <h5 className="pb-4 font-medium text-2xl">Change Your Password!</h5>
       
          </div>
       

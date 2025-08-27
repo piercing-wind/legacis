@@ -19628,7 +19628,6 @@ export namespace Prisma {
     taxPercent: number
     features: number
     faq: number
-    raResearchReport: number
     active: number
     type: number
     createdAt: number
@@ -19699,7 +19698,6 @@ export namespace Prisma {
     taxPercent?: true
     features?: true
     faq?: true
-    raResearchReport?: true
     active?: true
     type?: true
     createdAt?: true
@@ -19811,7 +19809,6 @@ export namespace Prisma {
     taxPercent: number | null
     features: JsonValue | null
     faq: JsonValue | null
-    raResearchReport: JsonValue | null
     active: boolean
     type: $Enums.ServiceType
     createdAt: Date
@@ -19855,7 +19852,6 @@ export namespace Prisma {
     taxPercent?: boolean
     features?: boolean
     faq?: boolean
-    raResearchReport?: boolean
     active?: boolean
     type?: boolean
     createdAt?: boolean
@@ -19892,7 +19888,6 @@ export namespace Prisma {
     taxPercent?: boolean
     features?: boolean
     faq?: boolean
-    raResearchReport?: boolean
     active?: boolean
     type?: boolean
     createdAt?: boolean
@@ -19917,7 +19912,6 @@ export namespace Prisma {
     taxPercent?: boolean
     features?: boolean
     faq?: boolean
-    raResearchReport?: boolean
     active?: boolean
     type?: boolean
     createdAt?: boolean
@@ -19942,7 +19936,6 @@ export namespace Prisma {
     taxPercent?: boolean
     features?: boolean
     faq?: boolean
-    raResearchReport?: boolean
     active?: boolean
     type?: boolean
     createdAt?: boolean
@@ -19951,7 +19944,7 @@ export namespace Prisma {
     detailMutualFundPageDelta?: boolean
   }
 
-  export type ServiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "order" | "tag" | "label" | "serviceClass" | "description" | "chart" | "comparisonTitle" | "philosophy" | "recommendedService" | "taxPercent" | "features" | "faq" | "raResearchReport" | "active" | "type" | "createdAt" | "updatedAt" | "afterPurchaseFeaturesDelta" | "detailMutualFundPageDelta", ExtArgs["result"]["service"]>
+  export type ServiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "order" | "tag" | "label" | "serviceClass" | "description" | "chart" | "comparisonTitle" | "philosophy" | "recommendedService" | "taxPercent" | "features" | "faq" | "active" | "type" | "createdAt" | "updatedAt" | "afterPurchaseFeaturesDelta" | "detailMutualFundPageDelta", ExtArgs["result"]["service"]>
   export type ServiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     plans?: boolean | Service$plansArgs<ExtArgs>
     researchAdvisoryStockList?: boolean | Service$researchAdvisoryStockListArgs<ExtArgs>
@@ -20000,7 +19993,6 @@ export namespace Prisma {
       taxPercent: number | null
       features: Prisma.JsonValue | null
       faq: Prisma.JsonValue | null
-      raResearchReport: Prisma.JsonValue | null
       active: boolean
       type: $Enums.ServiceType
       createdAt: Date
@@ -20456,7 +20448,6 @@ export namespace Prisma {
     readonly taxPercent: FieldRef<"Service", 'Float'>
     readonly features: FieldRef<"Service", 'Json'>
     readonly faq: FieldRef<"Service", 'Json'>
-    readonly raResearchReport: FieldRef<"Service", 'Json'>
     readonly active: FieldRef<"Service", 'Boolean'>
     readonly type: FieldRef<"Service", 'ServiceType'>
     readonly createdAt: FieldRef<"Service", 'DateTime'>
@@ -22349,6 +22340,7 @@ export namespace Prisma {
     targetPrice: number | null
     stopLoss: number | null
     exitPrice: number | null
+    raReport: string | null
     exitDate: Date | null
     entryDate: Date | null
     createdAt: Date | null
@@ -22367,6 +22359,7 @@ export namespace Prisma {
     targetPrice: number | null
     stopLoss: number | null
     exitPrice: number | null
+    raReport: string | null
     exitDate: Date | null
     entryDate: Date | null
     createdAt: Date | null
@@ -22387,6 +22380,7 @@ export namespace Prisma {
     exitPrice: number
     rationale: number
     exitRationale: number
+    raReport: number
     exitDate: number
     entryDate: number
     createdAt: number
@@ -22421,6 +22415,7 @@ export namespace Prisma {
     targetPrice?: true
     stopLoss?: true
     exitPrice?: true
+    raReport?: true
     exitDate?: true
     entryDate?: true
     createdAt?: true
@@ -22439,6 +22434,7 @@ export namespace Prisma {
     targetPrice?: true
     stopLoss?: true
     exitPrice?: true
+    raReport?: true
     exitDate?: true
     entryDate?: true
     createdAt?: true
@@ -22459,6 +22455,7 @@ export namespace Prisma {
     exitPrice?: true
     rationale?: true
     exitRationale?: true
+    raReport?: true
     exitDate?: true
     entryDate?: true
     createdAt?: true
@@ -22566,6 +22563,7 @@ export namespace Prisma {
     exitPrice: number | null
     rationale: JsonValue | null
     exitRationale: JsonValue | null
+    raReport: string | null
     exitDate: Date | null
     entryDate: Date | null
     createdAt: Date
@@ -22605,6 +22603,7 @@ export namespace Prisma {
     exitPrice?: boolean
     rationale?: boolean
     exitRationale?: boolean
+    raReport?: boolean
     exitDate?: boolean
     entryDate?: boolean
     createdAt?: boolean
@@ -22626,6 +22625,7 @@ export namespace Prisma {
     exitPrice?: boolean
     rationale?: boolean
     exitRationale?: boolean
+    raReport?: boolean
     exitDate?: boolean
     entryDate?: boolean
     createdAt?: boolean
@@ -22647,6 +22647,7 @@ export namespace Prisma {
     exitPrice?: boolean
     rationale?: boolean
     exitRationale?: boolean
+    raReport?: boolean
     exitDate?: boolean
     entryDate?: boolean
     createdAt?: boolean
@@ -22668,13 +22669,14 @@ export namespace Prisma {
     exitPrice?: boolean
     rationale?: boolean
     exitRationale?: boolean
+    raReport?: boolean
     exitDate?: boolean
     entryDate?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ResearchAdvisoryStockListOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "serviceId" | "name" | "stockTicker" | "sector" | "status" | "callType" | "entryPrice" | "targetPrice" | "stopLoss" | "exitPrice" | "rationale" | "exitRationale" | "exitDate" | "entryDate" | "createdAt" | "updatedAt", ExtArgs["result"]["researchAdvisoryStockList"]>
+  export type ResearchAdvisoryStockListOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "serviceId" | "name" | "stockTicker" | "sector" | "status" | "callType" | "entryPrice" | "targetPrice" | "stopLoss" | "exitPrice" | "rationale" | "exitRationale" | "raReport" | "exitDate" | "entryDate" | "createdAt" | "updatedAt", ExtArgs["result"]["researchAdvisoryStockList"]>
   export type ResearchAdvisoryStockListInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     service?: boolean | ServiceDefaultArgs<ExtArgs>
   }
@@ -22704,6 +22706,7 @@ export namespace Prisma {
       exitPrice: number | null
       rationale: Prisma.JsonValue | null
       exitRationale: Prisma.JsonValue | null
+      raReport: string | null
       exitDate: Date | null
       entryDate: Date | null
       createdAt: Date
@@ -23145,6 +23148,7 @@ export namespace Prisma {
     readonly exitPrice: FieldRef<"ResearchAdvisoryStockList", 'Float'>
     readonly rationale: FieldRef<"ResearchAdvisoryStockList", 'Json'>
     readonly exitRationale: FieldRef<"ResearchAdvisoryStockList", 'Json'>
+    readonly raReport: FieldRef<"ResearchAdvisoryStockList", 'String'>
     readonly exitDate: FieldRef<"ResearchAdvisoryStockList", 'DateTime'>
     readonly entryDate: FieldRef<"ResearchAdvisoryStockList", 'DateTime'>
     readonly createdAt: FieldRef<"ResearchAdvisoryStockList", 'DateTime'>
@@ -38730,7 +38734,6 @@ export namespace Prisma {
     taxPercent: 'taxPercent',
     features: 'features',
     faq: 'faq',
-    raResearchReport: 'raResearchReport',
     active: 'active',
     type: 'type',
     createdAt: 'createdAt',
@@ -38774,6 +38777,7 @@ export namespace Prisma {
     exitPrice: 'exitPrice',
     rationale: 'rationale',
     exitRationale: 'exitRationale',
+    raReport: 'raReport',
     exitDate: 'exitDate',
     entryDate: 'entryDate',
     createdAt: 'createdAt',
@@ -40480,7 +40484,6 @@ export namespace Prisma {
     taxPercent?: FloatNullableFilter<"Service"> | number | null
     features?: JsonNullableFilter<"Service">
     faq?: JsonNullableFilter<"Service">
-    raResearchReport?: JsonNullableFilter<"Service">
     active?: BoolFilter<"Service"> | boolean
     type?: EnumServiceTypeFilter<"Service"> | $Enums.ServiceType
     createdAt?: DateTimeFilter<"Service"> | Date | string
@@ -40516,7 +40519,6 @@ export namespace Prisma {
     taxPercent?: SortOrderInput | SortOrder
     features?: SortOrderInput | SortOrder
     faq?: SortOrderInput | SortOrder
-    raResearchReport?: SortOrderInput | SortOrder
     active?: SortOrder
     type?: SortOrder
     createdAt?: SortOrder
@@ -40555,7 +40557,6 @@ export namespace Prisma {
     taxPercent?: FloatNullableFilter<"Service"> | number | null
     features?: JsonNullableFilter<"Service">
     faq?: JsonNullableFilter<"Service">
-    raResearchReport?: JsonNullableFilter<"Service">
     active?: BoolFilter<"Service"> | boolean
     type?: EnumServiceTypeFilter<"Service"> | $Enums.ServiceType
     createdAt?: DateTimeFilter<"Service"> | Date | string
@@ -40591,7 +40592,6 @@ export namespace Prisma {
     taxPercent?: SortOrderInput | SortOrder
     features?: SortOrderInput | SortOrder
     faq?: SortOrderInput | SortOrder
-    raResearchReport?: SortOrderInput | SortOrder
     active?: SortOrder
     type?: SortOrder
     createdAt?: SortOrder
@@ -40624,7 +40624,6 @@ export namespace Prisma {
     taxPercent?: FloatNullableWithAggregatesFilter<"Service"> | number | null
     features?: JsonNullableWithAggregatesFilter<"Service">
     faq?: JsonNullableWithAggregatesFilter<"Service">
-    raResearchReport?: JsonNullableWithAggregatesFilter<"Service">
     active?: BoolWithAggregatesFilter<"Service"> | boolean
     type?: EnumServiceTypeWithAggregatesFilter<"Service"> | $Enums.ServiceType
     createdAt?: DateTimeWithAggregatesFilter<"Service"> | Date | string
@@ -40742,6 +40741,7 @@ export namespace Prisma {
     exitPrice?: FloatNullableFilter<"ResearchAdvisoryStockList"> | number | null
     rationale?: JsonNullableFilter<"ResearchAdvisoryStockList">
     exitRationale?: JsonNullableFilter<"ResearchAdvisoryStockList">
+    raReport?: StringNullableFilter<"ResearchAdvisoryStockList"> | string | null
     exitDate?: DateTimeNullableFilter<"ResearchAdvisoryStockList"> | Date | string | null
     entryDate?: DateTimeNullableFilter<"ResearchAdvisoryStockList"> | Date | string | null
     createdAt?: DateTimeFilter<"ResearchAdvisoryStockList"> | Date | string
@@ -40763,6 +40763,7 @@ export namespace Prisma {
     exitPrice?: SortOrderInput | SortOrder
     rationale?: SortOrderInput | SortOrder
     exitRationale?: SortOrderInput | SortOrder
+    raReport?: SortOrderInput | SortOrder
     exitDate?: SortOrderInput | SortOrder
     entryDate?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -40787,6 +40788,7 @@ export namespace Prisma {
     exitPrice?: FloatNullableFilter<"ResearchAdvisoryStockList"> | number | null
     rationale?: JsonNullableFilter<"ResearchAdvisoryStockList">
     exitRationale?: JsonNullableFilter<"ResearchAdvisoryStockList">
+    raReport?: StringNullableFilter<"ResearchAdvisoryStockList"> | string | null
     exitDate?: DateTimeNullableFilter<"ResearchAdvisoryStockList"> | Date | string | null
     entryDate?: DateTimeNullableFilter<"ResearchAdvisoryStockList"> | Date | string | null
     createdAt?: DateTimeFilter<"ResearchAdvisoryStockList"> | Date | string
@@ -40808,6 +40810,7 @@ export namespace Prisma {
     exitPrice?: SortOrderInput | SortOrder
     rationale?: SortOrderInput | SortOrder
     exitRationale?: SortOrderInput | SortOrder
+    raReport?: SortOrderInput | SortOrder
     exitDate?: SortOrderInput | SortOrder
     entryDate?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -40836,6 +40839,7 @@ export namespace Prisma {
     exitPrice?: FloatNullableWithAggregatesFilter<"ResearchAdvisoryStockList"> | number | null
     rationale?: JsonNullableWithAggregatesFilter<"ResearchAdvisoryStockList">
     exitRationale?: JsonNullableWithAggregatesFilter<"ResearchAdvisoryStockList">
+    raReport?: StringNullableWithAggregatesFilter<"ResearchAdvisoryStockList"> | string | null
     exitDate?: DateTimeNullableWithAggregatesFilter<"ResearchAdvisoryStockList"> | Date | string | null
     entryDate?: DateTimeNullableWithAggregatesFilter<"ResearchAdvisoryStockList"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"ResearchAdvisoryStockList"> | Date | string
@@ -43161,7 +43165,6 @@ export namespace Prisma {
     taxPercent?: number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: boolean
     type: $Enums.ServiceType
     createdAt?: Date | string
@@ -43197,7 +43200,6 @@ export namespace Prisma {
     taxPercent?: number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: boolean
     type: $Enums.ServiceType
     createdAt?: Date | string
@@ -43233,7 +43235,6 @@ export namespace Prisma {
     taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -43269,7 +43270,6 @@ export namespace Prisma {
     taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -43305,7 +43305,6 @@ export namespace Prisma {
     taxPercent?: number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: boolean
     type: $Enums.ServiceType
     createdAt?: Date | string
@@ -43330,7 +43329,6 @@ export namespace Prisma {
     taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -43355,7 +43353,6 @@ export namespace Prisma {
     taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -43481,6 +43478,7 @@ export namespace Prisma {
     exitPrice?: number | null
     rationale?: NullableJsonNullValueInput | InputJsonValue
     exitRationale?: NullableJsonNullValueInput | InputJsonValue
+    raReport?: string | null
     exitDate?: Date | string | null
     entryDate?: Date | string | null
     createdAt?: Date | string
@@ -43502,6 +43500,7 @@ export namespace Prisma {
     exitPrice?: number | null
     rationale?: NullableJsonNullValueInput | InputJsonValue
     exitRationale?: NullableJsonNullValueInput | InputJsonValue
+    raReport?: string | null
     exitDate?: Date | string | null
     entryDate?: Date | string | null
     createdAt?: Date | string
@@ -43521,6 +43520,7 @@ export namespace Prisma {
     exitPrice?: NullableFloatFieldUpdateOperationsInput | number | null
     rationale?: NullableJsonNullValueInput | InputJsonValue
     exitRationale?: NullableJsonNullValueInput | InputJsonValue
+    raReport?: NullableStringFieldUpdateOperationsInput | string | null
     exitDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     entryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -43542,6 +43542,7 @@ export namespace Prisma {
     exitPrice?: NullableFloatFieldUpdateOperationsInput | number | null
     rationale?: NullableJsonNullValueInput | InputJsonValue
     exitRationale?: NullableJsonNullValueInput | InputJsonValue
+    raReport?: NullableStringFieldUpdateOperationsInput | string | null
     exitDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     entryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -43562,6 +43563,7 @@ export namespace Prisma {
     exitPrice?: number | null
     rationale?: NullableJsonNullValueInput | InputJsonValue
     exitRationale?: NullableJsonNullValueInput | InputJsonValue
+    raReport?: string | null
     exitDate?: Date | string | null
     entryDate?: Date | string | null
     createdAt?: Date | string
@@ -43581,6 +43583,7 @@ export namespace Prisma {
     exitPrice?: NullableFloatFieldUpdateOperationsInput | number | null
     rationale?: NullableJsonNullValueInput | InputJsonValue
     exitRationale?: NullableJsonNullValueInput | InputJsonValue
+    raReport?: NullableStringFieldUpdateOperationsInput | string | null
     exitDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     entryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -43601,6 +43604,7 @@ export namespace Prisma {
     exitPrice?: NullableFloatFieldUpdateOperationsInput | number | null
     rationale?: NullableJsonNullValueInput | InputJsonValue
     exitRationale?: NullableJsonNullValueInput | InputJsonValue
+    raReport?: NullableStringFieldUpdateOperationsInput | string | null
     exitDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     entryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -46043,7 +46047,6 @@ export namespace Prisma {
     taxPercent?: SortOrder
     features?: SortOrder
     faq?: SortOrder
-    raResearchReport?: SortOrder
     active?: SortOrder
     type?: SortOrder
     createdAt?: SortOrder
@@ -46209,6 +46212,7 @@ export namespace Prisma {
     exitPrice?: SortOrder
     rationale?: SortOrder
     exitRationale?: SortOrder
+    raReport?: SortOrder
     exitDate?: SortOrder
     entryDate?: SortOrder
     createdAt?: SortOrder
@@ -46234,6 +46238,7 @@ export namespace Prisma {
     targetPrice?: SortOrder
     stopLoss?: SortOrder
     exitPrice?: SortOrder
+    raReport?: SortOrder
     exitDate?: SortOrder
     entryDate?: SortOrder
     createdAt?: SortOrder
@@ -46252,6 +46257,7 @@ export namespace Prisma {
     targetPrice?: SortOrder
     stopLoss?: SortOrder
     exitPrice?: SortOrder
+    raReport?: SortOrder
     exitDate?: SortOrder
     entryDate?: SortOrder
     createdAt?: SortOrder
@@ -50815,7 +50821,6 @@ export namespace Prisma {
     taxPercent?: number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: boolean
     type: $Enums.ServiceType
     createdAt?: Date | string
@@ -50850,7 +50855,6 @@ export namespace Prisma {
     taxPercent?: number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: boolean
     type: $Enums.ServiceType
     createdAt?: Date | string
@@ -51109,7 +51113,6 @@ export namespace Prisma {
     taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -51144,7 +51147,6 @@ export namespace Prisma {
     taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -51218,7 +51220,6 @@ export namespace Prisma {
     taxPercent?: number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: boolean
     type: $Enums.ServiceType
     createdAt?: Date | string
@@ -51253,7 +51254,6 @@ export namespace Prisma {
     taxPercent?: number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: boolean
     type: $Enums.ServiceType
     createdAt?: Date | string
@@ -51393,7 +51393,6 @@ export namespace Prisma {
     taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -51428,7 +51427,6 @@ export namespace Prisma {
     taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -51680,7 +51678,6 @@ export namespace Prisma {
     taxPercent?: number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: boolean
     type: $Enums.ServiceType
     createdAt?: Date | string
@@ -51715,7 +51712,6 @@ export namespace Prisma {
     taxPercent?: number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: boolean
     type: $Enums.ServiceType
     createdAt?: Date | string
@@ -51979,7 +51975,6 @@ export namespace Prisma {
     taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -52014,7 +52009,6 @@ export namespace Prisma {
     taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -52388,7 +52382,6 @@ export namespace Prisma {
     taxPercent?: number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: boolean
     type: $Enums.ServiceType
     createdAt?: Date | string
@@ -52423,7 +52416,6 @@ export namespace Prisma {
     taxPercent?: number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: boolean
     type: $Enums.ServiceType
     createdAt?: Date | string
@@ -52463,7 +52455,6 @@ export namespace Prisma {
     taxPercent?: number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: boolean
     type: $Enums.ServiceType
     createdAt?: Date | string
@@ -52498,7 +52489,6 @@ export namespace Prisma {
     taxPercent?: number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: boolean
     type: $Enums.ServiceType
     createdAt?: Date | string
@@ -52582,7 +52572,6 @@ export namespace Prisma {
     taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -52617,7 +52606,6 @@ export namespace Prisma {
     taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -52663,7 +52651,6 @@ export namespace Prisma {
     taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -52698,7 +52685,6 @@ export namespace Prisma {
     taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -52772,7 +52758,6 @@ export namespace Prisma {
     taxPercent?: number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: boolean
     type: $Enums.ServiceType
     createdAt?: Date | string
@@ -52807,7 +52792,6 @@ export namespace Prisma {
     taxPercent?: number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: boolean
     type: $Enums.ServiceType
     createdAt?: Date | string
@@ -52893,7 +52877,6 @@ export namespace Prisma {
     taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -52928,7 +52911,6 @@ export namespace Prisma {
     taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -53004,7 +52986,6 @@ export namespace Prisma {
     taxPercent?: number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: boolean
     type: $Enums.ServiceType
     createdAt?: Date | string
@@ -53039,7 +53020,6 @@ export namespace Prisma {
     taxPercent?: number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: boolean
     type: $Enums.ServiceType
     createdAt?: Date | string
@@ -53246,7 +53226,6 @@ export namespace Prisma {
     taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -53281,7 +53260,6 @@ export namespace Prisma {
     taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -53440,6 +53418,7 @@ export namespace Prisma {
     exitPrice?: number | null
     rationale?: NullableJsonNullValueInput | InputJsonValue
     exitRationale?: NullableJsonNullValueInput | InputJsonValue
+    raReport?: string | null
     exitDate?: Date | string | null
     entryDate?: Date | string | null
     createdAt?: Date | string
@@ -53459,6 +53438,7 @@ export namespace Prisma {
     exitPrice?: number | null
     rationale?: NullableJsonNullValueInput | InputJsonValue
     exitRationale?: NullableJsonNullValueInput | InputJsonValue
+    raReport?: string | null
     exitDate?: Date | string | null
     entryDate?: Date | string | null
     createdAt?: Date | string
@@ -53825,6 +53805,7 @@ export namespace Prisma {
     exitPrice?: FloatNullableFilter<"ResearchAdvisoryStockList"> | number | null
     rationale?: JsonNullableFilter<"ResearchAdvisoryStockList">
     exitRationale?: JsonNullableFilter<"ResearchAdvisoryStockList">
+    raReport?: StringNullableFilter<"ResearchAdvisoryStockList"> | string | null
     exitDate?: DateTimeNullableFilter<"ResearchAdvisoryStockList"> | Date | string | null
     entryDate?: DateTimeNullableFilter<"ResearchAdvisoryStockList"> | Date | string | null
     createdAt?: DateTimeFilter<"ResearchAdvisoryStockList"> | Date | string
@@ -54121,7 +54102,6 @@ export namespace Prisma {
     taxPercent?: number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: boolean
     type: $Enums.ServiceType
     createdAt?: Date | string
@@ -54156,7 +54136,6 @@ export namespace Prisma {
     taxPercent?: number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: boolean
     type: $Enums.ServiceType
     createdAt?: Date | string
@@ -54207,7 +54186,6 @@ export namespace Prisma {
     taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -54242,7 +54220,6 @@ export namespace Prisma {
     taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -54277,7 +54254,6 @@ export namespace Prisma {
     taxPercent?: number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: boolean
     type: $Enums.ServiceType
     createdAt?: Date | string
@@ -54312,7 +54288,6 @@ export namespace Prisma {
     taxPercent?: number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: boolean
     type: $Enums.ServiceType
     createdAt?: Date | string
@@ -54363,7 +54338,6 @@ export namespace Prisma {
     taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -54398,7 +54372,6 @@ export namespace Prisma {
     taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -54433,7 +54406,6 @@ export namespace Prisma {
     taxPercent?: number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: boolean
     type: $Enums.ServiceType
     createdAt?: Date | string
@@ -54468,7 +54440,6 @@ export namespace Prisma {
     taxPercent?: number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: boolean
     type: $Enums.ServiceType
     createdAt?: Date | string
@@ -54519,7 +54490,6 @@ export namespace Prisma {
     taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -54554,7 +54524,6 @@ export namespace Prisma {
     taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -55065,7 +55034,6 @@ export namespace Prisma {
     taxPercent?: number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: boolean
     type: $Enums.ServiceType
     createdAt?: Date | string
@@ -55100,7 +55068,6 @@ export namespace Prisma {
     taxPercent?: number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: boolean
     type: $Enums.ServiceType
     createdAt?: Date | string
@@ -55199,7 +55166,6 @@ export namespace Prisma {
     taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -55234,7 +55200,6 @@ export namespace Prisma {
     taxPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     features?: NullableJsonNullValueInput | InputJsonValue
     faq?: NullableJsonNullValueInput | InputJsonValue
-    raResearchReport?: NullableJsonNullValueInput | InputJsonValue
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -56879,6 +56844,7 @@ export namespace Prisma {
     exitPrice?: number | null
     rationale?: NullableJsonNullValueInput | InputJsonValue
     exitRationale?: NullableJsonNullValueInput | InputJsonValue
+    raReport?: string | null
     exitDate?: Date | string | null
     entryDate?: Date | string | null
     createdAt?: Date | string
@@ -57021,6 +56987,7 @@ export namespace Prisma {
     exitPrice?: NullableFloatFieldUpdateOperationsInput | number | null
     rationale?: NullableJsonNullValueInput | InputJsonValue
     exitRationale?: NullableJsonNullValueInput | InputJsonValue
+    raReport?: NullableStringFieldUpdateOperationsInput | string | null
     exitDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     entryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -57040,6 +57007,7 @@ export namespace Prisma {
     exitPrice?: NullableFloatFieldUpdateOperationsInput | number | null
     rationale?: NullableJsonNullValueInput | InputJsonValue
     exitRationale?: NullableJsonNullValueInput | InputJsonValue
+    raReport?: NullableStringFieldUpdateOperationsInput | string | null
     exitDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     entryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -57059,6 +57027,7 @@ export namespace Prisma {
     exitPrice?: NullableFloatFieldUpdateOperationsInput | number | null
     rationale?: NullableJsonNullValueInput | InputJsonValue
     exitRationale?: NullableJsonNullValueInput | InputJsonValue
+    raReport?: NullableStringFieldUpdateOperationsInput | string | null
     exitDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     entryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

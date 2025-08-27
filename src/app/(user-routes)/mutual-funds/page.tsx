@@ -290,7 +290,7 @@ export default async function Page() {
       recommendedServices = await findServicesByIds(recommendedServicesIds);
    }
   
-
+console.log(delta)
   return (
     <main className='w-full px-5 lg:px-10 xl:px-24 py-8'>
 
@@ -334,10 +334,16 @@ export default async function Page() {
 
 
       {/* Additional Information */}
-
-      <section className="prose prose-lg dark:prose-invert max-w-none text-sm !text-neutral-600 p-4 px-6 border rounded-2xl my-14 dark:bg-neutral-800">
-         <QuillHtmlViewer delta={delta} />
-      </section>
+      {delta &&
+      delta.ops.length > 0 &&
+      !(
+         delta.ops.length === 3 &&
+         delta.ops.every(op => op.insert === '\n')
+      ) && (
+         <section className="prose prose-lg dark:prose-invert max-w-none text-sm !text-neutral-600 p-4 px-6 border rounded-2xl my-14 dark:bg-neutral-800">
+            <QuillHtmlViewer delta={delta} />
+         </section>
+      )}
 
 
       {/* FAQ and Recommended Services */}

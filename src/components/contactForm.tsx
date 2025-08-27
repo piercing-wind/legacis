@@ -92,7 +92,7 @@ export default function ContactForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 max-w-md w-full border rounded-xl p-4 dark:bg-neutral-800">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 max-w-md w-full rounded-xl p-4 dark:bg-neutral-800 shadow-2xl shadow-neutral-200 dark:shadow-neutral-900">
         <FormField
           control={form.control}
           name="name"
@@ -113,7 +113,7 @@ export default function ContactForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="you@email.com" type="email" {...field} />
+                <Input placeholder="your@email.com" type="email" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -160,7 +160,7 @@ export default function ContactForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full">
+        <Button type="submit" variant={'secondary'} className="w-full dark:bg-neutral-500">
           Send Message
         </Button>
       </form>

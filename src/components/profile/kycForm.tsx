@@ -101,7 +101,7 @@ export default function KYCForm({className}:{className ?:string}) {
        <Form {...form}>
        <form onSubmit={form.handleSubmit(onSubmit)} className={cn("rounded-xl sm:max-w-4xl w-full shadow-legacisPurple/20 px-8 p-8 flex flex-col bg-white border dark:bg-neutral-800", className)}>
          <div>
-             <h5>Complete Your KYC</h5>
+             <h5 className="text-2xl font-medium">Complete Your KYC</h5>
              <p>Please fill the entries as per your PAN</p>
          </div>
           <div className="space-y-4 gap-x-8 w-full grid grid-cols-2 mt-12">

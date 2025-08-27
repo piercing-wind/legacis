@@ -67,7 +67,7 @@ export const RegularServiceCard = ({
           COMBO
         </span>
       )}
-      <h5 className="text-xl font-semibold mb-1 text-neutral-800 dark:text-neutral-100">{name}</h5>
+      <h5 className="text-2xl font-semibold mb-1 text-neutral-800 dark:text-neutral-100">{name}</h5>
       <p className="text-sm">{tag}</p>
       <div className="flex items-baseline justify-between mt-6 mb-2">
         <span className="flex items-baseline">

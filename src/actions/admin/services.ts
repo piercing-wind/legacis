@@ -45,9 +45,6 @@ export const serviceUpdate = async (
       taxPercent: data.taxPercent,
       features,
       faq,
-      raResearchReport: data.raResearchReport
-        ? JSON.parse(data.raResearchReport)
-        : null,
       active: data.active,
       type,
       detailMutualFundPageDelta: data.detailMutualFundPageDelta
@@ -64,7 +61,7 @@ export const serviceUpdate = async (
     };
     // Upsert service
     let result;
-    
+
     if (data.id) {
       // For updates, handle plans more carefully
       const existingPlansToUpdate = data.plans.filter((plan) => plan.id);
@@ -185,6 +182,7 @@ export async function upsertResearchAdvisoryStocks(
           exitPrice: stock.exitPrice,
           rationale: normalizeRationale(stock.rationale),
           exitRationale: normalizeRationale(stock.exitRationale),
+          raReport : stock.raReport ?? null,
           entryDate,
           exitDate,
         };

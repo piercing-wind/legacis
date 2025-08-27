@@ -31,6 +31,7 @@ import { PDFDisplay } from "@/components/pdfDisplay";
 import { ServiceListItem } from "@/app/(admin-routes)/admin/services/page";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { deleteResearchAdvisoryModelPortfolioStock, upsertResearchAdvisoryModelPortfolio } from "@/actions/admin/services";
+import { ResearchAdvisoryModelPortfolioStockList } from "@/prisma/generated/client";
 
 type StocksFormValues = z.infer<typeof ResearchAdvisoryModelPortfolioFormSchema>;
 /**
@@ -42,18 +43,25 @@ export const ResearchAdvisoryModelPortfolioStockListForm =(
       serviceId ,
       services = []
    }: {
-      initialStocks?: StocksFormValues['stocks'],
+      initialStocks?: ResearchAdvisoryModelPortfolioStockList[],
       serviceId: string,
       services: ServiceListItem[];
    }
 )=>{
    const router = useRouter();
+   const sortedInitialStocks = initialStocks
+   ? [...initialStocks].sort((a, b) => {
+         const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+         const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+         return dateA - dateB; // oldest first
+      })
+   : [];
 
    const form = useForm<StocksFormValues>({
        resolver: zodResolver(ResearchAdvisoryModelPortfolioFormSchema),
        defaultValues: {
-          stocks: initialStocks.length 
-          ? initialStocks.map(stock => ({
+          stocks: sortedInitialStocks.length
+          ? sortedInitialStocks.map(stock => ({
              ...stock,
              sector : stock.sector || '',
              portfolioWeight: stock.portfolioWeight ?? 0, // Ensure portfolioWeight is defined
@@ -81,7 +89,7 @@ export const ResearchAdvisoryModelPortfolioStockListForm =(
          const newStocks: typeof values.stocks = [];
          
          const initialStockMap = Object.fromEntries(
-            (initialStocks ?? []).filter(s => s.id).map(s => [s.id, s])
+            (sortedInitialStocks ?? []).filter(s => s.id).map(s => [s.id, s])
          );
            values.stocks.forEach((stock) => {
                const initial = stock.id ? initialStockMap[stock.id] : undefined;
@@ -112,12 +120,6 @@ export const ResearchAdvisoryModelPortfolioStockListForm =(
                }
             });
 
-            // Information to admin
-            if (newStocks.length > 0) {
-               toast("New stocks added",{
-                  description: newStocks.map(s => s.name).join(", "),
-               });
-            }
             // Only sending changed and new stocks
             const stocksToUpsert = [...changedStocks, ...newStocks];
             if (stocksToUpsert.length === 0) {
@@ -125,7 +127,14 @@ export const ResearchAdvisoryModelPortfolioStockListForm =(
                return;
             }
 
-            const result = await upsertResearchAdvisoryModelPortfolio({ stocks: stocksToUpsert })
+            // Information to admin
+            if (newStocks.length > 0) {
+               toast("New stocks added",{
+                  description: newStocks.map(s => s.name).join(", "),
+               });
+            }
+            
+            const result = await upsertResearchAdvisoryModelPortfolio({ stocks: stocksToUpsert });
             if(!result.success) throw new Error(result.message);
             toast.success("Stocks updated successfully");
             if(serviceId) {
@@ -172,7 +181,7 @@ export const ResearchAdvisoryModelPortfolioStockListForm =(
                               <DialogHeader>
                                  <DialogTitle>Are you absolutely sure?</DialogTitle>
                                  <DialogDescription>
-                                 This action cannot be undone. This will permanently stock
+                                 This action cannot be undone. This will permanently delete the stock
                                  and user will not be notified for this.
                                  <br/>
                                  <br/>
@@ -308,69 +317,69 @@ export const ResearchAdvisoryModelPortfolioStockListForm =(
       
                   </div>
                   <FormField
-                  control={form.control}
-                  name={`stocks.${idx}.researchReport`}
-                  render={({ field }) => (
-                     <FormItem>
-                        <FormLabel>Research Report (PDF)</FormLabel>
-                        <FormControl>
-                        <Input
-                           type="file"
-                           accept=".pdf,application/pdf"
-                           onChange={async (e) => {
-                              const file = e.target.files?.[0];
-                              if (!file) return;
-                              try {
-                                 if (field.value) {
-                                   const prevKey = extractFileKeyFromUrl(field.value);
-                                   if (prevKey) {
-                                     await deleteS3File(prevKey);
-                                   }
+                     control={form.control}
+                     name={`stocks.${idx}.researchReport`}
+                     render={({ field }) => (
+                        <FormItem>
+                           <FormLabel>Research Report (PDF)</FormLabel>
+                           <FormControl>
+                           <Input
+                              type="file"
+                              accept=".pdf,application/pdf"
+                              onChange={async (e) => {
+                                 const file = e.target.files?.[0];
+                                 if (!file) return;
+                                 try {
+                                    if (field.value) {
+                                       const prevKey = extractFileKeyFromUrl(field.value);
+                                       if (prevKey) {
+                                          await deleteS3File(prevKey);
+                                       }
+                                    }
+                                    // Generate unique key and upload to S3
+                                    const fileKey = generateUniqueS3FileKey(file.name, 'research-report');
+                                    const uploadUrl = await getS3UploadUrl(fileKey, file.type, 300, file.name);
+                                    const res = await fetch(uploadUrl, {
+                                       method: "PUT",
+                                       body: file,
+                                       headers: { 
+                                          "Content-Type": file.type, 
+                                          "Content-Disposition": `attachment; filename="${file.name}"`
+                                       }
+                                       
+                                    });
+                                    if (!res.ok) throw new Error("Failed to upload");
+                                    // Set the S3 file URL to this stock's researchReport field
+                                    field.onChange(`${process.env.NEXT_PUBLIC_AWS_BUCKET_URL}/${fileKey}`);
+                                    toast.success("PDF uploaded!");
+                                 } catch (err) {
+                                 toast.error((err as Error).message);
                                  }
-                              // Generate unique key and upload to S3
-                              const fileKey = generateUniqueS3FileKey(file.name, 'research-report');
-                              const uploadUrl = await getS3UploadUrl(fileKey, file.type, 300, file.name);
-                              const res = await fetch(uploadUrl, {
-                                 method: "PUT",
-                                 body: file,
-                                 headers: { 
-                                    "Content-Type": file.type, 
-                                    "Content-Disposition": `attachment; filename="${file.name}"`
-                                 }
-                                 
-                              });
-                              if (!res.ok) throw new Error("Failed to upload");
-                              // Set the S3 file URL to this stock's researchReport field
-                              field.onChange(`${process.env.NEXT_PUBLIC_AWS_BUCKET_URL}/${fileKey}`);
-                              toast.success("PDF uploaded!");
-                              } catch (err) {
-                              toast.error((err as Error).message);
-                              }
-                           }}
-                        />
-                        </FormControl>
-                        {/* Optionally show a link if already uploaded */}
-                        {field.value && (
-                           <Dialog>
-                              <DialogTrigger asChild>
-                                 <Button variant="link">
-                                    View Uploaded PDF
-                                 </Button>
-                              </DialogTrigger>
-                              <DialogContent className="sm:max-w-5xl">
-                                 <DialogHeader>
-                                    <DialogTitle>Uploaded Research Report</DialogTitle>
-                                    <DialogDescription>
-                                       You cannot download the uploaded PDF report.
-                                    </DialogDescription>
-                                 </DialogHeader>
-                                 <PDFDisplay fileUrl={field.value}/>
-                              </DialogContent>
-                           </Dialog>
-                        )}
-                        <FormMessage />
-                     </FormItem>
-                  )}
+                              }}
+                           />
+                           </FormControl>
+                           {/* Optionally show a link if already uploaded */}
+                           {field.value && (
+                              <Dialog>
+                                 <DialogTrigger asChild className="max-w-xs">
+                                    <Button variant='outline'>
+                                       View Uploaded PDF
+                                    </Button>
+                                 </DialogTrigger>
+                                 <DialogContent className="sm:max-w-5xl">
+                                    <DialogHeader>
+                                       <DialogTitle>Uploaded Research Report</DialogTitle>
+                                       <DialogDescription>
+                                          You cannot download the uploaded PDF report.
+                                       </DialogDescription>
+                                    </DialogHeader>
+                                    <PDFDisplay fileUrl={field.value}/>
+                                 </DialogContent>
+                              </Dialog>
+                           )}
+                           <FormMessage />
+                        </FormItem>
+                     )}
                   />
                </div>
             ))}

@@ -69,7 +69,7 @@ export default function ResetPassword({className}:{className ?:string}) {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className={cn("space-y-4 rounded-xl max-w-md w-full shadow-legacisPurple/20 px-8 p-8 flex flex-col", className)}>
         <div className="space-y-4 gap-x-8 w-full">
-         <h5 className="pb-4">Set your new password!</h5>
+         <h5 className="pb-4 text-2xl font-medium">Set your new password!</h5>
            <FormField
             control={form.control}
             name="password"

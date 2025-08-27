@@ -69,7 +69,7 @@ export const RecomendedServiceCard = ({
       className={cn("w-full rounded-2xl border p-6", card_tw)}
     >
       <div className="mt-2 mb-2 relative">
-        <h5 className="text-lg font-medium mb-4">{name}</h5>
+        <h5 className="text-2xl font-medium mb-4">{name}</h5>
         <p className="text-sm">Legacis Direct - {tag}</p>
         <span
           className="absolute top-2 right-2 p-2 py-1 rounded-lg shadow text-xs"

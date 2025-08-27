@@ -96,9 +96,18 @@ export function UserEditForm({ user }: {user : User | null}) {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Emails</FormLabel>
               <FormControl>
-                <Input type="email" {...field} />
+                <Input 
+                  type="email" 
+                  {...field} 
+                  value={field.value ?? ""}
+                  onChange={e =>
+                     field.onChange(
+                     e.target.value.trim().toLowerCase().replace(/\s+/g, "")
+                     )
+                  }
+               />
               </FormControl>
               <FormMessage />
             </FormItem>

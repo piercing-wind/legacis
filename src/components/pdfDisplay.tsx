@@ -22,7 +22,7 @@ export const PDFDisplay = ({ fileUrl }: { fileUrl: string }) => {
       if (containerRef.current) {
         const containerWidth = containerRef.current.clientWidth;
         // Set width with some padding for mobile/tablet
-        const width = Math.min(containerWidth - 32, 1024); // Max 800px, min container - padding
+        const width = Math.min(containerWidth - 32, 1024); // Max 1024px, min container - padding
         setPageWidth(width);
       }
     };
@@ -47,6 +47,7 @@ export const PDFDisplay = ({ fileUrl }: { fileUrl: string }) => {
           </div>
         }
         onLoadError={(error) => {
+         console.error('Error while loading PDF:', error);
           toast.error(`Failed to load Document`, {
             duration: 15000,
             action: {
@@ -62,7 +63,7 @@ export const PDFDisplay = ({ fileUrl }: { fileUrl: string }) => {
         file={fileUrl}
         className="w-full"
       >
-        <div className="space-y-4 p-4">
+        <div className="space-y-4 sm:p-4">
           {new Array(pageNum).fill(0).map((_, i) => (
             <div
               ref={(ref) => {
@@ -72,7 +73,7 @@ export const PDFDisplay = ({ fileUrl }: { fileUrl: string }) => {
               className="relative w-full flex justify-center"
             >
               {/* Page Number Badge */}
-              <div className="absolute bg-gray-800/80 backdrop-blur-sm px-2 py-1 text-xs rounded-md top-2 left-2 z-10 text-white font-medium shadow-lg">
+              <div className="absolute bg-gray-800/50 backdrop-blur-sm px-2 py-1 text-xs rounded-md top-2 left-2 z-10 text-white font-medium shadow-lg">
                 {i + 1} / {pageNum}
               </div>
               

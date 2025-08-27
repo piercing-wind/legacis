@@ -75,7 +75,7 @@ export default function PhoneVerificationForm({className}:{className ?:string}) 
       <form onSubmit={form.handleSubmit(onSubmit)} className={cn("space-y-4 rounded-xl max-w-md w-full shadow-legacisPurple/20 px-8 p-8 flex flex-col bg-white border dark:bg-neutral-800", className)}>
         <div className="space-y-4 gap-x-8 w-full">
          <div className="flex items-center justify-between">
-            <h5 className="pb-4">Verify Your Phone Number</h5>
+            <h5 className="pb-4 text-2xl font-medium">Verify Your Phone Number</h5>
             <span className="relative group">
                <Info className="h-4 w-4 text-neutral-400 cursor-pointer" />
                <span className="absolute left-1/2 -translate-x-1/2 mt-2 w-56 rounded bg-neutral-900 text-white text-xs px-3 py-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 shadow-lg">

@@ -28,8 +28,6 @@ const MutualFundSubscribeNow = ({
    const [open, setOpen] = useState(false);
 
    const riskLevel = riskProfile?.riskLevel;
-   console.log("Risk Level:", riskLevel);
-   console.log("Service Slug:", service?.slug);
    function handleClick() {
       if (!riskProfile) {
          toast("Please complete your risk profile before subscribing.",{

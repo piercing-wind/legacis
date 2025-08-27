@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { Button } from '../ui/button'
 import { cn, formatDateWithTime, formatHumanDate, normalizeRationale } from '@/lib/utils'
 import { Line } from '../icon'
-import { X } from 'lucide-react'
+import { FileBarChart, X } from 'lucide-react'
 import {
   Table,
   TableBody,
@@ -35,12 +35,11 @@ type PurchasedMFServiceData = {
 // MF stands for Mutual Fund
 
 
-const PurchasedServiceSection = ({serviceType, data, raResearchReport, mfServiceData}:{serviceType: ServiceType, data?: ServiceData, raResearchReport?: any, mfServiceData?: PurchasedMFServiceData[] }) => {
+const PurchasedServiceSection = ({serviceType, data, mfServiceData}:{serviceType: ServiceType, data?: ServiceData, mfServiceData?: PurchasedMFServiceData[] }) => {
 
    switch (serviceType) {
       case ServiceType.RESEARCH_ADVISORY:
-         const delta = raResearchReport || { ops: [{ insert: "Thank you for your purchase!" }] };
-         return <ServiceResearchAdvisorySection data={data as ResearchAdvisoryStockList[]} delta={delta} />
+         return <ServiceResearchAdvisorySection data={data as ResearchAdvisoryStockList[]} />
       case ServiceType.RESEARCH_ADVISORY_MODEL_PORTFOLIO:
          return <ServiceModelPortfolioSection data={data as ResearchAdvisoryModelPortfolioStockList[]} />
       case ServiceType.RESEARCH_ADVISORY_MUTUAL_FUNDS:
@@ -102,7 +101,7 @@ export default PurchasedServiceSection
 
 
 
-const ServiceResearchAdvisorySection = ({data, delta} : {data : ResearchAdvisoryStockList[], delta: any}) => {
+const ServiceResearchAdvisorySection = ({data} : {data : ResearchAdvisoryStockList[]}) => {
    const [activeTab, setActiveTab] = useState<"OPEN" | "CLOSED">("OPEN");
 
    
@@ -114,7 +113,11 @@ const ServiceResearchAdvisorySection = ({data, delta} : {data : ResearchAdvisory
       );
    }
    
-   const filteredStocks = data.filter(stock => stock.status === activeTab);
+   const sortedStocks = data.filter(stock => stock.status === activeTab).sort((a, b) => {
+      const dateA = new Date(a.createdAt || "").getTime();
+      const dateB = new Date(b.createdAt || "").getTime();
+      return dateB - dateA;
+   });
    return (
       <section className="w-full p-4 border rounded-2xl max-h-screen overflow-y-auto">
          <div className="flex items-center gap-4 mb-4">
@@ -130,27 +133,12 @@ const ServiceResearchAdvisorySection = ({data, delta} : {data : ResearchAdvisory
            >
              Closed Calls
            </Button>
-           <Dialog>
-            <DialogTrigger asChild>
-               <Button
-                  variant={'secondary'}
-               >
-                  Research Report
-               </Button>
-            </DialogTrigger>
-            <DialogContent className='max-w-4xl w-full max-h-[80vh] overflow-y-auto text-sm'>
-               <DialogHeader>
-                  <DialogTitle>Research Report</DialogTitle>
-                  <QuillHtmlViewer delta={delta} />
-               </DialogHeader>
-            </DialogContent>
-         </Dialog>
          </div>
          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 min-h-96">
-           {filteredStocks.length === 0 ? (
+           {sortedStocks.length === 0 ? (
              <div className="col-span-3 text-center text-gray-400 py-8 h-full flex items-center justify-center">No calls found.</div>
            ) : (
-             filteredStocks.map((stock) => (
+             sortedStocks.map((stock) => (
                <StockCard key={stock.stockTicker + stock.entryDate} stock={stock} />
              ))
            )}
@@ -314,6 +302,25 @@ const StockCard = ({ stock }: { stock: ResearchAdvisoryStockList }) => {
               </span>
             }
           />
+         {stock.raReport && (
+            <div className='flex flex-col items-start'>
+               <span className='text-xs text-neutral-500 dark:text-neutral-300 text-nowrap'>Research Report</span>
+               <Dialog>
+                  <DialogTrigger asChild className='text-left'>
+                     <Button variant={'ghost'} size={'sm'} className='text-left  items-end flex gap-2 p-0 text-xs'>
+                       <FileBarChart className='inline' size={14}/>
+                        View
+                     </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-5xl ">
+                     <DialogHeader>
+                        <DialogTitle>{stock.name} Research Report</DialogTitle>
+                     </DialogHeader>
+                     <PDFDisplay fileUrl={stock.raReport}/>
+                  </DialogContent>
+               </Dialog>
+            </div>
+         )}
         </div>
         <div className="flex items-start justify-between py-2 pb-4 gap-4">
           {stock.status === "CLOSED" ? (
@@ -363,6 +370,12 @@ const StockCard = ({ stock }: { stock: ResearchAdvisoryStockList }) => {
 //Serive Model Portfolio Section
 const ServiceModelPortfolioSection = ({data} : {data : ResearchAdvisoryModelPortfolioStockList[]}) => {
    const AMOUNT_STORAGE_KEY = "model_portfolio_amount";
+   
+   const sortedData = [...data].sort((a, b) => {
+      const dateA = new Date(a.createdAt || "").getTime();
+      const dateB = new Date(b.createdAt || "").getTime();
+      return dateA - dateB;
+   });
 
    const [amount, setAmount] = useState<number>(()=>{
       if (typeof window !== "undefined") {
@@ -379,13 +392,13 @@ const ServiceModelPortfolioSection = ({data} : {data : ResearchAdvisoryModelPort
    }, [amount]);
 
    const sectorCounts: Record<string, number> = {};
-   data.forEach(stock => {
+   sortedData.forEach(stock => {
      const sector = stock.sector || "Unknown";
      sectorCounts[sector] = (sectorCounts[sector] || 0) + 1;
    });
 
    // 2. Calculate total and percentages
-   const total = data.length;
+   const total = sortedData.length;
    const pieData = Object.entries(sectorCounts).map(([sector, count], i) => ({
      name: sector,
      value: (count / total) * 100,
@@ -398,7 +411,7 @@ const ServiceModelPortfolioSection = ({data} : {data : ResearchAdvisoryModelPort
      // ...other config if needed
    } as ChartConfig;
 
-   if (!data) {
+   if (!sortedData) {
       return (
          <section className="w-full p-4 border rounded-2xl">
             <div className="text-center text-gray-400 py-8">No model portfolio stocks found.</div>
@@ -406,7 +419,7 @@ const ServiceModelPortfolioSection = ({data} : {data : ResearchAdvisoryModelPort
       );
    }
 
-  const totalWeight = data.reduce((sum, stock) => sum + (stock.portfolioWeight || 0), 0);
+  const totalWeight = sortedData.reduce((sum, stock) => sum + (stock.portfolioWeight || 0), 0);
   const unknownWeight = Math.max(0, 100 - totalWeight);
 
    // Only show table if amount is entered and > 0
@@ -441,18 +454,20 @@ const ServiceModelPortfolioSection = ({data} : {data : ResearchAdvisoryModelPort
                               <TableHead>#</TableHead>
                               <TableHead>Name</TableHead>
                               <TableHead>StockTicker</TableHead>
+                              <TableHead>Sector</TableHead>
                               <TableHead>Weight (%)</TableHead>
                               <TableHead>Amount</TableHead>
                               <TableHead>Research Report</TableHead>
                            </TableRow>
                         </TableHeader>
                         <TableBody>
-                           {data.map((stock, idx) => (
+                           {sortedData.map((stock, idx) => (
                               <TableRow  key={stock.stockTicker + idx}>
                                  <TableCell>{idx + 1}</TableCell>
                                  <TableCell className="font-medium">{stock.name}</TableCell>
                                  <TableCell>{stock.stockTicker}</TableCell>
-                                 <TableCell>{stock.portfolioWeight}</TableCell>
+                                 <TableCell>{stock.sector}</TableCell>
+                                 <TableCell>{stock.portfolioWeight}%</TableCell>
                                  <TableCell>
                                     ₹{((amount * stock.portfolioWeight) / 100).toLocaleString("en-IN", {maximumFractionDigits: 2})}
                                  </TableCell>
@@ -466,9 +481,6 @@ const ServiceModelPortfolioSection = ({data} : {data : ResearchAdvisoryModelPort
                                        <DialogContent className="sm:max-w-5xl">
                                           <DialogHeader>
                                              <DialogTitle>{stock.name} Research Report</DialogTitle>
-                                             <DialogDescription>
-                                                You cannot download the uploaded PDF report.
-                                             </DialogDescription>
                                           </DialogHeader>
                                           <PDFDisplay fileUrl={stock.researchReport!}/>
                                        </DialogContent>
@@ -481,6 +493,7 @@ const ServiceModelPortfolioSection = ({data} : {data : ResearchAdvisoryModelPort
                            <TableRow>
                               <TableCell>-</TableCell>
                               <TableCell className="font-medium text-gray-500">Cash</TableCell>
+                              <TableCell className="font-medium text-gray-500">-</TableCell>
                               <TableCell className="font-medium text-gray-500">-</TableCell>
                               <TableCell>{unknownWeight.toFixed(2)}%</TableCell>
                               <TableCell>
@@ -515,6 +528,7 @@ function isMutualFundStockListArray(
     )
   );
 }
+
 
 
 const ServiceMutualFundSection = ({data} : {data : PurchasedMFServiceData[]}) => {
@@ -570,8 +584,11 @@ const ServiceMutualFundSection = ({data} : {data : PurchasedMFServiceData[]}) =>
       <section className='w-full flex flex-col xl:flex-row items-start gap-8 relative'>
          {totalAmount > 0 ? (   
             <div className='xl:max-w-lg 2xl:max-w-xl w-full flex-1 xl:sticky top-28 z-10 p-4 rounded-xl border border-pink-100 dark:border-pink-100/50'>
-               <div className="mb-4 text-right font-medium">
-                  Total Amount: ₹{totalAmount.toLocaleString("en-IN", { maximumFractionDigits: 2 })}
+               <div className="mb-4 flex justify-between font-medium">
+                  <span>Category</span>
+                  <span>
+                     Total Amount: ₹{totalAmount.toLocaleString("en-IN", { maximumFractionDigits: 2 })}
+                  </span>
                </div>
                <PieChart 
                   data={pieData} 
@@ -612,8 +629,13 @@ const ServiceMutualFundSection = ({data} : {data : PurchasedMFServiceData[]}) =>
 
 
 const MFCardList = ({data, amount, setAmount} : {data : ResearchAdvisoryMutualFundStockList[]; amount: number; setAmount: (val:number)=> void}) => {
-   const [showPopover, setShowPopover] = useState(false);
-   
+   // Sort stocks by createdAt date (newest first)
+   const sortedData = [...data].sort((a, b) => {
+      const dateA = new Date(a.createdAt || "").getTime();
+      const dateB = new Date(b.createdAt || "").getTime();
+      return dateB - dateA;
+   });
+
    const totalWeight = data.reduce((sum, stock) => sum + (stock.weight || 0), 0);
    const unknownWeight = Math.max(0, 100 - totalWeight);
    const showTable = amount > 0;
@@ -649,7 +671,7 @@ const MFCardList = ({data, amount, setAmount} : {data : ResearchAdvisoryMutualFu
                 </TableRow>
              </TableHeader>
              <TableBody>
-                {data.map((stock, idx) => {
+                {sortedData.map((stock, idx) => {
                   const rationaleText = normalizeRationale(stock.rationale);
                   return (
                    <TableRow  key={stock.id + idx} className='text-xs sm:text-sm'>
@@ -665,9 +687,8 @@ const MFCardList = ({data, amount, setAmount} : {data : ResearchAdvisoryMutualFu
                            <Dialog>
                               <DialogTrigger asChild>
                                  <Button
-                                 variant={'outline'}
-                                 onClick={() => setShowPopover(true)}
-                                 type="button"
+                                    variant={'outline'}
+                                    type="button"
                                  >
                                     View Rationale
                                  </Button>

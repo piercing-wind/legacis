@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/select";
 import { ResearchAdvisoryStockList } from "@/prisma/generated/client";
 import { ServiceListItem } from "@/app/(admin-routes)/admin/services/page";
-import { normalizeRationale } from "@/lib/utils";
+import { extractFileKeyFromUrl, generateUniqueS3FileKey, normalizeRationale } from "@/lib/utils";
 import { toast } from "sonner";
 import {
   deleteResearchAdvisoryStock,
@@ -44,6 +44,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { deleteS3File, getS3UploadUrl } from "@/actions/aws-s3";
+import { PDFDisplay } from "@/components/pdfDisplay";
 
 function normalizeString(val: unknown): string {
   return val == null ? "" : String(val);
@@ -70,12 +72,19 @@ export function ResearchAdvisoryStockListForm({
   initialStocks?: ResearchAdvisoryStockList[];
 }) {
   const router = useRouter();
+  const sortedInitialStocks = initialStocks
+  ? [...initialStocks].sort((a, b) => {
+      const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+      const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+      return dateA - dateB; // oldest first
+    })
+  : [];
 
   const form = useForm<StocksFormValues>({
     resolver: zodResolver(ResearchAdvisoryStocksFormSchema),
     defaultValues: {
-      stocks: initialStocks.length
-        ? initialStocks.map((stock) => ({
+      stocks: sortedInitialStocks.length
+        ? sortedInitialStocks.map((stock) => ({
             ...stock,
             sector: stock.sector || "",
             rationale: normalizeRationale(stock.rationale),
@@ -86,6 +95,7 @@ export function ResearchAdvisoryStockListForm({
             exitDate: stock.exitDate
               ? new Date(stock.exitDate).toISOString().slice(0, 16)
               : "",
+            raReport: stock.raReport || "",
           }))
         : [
             {
@@ -101,6 +111,7 @@ export function ResearchAdvisoryStockListForm({
               exitPrice: undefined,
               rationale: { text: "" },
               exitRationale: { text: "" },
+              raReport: "",
               entryDate: "",
               exitDate: "",
             },
@@ -108,7 +119,6 @@ export function ResearchAdvisoryStockListForm({
     },
   });
 
-  const stockStatus = form.watch('stocks.0.status');
 
   const { fields, append, remove } = useFieldArray({
     control: form.control,
@@ -121,7 +131,7 @@ export function ResearchAdvisoryStockListForm({
       const newStocks: typeof values.stocks = [];
 
       const initialStockMap = Object.fromEntries(
-        (initialStocks ?? []).filter((s) => s.id).map((s) => [s.id, s])
+        (sortedInitialStocks ?? []).filter((s) => s.id).map((s) => [s.id, s])
       );
       values.stocks.forEach((stock) => {
         const initial = stock.id ? initialStockMap[stock.id] : undefined;
@@ -215,304 +225,104 @@ export function ResearchAdvisoryStockListForm({
         className="space-y-8 w-full"
         autoComplete="off"
       >
-        {fields.map((field, idx) => (
-          <div key={field.id} className="border p-4 rounded mb-4 space-y-4">
-            <div className="flex justify-between items-center">
-              <h4 className="font-semibold">
-                {field.name
-                  ? `${field.name} #${idx + 1} `
-                  : `New Stock #${idx + 1}`}
-              </h4>
-              {fields.length > 1 && (
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button type="button" variant="destructive" size="sm">
-                      Remove
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="sm:max-w-[425px]">
-                    <DialogHeader>
-                      <DialogTitle>Are you absolutely sure?</DialogTitle>
-                      <DialogDescription>
-                        This action cannot be undone. This will permanently
-                        delete stock and user will not be notified for this.
-                        <br />
-                        <br />
-                        <br />
-                        Maybe you want to update the stock instead?
-                      </DialogDescription>
-                    </DialogHeader>
+        {fields.map((field, idx) => {
+         const stockStatus = form.watch(`stocks.${idx}.status`);
+         return(
+            <div key={field.id} className="border p-4 rounded mb-4 space-y-4">
+               <div className="flex justify-between items-center">
+               <h4 className="font-semibold">
+                  {field.name
+                     ? `${field.name} #${idx + 1} `
+                     : `New Stock #${idx + 1}`}
+               </h4>
+               {fields.length > 1 && (
+                  <Dialog>
+                     <DialogTrigger asChild>
+                     <Button type="button" variant="destructive" size="sm">
+                        Remove
+                     </Button>
+                     </DialogTrigger>
+                     <DialogContent className="sm:max-w-[425px]">
+                     <DialogHeader>
+                        <DialogTitle>Are you absolutely sure?</DialogTitle>
+                        <DialogDescription>
+                           This action cannot be undone. This will permanently
+                           delete stock and user will not be notified for this.
+                           <br />
+                           <br />
+                           <br />
+                           Maybe you want to update the stock instead?
+                        </DialogDescription>
+                     </DialogHeader>
 
-                    <Button
-                      variant="destructive"
-                      onClick={async () => {
-                        const stockId = form.getValues(`stocks.${idx}.id`);
-                        try {
-                          if (!stockId) {
-                            remove(idx);
-                            return;
-                          }
-                          const res = await deleteResearchAdvisoryStock(
-                            stockId
-                          );
-                          if (!res.success) {
-                            throw new Error(res.message);
-                          }
-                          remove(idx);
-                          toast.success("Stock removed successfully");
-                        } catch (error) {
-                          toast.error(
-                            `Failed to remove stock: ${
-                              error instanceof Error
-                                ? error.message
-                                : "Unknown error"
-                            }`
-                          );
-                        }
-                      }}
-                    >
-                      Remove
-                    </Button>
-                  </DialogContent>
-                </Dialog>
-              )}
-            </div>
-            <FormField
-              control={form.control}
-              name={`stocks.${idx}.serviceId`}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Service</FormLabel>
-                  <Select value={field.value} onValueChange={field.onChange}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select Service" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {services.map((service) => (
-                        <SelectItem key={service.id} value={service.id}>
-                          {service.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <div className="flex flex-col md:flex-row gap-4 items-center w-full">
-              <FormField
-                control={form.control}
-                name={`stocks.${idx}.name`}
-                render={({ field }) => (
-                  <FormItem className="flex-1">
-                    <FormLabel>Name</FormLabel>
-                    <FormControl>
-                      <Input {...field} placeholder="Stock Name" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name={`stocks.${idx}.stockTicker`}
-                render={({ field }) => (
-                  <FormItem className="flex-1">
-                    <FormLabel>Ticker</FormLabel>
-                    <FormControl>
-                      <Input {...field} placeholder="Ticker" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name={`stocks.${idx}.sector`}
-                render={({ field }) => (
-                  <FormItem className="flex-1">
-                    <FormLabel>Sector</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder="Sector"
-                        value={field.value ?? ""}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name={`stocks.${idx}.status`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Status</FormLabel>
-                    <Select value={field.value} onValueChange={field.onChange}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Status" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {statusOptions.map((opt) => (
-                          <SelectItem key={opt} value={opt}>
-                            {opt}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name={`stocks.${idx}.callType`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Call Type</FormLabel>
-                    <Select value={field.value} onValueChange={field.onChange}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Call Type" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {callTypeOptions.map((opt) => (
-                          <SelectItem key={opt} value={opt}>
-                            {opt}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="flex flex-wrap gap-4">
-              <FormField
-                control={form.control}
-                name={`stocks.${idx}.entryPrice`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Entry Price</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        type="number"
-                        step="any"
-                        placeholder="Entry Price"
-                        value={field.value ?? ""}
-                        onChange={(e) =>
-                          field.onChange(
-                            e.target.value === ""
-                              ? undefined
-                              : Number(e.target.value)
-                          )
-                        }
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name={`stocks.${idx}.targetPrice`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Target Price</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        type="number"
-                        step="any"
-                        placeholder="Target Price"
-                        value={field.value ?? ""}
-                        onChange={(e) =>
-                          field.onChange(
-                            e.target.value === ""
-                              ? undefined
-                              : Number(e.target.value)
-                          )
-                        }
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name={`stocks.${idx}.stopLoss`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Stop Loss</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        type="number"
-                        step="any"
-                        placeholder="Stop Loss"
-                        value={field.value ?? ""}
-                        onChange={(e) =>
-                          field.onChange(
-                            e.target.value === ""
-                              ? undefined
-                              : Number(e.target.value)
-                          )
-                        }
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
- 
-              <FormField
-                control={form.control}
-                name={`stocks.${idx}.entryDate`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Entry Date</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        type="datetime-local"
-                        placeholder="Entry Date"
-                        value={field.value ?? ""}
-                        onChange={field.onChange}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-            </div>
-            {stockStatus === "CLOSED" && (
-              <div className="flex flex-wrap gap-4">
-                  <FormField
+                     <Button
+                        variant="destructive"
+                        onClick={async () => {
+                           const stockId = form.getValues(`stocks.${idx}.id`);
+                           try {
+                           if (!stockId) {
+                              remove(idx);
+                              return;
+                           }
+                           const res = await deleteResearchAdvisoryStock(
+                              stockId
+                           );
+                           if (!res.success) {
+                              throw new Error(res.message);
+                           }
+                           remove(idx);
+                           toast.success("Stock removed successfully");
+                           } catch (error) {
+                           toast.error(
+                              `Failed to remove stock: ${
+                                 error instanceof Error
+                                 ? error.message
+                                 : "Unknown error"
+                              }`
+                           );
+                           }
+                        }}
+                     >
+                        Remove
+                     </Button>
+                     </DialogContent>
+                  </Dialog>
+               )}
+               </div>
+               <FormField
                   control={form.control}
-                  name={`stocks.${idx}.exitDate`}
+                  name={`stocks.${idx}.serviceId`}
                   render={({ field }) => (
                      <FormItem>
-                     <FormLabel>Exit Date</FormLabel>
+                        <FormLabel>Service</FormLabel>
+                        <Select value={field.value} onValueChange={field.onChange}>
+                        <FormControl>
+                           <SelectTrigger>
+                              <SelectValue placeholder="Select Service" />
+                           </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                           {services.map((service) => (
+                              <SelectItem key={service.id} value={service.id}>
+                              {service.name}
+                              </SelectItem>
+                           ))}
+                        </SelectContent>
+                        </Select>
+                        <FormMessage />
+                     </FormItem>
+                  )}
+               />
+
+               <div className="flex flex-col md:flex-row gap-4 items-center w-full">
+               <FormField
+                  control={form.control}
+                  name={`stocks.${idx}.name`}
+                  render={({ field }) => (
+                     <FormItem className="flex-1">
+                     <FormLabel>Name</FormLabel>
                      <FormControl>
-                        <Input
-                           {...field}
-                           type="datetime-local"
-                           placeholder="Exit Date"
-                           value={field.value ?? ""}
-                           onChange={field.onChange}
-                        />
+                        <Input {...field} placeholder="Stock Name" />
                      </FormControl>
                      <FormMessage />
                      </FormItem>
@@ -520,16 +330,97 @@ export function ResearchAdvisoryStockListForm({
                />
                <FormField
                   control={form.control}
-                  name={`stocks.${idx}.exitPrice`}
+                  name={`stocks.${idx}.stockTicker`}
+                  render={({ field }) => (
+                     <FormItem className="flex-1">
+                     <FormLabel>Ticker</FormLabel>
+                     <FormControl>
+                        <Input {...field} placeholder="Ticker" />
+                     </FormControl>
+                     <FormMessage />
+                     </FormItem>
+                  )}
+               />
+               <FormField
+                  control={form.control}
+                  name={`stocks.${idx}.sector`}
+                  render={({ field }) => (
+                     <FormItem className="flex-1">
+                     <FormLabel>Sector</FormLabel>
+                     <FormControl>
+                        <Input
+                           {...field}
+                           placeholder="Sector"
+                           value={field.value ?? ""}
+                        />
+                     </FormControl>
+                     <FormMessage />
+                     </FormItem>
+                  )}
+               />
+
+               <FormField
+                  control={form.control}
+                  name={`stocks.${idx}.status`}
                   render={({ field }) => (
                      <FormItem>
-                     <FormLabel>Exit Price</FormLabel>
+                     <FormLabel>Status</FormLabel>
+                     <Select value={field.value} onValueChange={field.onChange}>
+                        <FormControl>
+                           <SelectTrigger>
+                           <SelectValue placeholder="Status" />
+                           </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                           {statusOptions.map((opt) => (
+                           <SelectItem key={opt} value={opt}>
+                              {opt}
+                           </SelectItem>
+                           ))}
+                        </SelectContent>
+                     </Select>
+                     <FormMessage />
+                     </FormItem>
+                  )}
+               />
+               <FormField
+                  control={form.control}
+                  name={`stocks.${idx}.callType`}
+                  render={({ field }) => (
+                     <FormItem>
+                     <FormLabel>Call Type</FormLabel>
+                     <Select value={field.value} onValueChange={field.onChange}>
+                        <FormControl>
+                           <SelectTrigger>
+                           <SelectValue placeholder="Call Type" />
+                           </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                           {callTypeOptions.map((opt) => (
+                           <SelectItem key={opt} value={opt}>
+                              {opt}
+                           </SelectItem>
+                           ))}
+                        </SelectContent>
+                     </Select>
+                     <FormMessage />
+                     </FormItem>
+                  )}
+               />
+            </div>
+            <div className="flex flex-wrap gap-4">
+               <FormField
+                  control={form.control}
+                  name={`stocks.${idx}.entryPrice`}
+                  render={({ field }) => (
+                     <FormItem>
+                     <FormLabel>Entry Price</FormLabel>
                      <FormControl>
                         <Input
                            {...field}
                            type="number"
                            step="any"
-                           placeholder="Exit Price"
+                           placeholder="Entry Price"
                            value={field.value ?? ""}
                            onChange={(e) =>
                            field.onChange(
@@ -544,45 +435,232 @@ export function ResearchAdvisoryStockListForm({
                      </FormItem>
                   )}
                />
-              </div>
-            )}
-            <div className="flex flex-col md:flex-row gap-4">
-              <FormField
-                control={form.control}
-                name={`stocks.${idx}.rationale.text`}
-                render={({ field }) => (
-                  <FormItem className="flex-1">
-                    <FormLabel>Rationale</FormLabel>
-                    <FormControl>
-                      <Textarea {...field} placeholder="Rationale" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name={`stocks.${idx}.exitRationale.text`}
-                render={({ field }) => (
-                  <FormItem className="flex-1">
-                    <FormLabel>Exit Rationale</FormLabel>
-                    <FormControl>
-                      <Textarea {...field} placeholder="Exit Rationale" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+               <FormField
+                  control={form.control}
+                  name={`stocks.${idx}.targetPrice`}
+                  render={({ field }) => (
+                     <FormItem>
+                     <FormLabel>Target Price</FormLabel>
+                     <FormControl>
+                        <Input
+                           {...field}
+                           type="number"
+                           step="any"
+                           placeholder="Target Price"
+                           value={field.value ?? ""}
+                           onChange={(e) =>
+                           field.onChange(
+                              e.target.value === ""
+                                 ? undefined
+                                 : Number(e.target.value)
+                           )
+                           }
+                        />
+                     </FormControl>
+                     <FormMessage />
+                     </FormItem>
+                  )}
+               />
+               <FormField
+                  control={form.control}
+                  name={`stocks.${idx}.stopLoss`}
+                  render={({ field }) => (
+                     <FormItem>
+                     <FormLabel>Stop Loss</FormLabel>
+                     <FormControl>
+                        <Input
+                           {...field}
+                           type="number"
+                           step="any"
+                           placeholder="Stop Loss"
+                           value={field.value ?? ""}
+                           onChange={(e) =>
+                           field.onChange(
+                              e.target.value === ""
+                                 ? undefined
+                                 : Number(e.target.value)
+                           )
+                           }
+                        />
+                     </FormControl>
+                     <FormMessage />
+                     </FormItem>
+                  )}
+               />
+   
+               <FormField
+                  control={form.control}
+                  name={`stocks.${idx}.entryDate`}
+                  render={({ field }) => (
+                     <FormItem>
+                     <FormLabel>Entry Date</FormLabel>
+                     <FormControl>
+                        <Input
+                           {...field}
+                           type="datetime-local"
+                           placeholder="Entry Date"
+                           value={field.value ?? ""}
+                           onChange={field.onChange}
+                        />
+                     </FormControl>
+                     <FormMessage />
+                     </FormItem>
+                  )}
+               />
+               <FormField
+                  control={form.control}
+                  name={`stocks.${idx}.raReport`}
+                  render={({ field }) => (
+                     <FormItem>
+                        <FormLabel>Research Report (PDF)</FormLabel>
+                        <FormControl>
+                        <Input
+                           type="file"
+                           accept=".pdf,application/pdf"
+                           onChange={async (e) => {
+                              const file = e.target.files?.[0];
+                              if (!file) return;
+                              try {
+                                 if (field.value) {
+                                 const prevKey = extractFileKeyFromUrl(field.value);
+                                 if (prevKey) {
+                                    await deleteS3File(prevKey);
+                                 }
+                                 }
+                              // Generate unique key and upload to S3
+                              const fileKey = generateUniqueS3FileKey(file.name, 'research-report');
+                              const uploadUrl = await getS3UploadUrl(fileKey, file.type, 300, file.name);
+                              const res = await fetch(uploadUrl, {
+                                 method: "PUT",
+                                 body: file,
+                                 headers: { 
+                                    "Content-Type": file.type, 
+                                    "Content-Disposition": `attachment; filename="${file.name}"`
+                                 }
+                                 
+                              });
+                              if (!res.ok) throw new Error("Failed to upload");
+                              // Set the S3 file URL to this stock's researchReport field
+                              field.onChange(`${process.env.NEXT_PUBLIC_AWS_BUCKET_URL}/${fileKey}`);
+                              toast.success("PDF uploaded!");
+                              } catch (err) {
+                              toast.error((err as Error).message);
+                              }
+                           }}
+                        />
+                        </FormControl>
+                        {/* Optionally show a link if already uploaded */}
+                        {field.value && (
+                           <Dialog>
+                              <DialogTrigger asChild>
+                                 <Button variant="outline" className="mt-2 max-w-xs">
+                                    View Uploaded PDF
+                                 </Button>
+                              </DialogTrigger>
+                              <DialogContent className="sm:max-w-5xl">
+                                 <DialogHeader>
+                                    <DialogTitle>Uploaded Research Report</DialogTitle>
+                                    <DialogDescription>
+                                       You cannot download the uploaded PDF report.
+                                    </DialogDescription>
+                                 </DialogHeader>
+                                 <PDFDisplay fileUrl={field.value}/>
+                              </DialogContent>
+                           </Dialog>
+                        )}
+                        <FormMessage />
+                     </FormItem>
+                  )}
+               />
             </div>
-          </div>
-        ))}
+            {stockStatus === "CLOSED" && (
+               <div className="flex flex-wrap gap-4">
+                     <FormField
+                     control={form.control}
+                     name={`stocks.${idx}.exitDate`}
+                     render={({ field }) => (
+                        <FormItem>
+                        <FormLabel>Exit Date</FormLabel>
+                        <FormControl>
+                           <Input
+                              {...field}
+                              type="datetime-local"
+                              placeholder="Exit Date"
+                              value={field.value ?? ""}
+                              onChange={field.onChange}
+                           />
+                        </FormControl>
+                        <FormMessage />
+                        </FormItem>
+                     )}
+                  />
+                  <FormField
+                     control={form.control}
+                     name={`stocks.${idx}.exitPrice`}
+                     render={({ field }) => (
+                        <FormItem>
+                        <FormLabel>Exit Price</FormLabel>
+                        <FormControl>
+                           <Input
+                              {...field}
+                              type="number"
+                              step="any"
+                              placeholder="Exit Price"
+                              value={field.value ?? ""}
+                              onChange={(e) =>
+                              field.onChange(
+                                 e.target.value === ""
+                                    ? undefined
+                                    : Number(e.target.value)
+                              )
+                              }
+                           />
+                        </FormControl>
+                        <FormMessage />
+                        </FormItem>
+                     )}
+                  />
+                  
+               </div>
+               )}
+               <div className="flex flex-col md:flex-row gap-4">
+                  <FormField
+                     control={form.control}
+                     name={`stocks.${idx}.rationale.text`}
+                     render={({ field }) => (
+                        <FormItem className="flex-1">
+                        <FormLabel>Rationale</FormLabel>
+                        <FormControl>
+                           <Textarea {...field} placeholder="Rationale" />
+                        </FormControl>
+                        <FormMessage />
+                        </FormItem>
+                     )}
+                  />
+                  <FormField
+                     control={form.control}
+                     name={`stocks.${idx}.exitRationale.text`}
+                     render={({ field }) => (
+                        <FormItem className="flex-1">
+                        <FormLabel>Exit Rationale</FormLabel>
+                        <FormControl>
+                           <Textarea {...field} placeholder="Exit Rationale" />
+                        </FormControl>
+                        <FormMessage />
+                        </FormItem>
+                     )}
+                  />
+               </div>
+            </div>
+         )}
+        )}
         <Button
           type="button"
           variant="outline"
           onClick={() =>
             append({
               name: "",
-              serviceId: form.getValues(`stocks.0.serviceId`) || "",
+              serviceId: serviceId || "",
               stockTicker: "",
               sector: "",
               status: "OPEN",

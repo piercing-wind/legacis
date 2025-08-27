@@ -337,7 +337,6 @@ model Service {
   plans                                   ServicePlan[]
   features                                Json?
   faq                                     Json?
-  raResearchReport                        Json? //For Research Advisory Services
   active                                  Boolean                                   @default(true)
   type                                    ServiceType
   createdAt                               DateTime                                  @default(now())
@@ -410,6 +409,7 @@ model ResearchAdvisoryStockList {
 
   rationale     Json? // Fomat { "text" : "value"}
   exitRationale Json?
+  raReport      String?
   exitDate      DateTime?
   entryDate     DateTime?
   createdAt     DateTime  @default(now())

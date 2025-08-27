@@ -104,7 +104,7 @@ export default function ConsentForm({className}: {className?: string}) {
 
   return (
     <div className="flex flex-col items-center bg-white under dark:bg-neutral-900 border rounded-lg p-4 max-w-xl w-full min-h-[90vh] overflow-y-scroll overflow-x-hidden">
-      <h5 className="text-2xl font-bold">
+      <h5 className="text-2xl font-medium">
         Please Accept our Terms & Condition
       </h5>
       <p className="text-sm mb-2">Read Carefully</p>

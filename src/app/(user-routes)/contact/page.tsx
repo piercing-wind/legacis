@@ -1,6 +1,6 @@
 import ContactForm from "@/components/contactForm";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin, LifeBuoy } from "lucide-react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -18,18 +18,28 @@ export default function ContactPage() {
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center gap-3">
-            <Mail className="text-primary" />
-            <span className="text-base">info@legaciscapital.com</span>
+            <Mail className="text-primary" size={20} />
+            <span className="">info@legaciscapital.com</span>
           </div>
           <div className="flex items-center gap-3">
-            <Phone className="text-primary" />
-            <span className="text-base">+91 97797 74529, +91 99151 56561</span>
+            <Phone className="text-primary" size={20} />
+            <span className="">+91 97797 74529, +91 99151 56561</span>
           </div>
           <div className="flex items-center gap-3">
-            <MapPin className="text-primary" />
-            <span className="text-base">
+            <MapPin className="text-primary" size={20} />
+            <span className="">
                31-A, Race Course Rd, Basant Avenue, White Avenue, Amritsar, Punjab 143001
             </span>
+          </div>
+          <div className="my-2 border-b border-dashed w-full"/>
+          <div className="mt-4">
+            <span className="text-xl font-medium">
+               Support Mail
+            </span>
+            <div className="flex items-center gap-3 mt-2">
+               <LifeBuoy className="text-primary" size={20}/>
+               <span className="">help@legaciscapital.com</span>
+            </div>
           </div>
         </CardContent>
       </Card>

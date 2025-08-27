@@ -122,7 +122,6 @@ export const ServiceFormSchema = z.object({
   taxPercent: z.coerce.number({ invalid_type_error: "Tax percent must be a number." }).optional().nullable(),
   features: z.string().optional().nullable(),
   faq: z.string().optional().nullable(),
-  raResearchReport: z.string().optional().nullable(),
   active: z.boolean({ invalid_type_error: "Active must be true or false." }),
   type: z.enum([...(Object.values(ServiceType) as [string, ...string[]])], { message: "Type is required." }),
   agreements: z.array(z.string()).min(1, { message: "At least one agreement is required." }),
@@ -155,6 +154,7 @@ export const StockSchema = z.object({
   exitRationale: z.object({ text: z.string().optional() }).optional().nullable(),
   entryDate: z.string().nullable().optional(),
   exitDate: z.string().nullable().optional(),
+  raReport: z.string().optional().nullable()
 });
 
 export const ResearchAdvisoryStocksFormSchema = z.object({

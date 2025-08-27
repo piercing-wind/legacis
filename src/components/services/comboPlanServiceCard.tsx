@@ -21,7 +21,7 @@ const ComboPlanServiceCard = ({
          boxShadow: `0 0 16px 0 var(--${color})`,
       }}
     >
-      <h5 className="!text-xl">{comboPlanService.name}</h5>
+      <h5 className="text-xl">{comboPlanService.name}</h5>
       <p className="!text-sm">{comboPlanService.description}</p>
       <h6 className="mt-4">Get Access to:</h6>
       <div className="w-full mt-4 flex flex-row flex-nowrap items-center gap-2 max-h-20">

@@ -48,12 +48,19 @@ export const ResearchAdvisoryMutualFundStockListForm =(
    }
 )=>{
    const router = useRouter();
+   const sortedInitialStocks = initialStocks
+   ? [...initialStocks].sort((a, b) => {
+         const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+         const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+         return dateA - dateB; // oldest first
+      })
+   : [];
 
    const form = useForm<StocksFormValues>({
        resolver: zodResolver(ResearchAdvisoryMutualFundFormSchema),
        defaultValues: {
-          stocks: initialStocks.length 
-          ? initialStocks.map(stock => ({
+          stocks: sortedInitialStocks.length 
+          ? sortedInitialStocks.map(stock => ({
              ...stock,
              rationale: normalizeRationale(stock.rationale)
           }))
@@ -78,7 +85,7 @@ export const ResearchAdvisoryMutualFundStockListForm =(
          const newStocks: typeof values.stocks = [];
          
          const initialStockMap = Object.fromEntries(
-            (initialStocks ?? []).filter(s => s.id).map(s => [s.id, s])
+            (sortedInitialStocks ?? []).filter(s => s.id).map(s => [s.id, s])
          );
            values.stocks.forEach((stock) => {
                const initial = stock.id ? initialStockMap[stock.id] : undefined;

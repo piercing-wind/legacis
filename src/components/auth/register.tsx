@@ -93,7 +93,7 @@ async function onSubmit(values: z.infer<typeof RegisterSchema>) {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className={cn("space-y-4 rounded-xl max-w-md w-full shadow-legacisPurple/20 px-8 p-8 flex flex-col", className)}>
         <div className="space-y-4 gap-x-8 w-full">
-         <h5 className="pb-4">Create an Account</h5>
+         <h5 className="pb-4 text-2xl font-medium">Create an Account</h5>
           <FormField
             control={form.control}
             name="name"
@@ -114,7 +114,16 @@ async function onSubmit(values: z.infer<typeof RegisterSchema>) {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="" {...field} />
+                  <Input
+                     placeholder=""
+                     {...field}
+                     value={field.value ?? ""}
+                     onChange={e =>
+                        field.onChange(
+                        e.target.value.trim().toLowerCase().replace(/\s+/g, "")
+                        )
+                     }
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

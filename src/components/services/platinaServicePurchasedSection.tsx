@@ -94,7 +94,13 @@ const PlatinaPortfolioUpdates =({recomendationDate, userInvestmentAmount, ration
 }
 
 const PlatinaStockListTable = ({stockList, notes = ''}:{stockList: UserPlatinaStockList[], notes: string}) => {
-  return(
+   const sortedStocks = [...stockList].sort((a, b) => {
+      const dateA = new Date(a.createdAt || "").getTime();
+      const dateB = new Date(b.createdAt || "").getTime();
+      return dateA - dateB;
+   });
+
+   return(
       <div className={`w-full border border-platina/70 rounded-2xl p-4 flex flex-col mb-8`}>
           <h6 className="mb-4"> Current Portfolio Recommendations </h6>
           <Table containerClass={''} className="">
@@ -116,7 +122,7 @@ const PlatinaStockListTable = ({stockList, notes = ''}:{stockList: UserPlatinaSt
                </TableRow>
             </TableHeader>
             <TableBody>
-          {stockList.map((stock, index) => (
+          {sortedStocks.map((stock, index) => (
             <TableRow key={index} className="text-xs">
                <TableCell className="text-center">{index + 1}</TableCell>
                <TableCell className="font-medium">{stock.stockName}</TableCell>
