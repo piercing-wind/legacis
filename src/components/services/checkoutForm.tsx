@@ -49,11 +49,8 @@ export const CheckoutForm=({ service, agreement, complimentaryServices} :{servic
        ? `${service?.name} + ${comps.map((s) => s.name).join(", ")}`
        : '';
 
-   const months = Math.round(selectedPlan.durationInDays / 30) || 1;
    const basePrice = selectedPlan.price;
-   const planLabel = isPortfolioReview
-      ? `${selectedPlan.stockLimit || ""} Stocks Portfolio Review`
-      : `${months} ${months === 1 ? 'Month' : 'Months'}`;
+   const planLabel = selectedPlan.label;
 
    const planDiscount = selectedPlan.discount ?? 0; // discount as fraction (e.g. 0.1 for 10%)
    const subtotal = Math.round(basePrice * (1 - planDiscount));
@@ -72,7 +69,7 @@ export const CheckoutForm=({ service, agreement, complimentaryServices} :{servic
       serviceName: service?.name || "Unknown Service",
       complimentaryServicesNames: complimentaryServicesNames,
       subscriptionStartDate: formatHumanDate(new Date()),
-      subscriptionFrequency: isPortfolioReview ? "One-time Service" : `${months} ${months === 1 ? 'Month' : 'Months'}`,
+      subscriptionFrequency: isPortfolioReview ? "One-time Service" : `${selectedPlan.label}`,
       subscriptionPrice: `₹${String(total)} /-`,
    }
 

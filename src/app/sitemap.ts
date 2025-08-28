@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next'
 import { findBlogs } from '@/lib/data/blogs';  // Adjust import path as needed
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = `https://${process.env.NEXT_PUBLIC_BASE_URL}`;
+  const baseUrl = `${process.env.NEXT_PUBLIC_BASE_URL}`;
   
   // Fetch blog posts
   const posts = await findBlogs({ take: 30 }); // Adjust query as needed

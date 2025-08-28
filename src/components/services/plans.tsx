@@ -28,8 +28,7 @@ export default function Plans({plans, service}: {plans: ServicePlan[], service?:
       <div className="w-full p-2 sm:p-4">
 
          <div className="w-full grid grid-cols-1 lg:grid-cols-2 items-stretch sm:items-center justify-between gap-4">
-           {plans.map((plan, index) => {
-          const months = Math.round(plan.durationInDays / 30);
+         {plans.map((plan, index) => {
           const hasDiscount = !!plan.discount && plan.discount > 0;
           let priceWithoutDisc = plan.price;
           let finalPrice = hasDiscount
@@ -69,7 +68,7 @@ export default function Plans({plans, service}: {plans: ServicePlan[], service?:
                 </>
               ) : (
                 <>
-                  <h6 className="!text-xl">{months} Month{months > 1 ? "s" : ""}</h6>
+                  <h6 className="!text-xl">{plan.label}</h6>
                   <p>
                     {hasDiscount && (
                       <>
