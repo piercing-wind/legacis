@@ -35,23 +35,23 @@ const Footer = ({className}:{className?:string}) => {
                <p className='!text-neutral-500 dark:!text-neutral-300 text-sm mt-8 pt-4 sm:pt-0'>Follow us on:</p>
                
                <div className='flex items-center gap-4 mt-2 '>
-                  <Link href="https://www.linkedin.com/company/legacis/" target="_blank" rel="noopener noreferrer" className='text-neutral-600 dark:text-neutral-300 hover:text-legacisPurple dark:hover:text-legacisGreen transition-colors flex items-center gap-1'>
+                  <Link href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" className='text-neutral-600 dark:text-neutral-300 hover:text-legacisPurple dark:hover:text-legacisGreen transition-colors flex items-center gap-1'>
                     <Linkedin size={20}/>
                     <span className="sr-only">LinkedIn</span>
                   </Link>
-                  <Link href="https://twitter.com/legacis" target="_blank" rel="noopener noreferrer" className='text-neutral-600 dark:text-neutral-300 hover:text-legacisPurple dark:hover:text-legacisGreen transition-colors flex items-center gap-1'>
+                  <Link href="https://twitter.com" target="_blank" rel="noopener noreferrer" className='text-neutral-600 dark:text-neutral-300 hover:text-legacisPurple dark:hover:text-legacisGreen transition-colors flex items-center gap-1'>
                     <Twitter size={20}/>
                     <span className="sr-only">Twitter</span>
                   </Link>
-                  <Link href="https://www.instagram.com/legacis/" target="_blank" rel="noopener noreferrer" className='text-neutral-600 dark:text-neutral-300 hover:text-legacisPurple dark:hover:text-legacisGreen transition-colors flex items-center gap-1'>
+                  <Link href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" className='text-neutral-600 dark:text-neutral-300 hover:text-legacisPurple dark:hover:text-legacisGreen transition-colors flex items-center gap-1'>
                     <Instagram size={20}/>
                     <span className="sr-only">Instagram</span>
                   </Link>
-                  <Link href="https://www.facebook.com/legacis" target="_blank" rel="noopener noreferrer" className='text-neutral-600 dark:text-neutral-300 hover:text-legacisPurple dark:hover:text-legacisGreen transition-colors flex items-center gap-1'>
+                  <Link href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className='text-neutral-600 dark:text-neutral-300 hover:text-legacisPurple dark:hover:text-legacisGreen transition-colors flex items-center gap-1'>
                     <Facebook size={20}/>
                     <span className="sr-only">Facebook</span>
                   </Link>
-                  <Link href="https://www.youtube.com/@legacis" target="_blank" rel="noopener noreferrer" className='text-neutral-600 dark:text-neutral-300 hover:text-legacisPurple dark:hover:text-legacisGreen transition-colors flex items-center gap-1'>
+                  <Link href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" className='text-neutral-600 dark:text-neutral-300 hover:text-legacisPurple dark:hover:text-legacisGreen transition-colors flex items-center gap-1'>
                     <Youtube size={20}/>
                     <span className="sr-only">YouTube</span>
                   </Link>

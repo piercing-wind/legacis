@@ -113,7 +113,7 @@ export const AgreementViewer = () => {
    );
    
    useEffect(() => {
-    load({ mode: process.env.PAYMENT_GATEWAY_MODE as "sandbox" | "production" }).then((cf) => {
+    load({ mode: process.env.NEXT_PUBLIC_PAYMENT_GATEWAY_MODE as "sandbox" | "production" }).then((cf) => {
       cashfreeRef.current = cf;
     });
    }, []);
