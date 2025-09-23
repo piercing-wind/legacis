@@ -51,7 +51,7 @@ const Page = () => {
    const ourTeam = [
       {
          name: 'Bharat Arora, CFA',
-         role: 'Equity Research Analyst',
+         role: 'Passed CFA Level III exam',
          image: '/team/bharat-arora.png',
          social: {
             linkedin: 'https://www.linkedin.com/in/bharat-arora-586590129'
@@ -312,9 +312,9 @@ const Page = () => {
                         className="w-full h-auto rounded-lg mb-4 outlined hover:scale-105 transition-all duration-500"
                      />
                   </div>
-                  <div className='p-4 shadow-xl shadow-neutral-100 dark:shadow-neutral-800 rounded-lg mt-4 w-full min-h-28'>
+                  <div className='p-4 pb-2 shadow-xl shadow-neutral-100 dark:shadow-neutral-800 rounded-lg mt-4 w-full min-h-24'>
                      <div className='flex items-start justify-between gap-2'>
-                        <p className='text-xs text-neutral-600 dark:text-neutral-400 font-medium tracking-wide'>{member.role}</p>
+                        <h3 className='text-xl font-semibold '>{member.name}</h3>
                         <div className='flex gap-5'>
                            <Link href={member.social.linkedin} target="_blank">
                               <svg
@@ -330,7 +330,7 @@ const Page = () => {
                            </Link>
                         </div>
                      </div>
-                     <h3 className='text-xl font-semibold mt-2'>{member.name}</h3>
+                     <p className='text-xs text-neutral-600 mt-4 dark:text-neutral-400 font-medium tracking-wide'>{member.role}</p>
                   </div>
                </div>
             ))}

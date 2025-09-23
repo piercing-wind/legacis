@@ -21,7 +21,6 @@ export const CheckoutForm=({ service, agreement, complimentaryServices} :{servic
    const [couponLoading, setCouponLoading] = useState(false);
    const {data} = useSession()
    const user = data?.user as User;
-   console.log("Complimentary Services:", complimentaryServices);
    const selectedPlan = useAppSelector((state) => state.checkout.service.selectedPlan);
    const appliedCoupon = useAppSelector((state) => state.checkout.coupon);
    

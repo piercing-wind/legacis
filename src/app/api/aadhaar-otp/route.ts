@@ -14,17 +14,17 @@ export const POST = auth(async (request)=> {
 
       //Rate Limit 24 Hours - 3 requests per 24 hours
 
-      // const existingOtp = await db.aadhaarOtp.findMany({
-      //    where: {
-      //       aadhaarNumber: aadhaar_number,
-      //       createdAt: {
-      //          gte: new Date(Date.now() - 24 * 60 * 60 * 1000) // Last 24 hours
-      //       }
-      //    }
-      // });
-      // if (existingOtp.length >= 3) {
-      //    throw new Error("You have reached the maximum limit of 3 OTP requests in 24 hours for this Aadhaar number.");
-      // }
+      const existingOtp = await db.aadhaarOtp.findMany({
+         where: {
+            aadhaarNumber: aadhaar_number,
+            createdAt: {
+               gte: new Date(Date.now() - 24 * 60 * 60 * 1000) // Last 24 hours
+            }
+         }
+      });
+      if (existingOtp.length >= 3) {
+         throw new Error("You have reached the maximum limit of 3 OTP requests in 24 hours for this Aadhaar number.");
+      }
 
       // Initialize Cashfree SDK
       // This is done in the cashfreeConfig.ts file, so we just need to get the instance

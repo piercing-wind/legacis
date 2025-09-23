@@ -665,7 +665,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\byteswithbits\\Documents\\Website Projects\\legacis\\src\\prisma\\generated\\client",
+      "value": "C:\\Users\\byteswithbits\\Documents\\Website Projects\\SamarWealthAdvisors\\legacis\\src\\prisma\\generated\\client",
       "fromEnvVar": null
     },
     "config": {
@@ -679,7 +679,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\byteswithbits\\Documents\\Website Projects\\legacis\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\byteswithbits\\Documents\\Website Projects\\SamarWealthAdvisors\\legacis\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

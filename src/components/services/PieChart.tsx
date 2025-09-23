@@ -8,6 +8,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
 
 interface PieChartDataPoint {
   name: string;
@@ -29,24 +30,39 @@ interface PieChartProps {
 
 export default function PieChart({className, containerClassName, height = 320, data, chartConfig }: PieChartProps) {
 
-  if (data.length === 0) {
-    return (
-      <div className="flex items-center justify-center min-h-[200px] text-gray-500 dark:text-gray-400">
-        No data available
-      </div>
-    );
-  }
+   const [responsiveHeight, setResponsiveHeight] = useState(height);
+
+   useEffect(() => {
+      function handleResize() {
+         if (window.innerWidth < 1450) { // Tailwind 'md'
+         setResponsiveHeight(240);
+         } else {
+             setResponsiveHeight(height);
+         }
+      }
+      handleResize();
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+   }, [height]);
+
+   if (data.length === 0) {
+      return (
+         <div className="flex items-center justify-center min-h-[200px] text-gray-500 dark:text-gray-400">
+         No data available
+         </div>
+      );
+   }
 
   return (
     <div className={cn("w-full", containerClassName)}>
       <ChartContainer config={chartConfig} className={cn("w-full min-h-72 md:min-h-52 p-4", className)}>
-          <ResponsiveContainer width="100%" height={height}>
+          <ResponsiveContainer width="100%" height={responsiveHeight}>
             <RechartsePieChart>
                <Pie
                data={data}
                cx="50%"
                cy="50%"
-               outerRadius={height / 2 - 16}
+               outerRadius={responsiveHeight / 2 - 16}
                paddingAngle={0.5}
                dataKey="value"
                >

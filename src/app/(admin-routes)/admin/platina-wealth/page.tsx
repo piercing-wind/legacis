@@ -162,7 +162,7 @@ export default async function PlatinaWealthAdminPage() {
                         <Button asChild variant="outline" size="sm">
                           <Link href={`/admin/platina-wealth/${user.id}`}>
                             <Eye className="w-3 h-3 mr-1" />
-                            View
+                            Manage
                           </Link>
                         </Button>
                       </div>

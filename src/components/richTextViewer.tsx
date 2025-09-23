@@ -4,7 +4,6 @@ import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 import { use, useEffect, useRef, useState, useTransition } from 'react';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
-import { sendOTP, verifyOTP } from '@/actions/optVerification';
 import { toast } from 'sonner';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { OrderEntity } from 'cashfree-pg';
@@ -114,7 +113,7 @@ export const AgreementViewer = () => {
    );
    
    useEffect(() => {
-    load({ mode: "sandbox" }).then((cf) => {
+    load({ mode: process.env.PAYMENT_GATEWAY_MODE as "sandbox" | "production" }).then((cf) => {
       cashfreeRef.current = cf;
     });
    }, []);
