@@ -255,7 +255,7 @@ export const AgreementViewer = () => {
             aadhaarOtpRecordId : aadhaarOtpRecord.id,
          })
       })
-
+      // console.log("Order response status:", orderRes.status, orderRes.statusText);
       if (!orderRes.ok) throw new Error(`Failed to create order: ${orderRes.statusText}`);
       
       return await orderRes.json() as CreateOrderResponse;

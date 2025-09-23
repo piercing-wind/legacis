@@ -115,5 +115,3 @@ const formattedData = data.map(item => {
     date: `${day}-${month}-${year}`
   };
 });
-
-console.log(formattedData);

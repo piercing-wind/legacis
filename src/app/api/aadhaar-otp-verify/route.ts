@@ -23,9 +23,6 @@ export const POST = auth(async (request)=> {
       }
 
       const response = await Cashfree.VrsOfflineAadhaarVerifyOtp(params);
-
-      console.log("Aadhaar OTP verification response:", response);
-      console.log("Aadhaar OTP verification response data:", response.data);
       
       const aadhaarOtpRecord = await db.aadhaarOtp.update({
          where: { id: aadhaarOtpRecordId },
