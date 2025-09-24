@@ -162,10 +162,10 @@ export const RegularServiceCard = ({
          <div className="w-full flex flex-row flex-nowrap items-stretch text-nowrap gap-2 my-2 h-20 sm:min-h-20">
          {parsedFeatures?.highlights?.slice(0, 3).map((item, idx, arr) => (
             <React.Fragment key={item.name + idx}>
-               <span className="relative flex flex-col w-full h-24 items-center justify-center">
-               <p className="text-xs">{item.name}</p>
-               <p className="text-xs sm:text-base font-medium mt-2">{item.value}</p>
-               </span>
+               <div className="relative flex flex-col w-full h-24 items-center justify-center text-wrap text-center">
+                  <p className="text-xs">{item.name}</p>
+                  <p className="text-sm sm:text-base font-medium mt-2">{item.value}</p>
+               </div>
                {idx < arr.length - 1 && (
                <GradientLineVertical
                   color={color_l}

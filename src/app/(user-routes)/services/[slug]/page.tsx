@@ -193,9 +193,9 @@ export default async function Page({params}: { params: Promise<{ slug: string }>
                      >
                         {rowItems.map((item, idx) => (
                            <React.Fragment key={item.name + idx}>
-                              <span className="relative flex flex-col gap-2 w-full h-full items-center justify-center">
-                                 <p className="text-xs text-wrap text-center">{item.name}</p>
-                                 <p className="font-medium">{item.value}</p>
+                              <span className="relative flex flex-col gap-2 text-wrap text-center w-full h-full items-center justify-center">
+                                 <p className="text-xs">{item.name}</p>
+                                 <p className="text-sm font-medium ">{item.value}</p>
                               </span>
                               {idx < rowItems.length - 1 && (
                                  <Line
