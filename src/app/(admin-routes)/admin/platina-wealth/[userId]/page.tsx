@@ -116,7 +116,7 @@ export default async function UserPlatinaDetailsPage({params}: { params: Promise
       </Card>
 
       {/* Risk Profile */}
-      {user.riskProfile && (
+      {user?.riskProfile && (
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -354,7 +354,7 @@ export default async function UserPlatinaDetailsPage({params}: { params: Promise
       )}
 
       {/* Stock History */}
-      {stockHistory.length > 0 && (
+      {stockHistory?.length > 0 && (
       <Card>
          <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -440,16 +440,16 @@ export default async function UserPlatinaDetailsPage({params}: { params: Promise
             </CardHeader>
             <CardContent>
                
-               {activeRecommendation.peChart ? (
+               {activeRecommendation?.peChart ? (
                   <div>
                      <PlatinaSimpleLineChart
-                        data={activeRecommendation.peChart as { date: string; value: number }[]}
+                        data={activeRecommendation?.peChart as { date: string; value: number }[]}
                      />
                      <AddChartDataDialog
                         recommendationId={activeRecommendation?.id || ''}
                         userId={user.id}
                         chartType="peChart"
-                        defaultValue={activeRecommendation.peChart ? JSON.stringify(activeRecommendation.peChart, null, 2) : ''}
+                        defaultValue={activeRecommendation?.peChart ? JSON.stringify(activeRecommendation?.peChart, null, 2) : ''}
                      />
                   </div>
                ):(
@@ -473,16 +473,16 @@ export default async function UserPlatinaDetailsPage({params}: { params: Promise
             </CardHeader>
             <CardContent>
                
-               {activeRecommendation.epsChart ? (
+               {activeRecommendation?.epsChart ? (
                   <div>
                      <PlatinaSimpleLineChart
-                        data={activeRecommendation.epsChart as { date: string; value: number }[]}
+                        data={activeRecommendation?.epsChart as { date: string; value: number }[]}
                      />
                      <AddChartDataDialog
                         recommendationId={activeRecommendation?.id || ''}
                         userId={user.id}
                         chartType="epsChart"
-                        defaultValue={activeRecommendation.epsChart ? JSON.stringify(activeRecommendation.epsChart, null, 2) : ''}
+                        defaultValue={activeRecommendation?.epsChart ? JSON.stringify(activeRecommendation?.epsChart, null, 2) : ''}
                      />
                   </div>
                ):(
