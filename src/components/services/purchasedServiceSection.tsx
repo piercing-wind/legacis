@@ -138,8 +138,8 @@ const ServiceResearchAdvisorySection = ({data} : {data : ResearchAdvisoryStockLi
            {sortedStocks.length === 0 ? (
              <div className="col-span-3 text-center text-gray-400 py-8 h-full flex items-center justify-center">No calls found.</div>
            ) : (
-             sortedStocks.map((stock) => (
-               <StockCard key={stock.stockTicker + stock.entryDate} stock={stock} />
+             sortedStocks.map((stock, idx) => (
+               <StockCard key={stock.stockTicker + stock.entryDate + idx} stock={stock} />
              ))
            )}
          </div>
