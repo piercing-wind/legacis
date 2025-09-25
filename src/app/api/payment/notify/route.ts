@@ -8,7 +8,7 @@ import crypto from 'crypto';
 
 function verifyWebhookSignature(rawBody : string, signature : string, timestamp : string) {
    const signedPayload = timestamp + rawBody;
-   const secretKey = process.env.CASHFREE_PAYMENT_GATEWAY_LIVE_SECRET;
+   const secretKey = process.env.NODE_ENV === "production" ? process.env.CASHFREE_PAYMENT_GATEWAY_LIVE_SECRET : process.env.CASHFREE_PAYMENT_GATEWAY_TEST_SECRET;
   
    const expectedSignature = crypto
      .createHmac('sha256', secretKey!)

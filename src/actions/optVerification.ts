@@ -31,14 +31,26 @@ function getVerificationTypeLabel(type: VerificationType) {
 
 export const sendOTP = async ({ identifier, verificationType }: { identifier: string, verificationType : VerificationType}) => {
   try {
-    const input_type = identifyInputType(identifier);
-    const user = await findUser(identifier);
-    if (!user) return { success: false, message: "No account found for this identifier." };
+    const input_type = identifyInputType(identifier); 
+    const session = await Session();
+    const userSession : User = session?.user ?? null;
 
-    const userId = user.id;
+    let user: User | null = null;
+
+    if (verificationType !== "PHONE_UPDATE") {
+      user = await findUser(identifier);
+      if (!user) {
+        return { success: false, message: "No account found for this identifier." };
+      }
+    }
+    
+   if (verificationType === "PHONE_UPDATE" && !userSession) {
+      return { success: false, message: "Authentication required for phone update." };
+   }
+    const userId =user?.id ?? userSession.id;
     
     if (verificationType === 'RESET_PASS_VERIFY') {
-      if (!user.password) {
+      if (!user?.password) {
         return { success: false, message: "Password reset is not available for accounts created via Google or social login. Try logging in with a different method." };
       }
     }
@@ -57,7 +69,7 @@ export const sendOTP = async ({ identifier, verificationType }: { identifier: st
 
     if (input_type === 'email') {
       const data = {
-        name: user.name ?? "",
+        name: user?.name ?? "",
         otp: OTP,
         year: new Date().getFullYear(),
       };
@@ -98,7 +110,7 @@ export const sendOTP = async ({ identifier, verificationType }: { identifier: st
     return { success: true, message: `Code sent successfully to ${identifier}. Valid for 10 minutes.` };
   } catch (error) {
     console.log("Error sending OTP:", error);
-    return { success: false, message: (error as Error).message };
+    return { success: false, message: error instanceof Error ? error.message : "Something went wrong." };
   }
 };
 
