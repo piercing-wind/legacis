@@ -70,7 +70,6 @@ export const POST = auth(async (request)=> {
          },
          order_meta: {
             return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/thank-you?orderId=${order_id}`,
-            notify_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/payment/notify`,
          },
          order_tags : {
             serviceId: serviceId ? String(serviceId) : "",
