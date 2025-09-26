@@ -14,12 +14,13 @@ export const AgreementPdfDownload: React.FC<{
   agreementSummary?: AgreementSummary; // Add agreement summary prop
   agreementAcceptedAt?: Date | null; // Add agreement accepted date prop
 }> = ({ contentRef, filename = "agreement", agreementData, agreementSummary, agreementAcceptedAt }) => {
-  
+   const [isDownloaded, setIsDownloaded] = React.useState(false);
+
   const handleDownloadPDF = async () => {
     if (!contentRef.current) {
       return;
     }
-
+    setIsDownloaded(true);
     try {
       
       // Create clean HTML for PDF generation
@@ -401,6 +402,7 @@ export const AgreementPdfDownload: React.FC<{
       variant="outline"
       className=""
       onClick={handleDownloadPDF}
+      disabled={isDownloaded}
       type="button"
     >
       <Download size={16} />

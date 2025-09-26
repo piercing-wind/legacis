@@ -53,3 +53,22 @@ export async function sendMail({
     context,  
   } as any );
 }
+
+
+
+export async function sendSimpleMail({
+  to,
+  subject,
+  html,
+}: {
+  to: string;
+  subject: string;
+  html: string;
+}) {
+  await transporter.sendMail({
+    from: "Legacis <noreply@legaciscapital.com>",
+    to,
+    subject,
+    html,
+  });
+}

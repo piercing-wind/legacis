@@ -51,11 +51,7 @@ export function formatDateWithTime(date: string | Date): string {
   const d = typeof date === "string" ? new Date(date) : date;
   if (!(d instanceof Date) || isNaN(d.getTime())) return "";
 
-  // Convert to IST (UTC+5:30)
-  const istOffset = 5.5 * 60; // in minutes
-  const istDate = new Date(d.getTime() + istOffset * 60 * 1000);
-
-  return istDate.toLocaleString("en-GB", {
+  return d.toLocaleString("en-GB", {
     day: "2-digit",
     month: "short",
     year: "numeric",
