@@ -17,8 +17,8 @@ export const verifyPan = async (
    };
    const Cashfree = getCashfree();
    //  PAN 360 Cashfree
-   const data = panAdvance;
-   //  const { data } = await Cashfree.VrsPanAdvanceVerification(panRequest);
+   // const data = panAdvance;
+    const { data } = await Cashfree.VrsPanAdvanceVerification(panRequest);
    if(data.status !== "VALID") throw new Error(data.message);
 
    const res = await db.$transaction([
