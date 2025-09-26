@@ -130,7 +130,7 @@ export const serviceUpdate = async (
 
     return { success: true, result };
   } catch (error) {
-    console.log("Error updating service:", error);
+    console.log("Error updating service:", (error as Error).message);
     return {
       success: false,
       message: `An error occurred while updating the service: ${

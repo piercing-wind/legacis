@@ -30,6 +30,7 @@ import { notFound } from 'next/navigation';
 import { ActivateRecommendation, AddChartDataDialog, AddStockDialog, StockManagementActions, UpdateRecommendationDate } from '@/components/admin/stock-management-actions';
 import RationaleInput from "@/components/admin/platina-rationale";
 import PlatinaSimpleLineChart from '@/components/services/platinaLineChart';
+import CreatePlatinaPortfolio from '@/components/admin/create-platina-portfolio';
 
 export default async function UserPlatinaDetailsPage({params}: { params: Promise<{ userId: string }>}) {
    const { userId } = await params
@@ -333,12 +334,7 @@ export default async function UserPlatinaDetailsPage({params}: { params: Promise
                 <PieChart className="w-5 h-5" />
                 Portfolio Recommendation
               </div>
-              <Button asChild>
-                <Link href={`/admin/platina-wealth/${user.id}/create`}>
-                  <Plus className="w-4 h-4 mr-2" />
-                  Create Portfolio
-                </Link>
-              </Button>
+              <CreatePlatinaPortfolio userId={user.id} platinaServiceId={userPurchasedServicePlatina?.serviceId || ''} />
             </CardTitle>
           </CardHeader>
           <CardContent>

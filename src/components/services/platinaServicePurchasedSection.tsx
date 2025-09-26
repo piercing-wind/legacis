@@ -104,9 +104,9 @@ const PlatinaStockListTable = ({stockList, notes = ''}:{stockList: UserPlatinaSt
       <div className={`w-full border border-platina/70 rounded-2xl p-4 flex flex-col mb-8`}>
           <h6 className="mb-4"> Current Portfolio Recommendations </h6>
           <Table containerClass={''} className="">
-            <TableCaption className="mb-4">
+            {/* <TableCaption className="mb-4">
                <p className="text-xs">Notes: {notes || "No additional notes"}</p>
-            </TableCaption>
+            </TableCaption> */}
             <TableHeader>
                <TableRow className="text-sm">
                  <TableHead>#</TableHead>

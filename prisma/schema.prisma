@@ -531,6 +531,7 @@ model RiskLevelServiceRecommendation {
   updatedAt  DateTime   @updatedAt
 }
 
+This table contains only one record for platina service id.
 // For Platina Wealth service with individual recommendations
 model ServicePlatinaWealth {
   id                String   @id

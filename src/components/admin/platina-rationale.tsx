@@ -57,11 +57,8 @@ function RationaleInput({userId, platinaServiceId, prevRationale } : {userId: st
           <DialogTitle>Rationale</DialogTitle>
         </DialogHeader>
           <QuillRenderPage onQuillReady={setQuillInstance} defaultValue={prevRationale}/>
-          <Button disabled={isLoading} onClick={handleGetContents}>
-            {isLoading ? 'Log...' : 'Save'}
-          </Button>
         <DialogFooter>
-          <Button disabled={isLoading} onClick={handleGetContents}>
+          <Button disabled={isLoading} onClick={handleGetContents} className='mt-8 z-10'>
             {isLoading ? 'Log...' : 'Save'}
           </Button>
         </DialogFooter>
