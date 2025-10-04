@@ -99,7 +99,7 @@ export default function KYCForm({className}:{className ?:string}) {
   return isPending ? ( <Loading className='rounded-xl !min-h-[70vh] sm:max-w-xl w-full shadow-legacisPurple/20' message="Please wait! We are verifying your provided information." />
     ) : (
        <Form {...form}>
-       <form onSubmit={form.handleSubmit(onSubmit)} className={cn("rounded-xl sm:max-w-4xl w-full shadow-legacisPurple/20 px-8 p-8 flex flex-col bg-white border dark:bg-neutral-800", className)}>
+       <form onSubmit={form.handleSubmit(onSubmit)} className={cn("rounded-xl sm:max-w-4xl w-full shadow-legacisPurple/20 sm:px-8 p-4 sm:p-8 flex flex-col bg-white border dark:bg-neutral-800", className)}>
          <div>
              <h5 className="text-2xl font-medium">Complete Your KYC</h5>
              <p>Please fill the entries as per your PAN</p>
@@ -128,7 +128,7 @@ export default function KYCForm({className}:{className ?:string}) {
                   <RadioGroup
                   onValueChange={field.onChange}
                   defaultValue={field.value}
-                  className="flex items-center gap-4 border-b"
+                  className="flex flex-wrap items-center gap-4 border-b pb-2 sm:pb-0"
                 >
                   <FormItem className="flex items-center space-x-3 space-y-0">
                     <FormControl>

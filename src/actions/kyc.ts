@@ -10,11 +10,14 @@ export const verifyPan = async (
   userId: string
 ) => {
   try {
+   const uniqueId = `${userId}_${Date.now()}`.substring(0, 50);
+
    const panRequest = {
-     verification_id: userId,
+     verification_id: uniqueId,
      pan: formData.pan,
      name: formData.name,
    };
+
    const Cashfree = getCashfree();
    //  PAN 360 Cashfree
    // const data = panAdvance;
@@ -57,7 +60,13 @@ export const verifyPan = async (
       data: res,
     };
   } catch (error: any) {
-   console.log(error)
+   
+   console.log('=== ERROR DETAILS ===');
+   console.log('Status:', error.response?.status);
+   console.log('Response Data:', JSON.stringify(error.response?.data, null, 2));
+   console.log('Error Message:', error.message);
+   console.log('Request Data:', JSON.stringify(error.config?.data, null, 2));
+
    if (error.code === "P2002") {
       if(error.meta?.target?.includes("userId")){
          return {
