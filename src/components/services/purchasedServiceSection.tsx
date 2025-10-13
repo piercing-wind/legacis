@@ -113,21 +113,25 @@ const ServiceResearchAdvisorySection = ({data} : {data : ResearchAdvisoryStockLi
       );
    }
 
+   const now = Date.now();
    let sortedStocks;
 
-   if(activeTab === "OPEN") {
-      sortedStocks = data.filter(stock => stock.status === activeTab).sort((a, b) => {
-        const dateA = new Date(a.entryDate || "").getTime();
-        const dateB = new Date(b.entryDate || "").getTime();
-        return dateA - dateB;
-     });
-   }else{
-      sortedStocks = data.filter(stock => stock.status === activeTab).sort((a, b) => {
-        const dateA = new Date(a.exitDate || "").getTime();
-        const dateB = new Date(b.exitDate || "").getTime();
-        return dateA - dateB;
-     });
-
+   if (activeTab === "OPEN") {
+   sortedStocks = data
+      .filter(stock => stock.status === activeTab)
+      .sort((a, b) => {
+         const diffA = Math.abs(new Date(a.entryDate || "").getTime() - now);
+         const diffB = Math.abs(new Date(b.entryDate || "").getTime() - now);
+         return diffA - diffB;
+      });
+   } else {
+   sortedStocks = data
+      .filter(stock => stock.status === activeTab)
+      .sort((a, b) => {
+         const diffA = Math.abs(new Date(a.exitDate || "").getTime() - now);
+         const diffB = Math.abs(new Date(b.exitDate || "").getTime() - now);
+         return diffA - diffB;
+      });
    }
    
    return (
@@ -382,11 +386,12 @@ const StockCard = ({ stock }: { stock: ResearchAdvisoryStockList }) => {
 //Serive Model Portfolio Section
 const ServiceModelPortfolioSection = ({data} : {data : ResearchAdvisoryModelPortfolioStockList[]}) => {
    const AMOUNT_STORAGE_KEY = "model_portfolio_amount";
-   
+   const now = Date.now();
+
    const sortedData = [...data].sort((a, b) => {
-      const dateA = new Date(a.createdAt || "").getTime();
-      const dateB = new Date(b.createdAt || "").getTime();
-      return dateA - dateB;
+   const diffA = Math.abs(new Date(a.createdAt || "").getTime() - now);
+   const diffB = Math.abs(new Date(b.createdAt || "").getTime() - now);
+   return diffA - diffB;
    });
 
    const [amount, setAmount] = useState<number>(()=>{
