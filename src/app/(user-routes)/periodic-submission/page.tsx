@@ -31,6 +31,7 @@ export default async function PeriodicSubmission() {
         { name: "Trend of Annual Disposal of Complaints - RA", gid: 1708744872 },
         { name: "Trend of Monthly Disposal of Complaints - RA", gid: 1137699456 },
         { name: "Investment Advisory Audits", gid: 2026342601 },
+        { name: "Research Advisory Audits", gid: 1503478023 },
     ];
 
     
