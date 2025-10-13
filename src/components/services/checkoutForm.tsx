@@ -14,6 +14,7 @@ import { formatHumanDate } from "@/lib/utils";
 import { selectPlan, setAgreement, setAgreementSummary, setCoupon } from "@/lib/slices/checkoutSlice";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
+import { investment_advisory_services } from "@/constant/service_categorized";
 
 export const CheckoutForm=({ service, agreement, complimentaryServices} :{service: Service | null, agreement: Agreement[] | null, complimentaryServices?: Service[]})=>{
    const drawerCloseRef = useRef<HTMLButtonElement>(null);
