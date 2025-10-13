@@ -119,13 +119,13 @@ const ServiceResearchAdvisorySection = ({data} : {data : ResearchAdvisoryStockLi
       sortedStocks = data.filter(stock => stock.status === activeTab).sort((a, b) => {
         const dateA = new Date(a.entryDate || "").getTime();
         const dateB = new Date(b.entryDate || "").getTime();
-        return dateB - dateA;
+        return dateA - dateB;
      });
    }else{
       sortedStocks = data.filter(stock => stock.status === activeTab).sort((a, b) => {
         const dateA = new Date(a.exitDate || "").getTime();
         const dateB = new Date(b.exitDate || "").getTime();
-        return dateB - dateA;
+        return dateA - dateB;
      });
 
    }
@@ -287,12 +287,12 @@ const StockCard = ({ stock }: { stock: ResearchAdvisoryStockList }) => {
         </div>
         <Line color="var(--text-color)" className="opacity-40" height="1px" width="100%" />
         <div className="grid grid-cols-3 gap-6 items-center justify-between py-2 mt-4">
-          <InfoBlock label="Entry Price" value={`₹${stock.entryPrice}`} />
-          <InfoBlock label="Target Price" value={`₹${stock.targetPrice}`} />
+          <InfoBlock label="Entry Price" value={`₹${stock.entryPrice || '--'}`} />
+          <InfoBlock label="Target Price" value={`₹${stock.targetPrice || '--'}`} />
           {stock.status !== "CLOSED" ? (
-            <InfoBlock label="Stop Loss" value={`₹${stock.stopLoss}`} />
+            <InfoBlock label="Stop Loss" value={`₹${stock.stopLoss || '--'}`} />
           ) : (
-            <InfoBlock label="Exit Price" value={`₹${stock.exitPrice}`} />
+            <InfoBlock label="Exit Price" value={`₹${stock.exitPrice || '--'}`} />
           )}
           {stock.status === "CLOSED" && (
             <InfoBlock label="Holding Period" value={`${holdingPeriod} Days`} />
