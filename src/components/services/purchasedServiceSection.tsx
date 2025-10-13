@@ -112,12 +112,24 @@ const ServiceResearchAdvisorySection = ({data} : {data : ResearchAdvisoryStockLi
          </section>
       );
    }
+
+   let sortedStocks;
+
+   if(activeTab === "OPEN") {
+      sortedStocks = data.filter(stock => stock.status === activeTab).sort((a, b) => {
+        const dateA = new Date(a.entryDate || "").getTime();
+        const dateB = new Date(b.entryDate || "").getTime();
+        return dateB - dateA;
+     });
+   }else{
+      sortedStocks = data.filter(stock => stock.status === activeTab).sort((a, b) => {
+        const dateA = new Date(a.exitDate || "").getTime();
+        const dateB = new Date(b.exitDate || "").getTime();
+        return dateB - dateA;
+     });
+
+   }
    
-   const sortedStocks = data.filter(stock => stock.status === activeTab).sort((a, b) => {
-      const dateA = new Date(a.entryDate || "").getTime();
-      const dateB = new Date(b.entryDate || "").getTime();
-      return dateB - dateA;
-   });
    return (
       <section className="w-full p-4 border rounded-2xl max-h-screen overflow-y-auto">
          <div className="flex items-center gap-4 mb-4">
