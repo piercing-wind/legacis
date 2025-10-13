@@ -62,29 +62,34 @@ const Footer = ({className}:{className?:string}) => {
       <div className='grid grid-cols-2 sm:grid-cols-3 gap-8 lg:gap-16 col-span-3 sm:px-4'>
          <div className='flex flex-col gap-4 text-sm px-4 sm:px-0'>
             <span className='text-lg font-semibold'>Services</span>
-            <Link href="/services?type=RESEARCH_ADVISORY" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Equity Direct</Link>
-            <Link href="/services?type=SMALLCASE" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Equity Smallcase</Link>
-            <Link href="/services?type=RESEARCH_ADVISORY_MUTUAL_FUNDS" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Mutual Funds</Link>
-            <Link href="/services?type=PORTFOLIO_REVIEW" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Portfolio Review</Link>
-            <Link href="/services?type=PLATINA_WEALTH" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Platina Wealth - HNI</Link>
+            <Link href="/ra-services?type=RESEARCH_ADVISORY" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Research Advisory</Link>
+            <Link href="/ra-services?type=SMALLCASE" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Smallcase by Legacis</Link>
+            <Link href="/ia-services?type=MUTUAL_FUNDS" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Mutual Funds</Link>
+            <Link href="/ia-services?type=PORTFOLIO_REVIEW" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Portfolio Review</Link>
+            <Link href="/ia-services?type=PLATINA_WEALTH" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Platina Wealth</Link>
          </div>
          <div className='flex flex-col gap-4 text-sm px-4 sm:px-0'>
             <span className='text-lg font-semibold'>Quick Links</span>
             <Link href="/" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Home</Link>
             <Link href="/about" className='text-neutral-600 dark:text-neutral-300 hover:underline'>About Us</Link>
+            <Link href="/about#our-team" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Your Team</Link>
             <Link href="/contact" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Contact</Link>
-            <Link href="/services" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Services</Link>
+            <Link href="/ia-services" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Services - IA</Link>
+            <Link href="/ra-services" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Services - RA</Link>
             <Link href="/blog" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Blogs</Link>
+            <Link href="/periodic-submission" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Periodic Submission</Link>
          </div>
          <div className='flex flex-col col-span-2 sm:col-span-1 gap-4 text-sm px-4 sm:px-0'>
             <span className='text-lg font-semibold'>Company</span>
-            <Link href="/about#our-team" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Your Team</Link>
-            <Link href="/privacy-policy" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Privacy Policy</Link>
-            <Link href="/terms-and-conditions" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Terms & Conditions</Link>
+            <Link href="/mitc-ia" className='text-neutral-600 dark:text-neutral-300 hover:underline'>MITC - IA</Link>
+            <Link href="/mitc-ra" className='text-neutral-600 dark:text-neutral-300 hover:underline'>MITC - RA</Link>
+            <Link href="/investor-charter-ia" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Investor Charter - IA</Link>
+            <Link href="/investor-charter-ra" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Investor Charter - RA</Link>
             <Link href="/disclosure-ia" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Disclosure - IA</Link>
             <Link href="/disclosure-ra" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Disclosure - RA</Link>
+            <Link href="/privacy-policy" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Privacy Policy</Link>
+            <Link href="/terms-and-conditions" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Terms & Conditions</Link>
             <Link href="/grievance-redressal" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Grievance Redressal</Link>
-            <Link href="/investor-charter" className='text-neutral-600 dark:text-neutral-300 hover:underline'>Investor Charter</Link>
          </div>
          </div>
       </div>
@@ -121,10 +126,10 @@ const Footer = ({className}:{className?:string}) => {
           <span className='text-xs sm:text-sm gap-1 text-neutral-500 dark:text-neutral-300 flex items-start'>
             <Link href={'/'}>Legacis</Link>
             <span className=" mx-2">|</span>
-            <Link href={'https://byteswithbits.com'} target="_blank" className='flex items-center flex-col sm:flex-row'>
+            <Link href={'https://bytesteelcloud.com'} target="_blank" className='flex items-center flex-col sm:flex-row'>
               Designed Developed & Hosted By &nbsp;
               <span className="font-medium text-legacisPurple dark:text-legacisGreen">
-                Bytes with Bits
+                Bytesteel Cloud
               </span>
             </Link>
           </span>

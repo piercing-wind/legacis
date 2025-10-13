@@ -1,4 +1,4 @@
-import React from "react"
+import React, { use } from "react"
 import { Line } from "@/components/icon"
 import Chart from "@/components/services/chart"
 import { isServicePurchased, getServiceDataById, findServiceByCategory, findServicesByIds, ServiceWithComplimentary } from "@/lib/data/services"
@@ -10,7 +10,6 @@ import { Session } from "@/actions/session"
 import { User } from "next-auth"
 import { formatHumanDate } from "@/lib/utils"
 import { findAgreementsByServiceId } from "@/lib/data/agreement"
-import { redirect } from "next/navigation"
 import { ZoomIn } from "@/components/animation/zoom"
 import Image from "next/image"
 import { Service, ServicePlan, UserRiskProfile } from "@/prisma/generated/client"
@@ -23,7 +22,7 @@ import { getUserRiskProfileById } from "@/lib/data/admin/risk-profile"
 
 
 export const metadata: Metadata = {
-    title: "Mutual Funds",
+    title: "Mutual Funds basket",
     description: "Explore our range of mutual fund services tailored to your financial goals.",
 };
 
@@ -201,12 +200,15 @@ function PhilosophySection({ philosophies }: { philosophies: Philosophy[] }) {
 export default async function Page() {
   const session = await Session();
   const user: User = session?.user;
-  if (!user) redirect('/authenticate?callbackurl=/mutual-funds');
 
-  const [riskProfile, services] = await Promise.all([
-      getUserRiskProfileById(user.id),
-      findServiceByCategory('RESEARCH_ADVISORY_MUTUAL_FUNDS')
-  ])
+  let riskProfile: UserRiskProfile | null = null;
+  let services = await findServiceByCategory('MUTUAL_FUNDS')
+
+  if(user?.id){
+     [riskProfile] = await Promise.all([
+        getUserRiskProfileById(user.id),
+    ])
+  }
 
   if (!services || services.length === 0) {
     return <div>No services found</div>;
@@ -266,12 +268,11 @@ export default async function Page() {
       recommendedServices = await findServicesByIds(recommendedServicesIds);
    }
   
-console.log(delta)
   return (
     <main className='w-full px-5 lg:px-10 xl:px-24 py-8'>
 
       { purchasedServicesData.length > 0 && (
-        <PurchasedServiceSection serviceType={'RESEARCH_ADVISORY_MUTUAL_FUNDS'} mfServiceData={purchasedServicesData} />
+        <PurchasedServiceSection serviceType={'MUTUAL_FUNDS'} mfServiceData={purchasedServicesData} />
       )}
       {/* Service Cards */}
       <div className="my-12 ">

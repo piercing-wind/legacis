@@ -9,17 +9,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: {
     ...PrismaAdapter(db),
       async createUser(profile) {
-         // Generate username from email or name
+        // This function is called when a new user signs in for the first time from an OAuth (Google) provider. 
+        // Generate username from email or name 
          const base =
             profile.email?.split('@')[0] ||
             (profile.name ? profile.name.replace(/\s+/g, '').toLowerCase() : 'user');
          const username = `${base}${Math.floor(Math.random() * 1000)}`;
          const newUser = await db.user.create({
             data: {
-            email: profile.email,
-            name: profile.name,
-            image: profile.image,
-            username: username, // Set username at creation
+              email: profile.email,
+              name: profile.name,
+              image: profile.image,
+              username: username, // Set username at creation
+              emailVerified: new Date(), 
             },
          });
       return newUser;
@@ -98,6 +100,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   session: { strategy: "jwt" },
   basePath: "/api/auth",
   pages:{
+    signIn: '/authenticate', // Displays signin buttons
+    error: '/error', // Error code passed in query string as ?error= '
+  },
+  events:{
 
   },
   trustHost : true,

@@ -7,9 +7,8 @@ import Plans from "@/components/services/plans"
 import { CheckoutForm } from "@/components/services/checkoutForm"
 import { Service, ServicePlan, Agreement, UserRiskProfile } from "@/prisma/generated/client";
 import { useSession } from 'next-auth/react';
-import { User } from 'next-auth';
 import { toast } from 'sonner';
-
+import { useRouter } from 'next/navigation';
 
 
 const MutualFundSubscribeNow = ({
@@ -26,9 +25,16 @@ const MutualFundSubscribeNow = ({
    complimentaryServices?: Service[]
 }) => {
    const [open, setOpen] = useState(false);
-
+   const { data: session } = useSession();
+   const router = useRouter();
+   
+   
    const riskLevel = riskProfile?.riskLevel;
    function handleClick() {
+      if(!session) {
+         router.push('/authenticate?callbackurl=/mutual-funds');
+         return;
+      }
       if (!riskProfile) {
          toast("Please complete your risk profile before subscribing.",{
             action: {

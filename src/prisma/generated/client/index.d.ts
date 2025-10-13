@@ -192,6 +192,7 @@ export const ServiceType: {
   RESEARCH_ADVISORY: 'RESEARCH_ADVISORY',
   RESEARCH_ADVISORY_MODEL_PORTFOLIO: 'RESEARCH_ADVISORY_MODEL_PORTFOLIO',
   RESEARCH_ADVISORY_MUTUAL_FUNDS: 'RESEARCH_ADVISORY_MUTUAL_FUNDS',
+  MUTUAL_FUNDS: 'MUTUAL_FUNDS',
   PORTFOLIO_REVIEW: 'PORTFOLIO_REVIEW',
   SMALLCASE: 'SMALLCASE',
   PLATINA_WEALTH: 'PLATINA_WEALTH'
@@ -238,7 +239,11 @@ export const PolicyType: {
   DISCLOSURE_RA: 'DISCLOSURE_RA',
   DISCLOSURE_IA: 'DISCLOSURE_IA',
   GRIEVANCE_REDRESSAL: 'GRIEVANCE_REDRESSAL',
-  INVESTOR_CHARTER: 'INVESTOR_CHARTER'
+  INVESTOR_CHARTER: 'INVESTOR_CHARTER',
+  INVESTOR_CHARTER_IA: 'INVESTOR_CHARTER_IA',
+  INVESTOR_CHARTER_RA: 'INVESTOR_CHARTER_RA',
+  MITC_IA: 'MITC_IA',
+  MITC_RA: 'MITC_RA'
 };
 
 export type PolicyType = (typeof PolicyType)[keyof typeof PolicyType]
@@ -24737,6 +24742,7 @@ export namespace Prisma {
     name: string | null
     category: string | null
     weight: number | null
+    researchReport: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -24747,6 +24753,7 @@ export namespace Prisma {
     name: string | null
     category: string | null
     weight: number | null
+    researchReport: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -24758,6 +24765,7 @@ export namespace Prisma {
     category: number
     weight: number
     rationale: number
+    researchReport: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -24778,6 +24786,7 @@ export namespace Prisma {
     name?: true
     category?: true
     weight?: true
+    researchReport?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -24788,6 +24797,7 @@ export namespace Prisma {
     name?: true
     category?: true
     weight?: true
+    researchReport?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -24799,6 +24809,7 @@ export namespace Prisma {
     category?: true
     weight?: true
     rationale?: true
+    researchReport?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -24897,6 +24908,7 @@ export namespace Prisma {
     category: string
     weight: number
     rationale: JsonValue | null
+    researchReport: string | null
     createdAt: Date
     updatedAt: Date
     _count: ResearchAdvisoryMutualFundStockListCountAggregateOutputType | null
@@ -24927,6 +24939,7 @@ export namespace Prisma {
     category?: boolean
     weight?: boolean
     rationale?: boolean
+    researchReport?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     service?: boolean | ServiceDefaultArgs<ExtArgs>
@@ -24939,6 +24952,7 @@ export namespace Prisma {
     category?: boolean
     weight?: boolean
     rationale?: boolean
+    researchReport?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     service?: boolean | ServiceDefaultArgs<ExtArgs>
@@ -24951,6 +24965,7 @@ export namespace Prisma {
     category?: boolean
     weight?: boolean
     rationale?: boolean
+    researchReport?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     service?: boolean | ServiceDefaultArgs<ExtArgs>
@@ -24963,11 +24978,12 @@ export namespace Prisma {
     category?: boolean
     weight?: boolean
     rationale?: boolean
+    researchReport?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ResearchAdvisoryMutualFundStockListOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "serviceId" | "name" | "category" | "weight" | "rationale" | "createdAt" | "updatedAt", ExtArgs["result"]["researchAdvisoryMutualFundStockList"]>
+  export type ResearchAdvisoryMutualFundStockListOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "serviceId" | "name" | "category" | "weight" | "rationale" | "researchReport" | "createdAt" | "updatedAt", ExtArgs["result"]["researchAdvisoryMutualFundStockList"]>
   export type ResearchAdvisoryMutualFundStockListInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     service?: boolean | ServiceDefaultArgs<ExtArgs>
   }
@@ -24990,6 +25006,7 @@ export namespace Prisma {
       category: string
       weight: number
       rationale: Prisma.JsonValue | null
+      researchReport: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["researchAdvisoryMutualFundStockList"]>
@@ -25422,6 +25439,7 @@ export namespace Prisma {
     readonly category: FieldRef<"ResearchAdvisoryMutualFundStockList", 'String'>
     readonly weight: FieldRef<"ResearchAdvisoryMutualFundStockList", 'Float'>
     readonly rationale: FieldRef<"ResearchAdvisoryMutualFundStockList", 'Json'>
+    readonly researchReport: FieldRef<"ResearchAdvisoryMutualFundStockList", 'String'>
     readonly createdAt: FieldRef<"ResearchAdvisoryMutualFundStockList", 'DateTime'>
     readonly updatedAt: FieldRef<"ResearchAdvisoryMutualFundStockList", 'DateTime'>
   }
@@ -28140,11 +28158,12 @@ export namespace Prisma {
     totalScore: number | null
     riskLevel: $Enums.RiskLevel | null
     riskPercentage: number | null
+    consentGiven: boolean | null
+    isActive: boolean | null
+    isAnsweredPlatinaQues: boolean | null
+    isRiskLevelAdminSet: boolean | null
     completedAt: Date | null
     lastUpdated: Date | null
-    isAnsweredPlatinaQues: boolean | null
-    isActive: boolean | null
-    isRiskLevelAdminSet: boolean | null
   }
 
   export type UserRiskProfileMaxAggregateOutputType = {
@@ -28153,11 +28172,12 @@ export namespace Prisma {
     totalScore: number | null
     riskLevel: $Enums.RiskLevel | null
     riskPercentage: number | null
+    consentGiven: boolean | null
+    isActive: boolean | null
+    isAnsweredPlatinaQues: boolean | null
+    isRiskLevelAdminSet: boolean | null
     completedAt: Date | null
     lastUpdated: Date | null
-    isAnsweredPlatinaQues: boolean | null
-    isActive: boolean | null
-    isRiskLevelAdminSet: boolean | null
   }
 
   export type UserRiskProfileCountAggregateOutputType = {
@@ -28166,11 +28186,12 @@ export namespace Prisma {
     totalScore: number
     riskLevel: number
     riskPercentage: number
+    consentGiven: number
+    isActive: number
+    isAnsweredPlatinaQues: number
+    isRiskLevelAdminSet: number
     completedAt: number
     lastUpdated: number
-    isAnsweredPlatinaQues: number
-    isActive: number
-    isRiskLevelAdminSet: number
     _all: number
   }
 
@@ -28191,11 +28212,12 @@ export namespace Prisma {
     totalScore?: true
     riskLevel?: true
     riskPercentage?: true
+    consentGiven?: true
+    isActive?: true
+    isAnsweredPlatinaQues?: true
+    isRiskLevelAdminSet?: true
     completedAt?: true
     lastUpdated?: true
-    isAnsweredPlatinaQues?: true
-    isActive?: true
-    isRiskLevelAdminSet?: true
   }
 
   export type UserRiskProfileMaxAggregateInputType = {
@@ -28204,11 +28226,12 @@ export namespace Prisma {
     totalScore?: true
     riskLevel?: true
     riskPercentage?: true
+    consentGiven?: true
+    isActive?: true
+    isAnsweredPlatinaQues?: true
+    isRiskLevelAdminSet?: true
     completedAt?: true
     lastUpdated?: true
-    isAnsweredPlatinaQues?: true
-    isActive?: true
-    isRiskLevelAdminSet?: true
   }
 
   export type UserRiskProfileCountAggregateInputType = {
@@ -28217,11 +28240,12 @@ export namespace Prisma {
     totalScore?: true
     riskLevel?: true
     riskPercentage?: true
+    consentGiven?: true
+    isActive?: true
+    isAnsweredPlatinaQues?: true
+    isRiskLevelAdminSet?: true
     completedAt?: true
     lastUpdated?: true
-    isAnsweredPlatinaQues?: true
-    isActive?: true
-    isRiskLevelAdminSet?: true
     _all?: true
   }
 
@@ -28317,11 +28341,12 @@ export namespace Prisma {
     totalScore: number
     riskLevel: $Enums.RiskLevel | null
     riskPercentage: number
+    consentGiven: boolean
+    isActive: boolean
+    isAnsweredPlatinaQues: boolean
+    isRiskLevelAdminSet: boolean
     completedAt: Date
     lastUpdated: Date
-    isAnsweredPlatinaQues: boolean
-    isActive: boolean
-    isRiskLevelAdminSet: boolean
     _count: UserRiskProfileCountAggregateOutputType | null
     _avg: UserRiskProfileAvgAggregateOutputType | null
     _sum: UserRiskProfileSumAggregateOutputType | null
@@ -28349,11 +28374,12 @@ export namespace Prisma {
     totalScore?: boolean
     riskLevel?: boolean
     riskPercentage?: boolean
+    consentGiven?: boolean
+    isActive?: boolean
+    isAnsweredPlatinaQues?: boolean
+    isRiskLevelAdminSet?: boolean
     completedAt?: boolean
     lastUpdated?: boolean
-    isAnsweredPlatinaQues?: boolean
-    isActive?: boolean
-    isRiskLevelAdminSet?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     platinaRecommendations?: boolean | UserRiskProfile$platinaRecommendationsArgs<ExtArgs>
     _count?: boolean | UserRiskProfileCountOutputTypeDefaultArgs<ExtArgs>
@@ -28365,11 +28391,12 @@ export namespace Prisma {
     totalScore?: boolean
     riskLevel?: boolean
     riskPercentage?: boolean
+    consentGiven?: boolean
+    isActive?: boolean
+    isAnsweredPlatinaQues?: boolean
+    isRiskLevelAdminSet?: boolean
     completedAt?: boolean
     lastUpdated?: boolean
-    isAnsweredPlatinaQues?: boolean
-    isActive?: boolean
-    isRiskLevelAdminSet?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["userRiskProfile"]>
 
@@ -28379,11 +28406,12 @@ export namespace Prisma {
     totalScore?: boolean
     riskLevel?: boolean
     riskPercentage?: boolean
+    consentGiven?: boolean
+    isActive?: boolean
+    isAnsweredPlatinaQues?: boolean
+    isRiskLevelAdminSet?: boolean
     completedAt?: boolean
     lastUpdated?: boolean
-    isAnsweredPlatinaQues?: boolean
-    isActive?: boolean
-    isRiskLevelAdminSet?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["userRiskProfile"]>
 
@@ -28393,14 +28421,15 @@ export namespace Prisma {
     totalScore?: boolean
     riskLevel?: boolean
     riskPercentage?: boolean
+    consentGiven?: boolean
+    isActive?: boolean
+    isAnsweredPlatinaQues?: boolean
+    isRiskLevelAdminSet?: boolean
     completedAt?: boolean
     lastUpdated?: boolean
-    isAnsweredPlatinaQues?: boolean
-    isActive?: boolean
-    isRiskLevelAdminSet?: boolean
   }
 
-  export type UserRiskProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "totalScore" | "riskLevel" | "riskPercentage" | "completedAt" | "lastUpdated" | "isAnsweredPlatinaQues" | "isActive" | "isRiskLevelAdminSet", ExtArgs["result"]["userRiskProfile"]>
+  export type UserRiskProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "totalScore" | "riskLevel" | "riskPercentage" | "consentGiven" | "isActive" | "isAnsweredPlatinaQues" | "isRiskLevelAdminSet" | "completedAt" | "lastUpdated", ExtArgs["result"]["userRiskProfile"]>
   export type UserRiskProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     platinaRecommendations?: boolean | UserRiskProfile$platinaRecommendationsArgs<ExtArgs>
@@ -28425,11 +28454,12 @@ export namespace Prisma {
       totalScore: number
       riskLevel: $Enums.RiskLevel | null
       riskPercentage: number
+      consentGiven: boolean
+      isActive: boolean
+      isAnsweredPlatinaQues: boolean
+      isRiskLevelAdminSet: boolean
       completedAt: Date
       lastUpdated: Date
-      isAnsweredPlatinaQues: boolean
-      isActive: boolean
-      isRiskLevelAdminSet: boolean
     }, ExtArgs["result"]["userRiskProfile"]>
     composites: {}
   }
@@ -28860,11 +28890,12 @@ export namespace Prisma {
     readonly totalScore: FieldRef<"UserRiskProfile", 'Int'>
     readonly riskLevel: FieldRef<"UserRiskProfile", 'RiskLevel'>
     readonly riskPercentage: FieldRef<"UserRiskProfile", 'Float'>
+    readonly consentGiven: FieldRef<"UserRiskProfile", 'Boolean'>
+    readonly isActive: FieldRef<"UserRiskProfile", 'Boolean'>
+    readonly isAnsweredPlatinaQues: FieldRef<"UserRiskProfile", 'Boolean'>
+    readonly isRiskLevelAdminSet: FieldRef<"UserRiskProfile", 'Boolean'>
     readonly completedAt: FieldRef<"UserRiskProfile", 'DateTime'>
     readonly lastUpdated: FieldRef<"UserRiskProfile", 'DateTime'>
-    readonly isAnsweredPlatinaQues: FieldRef<"UserRiskProfile", 'Boolean'>
-    readonly isActive: FieldRef<"UserRiskProfile", 'Boolean'>
-    readonly isRiskLevelAdminSet: FieldRef<"UserRiskProfile", 'Boolean'>
   }
     
 
@@ -38809,6 +38840,7 @@ export namespace Prisma {
     category: 'category',
     weight: 'weight',
     rationale: 'rationale',
+    researchReport: 'researchReport',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -38850,11 +38882,12 @@ export namespace Prisma {
     totalScore: 'totalScore',
     riskLevel: 'riskLevel',
     riskPercentage: 'riskPercentage',
-    completedAt: 'completedAt',
-    lastUpdated: 'lastUpdated',
-    isAnsweredPlatinaQues: 'isAnsweredPlatinaQues',
+    consentGiven: 'consentGiven',
     isActive: 'isActive',
-    isRiskLevelAdminSet: 'isRiskLevelAdminSet'
+    isAnsweredPlatinaQues: 'isAnsweredPlatinaQues',
+    isRiskLevelAdminSet: 'isRiskLevelAdminSet',
+    completedAt: 'completedAt',
+    lastUpdated: 'lastUpdated'
   };
 
   export type UserRiskProfileScalarFieldEnum = (typeof UserRiskProfileScalarFieldEnum)[keyof typeof UserRiskProfileScalarFieldEnum]
@@ -40933,6 +40966,7 @@ export namespace Prisma {
     category?: StringFilter<"ResearchAdvisoryMutualFundStockList"> | string
     weight?: FloatFilter<"ResearchAdvisoryMutualFundStockList"> | number
     rationale?: JsonNullableFilter<"ResearchAdvisoryMutualFundStockList">
+    researchReport?: StringNullableFilter<"ResearchAdvisoryMutualFundStockList"> | string | null
     createdAt?: DateTimeFilter<"ResearchAdvisoryMutualFundStockList"> | Date | string
     updatedAt?: DateTimeFilter<"ResearchAdvisoryMutualFundStockList"> | Date | string
     service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
@@ -40945,6 +40979,7 @@ export namespace Prisma {
     category?: SortOrder
     weight?: SortOrder
     rationale?: SortOrderInput | SortOrder
+    researchReport?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     service?: ServiceOrderByWithRelationInput
@@ -40960,6 +40995,7 @@ export namespace Prisma {
     category?: StringFilter<"ResearchAdvisoryMutualFundStockList"> | string
     weight?: FloatFilter<"ResearchAdvisoryMutualFundStockList"> | number
     rationale?: JsonNullableFilter<"ResearchAdvisoryMutualFundStockList">
+    researchReport?: StringNullableFilter<"ResearchAdvisoryMutualFundStockList"> | string | null
     createdAt?: DateTimeFilter<"ResearchAdvisoryMutualFundStockList"> | Date | string
     updatedAt?: DateTimeFilter<"ResearchAdvisoryMutualFundStockList"> | Date | string
     service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
@@ -40972,6 +41008,7 @@ export namespace Prisma {
     category?: SortOrder
     weight?: SortOrder
     rationale?: SortOrderInput | SortOrder
+    researchReport?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ResearchAdvisoryMutualFundStockListCountOrderByAggregateInput
@@ -40991,6 +41028,7 @@ export namespace Prisma {
     category?: StringWithAggregatesFilter<"ResearchAdvisoryMutualFundStockList"> | string
     weight?: FloatWithAggregatesFilter<"ResearchAdvisoryMutualFundStockList"> | number
     rationale?: JsonNullableWithAggregatesFilter<"ResearchAdvisoryMutualFundStockList">
+    researchReport?: StringNullableWithAggregatesFilter<"ResearchAdvisoryMutualFundStockList"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"ResearchAdvisoryMutualFundStockList"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ResearchAdvisoryMutualFundStockList"> | Date | string
   }
@@ -41152,11 +41190,12 @@ export namespace Prisma {
     totalScore?: IntFilter<"UserRiskProfile"> | number
     riskLevel?: EnumRiskLevelNullableFilter<"UserRiskProfile"> | $Enums.RiskLevel | null
     riskPercentage?: FloatFilter<"UserRiskProfile"> | number
+    consentGiven?: BoolFilter<"UserRiskProfile"> | boolean
+    isActive?: BoolFilter<"UserRiskProfile"> | boolean
+    isAnsweredPlatinaQues?: BoolFilter<"UserRiskProfile"> | boolean
+    isRiskLevelAdminSet?: BoolFilter<"UserRiskProfile"> | boolean
     completedAt?: DateTimeFilter<"UserRiskProfile"> | Date | string
     lastUpdated?: DateTimeFilter<"UserRiskProfile"> | Date | string
-    isAnsweredPlatinaQues?: BoolFilter<"UserRiskProfile"> | boolean
-    isActive?: BoolFilter<"UserRiskProfile"> | boolean
-    isRiskLevelAdminSet?: BoolFilter<"UserRiskProfile"> | boolean
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     platinaRecommendations?: UserPlatinaRecommendationListRelationFilter
   }
@@ -41167,11 +41206,12 @@ export namespace Prisma {
     totalScore?: SortOrder
     riskLevel?: SortOrderInput | SortOrder
     riskPercentage?: SortOrder
+    consentGiven?: SortOrder
+    isActive?: SortOrder
+    isAnsweredPlatinaQues?: SortOrder
+    isRiskLevelAdminSet?: SortOrder
     completedAt?: SortOrder
     lastUpdated?: SortOrder
-    isAnsweredPlatinaQues?: SortOrder
-    isActive?: SortOrder
-    isRiskLevelAdminSet?: SortOrder
     user?: UserOrderByWithRelationInput
     platinaRecommendations?: UserPlatinaRecommendationOrderByRelationAggregateInput
   }
@@ -41185,11 +41225,12 @@ export namespace Prisma {
     totalScore?: IntFilter<"UserRiskProfile"> | number
     riskLevel?: EnumRiskLevelNullableFilter<"UserRiskProfile"> | $Enums.RiskLevel | null
     riskPercentage?: FloatFilter<"UserRiskProfile"> | number
+    consentGiven?: BoolFilter<"UserRiskProfile"> | boolean
+    isActive?: BoolFilter<"UserRiskProfile"> | boolean
+    isAnsweredPlatinaQues?: BoolFilter<"UserRiskProfile"> | boolean
+    isRiskLevelAdminSet?: BoolFilter<"UserRiskProfile"> | boolean
     completedAt?: DateTimeFilter<"UserRiskProfile"> | Date | string
     lastUpdated?: DateTimeFilter<"UserRiskProfile"> | Date | string
-    isAnsweredPlatinaQues?: BoolFilter<"UserRiskProfile"> | boolean
-    isActive?: BoolFilter<"UserRiskProfile"> | boolean
-    isRiskLevelAdminSet?: BoolFilter<"UserRiskProfile"> | boolean
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     platinaRecommendations?: UserPlatinaRecommendationListRelationFilter
   }, "id" | "userId">
@@ -41200,11 +41241,12 @@ export namespace Prisma {
     totalScore?: SortOrder
     riskLevel?: SortOrderInput | SortOrder
     riskPercentage?: SortOrder
+    consentGiven?: SortOrder
+    isActive?: SortOrder
+    isAnsweredPlatinaQues?: SortOrder
+    isRiskLevelAdminSet?: SortOrder
     completedAt?: SortOrder
     lastUpdated?: SortOrder
-    isAnsweredPlatinaQues?: SortOrder
-    isActive?: SortOrder
-    isRiskLevelAdminSet?: SortOrder
     _count?: UserRiskProfileCountOrderByAggregateInput
     _avg?: UserRiskProfileAvgOrderByAggregateInput
     _max?: UserRiskProfileMaxOrderByAggregateInput
@@ -41221,11 +41263,12 @@ export namespace Prisma {
     totalScore?: IntWithAggregatesFilter<"UserRiskProfile"> | number
     riskLevel?: EnumRiskLevelNullableWithAggregatesFilter<"UserRiskProfile"> | $Enums.RiskLevel | null
     riskPercentage?: FloatWithAggregatesFilter<"UserRiskProfile"> | number
+    consentGiven?: BoolWithAggregatesFilter<"UserRiskProfile"> | boolean
+    isActive?: BoolWithAggregatesFilter<"UserRiskProfile"> | boolean
+    isAnsweredPlatinaQues?: BoolWithAggregatesFilter<"UserRiskProfile"> | boolean
+    isRiskLevelAdminSet?: BoolWithAggregatesFilter<"UserRiskProfile"> | boolean
     completedAt?: DateTimeWithAggregatesFilter<"UserRiskProfile"> | Date | string
     lastUpdated?: DateTimeWithAggregatesFilter<"UserRiskProfile"> | Date | string
-    isAnsweredPlatinaQues?: BoolWithAggregatesFilter<"UserRiskProfile"> | boolean
-    isActive?: BoolWithAggregatesFilter<"UserRiskProfile"> | boolean
-    isRiskLevelAdminSet?: BoolWithAggregatesFilter<"UserRiskProfile"> | boolean
   }
 
   export type RiskLevelServiceRecommendationWhereInput = {
@@ -43700,6 +43743,7 @@ export namespace Prisma {
     category: string
     weight: number
     rationale?: NullableJsonNullValueInput | InputJsonValue
+    researchReport?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     service: ServiceCreateNestedOneWithoutResearchAdvisoryMutualFundStockListInput
@@ -43712,6 +43756,7 @@ export namespace Prisma {
     category: string
     weight: number
     rationale?: NullableJsonNullValueInput | InputJsonValue
+    researchReport?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -43722,6 +43767,7 @@ export namespace Prisma {
     category?: StringFieldUpdateOperationsInput | string
     weight?: FloatFieldUpdateOperationsInput | number
     rationale?: NullableJsonNullValueInput | InputJsonValue
+    researchReport?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     service?: ServiceUpdateOneRequiredWithoutResearchAdvisoryMutualFundStockListNestedInput
@@ -43734,6 +43780,7 @@ export namespace Prisma {
     category?: StringFieldUpdateOperationsInput | string
     weight?: FloatFieldUpdateOperationsInput | number
     rationale?: NullableJsonNullValueInput | InputJsonValue
+    researchReport?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -43745,6 +43792,7 @@ export namespace Prisma {
     category: string
     weight: number
     rationale?: NullableJsonNullValueInput | InputJsonValue
+    researchReport?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -43755,6 +43803,7 @@ export namespace Prisma {
     category?: StringFieldUpdateOperationsInput | string
     weight?: FloatFieldUpdateOperationsInput | number
     rationale?: NullableJsonNullValueInput | InputJsonValue
+    researchReport?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -43766,6 +43815,7 @@ export namespace Prisma {
     category?: StringFieldUpdateOperationsInput | string
     weight?: FloatFieldUpdateOperationsInput | number
     rationale?: NullableJsonNullValueInput | InputJsonValue
+    researchReport?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -43931,11 +43981,12 @@ export namespace Prisma {
     totalScore: number
     riskLevel?: $Enums.RiskLevel | null
     riskPercentage: number
+    consentGiven?: boolean
+    isActive?: boolean
+    isAnsweredPlatinaQues?: boolean
+    isRiskLevelAdminSet?: boolean
     completedAt?: Date | string
     lastUpdated?: Date | string
-    isAnsweredPlatinaQues?: boolean
-    isActive?: boolean
-    isRiskLevelAdminSet?: boolean
     user: UserCreateNestedOneWithoutRiskProfileInput
     platinaRecommendations?: UserPlatinaRecommendationCreateNestedManyWithoutRiskProfileInput
   }
@@ -43946,11 +43997,12 @@ export namespace Prisma {
     totalScore: number
     riskLevel?: $Enums.RiskLevel | null
     riskPercentage: number
+    consentGiven?: boolean
+    isActive?: boolean
+    isAnsweredPlatinaQues?: boolean
+    isRiskLevelAdminSet?: boolean
     completedAt?: Date | string
     lastUpdated?: Date | string
-    isAnsweredPlatinaQues?: boolean
-    isActive?: boolean
-    isRiskLevelAdminSet?: boolean
     platinaRecommendations?: UserPlatinaRecommendationUncheckedCreateNestedManyWithoutRiskProfileInput
   }
 
@@ -43959,11 +44011,12 @@ export namespace Prisma {
     totalScore?: IntFieldUpdateOperationsInput | number
     riskLevel?: NullableEnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel | null
     riskPercentage?: FloatFieldUpdateOperationsInput | number
+    consentGiven?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isAnsweredPlatinaQues?: BoolFieldUpdateOperationsInput | boolean
+    isRiskLevelAdminSet?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    isAnsweredPlatinaQues?: BoolFieldUpdateOperationsInput | boolean
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    isRiskLevelAdminSet?: BoolFieldUpdateOperationsInput | boolean
     user?: UserUpdateOneRequiredWithoutRiskProfileNestedInput
     platinaRecommendations?: UserPlatinaRecommendationUpdateManyWithoutRiskProfileNestedInput
   }
@@ -43974,11 +44027,12 @@ export namespace Prisma {
     totalScore?: IntFieldUpdateOperationsInput | number
     riskLevel?: NullableEnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel | null
     riskPercentage?: FloatFieldUpdateOperationsInput | number
+    consentGiven?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isAnsweredPlatinaQues?: BoolFieldUpdateOperationsInput | boolean
+    isRiskLevelAdminSet?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    isAnsweredPlatinaQues?: BoolFieldUpdateOperationsInput | boolean
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    isRiskLevelAdminSet?: BoolFieldUpdateOperationsInput | boolean
     platinaRecommendations?: UserPlatinaRecommendationUncheckedUpdateManyWithoutRiskProfileNestedInput
   }
 
@@ -43988,11 +44042,12 @@ export namespace Prisma {
     totalScore: number
     riskLevel?: $Enums.RiskLevel | null
     riskPercentage: number
+    consentGiven?: boolean
+    isActive?: boolean
+    isAnsweredPlatinaQues?: boolean
+    isRiskLevelAdminSet?: boolean
     completedAt?: Date | string
     lastUpdated?: Date | string
-    isAnsweredPlatinaQues?: boolean
-    isActive?: boolean
-    isRiskLevelAdminSet?: boolean
   }
 
   export type UserRiskProfileUpdateManyMutationInput = {
@@ -44000,11 +44055,12 @@ export namespace Prisma {
     totalScore?: IntFieldUpdateOperationsInput | number
     riskLevel?: NullableEnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel | null
     riskPercentage?: FloatFieldUpdateOperationsInput | number
+    consentGiven?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isAnsweredPlatinaQues?: BoolFieldUpdateOperationsInput | boolean
+    isRiskLevelAdminSet?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    isAnsweredPlatinaQues?: BoolFieldUpdateOperationsInput | boolean
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    isRiskLevelAdminSet?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserRiskProfileUncheckedUpdateManyInput = {
@@ -44013,11 +44069,12 @@ export namespace Prisma {
     totalScore?: IntFieldUpdateOperationsInput | number
     riskLevel?: NullableEnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel | null
     riskPercentage?: FloatFieldUpdateOperationsInput | number
+    consentGiven?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isAnsweredPlatinaQues?: BoolFieldUpdateOperationsInput | boolean
+    isRiskLevelAdminSet?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    isAnsweredPlatinaQues?: BoolFieldUpdateOperationsInput | boolean
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    isRiskLevelAdminSet?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type RiskLevelServiceRecommendationCreateInput = {
@@ -46342,6 +46399,7 @@ export namespace Prisma {
     category?: SortOrder
     weight?: SortOrder
     rationale?: SortOrder
+    researchReport?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -46356,6 +46414,7 @@ export namespace Prisma {
     name?: SortOrder
     category?: SortOrder
     weight?: SortOrder
+    researchReport?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -46366,6 +46425,7 @@ export namespace Prisma {
     name?: SortOrder
     category?: SortOrder
     weight?: SortOrder
+    researchReport?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -46509,11 +46569,12 @@ export namespace Prisma {
     totalScore?: SortOrder
     riskLevel?: SortOrder
     riskPercentage?: SortOrder
+    consentGiven?: SortOrder
+    isActive?: SortOrder
+    isAnsweredPlatinaQues?: SortOrder
+    isRiskLevelAdminSet?: SortOrder
     completedAt?: SortOrder
     lastUpdated?: SortOrder
-    isAnsweredPlatinaQues?: SortOrder
-    isActive?: SortOrder
-    isRiskLevelAdminSet?: SortOrder
   }
 
   export type UserRiskProfileAvgOrderByAggregateInput = {
@@ -46527,11 +46588,12 @@ export namespace Prisma {
     totalScore?: SortOrder
     riskLevel?: SortOrder
     riskPercentage?: SortOrder
+    consentGiven?: SortOrder
+    isActive?: SortOrder
+    isAnsweredPlatinaQues?: SortOrder
+    isRiskLevelAdminSet?: SortOrder
     completedAt?: SortOrder
     lastUpdated?: SortOrder
-    isAnsweredPlatinaQues?: SortOrder
-    isActive?: SortOrder
-    isRiskLevelAdminSet?: SortOrder
   }
 
   export type UserRiskProfileMinOrderByAggregateInput = {
@@ -46540,11 +46602,12 @@ export namespace Prisma {
     totalScore?: SortOrder
     riskLevel?: SortOrder
     riskPercentage?: SortOrder
+    consentGiven?: SortOrder
+    isActive?: SortOrder
+    isAnsweredPlatinaQues?: SortOrder
+    isRiskLevelAdminSet?: SortOrder
     completedAt?: SortOrder
     lastUpdated?: SortOrder
-    isAnsweredPlatinaQues?: SortOrder
-    isActive?: SortOrder
-    isRiskLevelAdminSet?: SortOrder
   }
 
   export type UserRiskProfileSumOrderByAggregateInput = {
@@ -49815,11 +49878,12 @@ export namespace Prisma {
     totalScore: number
     riskLevel?: $Enums.RiskLevel | null
     riskPercentage: number
+    consentGiven?: boolean
+    isActive?: boolean
+    isAnsweredPlatinaQues?: boolean
+    isRiskLevelAdminSet?: boolean
     completedAt?: Date | string
     lastUpdated?: Date | string
-    isAnsweredPlatinaQues?: boolean
-    isActive?: boolean
-    isRiskLevelAdminSet?: boolean
     platinaRecommendations?: UserPlatinaRecommendationCreateNestedManyWithoutRiskProfileInput
   }
 
@@ -49828,11 +49892,12 @@ export namespace Prisma {
     totalScore: number
     riskLevel?: $Enums.RiskLevel | null
     riskPercentage: number
+    consentGiven?: boolean
+    isActive?: boolean
+    isAnsweredPlatinaQues?: boolean
+    isRiskLevelAdminSet?: boolean
     completedAt?: Date | string
     lastUpdated?: Date | string
-    isAnsweredPlatinaQues?: boolean
-    isActive?: boolean
-    isRiskLevelAdminSet?: boolean
     platinaRecommendations?: UserPlatinaRecommendationUncheckedCreateNestedManyWithoutRiskProfileInput
   }
 
@@ -50113,11 +50178,12 @@ export namespace Prisma {
     totalScore?: IntFieldUpdateOperationsInput | number
     riskLevel?: NullableEnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel | null
     riskPercentage?: FloatFieldUpdateOperationsInput | number
+    consentGiven?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isAnsweredPlatinaQues?: BoolFieldUpdateOperationsInput | boolean
+    isRiskLevelAdminSet?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    isAnsweredPlatinaQues?: BoolFieldUpdateOperationsInput | boolean
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    isRiskLevelAdminSet?: BoolFieldUpdateOperationsInput | boolean
     platinaRecommendations?: UserPlatinaRecommendationUpdateManyWithoutRiskProfileNestedInput
   }
 
@@ -50126,11 +50192,12 @@ export namespace Prisma {
     totalScore?: IntFieldUpdateOperationsInput | number
     riskLevel?: NullableEnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel | null
     riskPercentage?: FloatFieldUpdateOperationsInput | number
+    consentGiven?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isAnsweredPlatinaQues?: BoolFieldUpdateOperationsInput | boolean
+    isRiskLevelAdminSet?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    isAnsweredPlatinaQues?: BoolFieldUpdateOperationsInput | boolean
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    isRiskLevelAdminSet?: BoolFieldUpdateOperationsInput | boolean
     platinaRecommendations?: UserPlatinaRecommendationUncheckedUpdateManyWithoutRiskProfileNestedInput
   }
 
@@ -53493,6 +53560,7 @@ export namespace Prisma {
     category: string
     weight: number
     rationale?: NullableJsonNullValueInput | InputJsonValue
+    researchReport?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -53503,6 +53571,7 @@ export namespace Prisma {
     category: string
     weight: number
     rationale?: NullableJsonNullValueInput | InputJsonValue
+    researchReport?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -53869,6 +53938,7 @@ export namespace Prisma {
     category?: StringFilter<"ResearchAdvisoryMutualFundStockList"> | string
     weight?: FloatFilter<"ResearchAdvisoryMutualFundStockList"> | number
     rationale?: JsonNullableFilter<"ResearchAdvisoryMutualFundStockList">
+    researchReport?: StringNullableFilter<"ResearchAdvisoryMutualFundStockList"> | string | null
     createdAt?: DateTimeFilter<"ResearchAdvisoryMutualFundStockList"> | Date | string
     updatedAt?: DateTimeFilter<"ResearchAdvisoryMutualFundStockList"> | Date | string
   }
@@ -55421,11 +55491,12 @@ export namespace Prisma {
     totalScore: number
     riskLevel?: $Enums.RiskLevel | null
     riskPercentage: number
+    consentGiven?: boolean
+    isActive?: boolean
+    isAnsweredPlatinaQues?: boolean
+    isRiskLevelAdminSet?: boolean
     completedAt?: Date | string
     lastUpdated?: Date | string
-    isAnsweredPlatinaQues?: boolean
-    isActive?: boolean
-    isRiskLevelAdminSet?: boolean
     user: UserCreateNestedOneWithoutRiskProfileInput
   }
 
@@ -55435,11 +55506,12 @@ export namespace Prisma {
     totalScore: number
     riskLevel?: $Enums.RiskLevel | null
     riskPercentage: number
+    consentGiven?: boolean
+    isActive?: boolean
+    isAnsweredPlatinaQues?: boolean
+    isRiskLevelAdminSet?: boolean
     completedAt?: Date | string
     lastUpdated?: Date | string
-    isAnsweredPlatinaQues?: boolean
-    isActive?: boolean
-    isRiskLevelAdminSet?: boolean
   }
 
   export type UserRiskProfileCreateOrConnectWithoutPlatinaRecommendationsInput = {
@@ -55646,11 +55718,12 @@ export namespace Prisma {
     totalScore?: IntFieldUpdateOperationsInput | number
     riskLevel?: NullableEnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel | null
     riskPercentage?: FloatFieldUpdateOperationsInput | number
+    consentGiven?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isAnsweredPlatinaQues?: BoolFieldUpdateOperationsInput | boolean
+    isRiskLevelAdminSet?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    isAnsweredPlatinaQues?: BoolFieldUpdateOperationsInput | boolean
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    isRiskLevelAdminSet?: BoolFieldUpdateOperationsInput | boolean
     user?: UserUpdateOneRequiredWithoutRiskProfileNestedInput
   }
 
@@ -55660,11 +55733,12 @@ export namespace Prisma {
     totalScore?: IntFieldUpdateOperationsInput | number
     riskLevel?: NullableEnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel | null
     riskPercentage?: FloatFieldUpdateOperationsInput | number
+    consentGiven?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isAnsweredPlatinaQues?: BoolFieldUpdateOperationsInput | boolean
+    isRiskLevelAdminSet?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastUpdated?: DateTimeFieldUpdateOperationsInput | Date | string
-    isAnsweredPlatinaQues?: BoolFieldUpdateOperationsInput | boolean
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    isRiskLevelAdminSet?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserPlatinaRecommendationCreateWithoutStocksInput = {
@@ -56868,6 +56942,7 @@ export namespace Prisma {
     category: string
     weight: number
     rationale?: NullableJsonNullValueInput | InputJsonValue
+    researchReport?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -57073,6 +57148,7 @@ export namespace Prisma {
     category?: StringFieldUpdateOperationsInput | string
     weight?: FloatFieldUpdateOperationsInput | number
     rationale?: NullableJsonNullValueInput | InputJsonValue
+    researchReport?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -57083,6 +57159,7 @@ export namespace Prisma {
     category?: StringFieldUpdateOperationsInput | string
     weight?: FloatFieldUpdateOperationsInput | number
     rationale?: NullableJsonNullValueInput | InputJsonValue
+    researchReport?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -57093,6 +57170,7 @@ export namespace Prisma {
     category?: StringFieldUpdateOperationsInput | string
     weight?: FloatFieldUpdateOperationsInput | number
     rationale?: NullableJsonNullValueInput | InputJsonValue
+    researchReport?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

@@ -10,14 +10,21 @@ import ResetPassword from "./reset-password";
 import { ArrowLeft, X } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import OTPVerificationForm from "../shared/otpVerificationForm";
-import { signIn } from "next-auth/react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { signIn, useSession } from "next-auth/react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { toast } from "sonner";
+import { useSignInProgress } from "./auth-state";
 
 export const Authentication = () => {
   const { model, isAuthOpen } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const searchParams = useSearchParams();
   const pathname = usePathname();
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  const { signInProgress, setSignInProgress, canSignIn } = useSignInProgress();
+  
 
   const callbackUrl = searchParams.get('callbackurl') || pathname || '/';
 
@@ -47,6 +54,26 @@ export const Authentication = () => {
   const handleBack = useCallback(() => dispatch(goBack()), [dispatch]);
   const handleSwitchToLogin = useCallback(() => dispatch(setAuthModel('login')), [dispatch]);
   const handleSwitchToRegister = useCallback(() => dispatch(setAuthModel('register')), [dispatch]);
+
+  const handleSignIn = async () => {
+    try {
+      if (!canSignIn()) {
+        if (status === 'authenticated') {
+          toast.success('You are already signed in, redirecting...');
+          router.push(pathname);
+        } else if (signInProgress) {
+          toast.error('Sign-in already in progress. Please complete it in the other tab and close this tab.');
+        }
+        return;
+      }
+      setSignInProgress(true)
+
+      await signIn('google', {callbackUrl: callbackUrl })
+
+    } catch (error) {
+      console.error('Error during Google sign-in:', error);
+    }
+  }
 
   const renderModel = useMemo(() => {
     switch (model) {
@@ -89,7 +116,7 @@ export const Authentication = () => {
             <Button 
                variant={'default'} 
                type="submit" 
-               onClick={() => signIn('google', { callbackUrl: callbackUrl })}
+               onClick={handleSignIn}
                className="px-8 mx-8 rounded-full cursor-pointer mt-2 w-full flex items-center justify-center gap-8"
             >  
              <svg 
@@ -126,7 +153,7 @@ export const Authentication = () => {
           {model === 'login' && (
             <p className="text-sm mt-4">
               Don&apos;t have an account?{" "}
-              <Button variant={'link'} onClick={handleSwitchToRegister}>Create here</Button>
+              <Button size={'sm'} variant={'secondary'} className="shadow-md dark:bg-neutral-700" onClick={handleSwitchToRegister}>Sign Up</Button>
             </p>
           )}
         </div>

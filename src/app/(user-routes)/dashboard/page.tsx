@@ -98,11 +98,18 @@ async function Page() {
                                  Once you subscribe to a service, it will appear here with details about your subscription.
                               </p>
                            </div>
-                           <Button asChild>
-                              <Link href={"/services"} className="hover:!text-legacisGreen"> 
-                                 Explore Services <ArrowRightCircle size={20} />
-                              </Link>
-                           </Button>
+                           <div className="flex gap-4 flex-wrap">
+                              <Button asChild>
+                                 <Link href={"/ia-services"} className="hover:!text-legacisGreen"> 
+                                    Explore IA Services <ArrowRightCircle size={20} />
+                                 </Link>
+                              </Button>
+                              <Button asChild>
+                                 <Link href={"/ra-services"} className="hover:!text-legacisGreen"> 
+                                    Explore RA Services <ArrowRightCircle size={20} />
+                                 </Link>
+                              </Button>
+                           </div>
                         </div>
                         <Image
                            src="/no-service.png"

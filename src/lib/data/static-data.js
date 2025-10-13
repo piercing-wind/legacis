@@ -148,30 +148,30 @@ export const homeWhyChooseUs = [
 export const homeService= [
       {
          icon : '/equity-direct-service-icon.svg',
-         name: 'Equity Research Advisory',
+         name: 'Research Advisory',
          desc: 'Momentum Thrust, ValueVest, Alpha Micros — and more',
-         link: '/services?type=RESEARCH_ADVISORY',
+         link: '/ra-services',
          tw: 'bg-pink-50 dark:bg-pink-50'
       },
       {
          icon : '/mutual-fund-icon.svg',
-         name: 'Mutual Fund Portfolios',
+         name: 'Investment Advisory',
          desc: 'Curated baskets by risk profile.',
-         link: '/services?type=RESEARCH_ADVISORY_MUTUAL_FUNDS',
+         link: '/ia-services',
          tw: 'bg-blue-50 dark:bg-blue-50'
       },
       {
          icon : '/equity-smallcase-icon.svg',
          name: 'Smallcase by Legacis',
          desc: 'Themed portfolios hosted on Smallcase.',
-         link: '/services?type=SMALLCASE',
+         link: '/ra-services?type=SMALLCASE',
          tw: 'bg-green-50 dark:bg-green-50'
       },
       {
          icon : '/platina-wealth.png',
          name: 'Platina Wealth - HNI',
          desc: 'Diagnose gaps and get a clear action plan.',
-         link: '/services?type=PLATINA_WEALTH',
+         link: '/ia-services?type=PLATINA_WEALTH',
          tw: 'bg-blue-50 dark:bg-blue-50'
       }
    ]

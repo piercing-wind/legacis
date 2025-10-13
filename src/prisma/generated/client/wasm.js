@@ -366,6 +366,7 @@ exports.Prisma.ResearchAdvisoryMutualFundStockListScalarFieldEnum = {
   category: 'category',
   weight: 'weight',
   rationale: 'rationale',
+  researchReport: 'researchReport',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -398,11 +399,12 @@ exports.Prisma.UserRiskProfileScalarFieldEnum = {
   totalScore: 'totalScore',
   riskLevel: 'riskLevel',
   riskPercentage: 'riskPercentage',
-  completedAt: 'completedAt',
-  lastUpdated: 'lastUpdated',
-  isAnsweredPlatinaQues: 'isAnsweredPlatinaQues',
+  consentGiven: 'consentGiven',
   isActive: 'isActive',
-  isRiskLevelAdminSet: 'isRiskLevelAdminSet'
+  isAnsweredPlatinaQues: 'isAnsweredPlatinaQues',
+  isRiskLevelAdminSet: 'isRiskLevelAdminSet',
+  completedAt: 'completedAt',
+  lastUpdated: 'lastUpdated'
 };
 
 exports.Prisma.RiskLevelServiceRecommendationScalarFieldEnum = {
@@ -585,7 +587,11 @@ exports.PolicyType = exports.$Enums.PolicyType = {
   DISCLOSURE_RA: 'DISCLOSURE_RA',
   DISCLOSURE_IA: 'DISCLOSURE_IA',
   GRIEVANCE_REDRESSAL: 'GRIEVANCE_REDRESSAL',
-  INVESTOR_CHARTER: 'INVESTOR_CHARTER'
+  INVESTOR_CHARTER: 'INVESTOR_CHARTER',
+  INVESTOR_CHARTER_IA: 'INVESTOR_CHARTER_IA',
+  INVESTOR_CHARTER_RA: 'INVESTOR_CHARTER_RA',
+  MITC_IA: 'MITC_IA',
+  MITC_RA: 'MITC_RA'
 };
 
 exports.ServiceType = exports.$Enums.ServiceType = {
@@ -593,6 +599,7 @@ exports.ServiceType = exports.$Enums.ServiceType = {
   RESEARCH_ADVISORY: 'RESEARCH_ADVISORY',
   RESEARCH_ADVISORY_MODEL_PORTFOLIO: 'RESEARCH_ADVISORY_MODEL_PORTFOLIO',
   RESEARCH_ADVISORY_MUTUAL_FUNDS: 'RESEARCH_ADVISORY_MUTUAL_FUNDS',
+  MUTUAL_FUNDS: 'MUTUAL_FUNDS',
   PORTFOLIO_REVIEW: 'PORTFOLIO_REVIEW',
   SMALLCASE: 'SMALLCASE',
   PLATINA_WEALTH: 'PLATINA_WEALTH'

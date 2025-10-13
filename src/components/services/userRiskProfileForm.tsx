@@ -4,7 +4,7 @@ import React, { useEffect, useState, useTransition } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
-import { getRiskProfileQuestions, RiskProfileQuestionWithResponses } from '@/lib/data/riskprofile'
+import { getRiskProfileConsentStatus, getRiskProfileQuestions, RiskProfileQuestionWithResponses } from '@/lib/data/riskprofile'
 import {
   Dialog,
   DialogContent,
@@ -23,7 +23,8 @@ import { toast } from 'sonner'
 import { createRiskProfile, saveRiskProfileAnswers } from '@/actions/risk-profile'
 import { cn } from '@/lib/utils'
 import { useRouter } from 'next/navigation'
-
+import { Badge } from '../ui/badge'
+import { Checkbox } from "@/components/ui/checkbox"
 // Updated Option type to use weight
 type Option = { value: number | string; text: string; weight?: number };
 
@@ -167,7 +168,7 @@ const UserRiskProfileQuestions = ({platina_wealth = false, className, text="Risk
   const [questions, setQuestions] = useState<RiskProfileQuestionWithResponses[]>([]);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [isPending, startTransition] = useTransition();
+  const [consentGiven, setConsentGiven] = useState(false);
   
   const router = useRouter();
   const {data, status} = useSession(); 
@@ -177,10 +178,12 @@ const UserRiskProfileQuestions = ({platina_wealth = false, className, text="Risk
    if (!user?.id) return;
     (async () => {
       const result = await getRiskProfileQuestions(user?.id);
+      const consentGiven = await getRiskProfileConsentStatus(user?.id);
       if (result.success && result.data) {
         const questions = await result.data;
         setQuestions(questions);
       }
+      setConsentGiven(consentGiven);
     })();
   }, [user?.id]);
 
@@ -188,26 +191,44 @@ const UserRiskProfileQuestions = ({platina_wealth = false, className, text="Risk
 
   const sortedQuestions = [...questions].sort((a, b) => a.order - b.order)
   const filteredQuestions = platina_wealth
-      ? sortedQuestions.filter(q => q.category === 'NORMAL' || q.category === 'PLATINA_WEALTH')
+      ? sortedQuestions
       : sortedQuestions.filter(q => q.category === 'NORMAL');
 
+  // Live Score Calculation
+  const [totalScore, setTotalScore] = useState(0);
+  const [currentPercentage, setCurrentPercentage] = useState(0);
+  const [riskLevel, setRiskLevel] = useState<'CONSERVATIVE' | 'MODERATE' | 'AGGRESSIVE'>('CONSERVATIVE');
+  const watchedValues = form.watch();
+
+  useEffect(() => {
+    const answers = form.getValues();
+    const answersWithWeights = calculateWeights(answers, filteredQuestions);
+    const totalMaxWeight = getMaxPossibleWeight(filteredQuestions);
+    const totalScore = Object.values(answersWithWeights).reduce((sum, item) => sum + item.weight, 0);
+    const percentageScore = totalMaxWeight > 0 ? Number(((totalScore / totalMaxWeight) * 100).toFixed(2)) : 0;
+    setTotalScore(totalScore);
+    setCurrentPercentage(percentageScore);
+    setRiskLevel(percentageScore < 33 ? 'CONSERVATIVE' : percentageScore < 66 ? 'MODERATE' : 'AGGRESSIVE');
+  }, [form, watchedValues, filteredQuestions]);
+
+
   const onSubmit = async (values: RiskProfileFormValues) => {
+      if(!consentGiven){
+         toast.error('Please provide consent by checking the box before submitting.');
+         return;
+      }
       const answersWithWeights = calculateWeights(values, sortedQuestions);
-      const totalMaxWeight = getMaxPossibleWeight(sortedQuestions);
-      const totalScore = Object.values(answersWithWeights).reduce((sum, item) => sum + item.weight, 0);
-
-      const percentageScore = totalMaxWeight > 0 ? Number(((totalScore / totalMaxWeight) * 100).toFixed(2)) : 0;
-
-
       setLoading(true);
+
       try {
          const [profileResult, answersResult] = await Promise.all([
             createRiskProfile({
                userId: user.id,
                totalScore: totalScore,
-               riskLevel: percentageScore < 30 ? 'CONSERVATIVE' : percentageScore < 60 ? 'MODERATE' : 'AGGRESSIVE',
-               riskPercentage: percentageScore,
+               riskLevel: riskLevel,
+               riskPercentage: currentPercentage,
                platina_wealth: platina_wealth,
+               consentGiven: consentGiven,
             }),
             saveRiskProfileAnswers(answersWithWeights, user.id)
          ]);
@@ -234,6 +255,7 @@ const UserRiskProfileQuestions = ({platina_wealth = false, className, text="Risk
           <DialogTitle>Complete Your Risk Profile</DialogTitle>
         </DialogHeader>
         <Form {...form}>
+          
           <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
             {filteredQuestions.map((q, index) =>{
                let prevAnswer = q.userResponses && q.userResponses.length > 0
@@ -300,11 +322,23 @@ const UserRiskProfileQuestions = ({platina_wealth = false, className, text="Risk
                 />
               )
             })}
-            <Button type="submit" disabled={loading}>Submit</Button>
+            <div className='flex items-end'>
+              <Button type="submit" disabled={loading}>I Agree</Button> 
+              <Checkbox id="risklevel-consent" 
+                className='mx-2 mb-1'
+                onCheckedChange={(v: boolean)=> setConsentGiven(v)} 
+                checked={consentGiven} 
+              />
+              <p className='text-xs'>that my Risk Score is <span className='font-medium'>{currentPercentage}</span>% and Risk Level is <Badge variant={'secondary'} className='font-medium'>{riskLevel}</Badge></p>
+            </div>
           </form>
         </Form>
         <DialogFooter>
-          <p className='text-xs'> Please answer all questions to the best of your ability. Your responses will help us tailor our services to your financial goals and risk tolerance.</p>
+          <p className='text-xs'> Please answer all questions to the best of your ability. Your responses will help us tailor our services to your financial goals and risk tolerance.
+            <br />
+            <br />
+            &lt;= 33% : CONSERVATIVE | 34% - 66% : MODERATE | &gt;= 67% : AGGRESSIVE
+          </p>
         </DialogFooter>
       </DialogContent>
     </Dialog>

@@ -14,12 +14,26 @@ export type ServiceWithComplimentary  = Service & {
    }[]
 } 
 
+// Usage:
 
-export const findServices = async () => {
+// findServices(['MUTUAL_FUNDS', 'COMBO']) — Only these types.
+// findServices(undefined, ['MUTUAL_FUNDS', 'COMBO']) — Exclude these types.
+// findServices() — All active services.
+
+export const findServices = async (
+   types?: ServiceType[],
+   excludeTypes?: ServiceType[]
+) => {
+   const where: any = { active: true };
+
+   if (types && types.length > 0) {
+      where.type = { in: types };
+   } else if (excludeTypes && excludeTypes.length > 0) {
+      where.type = { notIn: excludeTypes };
+   }
+
    const rawServices = await db.service.findMany({
-      where: {
-         active: true,
-      },
+      where,
       orderBy:[
          { order: "asc" }, 
          {createdAt: "desc"},
@@ -181,7 +195,7 @@ export const getServiceDataById = async ( serviceId: string, serviceType : Servi
                serviceId,
             },
          });
-      case 'RESEARCH_ADVISORY_MUTUAL_FUNDS':
+      case 'MUTUAL_FUNDS':
          return await db.researchAdvisoryMutualFundStockList.findMany({
             where: {
                serviceId,

@@ -36,6 +36,16 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
 
+/**
+ * TIMEZONE CONVENTION
+ * 
+ * This application uses 'UTC' timezone
+    All conversion of time functions are in this file
+    src\lib\utils.ts
+ * 
+ * 
+
+
 ## Complimentary Services
 
 The ComplimentaryService Model is designed to store all the relationships between services and their complimentary services. It is acting as a junction table between the Service and ComplimentaryService models.

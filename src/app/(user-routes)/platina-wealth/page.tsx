@@ -21,6 +21,13 @@ import { ServiceCard } from "@/components/services/serviceCard"
 import { getServiceDisplayPrice } from "@/lib/utils/servicePricingDisplay"
 import Image from "next/image"
 import Link from "next/link"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+    title: "Platina Wealth - Custom Investment Advisory",
+    description: "Custom equity portfolio advisory for HNIs, NRIs, and Family Offices under SEBI IA license. Personalized wealth management using institutional research and rule-based strategies.",
+};
+
 
 export default async function Page() {
    const session = await Session();
@@ -29,7 +36,6 @@ export default async function Page() {
    const service = await findServiceBySlug('platina-wealth');
    
    if(!service) notFound(); 
-   if(!user) redirect('/authenticate?callbackurl=/platina-wealth');
 
    let purchasedService = null;
    if (user?.id && service?.id) {
@@ -55,10 +61,16 @@ export default async function Page() {
       agreement = await findAgreementsByServiceId(service?.id || '');
    }
    
-   const [userRecommendation, riskProfile ] = await Promise.all([
-      findUserPlatinaRecommendation(user?.id),
-      getUserRiskProfileById(user?.id)
-   ]);
+   // Only fetch user-specific data if user is logged in
+   let userRecommendation = null;
+   let riskProfile = null;
+
+   if (user?.id) {
+      [userRecommendation, riskProfile] = await Promise.all([
+         findUserPlatinaRecommendation(user.id),
+         getUserRiskProfileById(user.id)
+      ]);
+   }
 
    let recommendedServices : ServiceWithComplimentary[] = []
    const recommendedServicesIds: string[] = Array.isArray(service?.recommendedService)

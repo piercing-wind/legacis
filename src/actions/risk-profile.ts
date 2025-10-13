@@ -26,13 +26,15 @@ export const createRiskProfile = async ({
   riskPercentage = 0,
   completedAt = new Date(),
   platina_wealth = false,
+  consentGiven,
 }: {
   userId: string,
   totalScore?: number,
   riskLevel?: RiskLevel,
   riskPercentage?: number,
   completedAt?: Date,
-   platina_wealth?: boolean,
+  platina_wealth?: boolean,
+  consentGiven: boolean,
 }) => {
   try {
     await db.userRiskProfile.upsert({
@@ -42,6 +44,7 @@ export const createRiskProfile = async ({
         riskLevel,
         riskPercentage,
         lastUpdated: new Date(),
+        consentGiven: consentGiven,
         isAnsweredPlatinaQues: platina_wealth,
       },
       create: {
@@ -52,6 +55,7 @@ export const createRiskProfile = async ({
         completedAt,
         lastUpdated: new Date(),
         isAnsweredPlatinaQues: platina_wealth,
+        consentGiven: consentGiven,
       },
     });
 

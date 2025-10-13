@@ -1,13 +1,13 @@
 import {auth} from "@/auth";
 import { findServiceById } from "@/lib/data/services";
-import { cashfree } from "@/lib/payment/cashfree";
+import { ia_cashfree, ra_cashfree } from "@/lib/payment/cashfree";
 import { db } from "@/lib/db";
 import { findCouponByCode } from "@/lib/data/coupon";
 import { AgreementSummary } from "@/types/global";
+import { investment_advisory_services } from "@/constant/service_categorized";
 
-
-export const GET = (request: Request) => {
-   return new Response(JSON.stringify({ message: "Ristricted Access" }), { status: 200 });
+export const GET = () => {
+   return new Response(JSON.stringify({ message: "Ristricted Access" }), { status: 201 });
 }
 
 export const POST = auth(async (request)=> {
@@ -81,10 +81,16 @@ export const POST = auth(async (request)=> {
          }
       }
 
-      const order = await cashfree.PGCreateOrder(requestBody);
+      let order; 
+      // Use different cashfree instances based on service type
+      if(investment_advisory_services.includes(service.type)) {
+         order = await ia_cashfree.PGCreateOrder(requestBody);
+      }else {
+         order = await ra_cashfree.PGCreateOrder(requestBody);
+      }
+      
       if (order.status !== 200) throw new Error(`Failed to create order: ${order.statusText}`);
       
-      // console.log("Order created successfully:", order.data);
 
       await db.transaction.create({
        data: {

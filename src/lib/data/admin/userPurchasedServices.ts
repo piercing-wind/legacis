@@ -1,5 +1,5 @@
 import { db } from '@/lib/db';
-import type { Prisma } from '@/prisma/generated/client';
+import { GrantType, type Prisma } from '@/prisma/generated/client';
 
 type SubscriptionInclude = {
   user: {
@@ -54,6 +54,7 @@ export type AllUserPurchasedServices = {
     total: number;
     activeCount: number;
     expiredCount: number;
+    adminGrant: number;
   };
 };
 
@@ -83,8 +84,55 @@ export const findAllUserPurchasedServices = async ({
       where.service = { ...(where.service || {}), type: serviceType };
     }
     
+    const now = new Date();
+
     // 1. Get total count of matching records (without pagination)
-    const total = await db.userPurchasedServices.count({ where });
+    const [total, activeCount, expiredCount, adminGrant] = await Promise.all([
+        db.userPurchasedServices.count({ where }),
+        
+        db.userPurchasedServices.count({
+          where: {
+            AND: [
+              where,
+              {
+                isActive: true,
+                OR: [
+                  { expiryDate: null },
+                  { expiryDate: { gt: now } }
+                ]
+              }
+            ]
+          }
+        }),
+        
+        db.userPurchasedServices.count({
+          where: {
+            AND: [
+              where,
+              {
+                OR: [
+                  { isActive: false },
+                  {
+                    AND: [
+                      { expiryDate: { not: null } },
+                      { expiryDate: { lte: now } }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }),
+
+        db.userPurchasedServices.count({
+          where: {
+            AND: [
+              where,
+              { grantType: 'ADMIN_GRANTED' },
+            ]
+          }
+        }),
+    ]);
 
     const subscriptions = await db.userPurchasedServices.findMany({
       where,
@@ -138,7 +186,6 @@ export const findAllUserPurchasedServices = async ({
       take,
     });
 
-    const now = new Date();
     const active = subscriptions.filter(s => s.isActive && (!s.expiryDate || new Date(s.expiryDate) > now));
     const expired = subscriptions.filter(s => !s.isActive || (s.expiryDate && new Date(s.expiryDate) <= now));
 
@@ -149,8 +196,9 @@ export const findAllUserPurchasedServices = async ({
      expired,
      stats: {
        total,
-       activeCount: active.length,
-       expiredCount: expired.length
+       activeCount,
+       expiredCount,
+       adminGrant
      }
    };
 

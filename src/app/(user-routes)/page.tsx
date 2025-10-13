@@ -9,13 +9,13 @@ import { findBlogs } from "@/lib/data/blogs";
 import { findServices } from "@/lib/data/services";
 import { homeService } from "@/lib/data/static-data";
 import { cn, getUniqueSpecialServices } from "@/lib/utils";
-import { ArrowUpRightIcon, Award, BadgeCheck, Check, Shield } from "lucide-react";
+import { ArrowUpRight, ArrowUpRightIcon, Award, BadgeCheck, Check, Shield } from "lucide-react";
 import { NumberTicker } from "@/components/magicui/number-ticker";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { ClientComplaintsTable } from "@/components/clientComplaintsTable";
-import { AnnualDisposalTable } from "@/components/annualDisposalTable";
+// import { ClientComplaintsTable } from "@/components/periodic-submission/clientComplaintsTable";
+// import { AnnualDisposalTable } from "@/components/periodic-submission/annualDisposalTable";
 
 export default async function Home() {
 
@@ -59,10 +59,10 @@ export default async function Home() {
    ]
 
    const categories = [
-      { label: "Mutual Funds", type: "RESEARCH_ADVISORY_MUTUAL_FUNDS" },
-      { label: "Smallcase", type: "SMALLCASE" },
-      { label: "Research Advisory", type: "RESEARCH_ADVISORY" },
-      { label: "Portfolio Review", type: "PORTFOLIO_REVIEW" },
+      { label: "Mutual Funds", url: '/ia-services', type: "MUTUAL_FUNDS" },
+      { label: "Smallcase", url: '/ra-services', type: "SMALLCASE" },
+      { label: "Research Advisory", url: '/ra-services', type: "RESEARCH_ADVISORY" },
+      { label: "Portfolio Review", url: '/ia-services', type: "PORTFOLIO_REVIEW" },
    ];
    return (
       <main className="w-full relative px-5 lg:px-10 xl:px-24">
@@ -70,7 +70,7 @@ export default async function Home() {
          <section className="relative w-full pt-12 -mt-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-0">
                <div className="space-y-8 flex-1 flex flex-col order-1">
-                  <h6 className="self-start inline-block text-legacisPurple dark:text-legacisGreen tracking-wide text-sm xl:text-lg rounded-lg shadow shadow-neutral-200 dark:shadow-neutral-600 px-2 py-1">Research-Led. Built To Compound</h6>
+                  <h6 className="self-start inline-block font-medium text-legacisPurple dark:text-legacisGreen tracking-wide text-sm xl:text-2xl rounded-lg shadow shadow-neutral-200 dark:shadow-neutral-600 px-2 py-1">Research-Led. Built To Compound</h6>
                   <h1 className="text-3xl sm:text-4xl mb-0 sm:mb-auto lg:text-5xl xl:text-6xl text-nowrap leading-10 lg:leading-18 xl:leading-20 flex flex-col items-start">
                      Turn Your Investments 
                      <span>
@@ -80,7 +80,7 @@ export default async function Home() {
                   <div className="order-3 space-y-6 hidden md:block">
                      <p className="text-sm lg:text-lg">From in-depth research to discovering market’s hidden opportunities, we help you invest with confidence and aim for enduring growth.</p>
                      <Button asChild variant={'default'} className="max-w-80 shadow bg-gray-600 dark:bg-neutral-300 shadow-neutral-200 dark:shadow-neutral-600 px-2 font-normal text-base sm:text-xl h-auto py-3 rounded-sm w-full">
-                        <Link href={'/services'} className="gap-4 hover:!text-white dark:hover:!text-neutral-800">
+                        <Link href={'/ra-services'} className="gap-4 hover:!text-white dark:hover:!text-neutral-800">
                             Explore Plans
                         </Link>  
                      </Button>
@@ -215,58 +215,10 @@ export default async function Home() {
             </div>
 
             {/* Circles */}
-            <div className="rounded-full blur-xs bg-legacisGreen dark:bg-blue-200 -z-10 h-40 w-40 sm:h-60 sm:w-60 opacity-10 dark:opacity-50 absolute bottom-[40%] right-[50%] sm:bottom-44 sm:right-[2%] " >
-               <div className=" items-center h-full w-full relative">
-                     <Image
-                        src="/icons/favicon.ico"
-                        alt="Legacis Logo"
-                        fill
-                        className="opacity-20 dark:hidden"
-                        style={{
-                           objectFit: "cover"
-                        }}
-                     />
-               </div>
-            </div>
-            <div className="rounded-full blur-xs bg-legacisGreen dark:bg-blue-200 -z-10 h-20 w-20 opacity-10 dark:opacity-50 absolute top-[10%] right-4 sm:top-[55%] sm:right-[32%] " >
-               <div className=" items-center h-full w-full relative">
-                     <Image
-                        src="/icons/favicon.ico"
-                        alt="Legacis Logo"
-                        fill
-                        className="opacity-20 dark:hidden"
-                        style={{
-                           objectFit: "cover"
-                        }}
-                     />
-               </div>
-            </div>
-            <div className="rounded-full blur-xs bg-legacisGreen dark:bg-blue-200 -z-10 h-24 w-24 sm:h-40 sm:w-40 opacity-10 dark:opacity-50 absolute top-[15%] right-1/3 sm:bottom-60 sm:right-[35%] " >
-               <div className=" items-center h-full w-full relative">
-                     <Image
-                        src="/icons/favicon.ico"
-                        alt="Legacis Logo"
-                        fill
-                        className="opacity-20 dark:hidden"
-                        style={{
-                           objectFit: "cover"
-                        }}
-                     />
-               </div>
-            </div>
-            <div className="rounded-full blur-xs bg-legacisGreen dark:bg-blue-200 -z-10 h-24 w-24 md:h-36 md:w-36 opacity-10 dark:opacity-50 absolute top-4 sm:top-10 sm:right-[15%] " >
-               <div className=" items-center h-full w-full relative">
-                     <Image
-                        src="/icons/favicon.ico"
-                        alt="Legacis Logo"
-                        fill
-                        className="opacity-20 dark:hidden"
-                        style={{
-                           objectFit: "cover"
-                        }}
-                     />
-               </div>
-            </div>
+            <div className="rounded-full blur-xs bg-legacisGreen dark:bg-blue-200 -z-10 h-40 w-40 sm:h-60 sm:w-60 opacity-10 dark:opacity-50 absolute bottom-[40%] right-[50%] sm:bottom-44 sm:right-[2%] " />
+            <div className="rounded-full blur-xs bg-legacisGreen dark:bg-blue-200 -z-10 h-20 w-20 opacity-10 dark:opacity-50 absolute top-[10%] right-4 sm:top-[55%] sm:right-[32%] " />
+            <div className="rounded-full blur-xs bg-legacisGreen dark:bg-blue-200 -z-10 h-24 w-24 sm:h-40 sm:w-40 opacity-10 dark:opacity-50 absolute top-[15%] right-1/3 sm:bottom-60 sm:right-[35%] " />
+            <div className="rounded-full blur-xs bg-legacisGreen dark:bg-blue-200 -z-10 h-24 w-24 md:h-36 md:w-36 opacity-10 dark:opacity-50 absolute top-4 sm:top-10 sm:right-[15%] " />
    
          </section>
 
@@ -307,7 +259,7 @@ export default async function Home() {
             <section className="py-16 lg:py-24 flex flex-col items-center justify-center h-full">
                <h6 className="rounded-lg shadow shadow-neutral-200 dark:shadow-neutral-600 px-2 py-1 text-legacisPurple dark:text-legacisGreen font-medium xl:text-2xl">Services</h6>
                <h2 className="text-2xl my-4 lg:text-5xl font-medium leading-10 sm:leading-14 text-neutral-800 dark:text-neutral-200">
-               Our Portfolio at a Glance
+                  Our Portfolio at a Glance
                </h2>
                <Tabs defaultValue={"all"} className="mt-8 ">
                   <TabsList className="p-2 sm:p-4 h-auto sm:h-16 flex flex-wrap items-center gap-2 sm:gap-4">
@@ -316,10 +268,10 @@ export default async function Home() {
                      </TabsTrigger>
                      {categories.map((cat) => (
                         <TabsTrigger key={cat.type} value={cat.type} asChild className="text-sm sm:text-lg flex-shrink-0 p-2 sm:p-4">
-                           <Link href={`/services?type=${encodeURIComponent(cat.type)}`}>{cat.label}</Link>
+                           <Link href={`${cat.url}?type=${encodeURIComponent(cat.type)}`}>{cat.label}</Link>
                         </TabsTrigger>
                      ))}
-                  </TabsList>
+                  </TabsList> 
                </Tabs>
                <HomeServices services={filteredServices}/>
             </section>
@@ -336,7 +288,7 @@ export default async function Home() {
          </section>
 
          {/* Tables */}
-          <section className="py-16 lg:py-24 grid grid-cols-1 lg:grid-cols-2 gap-8 h-full">
+          {/* <section className="py-16 lg:py-24 grid grid-cols-1 lg:grid-cols-2 gap-8 h-full">
              <div className="w-full">
                  <h5 className="mb-4 text-lg font-medium">Number of Client Complaints</h5>
                  <ClientComplaintsTable />
@@ -346,7 +298,15 @@ export default async function Home() {
                <AnnualDisposalTable />
              </div>
 
+         </section> */}
+         <section className="py-16 lg:py-24">
+            <Button asChild className="" variant={'secondary'}>
+               <Link href={'/periodic-submission'} target="_blank">
+                  Periodic Submission  <ArrowUpRight size={20}/>
+               </Link>
+            </Button>
          </section>
+
       </main>
    )
 }

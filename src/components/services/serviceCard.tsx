@@ -21,7 +21,7 @@ export const ServiceCard = ({
   service: ServiceWithComplimentary;
 }) => {
    switch (service.type) {
-      case "RESEARCH_ADVISORY_MUTUAL_FUNDS":
+      case "MUTUAL_FUNDS":
          return <MutualFundServiceCard />;
       case "PORTFOLIO_REVIEW":
          return <PortfolioReviewServiceCard />;
@@ -194,16 +194,17 @@ export const RegularServiceCard = ({
 };
 
 export const MutualFundServiceCard = () => {
-   const {color, color_l, card_tw, btn_tw} = getColorForCardByServiceType('RESEARCH_ADVISORY_MUTUAL_FUNDS');
+   const {color, color_l, card_tw, btn_tw} = getColorForCardByServiceType('MUTUAL_FUNDS');
    return (
       <Link 
-         href={getServiceLink('RESEARCH_ADVISORY_MUTUAL_FUNDS', '/mutual-funds')} target="_blank"
+         href={getServiceLink('MUTUAL_FUNDS', '/mutual-funds')} target="_blank"
          className={cn('border w-full rounded-2xl p-6 hover:shadow-neutral-50 dark:hover:shadow-neutral-800 items-stretch h-full flex flex-col', card_tw)}>
          <h2 className="text-xl font-semibold text-neutral-800 dark:text-neutral-100">Legacis - Mutual Funds Portfolios</h2>
          <p className="text-base text-purple-800 my-4 ">Explore our curated mutual fund portfolios designed to meet your investment goals.</p>
          <GradientLine color={color_l} height="2px" width="100%"/>
             <ChartDummy color={color} />
          <GradientLine color={color_l} height="2px" width="100%"/>
+         <div className="py-2"/>
          <Button 
             variant={'outline'} 
             className={cn(`w-full mt-auto tracking-wider text-base text-neutral-700 dark:text-neutral-900 p-2 h-14 border uppercase rounded-full dark:hover:!text-white`, btn_tw)}
@@ -215,7 +216,7 @@ export const MutualFundServiceCard = () => {
 };
 
 export const PortfolioReviewServiceCard = () => {
-   const {color, color_l, card_tw, btn_tw} = getColorForCardByServiceType('RESEARCH_ADVISORY_MUTUAL_FUNDS');
+   const {color, color_l, card_tw, btn_tw} = getColorForCardByServiceType('MUTUAL_FUNDS');
    return (
       <Link 
          href={getServiceLink('PORTFOLIO_REVIEW', '/portfolio-review')} target="_blank"
@@ -225,6 +226,7 @@ export const PortfolioReviewServiceCard = () => {
          <GradientLine color={color_l} height="2px" width="100%"/>
             <ChartDummy color={color} />
          <GradientLine color={color_l} height="2px" width="100%"/>
+         <div className="py-2"/>
          <Button 
             variant={'outline'} 
             className={cn(`w-full mt-auto tracking-wider text-base text-neutral-700 dark:text-neutral-900 p-2 h-14 border uppercase rounded-full dark:hover:!text-white`, btn_tw)}

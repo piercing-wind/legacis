@@ -30,6 +30,32 @@ export function identifyInputType(identifier: string): "email" | "phone" | "user
   }
 }
 
+// Create: src/lib/timezone-utils.ts
+export const IST_OFFSET = 5.5 * 60 * 60 * 1000; // IST is UTC+5:30
+
+/**
+ * Convert IST datetime-local input to UTC for database storage
+ */
+export function convertISTToUTC(istDateString: string | null): Date | null {
+  if (!istDateString) return null;
+  
+  // Parse the IST input and convert to UTC
+  const istDate = new Date(istDateString);
+  return new Date(istDate.getTime() - IST_OFFSET);
+}
+
+/**
+ * Convert UTC database date to IST for form display
+ */
+export function convertUTCToIST(utcDate: Date | string | null): string {
+  if (!utcDate) return "";
+  
+  const date = new Date(utcDate);
+  // Convert UTC to IST by adding IST offset
+  const istDate = new Date(date.getTime() + IST_OFFSET);
+  return istDate.toISOString().slice(0, 16);
+}
+
 
 /**
  * Converts a date string or Date object to a human-readable format like "20 May 2025"
@@ -50,7 +76,6 @@ export function formatDateWithTime(date: string | Date): string {
   if (!date) return "";
   const d = typeof date === "string" ? new Date(date) : date;
   if (!(d instanceof Date) || isNaN(d.getTime())) return "";
-
   return d.toLocaleString("en-GB", {
     day: "2-digit",
     month: "short",
@@ -62,6 +87,8 @@ export function formatDateWithTime(date: string | Date): string {
     timeZone: "Asia/Kolkata"
   }).replace(',', '');
 }
+
+
 
 
 /**
@@ -111,16 +138,20 @@ export function normalizeRationale(val: any): { text: string } {
  * @returns The route link as a string
  */
 export function getServiceLink(serviceType: ServiceType, slug: string): string {
+  if(slug.startsWith('https://')) {
+    return slug;
+  }
   if (serviceType === 'PLATINA_WEALTH') {
     return '/platina-wealth';
   }
-  if (serviceType === 'RESEARCH_ADVISORY_MUTUAL_FUNDS') {
+  if (serviceType === 'MUTUAL_FUNDS') {
     return '/mutual-funds';
   }
-  if( serviceType === 'SMALLCASE') {
-   return slug.startsWith('https://') ? slug : `/smallcase/${slug}`;
+
+  if (serviceType.includes('RESEARCH_ADVISORY')) {
+    return `/ra-services/${slug}`;
   }
-  return `/services/${slug}`; 
+  return `/ia-services/${slug}`; 
 }
 
 
@@ -137,11 +168,11 @@ export function chunkArray<T>(arr: T[], size: number): T[][] {
  * and at most one mutual fund and one portfolio review service.
  */
 export function getUniqueSpecialServices(services: ServiceWithComplimentary[]) {
-  const mf = services.find(s => s.type === 'RESEARCH_ADVISORY_MUTUAL_FUNDS');
+  const mf = services.find(s => s.type === 'MUTUAL_FUNDS');
   const pr = services.find(s => s.type === 'PORTFOLIO_REVIEW');
   const others = services.filter(
     (service) =>
-      service.type !== 'RESEARCH_ADVISORY_MUTUAL_FUNDS' &&
+      service.type !== 'MUTUAL_FUNDS' &&
       service.type !== 'PORTFOLIO_REVIEW'
   );
   const result = [...others];

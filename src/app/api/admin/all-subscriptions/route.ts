@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
-import { formatDateWithTime } from "@/lib/utils";
+import { convertUTCToIST, formatDateWithTime } from "@/lib/utils";
 import ExcelJS from "exceljs";
 
 
@@ -88,7 +88,7 @@ worksheet.columns = [
          paymentGateway = tx?.paymentGateway ?? '';
          currency = tx?.currency ?? '';
          couponDescription = tx?.coupon?.description ?? '';
-         createdAt = tx?.createdAt ? new Date(tx.createdAt).toLocaleDateString() : '';
+         createdAt = tx?.createdAt ? formatDateWithTime(tx.createdAt) : '';
       }
 
       // Decide plan name and plan days

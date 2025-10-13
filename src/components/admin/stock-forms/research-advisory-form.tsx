@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/select";
 import { ResearchAdvisoryStockList } from "@/prisma/generated/client";
 import { ServiceListItem } from "@/app/(admin-routes)/admin/services/page";
-import { extractFileKeyFromUrl, generateUniqueS3FileKey, normalizeRationale } from "@/lib/utils";
+import { convertUTCToIST, extractFileKeyFromUrl, generateUniqueS3FileKey, normalizeRationale } from "@/lib/utils";
 import { toast } from "sonner";
 import {
   deleteResearchAdvisoryStock,
@@ -90,10 +90,10 @@ export function ResearchAdvisoryStockListForm({
             rationale: normalizeRationale(stock.rationale),
             exitRationale: normalizeRationale(stock.exitRationale),
             entryDate: stock.entryDate
-              ? new Date(stock.entryDate).toISOString().slice(0, 16)
+              ? convertUTCToIST(stock.entryDate)
               : "",
             exitDate: stock.exitDate
-              ? new Date(stock.exitDate).toISOString().slice(0, 16)
+              ? convertUTCToIST(stock.exitDate)
               : "",
             raReport: stock.raReport || "",
           }))
@@ -584,7 +584,7 @@ export function ResearchAdvisoryStockListForm({
                         <FormControl>
                            <Input
                               {...field}
-                              type="datetime-local"
+                               type="datetime-local"
                               placeholder="Exit Date"
                               value={field.value ?? ""}
                               onChange={field.onChange}

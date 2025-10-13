@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { ZoomIn } from './animation/zoom';
 import Image from 'next/image';
 import { Button } from './ui/button';
@@ -197,7 +197,7 @@ function HomeStickyScroller() {
     }
   ];
 
-  const scrollToSection = (index: number) => {
+  const scrollToSection = useCallback((index: number) => {
     if (scrollRef.current) {
       const sectionWidth = scrollRef.current.clientWidth;
       scrollRef.current.scrollTo({
@@ -206,7 +206,7 @@ function HomeStickyScroller() {
       });
       setCurrentIndex(index);
     }
-  };
+  }, []);
 
   const nextSection = React.useCallback(() => {
     setCurrentIndex((prevIndex) => {

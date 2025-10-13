@@ -16,8 +16,10 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { AadhaarOtp } from '@/prisma/generated/client';
+import { AadhaarOtp, ServiceType } from '@/prisma/generated/client';
 import { AgreementSummary } from '@/types/global';
+import { investment_advisory_services } from '@/constant/service_categorized';
+import { Spinner } from "@/components/ui/spinner"
 
 function slugify(text: string) {
   return text
@@ -63,9 +65,9 @@ export const QuillHtmlViewer = ({ delta, className }: { delta: any, className?: 
   return (
     <div
       className={cn(
-        className,
-        "w-full [&_table]:block [&_table]:w-full [&_table]:overflow-x-auto [&_table]:max-w-5xl [&_table]:min-w-xs [&_table]:rounded-lg [&_table]:p-2 [&_table]:mx-auto [&_table]:text-nowrap [&_table]:sm:text-wrap [&_table]:border  [&_td]:p-2 [&_th]:p-2 [&_tr]:border-b [&_tr]:opacity-80 [&_table]:text-sm [&_table]:font-normal",
-        "[&_h1]:text-xl [&_h1]:font-bold [&_h1]:mb-4 [&_h1]:text-gray-900 dark:[&_h1]:text-gray-100 [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:mb-3 [&_h2]:text-gray-900 dark:[&_h2]:text-gray-100 [&_h3]:text-base [&_h3]:font-medium [&_h3]:mb-2 [&_h3]:text-gray-900 dark:[&_h3]:text-gray-100 [&_p]:mb-3 [&_p]:leading-relaxed [&_p]:text-gray-700 dark:[&_p]:text-gray-300 [&_ul]:list-disc [&_ul]:ml-6 [&_ul]:mb-3 [&_ol]:list-decimal [&_ol]:ml-6 [&_ol]:mb-3 [&_li]:mb-1 [&_li]:text-gray-700 dark:[&_li]:text-gray-300 [&_strong]:font-semibold [&_em]:italic [&_blockquote]:border-l-4 [&_blockquote]:border-gray-300 dark:[&_blockquote]:border-gray-600 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-gray-600 dark:[&_blockquote]:text-gray-400"
+         "w-full break-words [&_table]:block [&_table]:w-full [&_table]:overflow-x-auto [&_table]:max-w-5xl [&_table]:min-w-xs [&_table]:rounded-lg [&_table]:p-2 [&_table]:mx-auto [&_table]:text-nowrap [&_table]:sm:text-wrap [&_table]:border  [&_td]:p-2 [&_th]:p-2 [&_tr]:border-b [&_tr]:opacity-80 [&_table]:text-sm [&_table]:font-normal",
+         "[&_h1]:text-xl [&_h1]:font-bold [&_h1]:mb-4 [&_h1]:text-gray-900 dark:[&_h1]:text-gray-100 [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:mb-3 [&_h2]:text-gray-900 dark:[&_h2]:text-gray-100 [&_h3]:text-base [&_h3]:font-medium [&_h3]:mb-2 [&_h3]:text-gray-900 dark:[&_h3]:text-gray-100 [&_p]:mb-3 [&_p]:leading-relaxed [&_p]:text-gray-700 dark:[&_p]:text-gray-300 [&_ul]:list-disc [&_ul]:ml-6 [&_ul]:mb-3 [&_ol]:list-decimal [&_ol]:ml-6 [&_ol]:mb-3 [&_li]:mb-1 [&_li]:text-gray-700 dark:[&_li]:text-gray-300 [&_strong]:font-semibold [&_em]:italic [&_blockquote]:border-l-4 [&_blockquote]:border-gray-300 dark:[&_blockquote]:border-gray-600 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-gray-600 dark:[&_blockquote]:text-gray-400",
+         className
       )}
       dangerouslySetInnerHTML={{ __html: html }}
     />
@@ -96,6 +98,8 @@ export const AgreementViewer = () => {
    const cashfreeRef = useRef<CashfreeInstance | null>(null);
    const plan = service.selectedPlan;
    const serviceId = service.serviceId;
+   const serviceType : ServiceType | null = service.serviceType;
+
    const router = useRouter();
    const dispatch = useAppDispatch();
    
@@ -106,7 +110,6 @@ export const AgreementViewer = () => {
    const [pending, setPending] = useState(false);
    const [otpRefId, setOtpRefId] = useState<string | null>(null);
    const [aadhaarOtpRecord, setAadhaarOtpRecord] = useState<AadhaarOtp | null>(null);
-
 
    const signatureAgreement = agreement?.find(
     (agreement) => agreement.signatoryPerson || agreement.companyName
@@ -158,6 +161,7 @@ export const AgreementViewer = () => {
         toast.error(`Failed to Send OTP: ${result.error.message}`, {
           duration: 15000,
         });
+        setPending(false);
         return;
       }
 
@@ -285,7 +289,9 @@ export const AgreementViewer = () => {
            }
            if (result.paymentDetails) {
              dispatch(setModalOpen({open : false}));
-             router.push('/thank-you?orderId=' + orderId);
+             const payment_category = investment_advisory_services.includes(serviceType!)
+             const url = `/thank-you?orderId=${orderId}&payment_category=${payment_category ? 'ia' : 'ra'}`;
+             router.push(url);
              toast.success("Payment completed: " + result.paymentDetails.paymentMessage);
            }
          });
@@ -391,10 +397,11 @@ export const AgreementViewer = () => {
                               <Button
                                  type="submit"
                                  size={'sm'}
-                                 className=""
+                                 className="flex items-center gap-2"
                                  disabled={pending}
                               >
-                                 Verify & Agree
+                                 Verify & Agree 
+                                 {pending && <Spinner />}
                               </Button>
                            </form>
                         </Form>
@@ -431,7 +438,7 @@ export const AgreementViewer = () => {
                                     </FormItem>
                                  )}
                               />
-                              <Button type='submit' disabled={pending} className='' size={'sm'}>Send OTP</Button>
+                              <Button type='submit' disabled={pending} className='' size={'sm'}>Send OTP {pending && <Spinner />}</Button>
                            </form>
                         </Form>
                      ) }

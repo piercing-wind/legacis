@@ -70,7 +70,7 @@ export async function generateStaticParams() {
   }))
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }):Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }):Promise<Metadata> {
   const { slug } = await params;
   const blog = await findBlogBySlug(slug);
    if (!blog) {

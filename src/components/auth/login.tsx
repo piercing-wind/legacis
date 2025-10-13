@@ -24,6 +24,7 @@ import { getSession, setAuthModel, setAuthOpen } from "@/lib/slices/authSlice";
 import { useRouter, useSearchParams } from "next/navigation";
 import { AppDispatch } from "@/lib/store";
 import { useAppDispatch } from "@/lib/hooks";
+import { useSession } from "next-auth/react";
 
 export default function Login({className}:{className ?:string}) {
   
@@ -31,7 +32,7 @@ export default function Login({className}:{className ?:string}) {
   const [isPending, startTransition] = useTransition();
   const dispatch : AppDispatch = useAppDispatch(); 
   const router = useRouter();
-
+  const {update} = useSession();
   const params = useSearchParams(); 
   const callbackurl = params.get("callbackurl");
 
@@ -47,7 +48,7 @@ export default function Login({className}:{className ?:string}) {
   function onSubmit(values: z.infer<typeof LoginSchema>) {
       startTransition(() => {
          login(values)
-          .then((res) => {
+          .then(async (res) => {
             if (!res.success) throw new Error(res.message);
             toast.success(res.message, {
               duration: 5000,
@@ -58,6 +59,7 @@ export default function Login({className}:{className ?:string}) {
             });
             
             dispatch(setAuthOpen(false));
+            await update();
             if(callbackurl){
                router.push(decodeURIComponent(callbackurl));
             }else{

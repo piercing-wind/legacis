@@ -8,7 +8,7 @@ import {
   ResearchAdvisoryModelPortfolioFormSchema,
   ResearchAdvisoryStocksFormSchema,
 } from "@/lib/schema";
-import { normalizeRationale } from "@/lib/utils";
+import { convertISTToUTC, normalizeRationale } from "@/lib/utils";
 import { ServiceType } from "@/prisma/generated/client";
 import * as z from "zod";
 
@@ -166,9 +166,9 @@ export async function upsertResearchAdvisoryStocks(
     const results = await Promise.all(
       stocks.map(async (stock) => {
         // Convert date strings to Date objects if present
-        const entryDate = stock.entryDate ? new Date(stock.entryDate) : null;
-        const exitDate = stock.exitDate ? new Date(stock.exitDate) : null;
-
+        const entryDate = stock.entryDate ? convertISTToUTC(stock.entryDate) : null;
+        const exitDate = stock.exitDate ? convertISTToUTC(stock.exitDate) : null;
+        
         const stockData = {
           name: stock.name,
           serviceId: stock.serviceId,
@@ -303,6 +303,7 @@ export const upsertResearchAdvisoryMutualFundStocks = async (
           category: stock.category,
           weight: stock.weight,
           rationale: normalizeRationale(stock.rationale),
+          researchReport: stock.researchReport ?? null,
         };
 
         if (stock.id) {

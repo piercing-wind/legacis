@@ -13,6 +13,7 @@ import { SerializableAgreement, ServiceAgreement } from "@/types/global";
 import { formatHumanDate } from "@/lib/utils";
 import { selectPlan, setAgreement, setAgreementSummary, setCoupon } from "@/lib/slices/checkoutSlice";
 import { useSession } from "next-auth/react";
+import { usePathname, useRouter } from "next/navigation";
 
 export const CheckoutForm=({ service, agreement, complimentaryServices} :{service: Service | null, agreement: Agreement[] | null, complimentaryServices?: Service[]})=>{
    const drawerCloseRef = useRef<HTMLButtonElement>(null);
@@ -23,7 +24,10 @@ export const CheckoutForm=({ service, agreement, complimentaryServices} :{servic
    const user = data?.user as User;
    const selectedPlan = useAppSelector((state) => state.checkout.service.selectedPlan);
    const appliedCoupon = useAppSelector((state) => state.checkout.coupon);
-   
+   const router = useRouter();
+   const pathname = usePathname();
+   const basePath = pathname.split('/')[1];
+
    const dispatch = useAppDispatch();
    useEffect(() => {
       setCouponCode("");
@@ -72,8 +76,13 @@ export const CheckoutForm=({ service, agreement, complimentaryServices} :{servic
       subscriptionPrice: `₹${String(total)} /-`,
    }
 
+  
    const handlePlanSelect = async () => {
          try {
+            if(!user || !user.id) {
+               router.push(`/authenticate?callbackurl=/${basePath}/` + service?.slug);
+               return;
+            }
             if (!serviceId) {
               toast.error("Service ID is required");
               return;
@@ -103,7 +112,7 @@ export const CheckoutForm=({ service, agreement, complimentaryServices} :{servic
               updatedAt: a.updatedAt instanceof Date ? a.updatedAt.toISOString() : a.updatedAt,
             }));
             
-            dispatch(selectPlan({...selectedPlan, serviceId: serviceId}));
+            dispatch(selectPlan({...selectedPlan, serviceId: serviceId, serviceType : service?.type || null}));
             dispatch(setAgreement(serializableAgreement ?? null));
             dispatch(setAgreementSummary(agreementSummary));
             dispatch(setModalOpen({open : true, modelType : 'agreement'}));
