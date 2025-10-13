@@ -19,6 +19,49 @@ import Image from "next/image"
 import { getServiceDisplayPrice } from "@/lib/utils/servicePricingDisplay"
 import { QuillHtmlViewer } from "@/components/richTextViewer"
 import { ServiceCard } from "@/components/services/serviceCard"
+import { Metadata } from "next"
+
+export async function generateMetadata({params}:{ params: Promise<{ slug: string }>}) : Promise<Metadata> {
+   const { slug } = await params;
+   const service = await findServiceBySlug(slug);
+   if(!service || service.type === 'PLATINA_WEALTH' || service.type === 'MUTUAL_FUNDS') {
+      return {
+         title: "Service Not Found",
+         description: "The requested service could not be found.",
+         robots: {
+            index : false,
+            follow: true,
+            nocache: true,
+            googleBot: {
+               index: false,
+               follow: true,
+               noimageindex: true,
+               'max-video-preview': 0,
+               'max-image-preview': 'none',
+               'max-snippet': 0,
+            },
+            }
+      }
+   }
+   return {
+      title: service.name,
+      description: service.description || `Learn more about Legacis Capital ${service.name} service.`,
+      robots: {
+         index : false,
+         follow: true,
+         nocache: false,
+         googleBot: {
+            index: false,
+            follow: true,
+            noimageindex: false,
+            'max-video-preview': -1,
+            'max-image-preview': 'large',
+            'max-snippet': -1,
+         },
+      }
+   }
+}
+
 
 export default async function Page({params}: { params: Promise<{ slug: string }>}) {
    const session = await Session();
@@ -27,8 +70,7 @@ export default async function Page({params}: { params: Promise<{ slug: string }>
    const { slug } = await params
    const service = await findServiceBySlug(slug);
    
-   if(!service || service.type === 'PLATINA_WEALTH' || service.type === 'RESEARCH_ADVISORY_MUTUAL_FUNDS') notFound(); 
-   if(!user) redirect('/authenticate?callbackurl=/services/' + slug);
+   if(!service || service.type === 'PLATINA_WEALTH' || service.type === 'MUTUAL_FUNDS') notFound(); 
    let purchasedService = null;
 
    if (user?.id && service?.id) {

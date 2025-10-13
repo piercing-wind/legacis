@@ -560,7 +560,7 @@ export default async function Page({ searchParams }: PageProps) {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-purple-600">
-              {data.all.filter(s => s.grantType === 'ADMIN_GRANTED').length}
+              {data.stats.adminGrant}
             </div>
             <p className="text-xs text-muted-foreground">Manually granted</p>
           </CardContent>
@@ -672,7 +672,7 @@ export default async function Page({ searchParams }: PageProps) {
                 <PaginationPrevious href={`?page=${page - 1}&search=${search}&serviceType=${serviceType}`} />
               </PaginationItem>
             )}
-            {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
+            {Array.from({ length: totalPages }, (_, i) => {
               const pageNumber = i + 1;
               return (
                 <PaginationItem key={pageNumber}>

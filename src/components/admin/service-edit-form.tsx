@@ -505,7 +505,7 @@ const form = useForm<ServiceFormValues>({
             )}
           />
 
-         {selectedType==='RESEARCH_ADVISORY_MUTUAL_FUNDS' && (
+         {selectedType==='MUTUAL_FUNDS' && (
             <FormField
               control={form.control}
               name="detailMutualFundPageDelta"

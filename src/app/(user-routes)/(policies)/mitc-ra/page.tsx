@@ -4,15 +4,15 @@ import React from 'react'
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: "Investor Charter",
-    description: "Investor Charter policy and practices for Legacis Capital.",
+    title: "MITC - RA",
+    description: "Most Important Terms and conditon for Legacis Research Advisory.",
 };
 
 const Page = async () => {
    const policy = await db.agreement.findFirst({
     where: {
       type: 'POLICY',
-      policyType: 'INVESTOR_CHARTER'
+      policyType: 'MITC_RA'
       
     },
       orderBy: {
@@ -40,8 +40,8 @@ const Page = async () => {
     <section className="py-16 lg:py-24 px-5 lg:px-10 xl:px-24 flex flex-col items-center justify-center h-full">
       <h1 className='text-2xl font-medium mb-8'>{policy?.name}</h1>
       <QuillHtmlViewer
-      delta={delta}
-      className="max-w-5xl w-full prose dark:prose-invert"
+         delta={delta}
+         className="max-w-5xl w-full prose dark:prose-invert"
       />
    </section>
   )

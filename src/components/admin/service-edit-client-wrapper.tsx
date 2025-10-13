@@ -69,7 +69,7 @@ export default function ServiceEditClientWrapper({
             />
          </div>
       )}
-      {service && selectedType === "RESEARCH_ADVISORY_MUTUAL_FUNDS" && (
+      {service && selectedType === "MUTUAL_FUNDS" && (
          <div id="stocklist" className="my-8 w-full h-screen border-t-4 p-4">
             <h2  className="text-xl font-medium mb-4">{service.name} Stock List</h2>
             <ResearchAdvisoryMutualFundStockListForm

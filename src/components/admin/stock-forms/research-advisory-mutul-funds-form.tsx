@@ -31,6 +31,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { deleteResearchAdvisoryModelPortfolioStock, deleteResearchAdvisoryMutualFundStock, upsertResearchAdvisoryModelPortfolio, upsertResearchAdvisoryMutualFundStocks } from "@/actions/admin/services";
 import { Textarea } from "@/components/ui/textarea";
 import { ResearchAdvisoryMutualFundStockList } from "@/prisma/generated/client";
+import { PDFDisplay } from "@/components/pdfDisplay";
+import { deleteS3File, getS3UploadUrl } from "@/actions/aws-s3";
 
 type StocksFormValues = z.infer<typeof ResearchAdvisoryMutualFundFormSchema>;
 /**
@@ -62,14 +64,16 @@ export const ResearchAdvisoryMutualFundStockListForm =(
           stocks: sortedInitialStocks.length 
           ? sortedInitialStocks.map(stock => ({
              ...stock,
-             rationale: normalizeRationale(stock.rationale)
+             rationale: normalizeRationale(stock.rationale),
+             researchReport: stock.researchReport ?? '',
           }))
             : [{ 
                serviceId, 
                name: '',
                category: '',
                weight: 0,
-               rationale: { text: "" }
+               rationale: { text: "" },
+               researchReport: ''
             }],
        }
 
@@ -304,6 +308,71 @@ export const ResearchAdvisoryMutualFundStockListForm =(
                         </FormItem>
                      )}
                   />
+                   <FormField
+                      control={form.control}
+                      name={`stocks.${idx}.researchReport`}
+                      render={({ field }) => (
+                         <FormItem>
+                            <FormLabel>Research Report (PDF)</FormLabel>
+                            <FormControl>
+                            <Input
+                               type="file"
+                               accept=".pdf,application/pdf"
+                               onChange={async (e) => {
+                                  const file = e.target.files?.[0];
+                                  if (!file) return;
+                                  try {
+                                     if (field.value) {
+                                        const prevKey = extractFileKeyFromUrl(field.value);
+                                        if (prevKey) {
+                                           await deleteS3File(prevKey);
+                                        }
+                                     }
+                                     // Generate unique key and upload to S3
+                                     const fileKey = generateUniqueS3FileKey(file.name, 'mutual-fund-reports');
+                                     const uploadUrl = await getS3UploadUrl(fileKey, file.type, 300, file.name);
+                                     const res = await fetch(uploadUrl, {
+                                        method: "PUT",
+                                        body: file,
+                                        headers: { 
+                                           "Content-Type": file.type, 
+                                           "Content-Disposition": `attachment; filename="${file.name}"`
+                                        }
+                                        
+                                     });
+                                     if (!res.ok) throw new Error("Failed to upload");
+                                     // Set the S3 file URL to this stock's researchReport field
+                                     field.onChange(`${process.env.NEXT_PUBLIC_AWS_BUCKET_URL}/${fileKey}`);
+                                     toast.success("PDF uploaded!");
+                                  } catch (err) {
+                                  toast.error((err as Error).message);
+                                  }
+                               }}
+                            />
+                            </FormControl>
+                            {/* Optionally show a link if already uploaded */}
+                            {field.value && (
+                               <Dialog>
+                                  <DialogTrigger asChild className="max-w-xs">
+                                     <Button variant='outline'>
+                                        View Uploaded PDF
+                                     </Button>
+                                  </DialogTrigger>
+                                  <DialogContent className="sm:max-w-5xl">
+                                     <DialogHeader>
+                                        <DialogTitle>Uploaded Research Report</DialogTitle>
+                                        <DialogDescription>
+                                           You cannot download the uploaded PDF report.
+                                        </DialogDescription>
+                                     </DialogHeader>
+                                     <PDFDisplay fileUrl={field.value}/>
+                                  </DialogContent>
+                               </Dialog>
+                            )}
+                            <FormMessage />
+                         </FormItem>
+                      )}
+                   />
                </div>
             ))}
          <div className="flex gap-4">

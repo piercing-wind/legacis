@@ -6,16 +6,30 @@ export const publicRoutes = [
    "/tools",
    "/contact",
    "/services",
+   "/ia-services",
+   "/ra-services",
+   "/platina-wealth",
+   "/mutual-funds",
+   "/services/:path*",
+   "/ia-services/:path*",
+   "/ra-services/:path*",
+   "/periodic-submission",
    "/privacy-policy",
    "/terms-and-conditions",
+   "/mitc-ia",
+   "/mitc-ra",
    "/disclosure-ia",
    "/disclosure-ra",
    "/grievance-redressal",
-   "/investor-charter",
+   "/investor-charter-ia",
+   "/investor-charter-ra",
    "/blog/:path*",
    "/api/payment/notify",
+   "/api/payment/notify/ia",
+   "/api/payment/notify/ra",
    "/api/cron/expiry-notify",
-
+   '/error',
+   "/api/migrate", // temporary, will be removed after migration is done
 ]
 
 export const authRoutes = [

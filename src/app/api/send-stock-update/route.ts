@@ -39,20 +39,20 @@ export const POST = auth(async (request) => {
       if (recipients.length === 0) {
          return new Response(JSON.stringify({ message: "No Subscriber found yet for emails updates" }), { status: 404 });
       }
-      for (const recipient of recipients) {
-         await sendMail({
-            to: recipient.email,
-            subject: `Stock Update for ${service?.name}`,
-            template: 'serviceUpdate',
-            context : {
-               name: recipient.name || recipient.email,
-               serviceName: service?.name || "Service",
-               dashboardUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard`,
-               title: `Legacis Capital - Stock Update for ${service?.name}`,
-               year: new Date().getFullYear(),
-            }
-         });
-      }
+      // for (const recipient of recipients) {
+      //    await sendMail({
+      //       to: recipient.email,
+      //       subject: `Stock Update for ${service?.name}`,
+      //       template: 'serviceUpdate',
+      //       context : {
+      //          name: recipient.name || recipient.email,
+      //          serviceName: service?.name || "Service",
+      //          dashboardUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard`,
+      //          title: `Legacis Capital - Stock Update for ${service?.name}`,
+      //          year: new Date().getFullYear(),
+      //       }
+      //    });
+      // }
    
       return new Response(JSON.stringify({message : "Mails sent successfully!"}), {status: 200});
    } catch (error) {

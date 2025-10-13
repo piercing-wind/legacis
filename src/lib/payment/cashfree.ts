@@ -1,16 +1,30 @@
 import { Cashfree, CFEnvironment } from "cashfree-pg";
 
-export let cashfree: Cashfree;
+export let ra_cashfree: Cashfree;
 if (process.env.NODE_ENV === "production") {
-  cashfree = new Cashfree(
+  ra_cashfree = new Cashfree(
     CFEnvironment.PRODUCTION,
-    process.env.CASHFREE_PAYMENT_GATEWAY_LIVE_CLIENT_ID!,
-    process.env.CASHFREE_PAYMENT_GATEWAY_LIVE_SECRET!
+    process.env.CASHFREE_PAYMENT_GATEWAY_RA_LIVE_CLIENT_ID!,
+    process.env.CASHFREE_PAYMENT_GATEWAY_RA_LIVE_SECRET!
   );
 } else {
-  cashfree = new Cashfree(
+  ra_cashfree = new Cashfree(
     CFEnvironment.SANDBOX,
-    process.env.CASHFREE_PAYMENT_GATEWAY_TEST_CLIENT_ID!,
-    process.env.CASHFREE_PAYMENT_GATEWAY_TEST_SECRET!
+    process.env.CASHFREE_PAYMENT_GATEWAY_RA_TEST_CLIENT_ID!,
+    process.env.CASHFREE_PAYMENT_GATEWAY_RA_TEST_SECRET!
+  );
+}
+export let ia_cashfree: Cashfree;
+if (process.env.NODE_ENV === "production") {
+  ia_cashfree = new Cashfree(
+    CFEnvironment.PRODUCTION,
+    process.env.CASHFREE_PAYMENT_GATEWAY_IA_LIVE_CLIENT_ID!,
+    process.env.CASHFREE_PAYMENT_GATEWAY_IA_LIVE_SECRET!
+  );
+} else {
+  ia_cashfree = new Cashfree(
+    CFEnvironment.SANDBOX,
+    process.env.CASHFREE_PAYMENT_GATEWAY_IA_TEST_CLIENT_ID!,
+    process.env.CASHFREE_PAYMENT_GATEWAY_IA_TEST_SECRET!
   );
 }

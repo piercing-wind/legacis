@@ -71,7 +71,7 @@ export default async function UserRiskProfileAnswersPage({ params }: { params: {
    ]);
 
   return (
-    <div className="max-w-5xl overflow-x-auto mx-auto py-8">
+    <div className="overflow-x-auto mx-auto py-8">
       <h1 className="text-2xl font-semibold mb-6">{user?.name} Risk Profile Answers</h1>
       <div className="rounded-md border">
         <Table>

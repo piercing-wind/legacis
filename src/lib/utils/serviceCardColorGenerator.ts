@@ -10,7 +10,7 @@ export const getColorForCardByServiceType = (serviceType?: ServiceType) => {
             btn_tw : 'border-legacisGreen/30 bg-legacisGreen/60 dark:bg-legacisGreen/70'
          }
          return colors;
-      case ServiceType.RESEARCH_ADVISORY_MUTUAL_FUNDS:
+      case ServiceType.MUTUAL_FUNDS:
          const colors2 = {
             color : '#ff86fb',
             color_l : '#ff9cfc',

@@ -9,6 +9,7 @@ import { SessionProvider } from "next-auth/react";
 import Modal from "@/components/profile/modal";
 import ConsoleMessage from "@/components/consoleRenderer";
 import { Suspense } from "react";
+import '@/lib/process-setup' 
 
 const poppins = Poppins({
    weight : [ "100", "200", "300", "400", "500", "600", "700", "800", "900"],

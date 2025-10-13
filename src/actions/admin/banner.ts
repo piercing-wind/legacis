@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import * as z from "zod";
 import { bannerSchema } from "@/lib/schema"; // import your schema
 import { revalidatePath } from "next/cache";
+import { publicRoutes } from "@/routes";
 
 export const upsertBanner = async (data: z.infer<typeof bannerSchema>) => {
   try {
@@ -44,7 +45,9 @@ export const upsertBanner = async (data: z.infer<typeof bannerSchema>) => {
         data: bannerData,
       });
     }
-   const paths = ['/', '/about', '/tools', '/services', '/contact', '/authenticate', '/privacy-policy', '/terms-and-conditions', '/disclosure-ia', '/disclosure-ra', '/grievance-redressal', '/investor-charter'];
+   const paths = publicRoutes.filter(path => !path.includes('/api')); // Exclude dynamic routes 
+   paths.push(...['/authenticate']);
+   console.log("Revalidating paths:", paths);
    paths.forEach(path => revalidatePath(path));
 
     return { success: true, banner: result };

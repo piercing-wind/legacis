@@ -1,7 +1,7 @@
 'use client';
 import { ServiceType } from "@/prisma/generated/client";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useMemo, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -11,31 +11,59 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { investment_advisory_services } from "@/constant/service_categorized";
 
+// All possible types
+const ALL_SERVICE_TYPES = [
+  { value: ServiceType.RESEARCH_ADVISORY, label: "Research Advisory" },
+  { value: ServiceType.MUTUAL_FUNDS, label: "Mutual Funds" },
+  { value: ServiceType.PLATINA_WEALTH, label: "Platina Wealth" },
+  { value: ServiceType.PORTFOLIO_REVIEW, label: "Portfolio Review" },
+  { value: ServiceType.SMALLCASE, label: "Smallcase" },
+  { value: ServiceType.COMBO, label: "Combo" }
+];
 
 export function ServicesSearchBar({q, type}: {q?: string, type?: string}) {
-   const ALL_TYPES = "ALL";
+  const ALL_TYPES = "ALL";
+  const pathname = usePathname();
 
-   const USER_TYPES = [
+
+  // Filter service types based on pathname
+  const SERVICE_TYPE = useMemo(() => {
+    if (pathname === "/ia-services") {
+      // Only include IA services
+      return [
+        { value: ALL_TYPES, label: "All Types" },
+        ...ALL_SERVICE_TYPES.filter(type =>
+          investment_advisory_services.includes(type.value as ServiceType)
+        ),
+      ];
+    } else if (pathname === "/ra-services") {
+      // Exclude IA services
+      return [
+        { value: ALL_TYPES, label: "All Types" },
+        ...ALL_SERVICE_TYPES.filter(type =>
+          !investment_advisory_services.includes(type.value as ServiceType)
+        ),
+      ];
+    }
+    // Default: show all
+    return [
       { value: ALL_TYPES, label: "All Types" },
-      { value: "RESEARCH_ADVISORY", label: "Research Advisory" },
-      { value: ServiceType.RESEARCH_ADVISORY_MUTUAL_FUNDS, label: "Mutual Funds" },
-      { value: ServiceType.PLATINA_WEALTH, label: "Platina Wealth" },
-      { value: ServiceType.PORTFOLIO_REVIEW, label: "Portfolio Review" },
-      { value: ServiceType.SMALLCASE, label: "Smallcase" },
-      { value: ServiceType.COMBO, label: "Combo" }
-   ];
-
-   const router = useRouter();
-   const [search, setSearch] = useState(q || "");
-   const [selectedType, setSelectedType] = useState<string>(type || ALL_TYPES);
+      ...ALL_SERVICE_TYPES
+    ];
+  }, [pathname]);
+  
+  const router = useRouter();
+  const [search, setSearch] = useState(q || "");
+  const [selectedType, setSelectedType] = useState<string>(type || ALL_TYPES);
 
   const handleTypeChange = (value: string) => {
     setSelectedType(value);
     const params = new URLSearchParams();
     if (search) params.set("q", search);
     if (value !== ALL_TYPES) params.set("type", value);
-    router.push(`/services?${params.toString()}`);
+    router.push(`${pathname}?${params.toString()}`);
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,11 +75,11 @@ export function ServicesSearchBar({q, type}: {q?: string, type?: string}) {
     const params = new URLSearchParams();
     if (search) params.set("q", search);
     if (selectedType !== ALL_TYPES) params.set("type", selectedType);
-    router.push(`/services?${params.toString()}`);
+    router.push(`${pathname}?${params.toString()}`);
   };
 
   return (
-    <div className="w-full mx-auto py-6 px-2 sm:px-4 border border-legacisPurple/20 dark:border-neutral-600 shadow-md shadow-legacisPurple/20 dark:shadow-neutral-600 sm:rounded-2xl">
+    <div className="w-full mx-auto py-6 px-2 sm:px-4 border border-legacisPurple/20 dark:border-neutral-600 shadow-S shadow-legacisPurple/20 dark:shadow-neutral-600 sm:rounded-2xl">
       <form
         onSubmit={handleSearchSubmit}
         className="flex flex-col gap-3 md:flex-row md:items-center md:gap-4"
@@ -68,7 +96,7 @@ export function ServicesSearchBar({q, type}: {q?: string, type?: string}) {
             <SelectValue placeholder="All Types" />
           </SelectTrigger>
           <SelectContent>
-            {USER_TYPES.map((type) => (
+            {SERVICE_TYPE.map((type) => (
                <SelectItem key={type.value} value={type.value}>
                {type.label}
                </SelectItem>
@@ -86,7 +114,7 @@ export function ServicesSearchBar({q, type}: {q?: string, type?: string}) {
             onClick={() => {
               setSearch("");
               setSelectedType(ALL_TYPES);
-              router.push("/services");
+              router.push(pathname);
             }}
           >
             Clear

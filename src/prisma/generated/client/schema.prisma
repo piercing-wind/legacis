@@ -34,6 +34,7 @@ enum ServiceType {
   RESEARCH_ADVISORY //Momentum SME VALUE etc
   RESEARCH_ADVISORY_MODEL_PORTFOLIO //alpha mircos
   RESEARCH_ADVISORY_MUTUAL_FUNDS
+  MUTUAL_FUNDS
   PORTFOLIO_REVIEW
   SMALLCASE
   PLATINA_WEALTH
@@ -254,6 +255,10 @@ enum PolicyType {
   DISCLOSURE_IA
   GRIEVANCE_REDRESSAL
   INVESTOR_CHARTER
+  INVESTOR_CHARTER_IA
+  INVESTOR_CHARTER_RA
+  MITC_IA
+  MITC_RA
 }
 
 model Agreement {
@@ -433,12 +438,13 @@ model ResearchAdvisoryModelPortfolioStockList {
 }
 
 model ResearchAdvisoryMutualFundStockList {
-  id        String @id @default(uuid())
-  serviceId String
-  name      String
-  category  String
-  weight    Float
-  rationale Json?
+  id             String  @id @default(uuid())
+  serviceId      String
+  name           String
+  category       String
+  weight         Float
+  rationale      Json?
+  researchReport String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -500,17 +506,19 @@ enum RiskLevel {
 }
 
 model UserRiskProfile {
-  id                    String     @id @default(uuid())
-  userId                String     @unique
-  totalScore            Int // Sum of all question scores
-  riskLevel             RiskLevel?
-  riskPercentage        Float // Risk score as percentage
-  completedAt           DateTime   @default(now())
-  lastUpdated           DateTime   @updatedAt
-  isAnsweredPlatinaQues Boolean    @default(false)
-  isActive              Boolean    @default(true)
-  isRiskLevelAdminSet   Boolean    @default(false)
+  id             String     @id @default(uuid())
+  userId         String     @unique
+  totalScore     Int // Sum of all question scores
+  riskLevel      RiskLevel?
+  riskPercentage Float // Risk score as percentage
+  consentGiven   Boolean    @default(false)
 
+  isActive              Boolean @default(true)
+  isAnsweredPlatinaQues Boolean @default(false)
+  isRiskLevelAdminSet   Boolean @default(false)
+
+  completedAt            DateTime                    @default(now())
+  lastUpdated            DateTime                    @updatedAt
   user                   User                        @relation(fields: [userId], references: [id], onDelete: Cascade)
   platinaRecommendations UserPlatinaRecommendation[]
 }
@@ -523,6 +531,7 @@ model RiskLevelServiceRecommendation {
   updatedAt DateTime  @updatedAt
 }
 
+//This table contains only one record for platina service id.
 // For Platina Wealth service with individual recommendations
 model ServicePlatinaWealth {
   id                  String   @id

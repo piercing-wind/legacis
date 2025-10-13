@@ -49,9 +49,7 @@ export const POST = auth(async (request)=> {
             otpStatus : response.data.status || "",
             generatedOTPResponse: { ...response.data }
          }
-      })
-      console.log("Aadhaar OTP record created:", response);
-      console.log("Aadhaar OTP sent successfully:", response.data);
+      });
       
       return Response.json({
          success: true,

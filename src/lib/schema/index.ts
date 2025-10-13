@@ -183,7 +183,8 @@ export const ResearchAdvisoryMutualFundStockSchema = z.object({
   name: z.string().min(1, "Name is required"),
   category: z.string(),
   weight: z.coerce.number().min(0, { message: "Portfolio weight must be a positive number" }).max(100, { message: "Portfolio weight cannot exceed 100" }),
-  rationale: z.object({ text: z.string().optional() }).optional().nullable()
+  rationale: z.object({ text: z.string().optional() }).optional().nullable(),
+  researchReport: z.string().optional().nullable(),
 });
 
 export const ResearchAdvisoryMutualFundFormSchema = z.object({

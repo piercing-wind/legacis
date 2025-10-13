@@ -22,41 +22,61 @@ type OrderDetails = {
   };
 };
 
-export function PaymentStatusClient({ orderId }: { orderId?: string }) {
+export function PaymentStatusClient({ orderId, payment_category }: { orderId?: string, payment_category?: 'ia' | 'ra' }) {
   const [status, setStatus] = useState<"pending" | "success" | "failed" | "timeout">("pending");
   const [order, setOrder] = useState<OrderDetails | null>(null);
 
   useEffect(() => {
     if (!orderId) return;
     let elapsed = 0;
-    const interval = setInterval(async () => {
-      elapsed += 3;
-      if (elapsed >= 1800) { // 30 minutes = 1800 seconds
-        setStatus("timeout");
-        clearInterval(interval);
-        return;
-      }
-      try {
-        const res = await fetch(`/api/payment/status?orderId=${orderId}`);
-        const data = await res.json();
-        if (data.status === "PAID") {
-          setStatus("success");
-          setOrder(data.order);
-          clearInterval(interval);
-        } else if (data.status === "FAILED" || data.status === "CANCELLED") {
-          setStatus("failed");
-          setOrder(data.order);
-          clearInterval(interval);
-        } else {
-          setOrder(data.order);
-        }
-      } catch {
-        // Optionally handle error
-      }
-    }, 3000);
+    const fetchStatus = async () => {
+      // Helper to fetch status with a given category
+      const fetchWithCategory = async (cat?: 'ia' | 'ra') => {
+        const res = await fetch(`/api/payment/status?orderId=${orderId}&payment_category=${cat || ''}`);
+        if (!res.ok) throw new Error("Not found");
+        return res.json();
+      };
 
-    return () => clearInterval(interval);
-  }, [orderId]);
+      const interval = setInterval(async () => {
+        elapsed += 3;
+        if (elapsed >= 1800) {
+          setStatus("timeout");
+          clearInterval(interval);
+          return;
+        }
+        try {
+          let data;
+          if (payment_category) {
+            data = await fetchWithCategory(payment_category);
+          } else {
+            // Try 'ia' first, then 'ra' if 'ia' fails
+            try {
+              data = await fetchWithCategory('ra');
+            } catch {
+              data = await fetchWithCategory('ia');
+            }
+          }
+          if (data.status === "PAID") {
+            setStatus("success");
+            setOrder(data.order);
+            clearInterval(interval);
+          } else if (data.status === "FAILED" || data.status === "CANCELLED") {
+            setStatus("failed");
+            setOrder(data.order);
+            clearInterval(interval);
+          } else {
+            setOrder(data.order);
+          }
+        } catch {
+          // Optionally handle error
+        }
+      }, 3000);
+
+      return () => clearInterval(interval);
+    };
+
+    fetchStatus();
+  }, [orderId, payment_category]);
 
   return (
     <div className="w-full max-w-md mx-auto rounded-xl bg-white dark:bg-neutral-800 shadow-2xl shadow-neutral-100 dark:shadow-neutral-700 p-6 flex flex-col items-center gap-4">

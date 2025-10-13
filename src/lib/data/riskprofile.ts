@@ -35,3 +35,16 @@ export const getRiskProfileQuestions = async (userId?:string) : Promise<GetRiskP
 };
 
 
+export const getRiskProfileConsentStatus = async (userId: string) : Promise<boolean> => {
+   try {
+      const profile = await db.userRiskProfile.findFirst({
+          where: {
+              userId,
+              consentGiven: true,
+          }
+      });
+      return profile ? profile.consentGiven : false;
+   } catch (error) {
+      return false;
+    }
+};

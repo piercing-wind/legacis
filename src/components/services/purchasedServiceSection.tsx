@@ -42,7 +42,7 @@ const PurchasedServiceSection = ({serviceType, data, mfServiceData}:{serviceType
          return <ServiceResearchAdvisorySection data={data as ResearchAdvisoryStockList[]} />
       case ServiceType.RESEARCH_ADVISORY_MODEL_PORTFOLIO:
          return <ServiceModelPortfolioSection data={data as ResearchAdvisoryModelPortfolioStockList[]} />
-      case ServiceType.RESEARCH_ADVISORY_MUTUAL_FUNDS:
+      case ServiceType.MUTUAL_FUNDS:
          return <ServiceMutualFundSection data={mfServiceData as PurchasedMFServiceData[]} />
       case ServiceType.PORTFOLIO_REVIEW:  
          return(
@@ -114,8 +114,8 @@ const ServiceResearchAdvisorySection = ({data} : {data : ResearchAdvisoryStockLi
    }
    
    const sortedStocks = data.filter(stock => stock.status === activeTab).sort((a, b) => {
-      const dateA = new Date(a.createdAt || "").getTime();
-      const dateB = new Date(b.createdAt || "").getTime();
+      const dateA = new Date(a.entryDate || "").getTime();
+      const dateB = new Date(b.entryDate || "").getTime();
       return dateB - dateA;
    });
    return (
@@ -668,6 +668,7 @@ const MFCardList = ({data, amount, setAmount} : {data : ResearchAdvisoryMutualFu
                    <TableHead>Weight (%)</TableHead>
                    <TableHead>Amount</TableHead>
                    <TableHead>Rationale</TableHead>
+                   <TableHead>Research Report</TableHead>
                 </TableRow>
              </TableHeader>
              <TableBody>
@@ -704,6 +705,21 @@ const MFCardList = ({data, amount, setAmount} : {data : ResearchAdvisoryMutualFu
                            </Dialog>
                         )}
                           
+                      </TableCell>
+                      <TableCell className='flex items-center justify-center'>
+                         <Dialog>
+                            <DialogTrigger asChild>
+                               <Button variant="outline">
+                                  View
+                               </Button>
+                            </DialogTrigger>
+                            <DialogContent className="sm:max-w-5xl">
+                               <DialogHeader>
+                                  <DialogTitle>{stock.name} Research Report</DialogTitle>
+                               </DialogHeader>
+                               <PDFDisplay fileUrl={stock.researchReport!}/>
+                            </DialogContent>
+                         </Dialog>
                       </TableCell>
                    </TableRow>
                 )})}

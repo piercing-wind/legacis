@@ -77,7 +77,6 @@ export function RiskProfileQuestionsAdmin({
       }
    }
 
-
    const onDelete = async (id: string) => {
       try {
          startTransition(() => {
@@ -103,7 +102,7 @@ export function RiskProfileQuestionsAdmin({
     <div className="w-full mx-auto overflow-x-auto py-8 px-4">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-medium">Questions</h2>
-        <Button onClick={() => { setEditing(null); setShowForm(true); }}>Add New</Button>
+        <Button onClick={() => { setEditing(null); setShowForm(true); router.push('#risk-question-form') }}>Add New</Button>
       </div>
       <Table>
         <TableHeader>
@@ -129,7 +128,11 @@ export function RiskProfileQuestionsAdmin({
                 </Badge>
               </TableCell>
               <TableCell>
-                <Button size="sm" onClick={() => { setEditing(q); setShowForm(true); }}>Edit</Button>
+                <Button size="sm" onClick={() => { 
+                    setEditing(q); 
+                    setShowForm(true);
+                    router.push('#risk-question-form');
+                }}>Edit</Button>
               </TableCell>
               <TableCell>
                 <Button size="sm" variant="destructive" onClick={() => onDelete(q.id)}>Delete</Button>
@@ -140,7 +143,7 @@ export function RiskProfileQuestionsAdmin({
       </Table>
 
       {showForm && (
-        <div className="mt-6 border rounded-lg p-4 bg-muted">
+        <div id="risk-question-form" className="mt-6 border rounded-lg p-4 bg-muted">
             <RiskProfileQuestionForm
             initialData={
                editing
@@ -308,11 +311,53 @@ export function RiskProfileQuestionForm({
               <FormItem>
                 <FormLabel>
                   Options (JSON)
-                  <span className="block text-xs text-muted-foreground">
-                    For MCQ/YES_NO: [{"{"}&quot;value&quot;: 1, &quot;text&quot;: &quot;Low risk&quot;, &quot;weight&quot;: 1{"}"}]<br />
-                    For SCALE: {"{"}&quot;minScore&quot;: 1, &quot;maxScore&quot;: 5{"}"}
-                  </span>
+                  <pre className="text-xs text-muted-foreground mt-1">
+                    <span className="text-sm font-medium">Example:</span>
+                    <br />
+                    For MCQ/YES_NO:
+                    <code>
+                      {` 
+                        [
+                          {
+                            "value": "low_risk",
+                            "text": "Low risk",
+                            "weight": 1
+                          }
+                        ]
+                      `}
+                    </code>
+                    <br />
+                    For SCALE: there is no Square Bracket is Required for scale option. 
+                    <code>
+                        {`
+                          {
+                            "minScore": 1,
+                            "maxScore": 5
+                          }
+                        `}
+                    </code>
+                  </pre>
                 </FormLabel>
+                <pre>
+                  <span className="text-sm font-medium">MCQ & Yes/No type Option format is same Only difference is Yes/no contains only 2 options but MCQ can contain multiple:</span> <br />
+                  <code className="text-xs text-muted-foreground">
+                    {"{"} <br />
+                      <strong>&quot;value&quot;</strong>: &quot;Unique identifier for this option. This should be unique among all options for the current question. You can use any value, but it is recommended to use the option text in lowercase without special characters.&quot;<br />
+                      <strong>&quot;text&quot;</strong>: &quot;The label shown to the user.&quot;<br />
+                      <strong>&quot;weight&quot;</strong>: &quot;The score added to the user&apos;s risk profile if this option is selected.&quot;<br />
+                    {"}"} 
+                  </code>
+                </pre>
+                <pre>
+                  <span className="text-sm font-medium">Scale:</span> <br />
+                  <code className="text-xs text-muted-foreground">
+                    {"{"} <br />
+                      <strong>&quot;minScore&quot;</strong>: &quot;Set the minimum Score in number.&quot;<br />
+                      <strong>&quot;maxScore&quot;</strong>: &quot;Set the Maximum Score in number.&quot;<br />
+                    {"}"} <br /> 
+                    <span className="text-xs font-medium">  ^ score will be calculated based on the selected value between min and max score</span> <br />
+                  </code>
+                </pre>
                 <FormControl>
                   <Textarea
                     placeholder='[{"value":1,"text":"Low risk","weight":1}] or {"minScore":1,"maxScore":5}'

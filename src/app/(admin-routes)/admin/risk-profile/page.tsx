@@ -41,6 +41,7 @@ export default async function Page() {
                <TableHead>Phone</TableHead>
                <TableHead>Risk Level</TableHead>
                <TableHead>Risk %</TableHead>
+               <TableHead>Consent</TableHead>
                <TableHead>Completed At</TableHead>
                <TableHead>Updated At</TableHead>
                <TableHead>Response</TableHead>
@@ -55,6 +56,7 @@ export default async function Page() {
                   <TableCell>{profile.user?.phone || "N/A"}</TableCell>
                   <TableCell>{profile.riskLevel}</TableCell>
                   <TableCell>{profile.riskPercentage}%</TableCell>
+                  <TableCell>{profile.consentGiven ? 'Yes': 'No'}</TableCell>
                   <TableCell>{formatHumanDate(profile.completedAt)}</TableCell>
                   <TableCell>{formatHumanDate(profile.lastUpdated)}</TableCell>
                   <TableCell>

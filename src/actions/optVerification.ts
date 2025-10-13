@@ -1,5 +1,4 @@
 'use server'
-import { OTPEmail } from "@/emails/template";
 import { sendMail } from "@/emails/sendmail";
 import { db } from "@/lib/db";
 import { identifyInputType } from "@/lib/utils";
