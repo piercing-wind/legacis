@@ -14,7 +14,7 @@ export const verifyPan = async (
 
    const panRequest = {
      verification_id: uniqueId,
-     pan: formData.pan,
+     pan: formData.pan.trim().toUpperCase(),
      name: formData.name,
    };
 
