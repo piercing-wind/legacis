@@ -115,11 +115,27 @@ export const AgreementViewer = () => {
     (agreement) => agreement.signatoryPerson || agreement.companyName
    );
    
-   useEffect(() => {
-    load({ mode: process.env.NEXT_PUBLIC_PAYMENT_GATEWAY_MODE as "sandbox" | "production" }).then((cf) => {
-      cashfreeRef.current = cf;
-    });
+    useEffect(() => {
+      let mounted = true;
+      
+      const loadCashfree = async () => {
+         try {
+         const cf = await load({ mode: process.env.NEXT_PUBLIC_PAYMENT_GATEWAY_MODE as "sandbox" | "production" });
+         if (mounted) {
+            cashfreeRef.current = cf;
+         }
+         } catch (error) {
+         console.error("Failed to load Cashfree:", error);
+         }
+      };
+
+      loadCashfree();
+
+      return () => {
+         mounted = false;
+      };
    }, []);
+
 
    // Always call hooks at the top level
    const aadhaarForm = useForm<AadhaarFormValues>({
@@ -141,19 +157,32 @@ export const AgreementViewer = () => {
    }
    
 
-   async function sendotp(values: AadhaarFormValues) {
+   async function sendotp(values?: AadhaarFormValues) {
       setPending(true);
-      const aadhaar = values.aadhaar.replaceAll(" ", "");
+      // const aadhaar = values.aadhaar.replaceAll(" ", "");
 
-      const response = await fetch('/api/aadhaar-otp', {
+      // const response = await fetch('/api/aadhaar-otp', {
+      //    method: 'POST',
+      //    headers: {
+      //       'Content-Type': 'application/json',
+      //    },
+      //    body: JSON.stringify({
+      //       aadhaar_number: aadhaar|| "", 
+      //    }),
+      // });
+
+      // temporary use sendOTP action
+      const response = await fetch('/api/sms-otp', {
          method: 'POST',
          headers: {
             'Content-Type': 'application/json',
          },
          body: JSON.stringify({
-            aadhaar_number: aadhaar|| "", 
+            identifier: agreementSummary?.clientPhoneNumber|| "", 
+            action: 'send'
          }),
       });
+
 
       const result = await response.json();
 
@@ -166,8 +195,8 @@ export const AgreementViewer = () => {
       }
 
       setShowOTPForm(true);
-      setOtpRefId(result.data?.ref_id || null);
-      setAadhaarOtpRecord(result.aadhaarOtpRecord || null);
+      // setOtpRefId(result.data?.ref_id || null);
+      // setAadhaarOtpRecord(result.aadhaarOtpRecord || null);
 
       toast.success(<h6>{result.data?.message}</h6>, {
          duration: 15000,
@@ -175,7 +204,8 @@ export const AgreementViewer = () => {
             label: "Close",
             onClick: () => toast.dismiss(),
          },
-         description: `OTP has been sent to the registered phone number associated with the Aadhaar number.`,
+         // description: `OTP has been sent to the registered phone number associated with the Aadhaar number.`,
+         description: `OTP has been sent to the registered phone number.`,
       });
       setPending(false);
    }
@@ -183,31 +213,44 @@ export const AgreementViewer = () => {
    async function verify(values: OTPFormValues) {
       setPending(true);
       const otp = values.otp.replace(" ", "");
-      const response = await fetch('/api/aadhaar-otp-verify', {
+      // const response = await fetch('/api/aadhaar-otp-verify', {
+      //    method: 'POST',
+      //    headers: {
+      //       'Content-Type': 'application/json',
+      //    },
+      //    body: JSON.stringify({
+      //       otp: otp || "",
+      //       ref_id : otpRefId || "",
+      //       aadhaarOtpRecordId: aadhaarOtpRecord?.id || "",
+      //    })
+      // })
+      // temporary use sms-otp verify
+      const response = await fetch('/api/sms-otp', {
          method: 'POST',
          headers: {
             'Content-Type': 'application/json',
          },
          body: JSON.stringify({
-            otp: otp || "",
-            ref_id : otpRefId || "",
-            aadhaarOtpRecordId: aadhaarOtpRecord?.id || "",
+            otp: otp,
+            identifier : agreementSummary?.clientPhoneNumber,
+            action: 'verify',
          })
       })
  
       const result = await response.json();
-
       if (!result.success || !response.ok) {
          toast.error(`Failed to verify OTP: ${result.error.message}`)
+         setPending(false);
          return;
       }
+
 
       const aadhaarOtpRecordId = result.aadhaarOtpRecord?.id || null;
 
-      if (!aadhaarOtpRecordId) {
-         toast.error("Failed to verify OTP. Please try again.");
-         return;
-      }
+      // if (!aadhaarOtpRecordId) {
+      //    toast.error("Failed to verify OTP. Please try again.");
+      //    return;
+      // }
 
       toast.success(
       "OTP verified successfully! Your agreement has been accepted. Please proceed to complete the payment to activate your service.",
@@ -226,7 +269,7 @@ export const AgreementViewer = () => {
 
    }
 
-   const handleCreateOrder = async (aadhaarOtpRecord: AadhaarOtp) : Promise<CreateOrderResponse>=>{
+   const handleCreateOrder = async (aadhaarOtpRecord?: AadhaarOtp) : Promise<CreateOrderResponse>=>{
       const agreementNames = agreement.map(a => a.name).join(", ");
       const agreementIds = agreement.map(a => a.id);
       const agreementHashes = agreement.map(a => a.hash);
@@ -240,7 +283,7 @@ export const AgreementViewer = () => {
          subscriptionStartDate: agreementSummary?.subscriptionStartDate ?? "",
          subscriptionFrequency: agreementSummary?.subscriptionFrequency ?? "",
          subscriptionPrice: agreementSummary?.subscriptionPrice ?? "",
-         aadhaarNumber : aadhaarOtpRecord?.aadhaarNumber || "",
+         aadhaarNumber : aadhaarOtpRecord?.aadhaarNumber || "N-A",
          agreementNames,
          agreementIds,
          agreementHashes,
@@ -256,7 +299,7 @@ export const AgreementViewer = () => {
             selectedPlan : plan,
             coupon : coupon || null,
             agreementSummary : agreementSummaryWithDetails,
-            aadhaarOtpRecordId : aadhaarOtpRecord.id,
+            aadhaarOtpRecordId : aadhaarOtpRecord?.id || null,
          })
       })
       // console.log("Order response status:", orderRes.status, orderRes.statusText);
@@ -406,48 +449,53 @@ export const AgreementViewer = () => {
                            </form>
                         </Form>
                      ) : (
-                        <Form {...aadhaarForm} key={"aadhaar-form"}>
-                           <form
-                           className="flex items-end gap-2"
-                           onSubmit={aadhaarForm.handleSubmit((data) => {
-                              sendotp(data);
-                           })}
-                           >
-                              <FormField
-                                 control={aadhaarForm.control}
-                                 name="aadhaar"
-                                 render={({ field }) => (
-                                    <FormItem>
-                                    <FormControl>
-                                    <Input
-                                       placeholder="Enter Aadhaar Number"
-                                       className="placeholder:text-xs"
-                                       maxLength={14}
-                                       value={
-                                             field.value
-                                                ? field.value.replace(/(.{4})/g, "$1 ").trim() // Format for display
-                                                : ""
-                                          }
-                                       onChange={(e) => {
-                                          let raw = e.target.value.replace(/\D/g, "").slice(0, 12); // Max 12 digits
-                                          field.onChange(raw);
-                                       }}
-                                    />
-                                    </FormControl>
-                                    <FormMessage />
-                                    </FormItem>
-                                 )}
-                              />
-                              <Button type='submit' disabled={pending} className='' size={'sm'}>Send OTP {pending && <Spinner />}</Button>
-                           </form>
-                        </Form>
+                        // <Form {...aadhaarForm} key={"aadhaar-form"}>
+                        //    <form
+                        //    className="flex items-end gap-2"
+                        //    onSubmit={aadhaarForm.handleSubmit((data) => {
+                        //       sendotp(data);
+                        //    })}
+                        //    >
+                        //       <FormField
+                        //          control={aadhaarForm.control}
+                        //          name="aadhaar"
+                        //          render={({ field }) => (
+                        //             <FormItem>
+                        //             <FormControl>
+                        //             <Input
+                        //                placeholder="Enter Aadhaar Number"
+                        //                className="placeholder:text-xs"
+                        //                maxLength={14}
+                        //                value={
+                        //                      field.value
+                        //                         ? field.value.replace(/(.{4})/g, "$1 ").trim() // Format for display
+                        //                         : ""
+                        //                   }
+                        //                onChange={(e) => {
+                        //                   let raw = e.target.value.replace(/\D/g, "").slice(0, 12); // Max 12 digits
+                        //                   field.onChange(raw);
+                        //                }}
+                        //             />
+                        //             </FormControl>
+                        //             <FormMessage />
+                        //             </FormItem>
+                        //          )}
+                        //       />
+                        //       <Button type='submit' disabled={pending} className='' size={'sm'}>Send OTP {pending && <Spinner />}</Button>
+                        //    </form>
+                        // </Form>
+                        <Button onClick={()=>sendotp()} disabled={pending} className='' size={'sm'}>Send OTP {pending && <Spinner />}</Button>
+
                      ) }
                   </div>
                </div>
 
             </div>
-               <span className='text-[10px] opacity-50 mt-4'>
+               {/* <span className='text-[10px] opacity-50 mt-4'>
                * Agreements are signed electronically using Aadhaar OTP (UIDAI). Please ensure you have access to the aadhaar registered phone number to receive the OTP.
+               </span> */}
+               <span className='text-[10px] opacity-50 mt-4'>
+               * Agreements are signed electronically using Phone Number. Please ensure you have access to the {agreementSummary?.clientPhoneNumber}.
                </span>
             </div>
          )}
