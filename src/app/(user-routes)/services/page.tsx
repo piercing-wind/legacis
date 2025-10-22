@@ -115,7 +115,7 @@ const Page = async ({ searchParams }: PageProps) => {
                      <p className="text-sm text-violet-700 mb-6">{service.description}</p>
                      <Button
                         variant="outline"
-                        className="w-full h-auto bg-violet-400 hover:bg-violet-500 dark:bg-violet-400 dark:hover:bg-violet-500 text-white hover:!text-white font-medium uppercase text-md rounded-full px-6 py-3 text-center transition"
+                        className="w-full mt-auto h-auto bg-violet-400 hover:bg-violet-500 dark:bg-violet-400 dark:hover:bg-violet-500 text-white hover:!text-white font-medium uppercase text-md rounded-full px-6 py-3 text-center transition"
                         >
                         View Details
                      </Button>

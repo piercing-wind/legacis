@@ -316,6 +316,7 @@ export const AgreementViewer = () => {
            redirectTarget: "_modal",
            onclose: () => {
              dispatch(setModalOpen({ open: false }));
+             setShowLoadingModal(false);
              toast.info("Payment window closed.");
            }
          };
@@ -323,15 +324,18 @@ export const AgreementViewer = () => {
          cashfreeRef.current.checkout(checkoutOptions).then((result: any) => {
            if (result.error) {
              dispatch(setModalOpen({open : false}));
+             setShowLoadingModal(false);
              toast.error(`Transaction was not completed. ${result.error.message} or contact support if the issue persists.`,{
                duration: 10000,
              });
            }
            if (result.redirect) {
+            setShowLoadingModal(false);
              toast.info("Payment will be redirected.");
            }
            if (result.paymentDetails) {
              dispatch(setModalOpen({open : false}));
+             setShowLoadingModal(false);
              const payment_category = investment_advisory_services.includes(serviceType!)
              const url = `/thank-you?orderId=${orderId}&payment_category=${payment_category ? 'ia' : 'ra'}`;
              router.push(url);
@@ -339,6 +343,7 @@ export const AgreementViewer = () => {
            }
          });
       } else {
+        setShowLoadingModal(false);
         toast.error("Cashfree SDK not loaded.");
       } 
    }
