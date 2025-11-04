@@ -417,6 +417,9 @@ export function UserEditForm({ user }: {user : User | null}) {
             Save
           </Button>
         </div>
+        <span className="text-xs">
+          Note: Verification dates and T&amp;C acceptance dates are for display purposes only and cannot be edited, to comply with compliance requirements.
+        </span>
       </form>
     </Form>
   );

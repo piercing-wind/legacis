@@ -1,3 +1,4 @@
+import { investment_advisory_services } from "@/constant/service_categorized";
 import { sendMail } from "@/emails/sendmail";
 import { db } from "@/lib/db";
 import { formatDateWithTime } from "@/lib/utils";
@@ -35,7 +36,8 @@ export async function GET(request: Request) {
          sub.expiryDate &&
          sub.service?.slug
          ) {
-         const serviceUrl = `https://legaciscapital.com/services/${sub.service.slug}`;
+            
+         const serviceUrl = `https://legaciscapital.com/${investment_advisory_services.includes(sub.service.type) ? 'ia-services' : 'ra-services'}/${sub.service.slug}`;
          const dashboardUrl = `https://legaciscapital.com/dashboard`;
 
          await sendMail({

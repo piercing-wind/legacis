@@ -43,11 +43,11 @@ async function Page({ searchParams }: PageProps) {
 
   return (
     <div className="w-full mx-auto overflow-x-auto py-8 px-4">
-      <h1 className="text-2xl font-bold mb-6">Users</h1>
+      <h1 className="text-2xl font-bold mb-6">Users ({totalUsers})</h1>
       <UserList users={users} />
       {totalPages > 1 && (
         <Pagination>
-          <PaginationContent>
+          <PaginationContent className="flex-wrap mt-8">
             {page > 1 && (
               <PaginationItem>
                 <PaginationPrevious href={`?page=${page - 1}`} />

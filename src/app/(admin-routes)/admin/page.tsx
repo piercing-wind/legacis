@@ -468,7 +468,7 @@ export default async function Page({ searchParams }: PageProps) {
   ])
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <div className=" mx-auto p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">All Subscriptions</h1>
@@ -666,7 +666,7 @@ export default async function Page({ searchParams }: PageProps) {
 
       {totalPages > 1 && (
         <Pagination>
-          <PaginationContent>
+          <PaginationContent className="flex-wrap mt-8">
             {page > 1 && (
               <PaginationItem>
                 <PaginationPrevious href={`?page=${page - 1}&search=${search}&serviceType=${serviceType}`} />

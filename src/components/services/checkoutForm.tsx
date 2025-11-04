@@ -88,13 +88,8 @@ export const CheckoutForm=({ service, agreement, complimentaryServices} :{servic
               toast.error("Service ID is required");
               return;
             }
-            drawerCloseRef.current?.click();
 
-            // Temporary IA services to whatsapp until paymentgateway is integrated.
-            if(investment_advisory_services.includes(service?.type || '')) {
-               router.push(`https://wa.me/919779774529?text=I%20am%20interested%20in%20the%20${service?.name}%20(${selectedPlan.label}%20plan).`);
-               return;
-            }
+            drawerCloseRef.current?.click();
 
             if (user.panVerified === null) {
                dispatch(setModalOpen({open : true, modelType :'panVerification'}));
