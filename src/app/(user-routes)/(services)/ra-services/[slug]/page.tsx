@@ -187,7 +187,7 @@ export default async function Page({params}: { params: Promise<{ slug: string }>
                {complimentaryServices.length > 0 && (
                   <div>
                      <h5 className="font-medium mb-2">Get Access to:</h5>
-                     <div className="w-full grid grid-cols-3 gap-4">
+                     <div className="w-full grid grid-cols-2 gap-4">
                         {complimentaryServices.map((item, index) => (
                            <div  key={index} className="flex items-start gap-1 sm:gap-3 p-2 border rounded-lg">
                            <Image
