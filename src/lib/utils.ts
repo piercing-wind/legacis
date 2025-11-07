@@ -2,6 +2,7 @@ import { ServiceType } from "@/prisma/generated/client";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { ServiceWithComplimentary } from "./data/services";
+import { investment_advisory_services } from "@/constant/service_categorized";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -148,10 +149,10 @@ export function getServiceLink(serviceType: ServiceType, slug: string): string {
     return '/mutual-funds';
   }
 
-  if (serviceType.includes('RESEARCH_ADVISORY')) {
-    return `/ra-services/${slug}`;
+  if(investment_advisory_services.includes(serviceType)) {
+    return `/ia-services/${slug}`;
   }
-  return `/ia-services/${slug}`; 
+  return `/ra-services/${slug}`; 
 }
 
 

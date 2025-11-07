@@ -197,7 +197,7 @@ export const MutualFundServiceCard = () => {
    const {color, color_l, card_tw, btn_tw} = getColorForCardByServiceType('MUTUAL_FUNDS');
    return (
       <Link 
-         href={getServiceLink('MUTUAL_FUNDS', '/mutual-funds')} target="_blank"
+         href={getServiceLink('MUTUAL_FUNDS', 'mutual-funds')} target="_blank"
          className={cn('border w-full rounded-2xl p-6 hover:shadow-neutral-50 dark:hover:shadow-neutral-800 items-stretch h-full flex flex-col', card_tw)}>
          <h2 className="text-xl font-semibold text-neutral-800 dark:text-neutral-100">Legacis - Mutual Funds Portfolios</h2>
          <p className="text-base text-purple-800 my-4 ">Explore our curated mutual fund portfolios designed to meet your investment goals.</p>
@@ -219,7 +219,7 @@ export const PortfolioReviewServiceCard = () => {
    const {color, color_l, card_tw, btn_tw} = getColorForCardByServiceType('MUTUAL_FUNDS');
    return (
       <Link 
-         href={getServiceLink('PORTFOLIO_REVIEW', '/portfolio-review')} target="_blank"
+         href={getServiceLink('PORTFOLIO_REVIEW', 'portfolio-review')} target="_blank"
          className={cn('border w-full rounded-2xl p-6 hover:shadow-neutral-50 dark:hover:shadow-neutral-800 items-stretch h-full flex flex-col', card_tw)}>
          <h2 className="text-xl font-semibold text-neutral-800 dark:text-neutral-100">Legacis - Portfolio Review</h2>
          <p className="text-base text-purple-800 my-4 ">Get expert analysis of your stock portfolio with clear advice on which stocks to hold or sell for better returns.</p>
