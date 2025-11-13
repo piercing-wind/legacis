@@ -37,8 +37,20 @@ export const POST = auth(async (request)=> {
          data: response.data,
          aadhaarOtpRecord
       }, { status: 200 });
-   }catch (error) {
+   }catch (error: any) {
       console.error("Error in Aadhaar OTP verification:", error);
+      if (error.isAxiosError) {
+         console.error("Axios error in Aadhaar OTP verification:", {
+            message: error.message,
+            code: error.code,
+            status: error.response?.status,
+            data: error.response?.data,
+            headers: error.response?.headers,
+            config: error.config,
+         });
+      } else {
+         console.error("Error in Aadhaar OTP verification:", error);
+      }
       return Response.json({ error: { message: (error as Error).message } }, { status: 401 });
    }
 })

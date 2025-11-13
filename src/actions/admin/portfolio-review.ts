@@ -73,18 +73,18 @@ export async function updatePortfolioReviewFile(
 
       // Send notification email
       const stocks = (updatedService.servicePlan?.stockLimit);
-      await sendMail({
-        to: updatedService.user.email,
-        subject: `Portfolio Review for ${stocks} Stocks is ready`,
-        template: "serviceUpdate",
-        context: {
-          name: updatedService.user.name || updatedService.user.email,
-          serviceName: updatedService.service?.name || "Service",
-          dashboardUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard`,
-          title: `Legacis Capital - Portfolio Review ${stocks} Stocks is ready`,
-          year: new Date().getFullYear(),
-        },
-      });
+      // await sendMail({
+      //   to: updatedService.user.email,
+      //   subject: `Portfolio Review for ${stocks} Stocks is ready`,
+      //   template: "serviceUpdate",
+      //   context: {
+      //     name: updatedService.user.name || updatedService.user.email,
+      //     serviceName: updatedService.service?.name || "Service",
+      //     dashboardUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard`,
+      //     title: `Legacis Capital - Portfolio Review ${stocks} Stocks is ready`,
+      //     year: new Date().getFullYear(),
+      //   },
+      // });
       return review; // <-- return the updated review
     });
    
