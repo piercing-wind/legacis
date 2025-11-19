@@ -4,15 +4,12 @@ import Chart from "@/components/services/chart"
 import { isServicePurchased, findServiceBySlug, getServiceDataById, findServicesByIds } from "@/lib/data/services"
 import { ChartDataPoint, FaqItem, Philosophy, ServiceFeature } from "@/types/service"
 import { Button } from "@/components/ui/button"
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer"
-import Plans from "@/components/services/plans"
 import Faq from "@/components/services/faq"
 import PurchasedServiceSection from "@/components/services/purchasedServiceSection"
 import { Session } from "@/actions/session"
 import { User } from "next-auth"
 import { formatHumanDate, getUniqueSpecialServices } from "@/lib/utils"
 import { findAgreementsByServiceId } from "@/lib/data/agreement"
-import { CheckoutForm } from "@/components/services/checkoutForm"
 import { notFound, redirect } from "next/navigation"
 import { ZoomIn } from "@/components/animation/zoom"
 import Image from "next/image"
@@ -20,6 +17,7 @@ import { getServiceDisplayPrice } from "@/lib/utils/servicePricingDisplay"
 import { QuillHtmlViewer } from "@/components/richTextViewer"
 import { ServiceCard } from "@/components/services/serviceCard"
 import { Metadata } from "next"
+import SubscribeDrawer from "@/components/services/SubscribeDrawer"
 
 export async function generateMetadata({params}:{ params: Promise<{ slug: string }>}) : Promise<Metadata> {
    const { slug } = await params;
@@ -251,33 +249,13 @@ export default async function Page({params}: { params: Promise<{ slug: string }>
                   </span>
                </Button>
             ):(
-             <Drawer >
-               <DrawerTrigger asChild>
-                  <Button  className="w-full mt-auto p-2 h-10 lg:h-14 uppercase rounded-full">
-                     Subscribe Now
-                  </Button>
-               </DrawerTrigger>
-               <DrawerContent>
-              <div className="mx-auto w-full max-w-7xl p-4 pb-24 overflow-x-hidden overflow-y-auto flex flex-col lg:flex-row items-stretch justify-between gap-4">
-                  <div className="rounded-2xl border flex-1 min-w-0 flex flex-col mb-4 lg:mb-0">
-                    <DrawerHeader>
-                      <DrawerTitle className="!text-2xl lg:!text-3xl">{service.type === 'PORTFOLIO_REVIEW' ? `${service.name}` : 'Subscription Plans'}</DrawerTitle>
-                    </DrawerHeader>
-                    <Plans
-                      plans={service.plans}
-                      service={service}
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0 flex flex-col">
-                    <CheckoutForm
-                      service={service}
-                      agreement={agreement}  
-                      complimentaryServices={complimentaryServices} 
-                    />
-                  </div>
-               </div>
-               </DrawerContent>
-            </Drawer>
+               <SubscribeDrawer
+                  user={user}
+                  service={service}
+                  servicePlans={service.plans}
+                  agreement={agreement}
+                  complimentaryServices={complimentaryServices}
+               />
             )}
          </div>
          </section>
