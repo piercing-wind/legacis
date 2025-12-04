@@ -256,6 +256,7 @@ async function Page() {
                                       prevFileName={portfolioReview?.uploadedFileName || null}
                                       plan={service.servicePlan}
                                       userPurchasedServiceId={service.portfolioReview?.userPurchasedServiceId}
+                                      riskProfile={riskProfile}
                                    />
                                    <div className="relative flex-1 md:w-1/2 flex flex-col gap-2 border border-purple-200 rounded-lg">
                                       {portfolioReview?.status === 'PENDING_UPLOAD' && (

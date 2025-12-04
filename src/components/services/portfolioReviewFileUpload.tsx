@@ -8,7 +8,8 @@ import { File, X } from "lucide-react";
 import Link from "next/link";
 import { updatePortfolioReviewFile } from "@/actions/portfolio-review-fileUpload";
 import { useRouter } from "next/navigation";
-import { ServicePlan } from "@/prisma/generated/client";
+import { ServicePlan, UserRiskProfile } from "@/prisma/generated/client";
+import UserRiskProfileQuestions from "./userRiskProfileForm";
 
 export default function PortfolioReviewFileUpload({
   prevFileUrl,
@@ -16,12 +17,14 @@ export default function PortfolioReviewFileUpload({
   userPurchasedServiceId,
   plan,
   className,
+  riskProfile
 }: {
   prevFileUrl?: string | null;
   prevFileName?: string | null;
   plan: ServicePlan | null; 
   userPurchasedServiceId: string | undefined;
   className?: string;
+  riskProfile: UserRiskProfile | null;
 }) {
   const router = useRouter();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -44,6 +47,20 @@ export default function PortfolioReviewFileUpload({
   }
 
   async function handleUpload() {
+    if(riskProfile === null){
+      toast.error("Please complete the risk profiling questionnaire before uploading your stocks.",{
+        duration: 15000,
+        action:{
+          label: "Complete Now",
+          onClick: () => {
+            router.push('/profile');
+          }
+        }
+      });
+      
+      return;
+    }
+
     if (!selectedFile) {
       toast.error("Please select a file to upload.");
       return;
@@ -113,6 +130,12 @@ return (
                   className="min-h-32 relative rounded w-full border border-purple-400 px-6 py-4 border-dashed
                   flex flex-col items-center justify-center text-gray-500 hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-all duration-200 cursor-pointer"
                   onClick={() => fileInputRef.current?.click()}
+                  onDrop={e => {
+                    e.preventDefault();
+                    const file = e.dataTransfer.files?.[0];
+                    if (file) handleFileChange({ target: { files: [file] } } as any);
+                }}
+                onDragOver={e => e.preventDefault()}
                >
                   <span className="text-base mb-4">Upload your stocks</span>
                   <span>Supported files</span>
