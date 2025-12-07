@@ -2,12 +2,6 @@
   "name": "legacis",
   "version": "1.0.0",
   "private": true,
-    "pnpm": {
-    "overrides": {
-      "lines-and-columns": "2.0.4",
-      "picocolors": "1.1.0"
-    }
-  },
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
@@ -62,7 +56,7 @@
     "nodemailer-express-handlebars": "^7.0.0",
     "pdfjs-dist": "4.8.69",
     "postcss": "^8.5.3",
-    "puppeteer": "24.27.0",
+    "puppeteer-core": "24.32.0",
     "quill": "^2.0.3",
     "quill-delta": "^5.1.0",
     "quill-delta-to-html": "^0.12.1",
