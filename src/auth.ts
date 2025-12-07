@@ -9,7 +9,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: {
     ...PrismaAdapter(db),
       async createUser(profile) {
-        // This function is called when a new user signs in for the first time from an OAuth (Google) provider. 
+        // This function is called when a new user signs in for the first time from an OAuth (Google) provider
         // Generate username from email or name 
          const base =
             profile.email?.split('@')[0] ||
