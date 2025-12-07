@@ -2,6 +2,11 @@
   "name": "legacis",
   "version": "1.0.0",
   "private": true,
+    "pnpm": {
+    "overrides": {
+      "lines-and-columns": "2.0.4"
+    }
+  },
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
