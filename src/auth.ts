@@ -3,7 +3,7 @@ import authConfig from "@/auth.config";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "@/lib/db";
 import { JWT } from "next-auth/jwt";
-
+import type { Adapter } from "next-auth/adapters";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: {
@@ -26,7 +26,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
          });
       return newUser;
    },
-  },
+  } as Adapter,
   callbacks: {
     async signIn({ user, account, profile, email, credentials }){
       if(user.isBanned){

@@ -10,7 +10,7 @@
     "cron:subscriptions": "node src/jobs/subscriptionExpiryNotifier.js"
   },
   "dependencies": {
-    "@auth/prisma-adapter": "^2.9.1",
+    "@auth/prisma-adapter": "^2.11.1",
     "@aws-sdk/client-s3": "^3.842.0",
     "@aws-sdk/s3-request-presigner": "^3.842.0",
     "@cashfreepayments/cashfree-js": "^1.0.5",
@@ -48,7 +48,7 @@
     "input-otp": "^1.4.2",
     "lucide-react": "^0.508.0",
     "motion": "^12.18.1",
-    "next": "15.3.2",
+    "next": "15.3.6",
     "next-auth": "5.0.0-beta.28",
     "next-themes": "^0.4.6",
     "node-cron": "^4.2.1",
@@ -60,8 +60,8 @@
     "quill": "^2.0.3",
     "quill-delta": "^5.1.0",
     "quill-delta-to-html": "^0.12.1",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
     "react-hook-form": "^7.56.4",
     "react-loader-spinner": "^6.1.6",
     "react-pdf": "9.2.1",
