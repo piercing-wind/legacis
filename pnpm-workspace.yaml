@@ -1,9 +1,0 @@
-onlyBuiltDependencies:
-  - '@prisma/client'
-  - '@prisma/engines'
-  - canvas
-  - esbuild
-  - prisma
-  - puppeteer
-  - sharp
-  - unrs-resolver
