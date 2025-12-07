@@ -4,7 +4,8 @@
   "private": true,
     "pnpm": {
     "overrides": {
-      "lines-and-columns": "2.0.4"
+      "lines-and-columns": "2.0.4",
+      "picocolors": "1.1.0"
     }
   },
   "scripts": {
