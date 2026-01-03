@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import { sendMail } from "@/emails/sendmail";
 import { db } from "@/lib/db";
+import { sendUpdateSMS } from "@/sms/sms";
 import { ServiceUpdateRequest } from "@/types/service";
 
 export const POST = auth(async (request) => {
@@ -26,6 +27,7 @@ export const POST = auth(async (request) => {
                      select : {
                         email : true,
                         name : true,
+                        phone: true,
                      }
                   }
                }
@@ -52,6 +54,14 @@ export const POST = auth(async (request) => {
                year: new Date().getFullYear(),
             }
          });
+
+         if(recipient.phone && recipient.phone.length >=10) {
+            await sendUpdateSMS({
+               userName: recipient.name?.slice(0, 28) || recipient.email.slice(0, 28),
+               serviceName: service?.name.slice(0, 30) || "Service",
+               phoneNumber: recipient.phone
+            });
+         }
       }
    
       return new Response(JSON.stringify({message : "Mails sent successfully!"}), {status: 200});

@@ -2,6 +2,7 @@ import { investment_advisory_services } from "@/constant/service_categorized";
 import { sendMail } from "@/emails/sendmail";
 import { db } from "@/lib/db";
 import { formatDateWithTime } from "@/lib/utils";
+import { sendExpirySMS } from "@/sms/sms";
 
 export async function GET(request: Request) {
 
@@ -54,8 +55,19 @@ export async function GET(request: Request) {
                title: "Subscription Expired",
             },
          });
+         
+         if(sub.user.phone && sub.user.phone.length >=10){
+            await sendExpirySMS({
+               userName: sub.user.name?.slice(0, 28) || "User",
+               serviceName: sub.service.name.slice(0, 28),
+               phoneNumber: sub.user.phone
+            })
+            
+         }
+         
          expiredIds.push(sub.id);
          emailsSent++;
+
          } else {
             console.log(
                `⚠️  Skipping subscription ${sub.id} - missing required data`
@@ -66,26 +78,26 @@ export async function GET(request: Request) {
       }
    }
 
-      // Bulk update all expired subscriptions to inactive 
-      if (expiredIds.length > 0) {
-         const updateResult = await db.userPurchasedServices.updateMany({
-            where: { id: { in: expiredIds } },
-            data: { isActive: false },
-         });
-         subsUpdated = updateResult.count ?? expiredIds.length;
+   // Bulk update all expired subscriptions to inactive 
+   if (expiredIds.length > 0) {
+      const updateResult = await db.userPurchasedServices.updateMany({
+         where: { id: { in: expiredIds } },
+         data: { isActive: false },
+      });
+      subsUpdated = updateResult.count ?? expiredIds.length;
+   }
+   
+   return new Response(
+      JSON.stringify({
+         message: "Cron job executed successfully",
+         emailsSent,
+         subsUpdated,
+         expiredIds,
+         timestamp: new Date().toISOString(),
+      }),
+      {
+         status: 200,
+         headers: { "Content-Type": "application/json" },
       }
-
-      return new Response(
-         JSON.stringify({
-            message: "Cron job executed successfully",
-            emailsSent,
-            subsUpdated,
-            expiredIds,
-            timestamp: new Date().toISOString(),
-         }),
-         {
-            status: 200,
-            headers: { "Content-Type": "application/json" },
-         }
-      );
+   );
 }
