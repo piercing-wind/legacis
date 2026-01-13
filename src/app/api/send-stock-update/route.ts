@@ -21,6 +21,7 @@ export const POST = auth(async (request) => {
             purchasedServices :{ 
                where:{
                   expiryDate: { gt:  new Date()},
+                  isActive: true
                },
                select: {
                   user : {
