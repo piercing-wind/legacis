@@ -50,8 +50,8 @@ const Page = () => {
    const howItWorksChunks = chunkArray(howItWorks, 2);
    const ourTeam = [
       {
-         name: 'Bharat Arora, CFA',
-         role: 'Passed CFA Level III exam',
+         name: 'Bharat Arora',
+         role: 'Equity research analyst',
          image: '/team/bharat-arora.png',
          social: {
             linkedin: 'https://www.linkedin.com/in/bharat-arora-586590129'
