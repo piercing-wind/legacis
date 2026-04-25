@@ -19,7 +19,7 @@ export function cn(...inputs: ClassValue[]) {
  * @returns "email" | "phone" | "username" 
  */
 export function identifyInputType(identifier: string): "email" | "phone" | "username" {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const phoneRegex = /^[0-9]{10,15}$/;
 
   if (emailRegex.test(identifier)) {

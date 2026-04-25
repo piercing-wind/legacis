@@ -10,24 +10,29 @@ import { identifyInputType } from "../utils";
  * 
  */
 export const findUser = async (identifier: string ) : Promise<User | null> => {
-   const findby = identifyInputType(identifier);
+   const trimmed = identifier.trim();
+   const findby = identifyInputType(trimmed);
+   
    switch (findby) {
       case "email":
          return await db.user.findFirst({
             where: {
-               email: identifier,
+               email: {
+                  equals: trimmed.toLowerCase(),
+                  mode: 'insensitive',
+               },
             },
          });
       case "phone":
          return await db.user.findFirst({
             where: {
-               phone: identifier,
+               phone: trimmed,
             },
          });
       case "username":
          return await db.user.findFirst({
             where: {
-               username: identifier,
+               username: trimmed,
             },
          });
    }
