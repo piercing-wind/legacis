@@ -95,6 +95,7 @@ const Page = async ({ searchParams }: PageProps) => {
     );
   }
 
+
   return (
     <div className="w-full px-5 lg:px-10 xl:px-24 space-y-12 py-20">
       {/* Latest + Recent - Always show regardless of category filter */}
@@ -115,7 +116,13 @@ const Page = async ({ searchParams }: PageProps) => {
                 <div className="p-4">
                   <div className="flex items-center gap-2 mb-2">
                     {latest.featured && <Badge variant="default">Featured</Badge>}
-                    <Badge variant="secondary">{latest.category}</Badge>
+                    {Array.isArray(latest.category)
+                      ? latest.category.slice(0, 5).map((cat, index) => (
+                          <Badge key={cat ?? index} variant="secondary">{cat}</Badge>
+                        ))
+                      : latest.category
+                      ? <Badge variant="secondary">{latest.category}</Badge>
+                      : null}
                   </div>
                   <h2 className="text-xl md:text-2xl font-semibold">
                      {latest.title.length > 60 ? `${latest.title.slice(0, 60)}...` : latest.title}
@@ -213,10 +220,14 @@ const Page = async ({ searchParams }: PageProps) => {
                        />
                      </div>
                     <div className="text-wrap">
-                      <div className="mb-1 h-6">
-                        {blog.category.length > 0 && (
-                          <Badge variant="secondary">{blog.category}</Badge>
-                        )}
+                      <div className="mb-1 h-auto items-center gap-2 flex flex-wrap">
+                        {Array.isArray(blog.category)
+                          ? blog.category.slice(0, 5).map((cat, index) => (
+                              <Badge key={cat ?? index} variant="outline">{cat}</Badge>
+                            ))
+                          : blog.category
+                          ? <Badge variant="outline">{blog.category}</Badge>
+                          : null}
                       </div>
                       <h6 className="text-lg md:text-xl font-medium">
                         {blog.title.length > 120 ? `${blog.title.slice(0, 120)}...` : blog.title}
@@ -244,12 +255,12 @@ const Page = async ({ searchParams }: PageProps) => {
       {/* Categories and All Blogs - Affected by category filter */}
       <h3 id="allblogs" className="font-medium text-2xl mb-4">Categories</h3>
       <Tabs defaultValue={selectedCategory || "all"} className="mb-8">
-        <TabsList className="py-4 h-12">
-          <TabsTrigger value="all" asChild className="text-lg flex-shrink-0 p-5">
+        <TabsList className="py-4 h-auto flex flex-wrap justify-start">
+          <TabsTrigger value="all" asChild className="text-sm md:text-lg shrink-0 p-4 md:p-5">
             <Link href="?#allblogs">All</Link>
           </TabsTrigger>
           {categories.map((cat) => (
-            <TabsTrigger key={cat} value={cat} asChild className="text-lg flex-shrink-0 p-5">
+            <TabsTrigger key={cat} value={cat}  asChild className="text-sm md:text-lg shrink-0 p-4 md:p-5">
               <Link href={`?category=${encodeURIComponent(cat)}#allblogs`}>{cat}</Link>
             </TabsTrigger>
           ))}
@@ -264,7 +275,7 @@ const Page = async ({ searchParams }: PageProps) => {
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {paginatedBlogs.map(blog => (
-                <Card key={blog.id} className="w-full bg-transparent flex-shrink-0 border-0 p-0 shadow-none">
+                <Card key={blog.id} className="w-full bg-transparent shrink-0 border-0 p-0 shadow-none">
                   <Link href={`/blog/${blog.slug}`}>
                     <CardContent className="p-0 border-0 shadow-none">
                       <div className='relative aspect-video w-full mb-2 overflow-clip rounded-lg'>
@@ -276,10 +287,14 @@ const Page = async ({ searchParams }: PageProps) => {
                         />
                       </div>
                       <div className='text-wrap'>
-                        <div className='mb-1 h-6'>
-                          {blog.category.length > 0 && (
-                            <Badge variant='secondary'>{blog.category}</Badge>
-                          )}
+                        <div className='mb-1 h-auto items-center gap-2 flex flex-wrap'>
+                          {Array.isArray(blog.category)
+                            ? blog.category.slice(0, 5).map((cat, index) => (
+                                <Badge key={cat ?? index} variant="outline">{cat}</Badge>
+                              ))
+                            : blog.category
+                            ? <Badge variant="outline">{blog.category}</Badge>
+                            : null}
                         </div>
                         <h6 className='text-lg md:text-xl font-medium'>
                           {blog.title.length > 120 ? `${blog.title.slice(0, 120)}...` : blog.title}

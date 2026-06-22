@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 import { Button } from "@/components/ui/button";
-import { formatHumanDate } from "@/lib/utils";
+import { formatDateWithTime, formatHumanDate } from "@/lib/utils";
 import { IncrementBlogView } from "@/components/IncrementBlogView";
 import { Metadata } from "next";
 
@@ -175,25 +175,32 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
             </div>
 
             {/* Meta Info */}
-            <div className="flex items-center gap-4 mb-8">
-            <div className="flex items-center gap-2">
-               <Image
-                  src={blog.author?.image || "/icons/favicon.ico"}
-                  alt={blog.author?.name || "Author"}
-                  width={40}
-                  height={40}
-                  className="rounded-full border shrink-0 items-stretch"
-               />
-               <span className="font-medium text-gray-800 dark:text-gray-200">{blog.author?.name || "Legacis Author"}</span>
-            </div>
-            <span className="text-gray-500 dark:text-gray-400 text-sm">
-               {new Date(blog.createdAt).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })}
-            </span>
-            {blog.category.length > 0 && (
-               <Badge variant={'secondary'}> 
-                  {Array.isArray(blog.category) ? blog.category.join(", ") : blog.category}
-               </Badge>
-            )}
+            <div className="flex items-start gap-4 mb-8">
+              <div className="flex items-center gap-2">
+                <Image
+                    src={blog.author?.image || "/icons/favicon.ico"}
+                    alt={blog.author?.name || "Author"}
+                    width={40}
+                    height={40}
+                    className="rounded-full border shrink-0 items-stretch"
+                />
+                <span className="font-medium text-gray-800 dark:text-gray-200">{blog.author?.name || "Legacis Author"}</span>
+              </div>
+              <span className="text-gray-500 dark:text-gray-400 text-sm">
+                {formatDateWithTime(blog.createdAt)} 
+                {/* {new Date(blog.createdAt).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })} */}
+              </span>
+    
+              <div className="flex flex-wrap justify-start gap-2 mb-2">
+                {Array.isArray(blog.category)
+                  ? blog.category?.map((cat, index) => (
+                      <Badge key={cat ?? index} variant="secondary">{cat}</Badge>
+                    ))
+                  : blog.category
+                  ? <Badge variant="secondary">{blog.category}</Badge>
+                  : null}
+              </div>
+
             </div>
 
             {/* Excerpt */}
@@ -263,10 +270,14 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                       />
                     </div>
                     <div className="text-wrap">
-                      <div className="mb-1 h-6">
-                        {blog.category.length > 0 && (
-                          <Badge variant="secondary">{blog.category}</Badge>
-                        )}
+                      <div className="mb-1 h-auto items-center gap-2 flex flex-wrap">
+                        {Array.isArray(blog.category)
+                          ? blog.category.slice(0, 5).map((cat, index) => (
+                              <Badge key={cat ?? index} variant="outline">{cat}</Badge>
+                            ))
+                          : blog.category
+                          ? <Badge variant="outline">{blog.category}</Badge>
+                          : null}
                       </div>
                       <h6 className="text-lg md:text-xl font-medium">
                         {blog.title.length > 120 ? `${blog.title.slice(0, 120)}...` : blog.title}
