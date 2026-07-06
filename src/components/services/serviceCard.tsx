@@ -63,23 +63,24 @@ export const RegularServiceCard = ({
       )}
     >
       {service.type == "COMBO" && (
-        <span className="absolute rotate-45 top-6 -right-8 bg-purple-400 text-white px-12 py-1 text-xs font-bold shadow">
+        <span className="absolute rotate-45 top-6 -right-8 bg-purple-700 text-white px-12 py-1 text-xs font-bold shadow">
           COMBO
         </span>
       )}
-      <h5 className="text-2xl font-semibold mb-1 text-neutral-800 dark:text-neutral-100">{name}</h5>
+      <h2 className="text-2xl font-semibold mb-1 text-neutral-800 dark:text-neutral-100">{name}</h2>
       <p className="text-sm">{tag}</p>
       <div className="flex items-baseline justify-between mt-6 mb-2">
         <span className="flex items-baseline">
-          <h2 className="font-urbanist !text-5xl !font-semibold text-neutral-800 dark:text-neutral-100">
+          <h3 className="font-urbanist !text-5xl !font-semibold text-neutral-800 dark:text-neutral-100">
             ₹{displayPrice}
-          </h2>
+          </h3>
           <p className="text-sm">/ month</p>
         </span>
         <span
-          className="p-2 py-1 rounded-lg text-sm"
+          className="p-2 py-1 rounded-lg text-sm font-medium text-[#0f172a] dark:text-[#f1f5f9]"
           style={{
-            background: color + "20",
+            background: `${color}22`,
+            border: `1px solid ${color}`,
           }}
         >
           {service.label || "New"}
@@ -88,7 +89,7 @@ export const RegularServiceCard = ({
       <GradientLine color={color_l} height="2px" width="100%" />
       {service.type === "COMBO" && service.complimentaryService?.length ? (
         <div className="w-full flex flex-col justify-center min-h-[150px] h-full items-stretch mb-2 sm:mb-auto py-4 text-neutral-800 dark:text-neutral-100">
-          <h6 className="font-medium mb-4">Get Access to :</h6>
+          <span className="font-medium mb-4">Get Access to :</span>
           <div className="grid grid-cols-2
            gap-4 ">
             {service.complimentaryService.map((cs, idx) => (
@@ -117,9 +118,9 @@ export const RegularServiceCard = ({
                   />
 
                   <div>
-                    <h3 className="text-xs font-semibold">
+                    <span className="text-xs font-semibold">
                       {cs.name.substring(0, 44)}
-                    </h3>
+                    </span>
                     <p className="text-[10px] text-muted-foreground uppercase mt-1 sm:leading-5 tracking-wide">
                       {(cs.tag || "").substring(0, 75)}
                     </p>
@@ -183,7 +184,7 @@ export const RegularServiceCard = ({
       <Button
         variant={"outline"}
         className={cn(
-          `w-full tracking-wider text-base text-neutral-700 dark:text-neutral-900 hover:dark:text-neutral-200 mt-auto p-2 h-14 border uppercase rounded-full`,
+          `w-full tracking-wider text-base font-semibold text-neutral-800 dark:text-neutral-900 hover:dark:text-neutral-200 mt-auto p-2 h-14 border uppercase rounded-full`,
           btn_tw
         )}
       >
@@ -207,7 +208,7 @@ export const MutualFundServiceCard = () => {
          <div className="py-2"/>
          <Button 
             variant={'outline'} 
-            className={cn(`w-full mt-auto tracking-wider text-base text-neutral-700 dark:text-neutral-900 p-2 h-14 border uppercase rounded-full dark:hover:!text-white`, btn_tw)}
+            className={cn(`w-full mt-auto tracking-wider text-base font-semibold text-neutral-800 dark:text-neutral-900 p-2 h-14 border uppercase rounded-full dark:hover:!text-white`, btn_tw)}
             >
             Explore More
          </Button>
@@ -229,7 +230,7 @@ export const PortfolioReviewServiceCard = () => {
          <div className="py-2"/>
          <Button 
             variant={'outline'} 
-            className={cn(`w-full mt-auto tracking-wider text-base text-neutral-700 dark:text-neutral-900 p-2 h-14 border uppercase rounded-full dark:hover:!text-white`, btn_tw)}
+            className={cn(`w-full mt-auto tracking-wider text-base font-semibold text-neutral-800 dark:text-neutral-900 p-2 h-14 border uppercase rounded-full dark:hover:!text-white`, btn_tw)}
             >
             Explore More
          </Button>
