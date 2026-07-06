@@ -261,7 +261,8 @@ export default async function Home() {
                <h2 className="text-2xl my-4 lg:text-5xl font-medium leading-10 sm:leading-14 text-neutral-800 dark:text-neutral-200">
                   Our Portfolio at a Glance
                </h2>
-               <Tabs defaultValue={"all"} className="mt-8 ">
+               
+               {/* <Tabs defaultValue={"all"} className="mt-8 ">
                   <TabsList className="p-2 sm:p-4 h-auto sm:h-16 flex flex-wrap items-center gap-2 sm:gap-4">
                      <TabsTrigger value="all" asChild className="text-sm sm:text-lg flex-shrink-0 p-2 sm:p-4">
                         <Link href="/services">All</Link>
@@ -272,7 +273,20 @@ export default async function Home() {
                         </TabsTrigger>
                      ))}
                   </TabsList> 
-               </Tabs>
+               </Tabs> */}
+               <nav className="mt-8 flex flex-wrap gap-2 items-center justify-between font-medium bg-muted px-4 py-2 rounded-md" aria-label="Service categories">
+                  <Link href="/services" className="text-sm sm:text-lg shrink-0 p-2 sm:p-4 hover:shadow-sm rounded-md">All</Link>
+                  {categories.map((cat) => (
+                     <Link
+                        key={cat.type}
+                        href={`${cat.url}?type=${encodeURIComponent(cat.type)}`}
+                        className="text-sm sm:text-lg shrink-0 p-2 sm:p-4 hover:shadow-sm rounded-md"
+                     >
+                        {cat.label}
+                     </Link>
+                  ))}
+
+               </nav>
                <HomeServices services={filteredServices}/>
             </section>
          </div>

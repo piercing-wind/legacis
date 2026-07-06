@@ -47,6 +47,9 @@ return (
       <div className="hidden md:flex flex-col justify-center">
         <Button
           variant="outline"
+          type="button"
+          aria-label="Show previous blogs"
+          title="Show previous blogs"
           className="rounded-full border-0 hover:bg-neutral-800 hover:text-white p-2 h-10 w-10"
           onClick={handlePrev}
         >
@@ -88,6 +91,9 @@ return (
       <div className="hidden md:flex flex-col justify-center">
         <Button
           variant="outline"
+          type="button"
+          aria-label="Show next blogs"
+          title="Show next blogs"
           className="rounded-full border-0 hover:bg-neutral-800 hover:text-white p-2 h-10 w-10"
           onClick={handleNext}
         >
@@ -99,6 +105,9 @@ return (
     <div className="flex md:hidden flex-row gap-4 justify-center mt-4">
       <Button
         variant="outline"
+        type="button"
+        aria-label="Show previous blogs"
+        title="Show previous blogs"
         className="rounded-full border-0 hover:bg-neutral-800 hover:text-white p-2 h-10 w-10"
         onClick={handlePrev}
       >
@@ -106,6 +115,9 @@ return (
       </Button>
       <Button
         variant="outline"
+        type="button"
+        aria-label="Show next blogs"
+        title="Show next blogs"
         className="rounded-full border-0 hover:bg-neutral-800 hover:text-white p-2 h-10 w-10"
         onClick={handleNext}
       >

@@ -597,8 +597,12 @@ const DesktopNavForNotLoggedIn = () => {
       <div className="flex md:hidden items-center gap-2">
          <ModeToggle />
          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-            <SheetTrigger>
-            <Menu size={28} />
+            <SheetTrigger
+              aria-label="Open mobile menu"
+              title="Open mobile menu"
+              type="button"
+            >
+              <Menu size={28} />
             </SheetTrigger>
             <SheetContent className="px-2">
                <SheetHeader>

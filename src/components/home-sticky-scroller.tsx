@@ -178,6 +178,8 @@ function HomeStickyScroller() {
                 <Button
                   asChild
                   variant="outline"
+                  aria-label={item.name}
+                  title={item.name}
                   className={cn(
                     "w-full max-w-80 p-4 py-6 border-0 text-base text-neutral-800 dark:text-neutral-800 h-auto flex items-center justify-between gap-4 rounded-lg",
                     item.tw
@@ -270,6 +272,8 @@ function HomeStickyScroller() {
         <Button
           onClick={prevSection}
           variant={'outline'}
+          aria-label='Go left'
+          title='Go left'
           className="absolute -left-4 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm rounded-full p-2 shadow-lg z-10 flex items-center border-0 justify-center hover:bg-neutral-800 hover:text-white shrink-0 h-10 w-10"
         >
           <ChevronLeft className="w-5 h-5" />
@@ -278,6 +282,8 @@ function HomeStickyScroller() {
         <Button
           onClick={nextSection}
          variant={'outline'}
+          aria-label='Go right'
+          title='Go right'
           className="absolute -right-4 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm rounded-full p-2 shadow-lg z-10 flex items-center border-0 justify-center hover:bg-neutral-800 hover:text-white shrink-0 h-10 w-10"
         >
           <ChevronRight className="w-5 h-5" />
@@ -289,6 +295,8 @@ function HomeStickyScroller() {
             <Button
               key={index}
               onClick={() => scrollToSection(index)}
+              aria-label={`Go to section ${index + 1}`}
+              title={`Go to section ${index + 1}`}
               className={cn(
                 "w-2 h-2 rounded-full transition-all",
                 currentIndex === index ? "bg-legacisPurple w-8" : "bg-gray-300"
