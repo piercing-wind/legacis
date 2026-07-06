@@ -54,7 +54,7 @@ function HomeStickyScroller() {
       content: (
         <div className="min-w-[340px] sm:min-w-4xl lg:min-w-full flex-shrink-0 bg-gray-600 p-4 rounded-2xl min-h-[70vh] grid grid-cols-1 lg:grid-cols-2 place-items-center gap-8 py-8 sm:py-12 sm:p-8 2xl:px-20 2xl:p-12 shadow-lg w-full">
           <div className="flex flex-col items-start justify-center gap-4 sm:gap-6 flex-1  lg:w-full">
-            <h6 className="rounded-lg shadow shadow-neutral-700 px-2 py-1 text-legacisGreen font-medium xl:text-2xl">Ready to Invest?</h6>
+            <span className="rounded-lg shadow shadow-neutral-700 px-2 py-1 text-legacisGreen font-medium xl:text-2xl">Ready to Invest?</span>
             <h2 className="text-2xl lg:text-4xl 2xl:text-5xl font-medium leading-8 sm:leading-14 text-neutral-50">
               Just a Few Clicks to Grow Your Wealth
             </h2>
@@ -78,10 +78,10 @@ function HomeStickyScroller() {
                       <Link href={item.link || '#'} className="w-full !text-legacisGreen">
                         <ZoomIn className="w-full p-2 sm:p-4 flex-1 flex flex-col">
                           <div className="relative max-w-24 mb-4 sm:mb-8">
-                            <h5 className="text-3xl sm:text-5xl font-bold font-urbanist">{item.step}</h5>
+                            <span className="text-3xl sm:text-5xl font-bold font-urbanist">{item.step}</span>
                             <Icon className="absolute h-8 w-8 -bottom-2 left-[80%] -translate-x-1/2" />
                           </div>
-                          <h6 className="text-sm sm:text-lg font-semibold text-neutral-50 ">{item.title}</h6>
+                          <span className="text-sm sm:text-lg font-semibold text-neutral-50 ">{item.title}</span>
                           <p className="text-xs sm:text-sm mt-2 !text-neutral-200">{item.description}</p>
                         </ZoomIn>
                       </Link>
@@ -111,7 +111,7 @@ function HomeStickyScroller() {
             className="relative min-w-[340px] sm:min-w-4xl lg:min-w-full flex-shrink-0 bg-gray-600 px-4 p-4 rounded-2xl min-h-[70vh] gap-8 py-8 sm:py-12 sm:p-8 2xl:px-20 2xl:p-12 shadow-lg grid grid-cols-1 lg:grid-cols-2 place-items-center w-full"
          >
             <div className="flex-1 flex flex-col gap-8 w-full">
-               <h6 className="self-start rounded-lg shadow shadow-neutral-700 px-2 py-1 text-legacisGreen font-medium xl:text-2xl">Portfolio in Your Pocket</h6>
+               <span className="self-start rounded-lg shadow shadow-neutral-700 px-2 py-1 text-legacisGreen font-medium xl:text-2xl">Portfolio in Your Pocket</span>
                <h2 className="text-2xl lg:text-4xl 2xl:text-5xl font-medium leading-8 sm:leading-14 text-neutral-50">
                   Experience Legacis on Your Phone
                </h2>
@@ -137,7 +137,7 @@ function HomeStickyScroller() {
         <div 
          style={{ boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)' }}
          className="relative min-w-[340px] sm:min-w-4xl lg:min-w-full flex-shrink-0 p-4 bg-gray-600 rounded-2xl min-h-[70vh] flex flex-col items-center gap-8 justify-center py-8 sm:py-12 sm:p-8 2xl:px-20 2xl:p-12 shadow-lg">
-         <h6 className="self-start rounded-lg shadow shadow-neutral-700 px-2 py-1 text-legacisGreen font-medium xl:text-2xl">From Problem to Solution</h6>
+         <span className="self-start rounded-lg shadow shadow-neutral-700 px-2 py-1 text-legacisGreen font-medium xl:text-2xl">From Problem to Solution</span>
 
          <h2 className="self-start text-2xl lg:text-4xl 2xl:text-5xl font-medium leading-8 sm:leading-14 text-neutral-50">
              The Legacis Advantage
@@ -147,7 +147,7 @@ function HomeStickyScroller() {
             {homeWhyChooseUs.map((item, index) => (
               <div key={index} className={cn(item.color, "w-full shadow-lg sm:min-h-64 lg:min-h-80 rounded-2xl p-4 sm:p-8 flex flex-col items-start justify-center relative overflow-clip")}>
                 <span className='flex items-center gap-1 font-medium text-sm dark:text-neutral-800'>Problem :</span>
-                <h5 className="t dark:text-neutral-800 sm:text-xl font-medium w-full mt-2 text-neutral-700">{item.title}</h5>
+                <span className="t dark:text-neutral-800 sm:text-xl font-medium w-full mt-2 text-neutral-700">{item.title}</span>
                 <div className="border-t w-1/2  my-2 sm:my-4 border-neutral-300"/>
                 <span className='flex items-center gap-1 font-medium text-sm dark:text-neutral-800'>Solution :</span>
                 <p className="text-xs sm:text-base !text-neutral-600 mt-2">{item.description}</p>
@@ -164,7 +164,7 @@ function HomeStickyScroller() {
           style={{ boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)' }}
           className="min-w-[340px] sm:min-w-4xl lg:min-w-full flex-shrink-0 bg-gray-600 p-4 rounded-2xl min-h-[70vh] grid grid-cols-1 lg:grid-cols-2  items-center justify-center gap-8 py-8 sm:py-12 sm:p-8 2xl:px-20 2xl:p-12 shadow-lg">
           <div className="flex flex-col items-start justify-center gap-2 lg:gap-6 flex-1 lg:w-full py-4">
-            <h6 className="self-start rounded-lg shadow shadow-neutral-700 px-2 py-1 text-legacisGreen font-medium xl:text-2xl">Get Started</h6>
+            <span className="self-start rounded-lg shadow shadow-neutral-700 px-2 py-1 text-legacisGreen font-medium xl:text-2xl">Get Started</span>
             <h2 className="text-2xl lg:text-4xl 2xl:text-5xl font-medium leading-8 sm:leading-14 text-neutral-50">
               Simple Steps to Smarter Investing
             </h2>

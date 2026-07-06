@@ -130,11 +130,18 @@ export function UserMenu() {
   };
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild className="cursor-pointer">
-        <Avatar className="h-10 w-10">
-          <AvatarImage src={user?.image || "/profile/user-1.png"} />
-          <AvatarFallback>User</AvatarFallback>
-        </Avatar>
+      <DropdownMenuTrigger asChild>
+        <button
+          type="button"
+          aria-label="Open account menu"
+          title="Open account menu"
+          className="cursor-pointer bg-transparent p-0 border-0"
+        >
+          <Avatar className="h-10 w-10">
+            <AvatarImage src={user?.image || "/profile/user-1.png"}  alt="User profile image" />
+            <AvatarFallback>User</AvatarFallback>
+          </Avatar>
+        </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
         className="lg:min-w-96 overflow-x-hidden max-h-[80vh]"

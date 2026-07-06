@@ -120,10 +120,11 @@ const Footer = ({className}:{className?:string}) => {
       <div className="w-full relative z-10 mt-12 border-t pt-6 py-8">
         <div className="absolute inset-x-0 bottom-0 pointer-events-none bg-purple-400 dark:bg-purple-600 max-w-xl w-full h-44 rounded-full blur-3xl opacity-20 dark:opacity-5 mx-auto" />
         <div className="flex flex-col md:flex-row md:justify-between items-center gap-2 text-sm relative z-10">
-          <span className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-300">
+          <span className="text-xs sm:text-sm text-neutral-700 dark:text-neutral-200">
             © {new Date().getFullYear()} Legacis. All rights reserved.
           </span>
-          <span className='text-xs sm:text-sm gap-1 text-neutral-500 dark:text-neutral-300 flex items-start'>
+
+          <span className='text-xs sm:text-sm gap-1 text-neutral-700 dark:text-neutral-200 flex items-start'>
             <Link href={'/'}>Legacis</Link>
             <span className=" mx-2">|</span>
             <Link href={'https://bytesteelcloud.com'} target="_blank" className='flex items-center flex-col sm:flex-row'>
@@ -133,6 +134,16 @@ const Footer = ({className}:{className?:string}) => {
               </span>
             </Link>
           </span>
+         {/* <span className='text-xs sm:text-sm gap-1 text-neutral-700 dark:text-neutral-200 flex items-start'>
+            <Link href={'/'} className="text-neutral-900 dark:text-neutral-100 hover:text-legacisPurple dark:hover:text-legacisGreen transition-colors">Legacis</Link>
+            <span className="mx-2 text-neutral-700 dark:text-neutral-200">|</span>
+            <Link href={'https://bytesteelcloud.com'} target="_blank" className='flex items-center flex-col sm:flex-row text-neutral-800 dark:text-neutral-100 hover:text-legacisPurple dark:hover:text-legacisGreen transition-colors'>
+              Designed Developed & Hosted By &nbsp;
+              <span className="font-semibold text-neutral-900 dark:text-legacisGreen">
+                Bytesteel Cloud
+              </span>
+            </Link>
+          </span> */}
         </div>
       </div>
    </footer>

@@ -92,7 +92,7 @@ export function ServicesSearchBar({q, type}: {q?: string, type?: string}) {
           className="w-full md:w-auto flex-1"
         />
         <Select onValueChange={handleTypeChange} value={selectedType}>
-          <SelectTrigger className="w-full md:w-56">
+          <SelectTrigger className="w-full md:w-56" aria-label="Filter Services" title="Filter Services">
             <SelectValue placeholder="All Types" />
           </SelectTrigger>
           <SelectContent>

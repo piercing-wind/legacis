@@ -4,7 +4,7 @@ import React from "react";
 
 const FloatingWhatsApp = () => {
   return (
-    <div className="fixed bottom-10 right-10 z-50">
+    <aside aria-label="WhatsApp contact" className="fixed bottom-10 right-10 z-50">
       <Link
         href="https://wa.me/919779774529?text=Hi%2C%20I%20want%20to%20know%20more%20about%20Legacis%21"
         target="_blank"
@@ -18,7 +18,7 @@ const FloatingWhatsApp = () => {
           className="hover:scale-[1.2] transition-transform duration-300"
         />
       </Link>
-    </div>
+    </aside>
   );
 };
 

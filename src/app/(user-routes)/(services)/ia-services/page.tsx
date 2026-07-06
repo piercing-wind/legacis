@@ -98,10 +98,10 @@ const Page = async ({ searchParams }: PageProps) => {
                      className="w-full flex flex-col rounded-3xl col-span-2 border border-violet-400 
                      bg-gradient-to-br from-violet-50 via-white to-violet-100 
                      dark:bg-gradient-to-br dark:from-neutral-800 dark:via-neutral-50/10 dark:to-neutral-800 hover:shadow-neutral-50 dark:hover:shadow-neutral-800
-                     shadow-xl p-8 relative overflow-hidden">
-                     <div className="absolute top-4 right-4 bg-violet-400 text-white px-4 py-1 rounded-full text-xs font-bold shadow">
+                     shadow-xl p-8 py-10 sm:py-8 relative overflow-hidden">
+                     <span className="absolute top-4 right-4 bg-violet-700 text-white px-4 py-1 rounded-full text-xs font-bold shadow">
                         {service.label || "PREMIUM"}
-                      </div>
+                      </span>
                      <h3 className="text-2xl font-semibold text-violet-900 dark:text-violet-200 mb-2">{service.name}</h3>
                      <p className="text-base text-violet-800 mb-4">{service.tag}</p>
                       {service.plans.length > 0 &&  service.plans[0].isActive ? (
@@ -117,7 +117,7 @@ const Page = async ({ searchParams }: PageProps) => {
                      <p className="text-sm text-violet-700 mb-6">{service.description}</p>
                      <Button
                         variant="outline"
-                        className="w-full mt-auto h-auto bg-violet-400 hover:bg-violet-500 dark:bg-violet-400 dark:hover:bg-violet-500 text-white hover:!text-white font-medium uppercase text-md rounded-full px-6 py-3 text-center transition"
+                        className="w-full mt-auto h-auto bg-violet-700 hover:bg-violet-500 dark:bg-violet-400 dark:hover:bg-violet-500 text-white hover:!text-white font-medium uppercase text-md rounded-full px-6 py-3 text-center transition"
                         >
                         View Details
                      </Button>

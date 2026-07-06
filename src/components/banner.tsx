@@ -24,7 +24,9 @@ export default function Banner({
   return (
     <AnimatePresence>
       {visible && (
-        <motion.div
+        <motion.section
+          role="region"
+          aria-label="Promotional banner"
           initial={{ y: -60, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: -60, opacity: 0 }}
@@ -71,7 +73,7 @@ export default function Banner({
               </Button>
             </div>
           </div>
-        </motion.div>
+        </motion.section>
       )}
     </AnimatePresence>
   );

@@ -70,7 +70,7 @@ export default async function Home() {
          <section className="relative w-full pt-12 -mt-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-0">
                <div className="space-y-8 flex-1 flex flex-col order-1">
-                  <h6 className="self-start inline-block font-medium text-legacisPurple dark:text-legacisGreen tracking-wide text-sm xl:text-2xl rounded-lg shadow shadow-neutral-200 dark:shadow-neutral-600 px-2 py-1">Research-Led. Built To Compound</h6>
+                  <span className="self-start inline-block font-medium text-legacisPurple dark:text-legacisGreen tracking-wide text-sm xl:text-2xl rounded-lg shadow shadow-neutral-200 dark:shadow-neutral-600 px-2 py-1">Research-Led. Built To Compound</span>
                   <h1 className="text-3xl sm:text-4xl mb-0 sm:mb-auto lg:text-5xl xl:text-6xl text-nowrap leading-10 lg:leading-18 xl:leading-20 flex flex-col items-start">
                      Turn Your Investments 
                      <span>
@@ -152,7 +152,7 @@ export default async function Home() {
                            <div className="flex flex-col sm:flex-row text-xs items-center sm:text-base sm:items-end gap-2 hover:scale-[1.01] backdrop-blur-xs transition-all duration-300 ease-in-out rounded-full sm:border border-neutral-100 dark:border-neutral-700 sm:px-4 sm:py-2 font-medium sm:font-normal">
                               <Image
                                  src="/raghav-wadhwa.jpg"
-                                 alt="Raghav Wadhwa"
+                                 alt=""
                                  width={38}
                                  height={38}
                                  className="rounded-full border "
@@ -225,7 +225,7 @@ export default async function Home() {
          {/* Built to grow section  */}
          <section className="py-16 lg:py-24 flex flex-col items-center justify-center h-full">
             <div className="text-center space-y-6">
-               <h6 className="inline-block rounded-lg shadow shadow-neutral-200 dark:shadow-neutral-600 px-2 py-1 text-legacisPurple dark:text-legacisGreen font-medium xl:text-2xl">Built to Grow</h6>
+               <span className="inline-block rounded-lg shadow shadow-neutral-200 dark:shadow-neutral-600 px-2 py-1 text-legacisPurple dark:text-legacisGreen font-medium xl:text-2xl">Built to Grow</span>
                <h2 className="text-2xl lg:text-5xl font-medium leading-8 sm:leading-14 text-neutral-800 dark:text-neutral-200">
                   Why Legacis is the Right <br />Platform for Your Investments
                </h2>
@@ -240,7 +240,7 @@ export default async function Home() {
                            className="dark:grayscale dark:invert"
                         />
                         <div className="flex flex-col items-center text-center gap-4">
-                           <h6 className=" text-lg lg:text-xl font-semibold">{item.title}</h6>
+                           <span className="text-lg lg:text-xl font-semibold">{item.title}</span>
                            <p className="text-sm ">{item.description}</p>
                         </div>
                      </ZoomIn>
@@ -257,23 +257,11 @@ export default async function Home() {
       
             {/* Services */}
             <section className="py-16 lg:py-24 flex flex-col items-center justify-center h-full">
-               <h6 className="rounded-lg shadow shadow-neutral-200 dark:shadow-neutral-600 px-2 py-1 text-legacisPurple dark:text-legacisGreen font-medium xl:text-2xl">Services</h6>
+               <span className="rounded-lg shadow shadow-neutral-200 dark:shadow-neutral-600 px-2 py-1 text-legacisPurple dark:text-legacisGreen font-medium xl:text-2xl">Services</span>
                <h2 className="text-2xl my-4 lg:text-5xl font-medium leading-10 sm:leading-14 text-neutral-800 dark:text-neutral-200">
                   Our Portfolio at a Glance
                </h2>
                
-               {/* <Tabs defaultValue={"all"} className="mt-8 ">
-                  <TabsList className="p-2 sm:p-4 h-auto sm:h-16 flex flex-wrap items-center gap-2 sm:gap-4">
-                     <TabsTrigger value="all" asChild className="text-sm sm:text-lg flex-shrink-0 p-2 sm:p-4">
-                        <Link href="/services">All</Link>
-                     </TabsTrigger>
-                     {categories.map((cat) => (
-                        <TabsTrigger key={cat.type} value={cat.type} asChild className="text-sm sm:text-lg flex-shrink-0 p-2 sm:p-4">
-                           <Link href={`${cat.url}?type=${encodeURIComponent(cat.type)}`}>{cat.label}</Link>
-                        </TabsTrigger>
-                     ))}
-                  </TabsList> 
-               </Tabs> */}
                <nav className="mt-8 flex flex-wrap gap-2 items-center justify-between font-medium bg-muted px-4 py-2 rounded-md" aria-label="Service categories">
                   <Link href="/services" className="text-sm sm:text-lg shrink-0 p-2 sm:p-4 hover:shadow-sm rounded-md">All</Link>
                   {categories.map((cat) => (
@@ -297,7 +285,7 @@ export default async function Home() {
          </section> */}
          {/* Recent Blogs  */}
          <section className="px-4 py-16 lg:py-24 flex flex-col items-center justify-center h-full bg-neutral-100 dark:bg-neutral-800 rounded-2xl mt-16">
-            <h6 className="inline-block rounded-lg shadow shadow-neutral-200 dark:shadow-neutral-600 px-2 py-1 text-legacisPurple dark:text-legacisGreen font-medium xl:text-2xl">Blogs</h6>
+            <span className="inline-block rounded-lg shadow shadow-neutral-200 dark:shadow-neutral-600 px-2 py-1 text-legacisPurple dark:text-legacisGreen font-medium xl:text-2xl">Blogs</span>
             <HomeBlogs blogs={blogs} />
          </section>
 
