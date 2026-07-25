@@ -33,7 +33,7 @@ async function Page() {
                   <Plus size={20}/>Create Combo
                </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-2xl">
+            <DialogContent className="sm:max-w-5xl overflow-auto">
                <DialogHeader>
                   <DialogTitle>Create Combo Plan</DialogTitle>
                </DialogHeader>

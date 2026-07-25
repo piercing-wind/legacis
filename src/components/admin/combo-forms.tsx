@@ -103,7 +103,7 @@ export function ComboAttachForm({ allServices, editServiceId }: { allServices: S
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6 min-h-[calc(100vh-8rem)] overflow-auto">
         <FormField
           control={form.control}
           name="serviceId"
@@ -135,7 +135,7 @@ export function ComboAttachForm({ allServices, editServiceId }: { allServices: S
           render={({ field }) => (
             <FormItem>
               <FormLabel>Select Complimentary Services</FormLabel>
-              <div className="grid grid-cols-2 gap-4 mt-2">
+              <div className="grid grid-cols-3 gap-4 mt-2">
                 {allServices
                   .filter(s => s.id !== selectedServiceId)
                   .map(service => {
