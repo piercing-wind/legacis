@@ -60,7 +60,7 @@ async function Page() {
                            <Pencil size={20}/>Edit
                         </Button>
                      </DialogTrigger>
-                     <DialogContent className="sm:max-w-2xl">
+                     <DialogContent className="sm:max-w-5xl overflow-auto">
                         <DialogHeader>
                            <DialogTitle>Edit Combo Plan</DialogTitle>
                         </DialogHeader>
