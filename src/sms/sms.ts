@@ -1,9 +1,68 @@
+export type SmsGatewayResponse = {
+  ErrorCode: string;
+  ErrorMessage?: string;
+  JobId?: string;
+  MessageData?: Array<{
+    Number?: string;
+    MessageId?: string;
+  }>;
+};
+
 type SmsRequest = {
   operation: "OTP" | "EXPIRY" | "UPDATE";
   phoneNumber: string;
   text: string;
   templateId: string;
 };
+
+function isSmsGatewayResponse(value: unknown): value is SmsGatewayResponse {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+
+  const payload = value as {
+    ErrorCode?: unknown;
+    ErrorMessage?: unknown;
+    JobId?: unknown;
+    MessageData?: unknown;
+  };
+
+  if (typeof payload.ErrorCode !== "string") {
+    return false;
+  }
+
+  if (payload.ErrorMessage !== undefined && typeof payload.ErrorMessage !== "string") {
+    return false;
+  }
+
+  if (payload.JobId !== undefined && typeof payload.JobId !== "string") {
+    return false;
+  }
+
+  if (payload.MessageData !== undefined) {
+    if (!Array.isArray(payload.MessageData)) {
+      return false;
+    }
+
+    for (const item of payload.MessageData) {
+      if (!item || typeof item !== "object") {
+        return false;
+      }
+
+      const messageDataItem = item as { Number?: unknown; MessageId?: unknown };
+
+      if (messageDataItem.Number !== undefined && typeof messageDataItem.Number !== "string") {
+        return false;
+      }
+
+      if (messageDataItem.MessageId !== undefined && typeof messageDataItem.MessageId !== "string") {
+        return false;
+      }
+    }
+  }
+
+  return true;
+}
 
 function requiredEnv(name: string): string {
   const value = process.env[name];
@@ -40,7 +99,7 @@ function getErrorDetails(error: unknown) {
   };
 }
 
-async function sendSMS({ operation, phoneNumber, text, templateId }: SmsRequest) {
+async function sendSMS({ operation, phoneNumber, text, templateId }: SmsRequest): Promise<SmsGatewayResponse> {
   const baseUrl = requiredEnv("SMS_GATEWAYHUB_URL");
   const apiKey = requiredEnv("SMS_GATEWAYHUB_API_KEY");
   const senderId = requiredEnv("SMS_GATEWAYHUB_SENDER_ID");
@@ -90,6 +149,10 @@ async function sendSMS({ operation, phoneNumber, text, templateId }: SmsRequest)
       data = JSON.parse(responseBody);
     } catch {
       throw new Error(`SMS gateway returned an invalid JSON response`);
+    }
+
+    if (!isSmsGatewayResponse(data)) {
+      throw new Error("SMS gateway returned an unexpected payload format");
     }
 
     console.info("[SMS gateway succeeded]", {
