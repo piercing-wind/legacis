@@ -76,6 +76,11 @@ const items = [
     title: "Banner",
     url: "/admin/banner",
     icon: Inbox,
+  },
+  {
+    title: "Balance (new)",
+    url: "/admin/balance",
+    icon: Inbox,
   }
 ]
 
